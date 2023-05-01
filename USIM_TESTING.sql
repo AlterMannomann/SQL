@@ -15,4 +15,5 @@ SELECT *
 SELECT * 
   FROM usim_dimension
 ; 
-SELECT usim_id_dpo, COUNT(*) FROM usim_poi_dim_position GROUP BY usim_id_dpo HAVING COUNT(*) > 1; 
+SELECT * 
+  FROM usim_poi_structure; 

@@ -1,8 +1,10 @@
--- drop static package
+-- drop basic packages
 DROP PACKAGE BODY usim_static;
 DROP PACKAGE usim_static;
 DROP PACKAGE BODY usim_utility;
 DROP PACKAGE usim_utility;
+DROP PACKAGE BODY usim_ctrl;
+DROP PACKAGE usim_ctrl;
 
 -- drop section
 DROP SEQUENCE usim_dim_id_seq;

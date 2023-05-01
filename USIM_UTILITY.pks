@@ -3,6 +3,25 @@ CREATE OR REPLACE PACKAGE usim_utility IS
    * To be used in views. Create package before view creation.
    */
 
+  /* Function USIM_UTILITY.EXTRACTVALUE
+   * Extracts a substring from a string containing a defined delimiter at
+   * the desired position.
+   *
+   * Parameter
+   * P_DELIMITER      - the delimiter used in the string.
+   * P_STRING         - the string with delimiters to extract a value from
+   * P_POSITION       - the position of the extract value
+   *
+   * RETURNS
+   * The extracted substring.
+   */
+   FUNCTION extractValue( p_delimiter     IN VARCHAR2
+                        , p_string        IN VARCHAR2
+                        , p_position      IN NUMBER
+                        )
+    RETURN VARCHAR2
+  ;
+
   /* Function USIM_UTILITY.GETX
    * Extracts the x coordinate out of the comma separated coordinate string.
    *

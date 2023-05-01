@@ -83,5 +83,10 @@ SET VERIFY OFF
 @@USIM_POINT_INSERT_V.sql
 --== create insert views end ==--
 
+--== create other packages start ==--
+@@USIM_CTRL.pks
+@@USIM_CTRL.pkb
+--== create other packages end ==--
+
 -- insert test point
 @@USIM_POINT_INS.sql

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="101FD80E-5291-A36E-EF15-65D113D8F2AC" containerWithKeyObject="B0EDB40C-9524-AE53-A7A1-D9EFD9661B28" localFKIndex="62882070-BE39-7A9D-F68E-E5252B66D8EE" name="usim_dpo_spo_fk">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:48:34 UTC</createdTime>
+<generatorID>93D99B21-F578-38EA-72EF-72C4484671FA</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<referredTableLongName>USIM.usim_space_point</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>87E7E78E-8508-C00B-AF84-5D7D0C0EAB93</referredTableID>
+<keyObject>1DC3B6C8-3D23-59AC-E206-2397002B22CC</keyObject>
+<referredKeyID>1DC3B6C8-3D23-59AC-E206-2397002B22CC</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>usim_id_spo</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

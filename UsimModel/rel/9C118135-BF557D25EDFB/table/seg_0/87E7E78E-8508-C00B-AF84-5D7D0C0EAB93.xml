@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="87E7E78E-8508-C00B-AF84-5D7D0C0EAB93" schemaObject="00CCDFB9-0C5B-4336-791B-B698B429007D" name="usim_space_point">
+<sourceDDLFile>USIM.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<commentInRDBMS><![CDATA[Describes space points and their available attributes. A space point is a point in space time that exists in exactly one dimension (n-sphere type) with one position.Space points are members of a space point binary tree structure. No direct dependencies modelled in the table. The id only refers to the attributes, not the possible relations.]]></commentInRDBMS>
+<ownerDesignName>UsimModel</ownerDesignName>
+<importedID>478B7228-0E33-4F9A-F8D2-D9B0476A53B4</importedID>
+<abbreviation>spo</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="usim_id_spo" id="4F998DCF-7DB4-21CE-9A16-9BB5DB0BD51D">
+<sourceDDLFile>USIM.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<commentInRDBMS><![CDATA[Unique ID to identify a space point.]]></commentInRDBMS>
+<ownerDesignName>UsimModel</ownerDesignName>
+<importedID>973C08E3-F754-B33D-3233-D96F0EE68ADF</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>19A73BA8-12DA-05E9-342D-8B13106E3AF4</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>usim_space_point_id_seq</autoIncrementSequenceName>
+<autoIncrementTriggerName>usim_space_point_id_trg</autoIncrementTriggerName>
+<notNullConstraintName>NNC_usim_space_point_usim_id_sp</notNullConstraintName>
+</Column>
+<Column name="usim_energy" id="BADE1D71-06EA-B75B-002F-78C8DCD4420E">
+<sourceDDLFile>USIM.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current energy the space point has.]]></commentInRDBMS>
+<ownerDesignName>UsimModel</ownerDesignName>
+<importedID>CDAB7956-1CFA-D532-AD7E-00F456E624EA</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>279C4374-BBE9-3885-307A-BC32AC3C23F1</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="usim_amplitude" id="B4FD3ADE-9AF6-8835-A768-763E21688FD5">
+<sourceDDLFile>USIM.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current amplitude the space point has.]]></commentInRDBMS>
+<ownerDesignName>UsimModel</ownerDesignName>
+<importedID>3A41ED82-3A09-EF42-4D71-A7560C4A62A5</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>279C4374-BBE9-3885-307A-BC32AC3C23F1</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="usim_wavelength" id="9A94BEB9-5E51-6469-B361-A7041915A9A4">
+<sourceDDLFile>USIM.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current wavelength the space point has.]]></commentInRDBMS>
+<ownerDesignName>UsimModel</ownerDesignName>
+<importedID>13E66940-B5E9-16C1-785A-74C2ADAAA444</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>279C4374-BBE9-3885-307A-BC32AC3C23F1</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="1DC3B6C8-3D23-59AC-E206-2397002B22CC" name="usim_spo_pk">
+<sourceDDLFile>USIM.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<ownerDesignName>UsimModel</ownerDesignName>
+<importedID>9C7E3702-A4AB-1D42-1582-62B845F649B1</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4F998DCF-7DB4-21CE-9A16-9BB5DB0BD51D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,9 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableSpaceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TableSpaceOraclev10g" name="WORK" directorySegmentName="seg_0" id="16EB5116-E085-A632-EE39-9E26C0E0C8A7">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:11 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<emUniformSize>0</emUniformSize>
+<extentManagement>LOCAL</extentManagement>
+</TableSpaceOraclev10g>

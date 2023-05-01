@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="USIM_Domains">
+<domains>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_38_0_0" id="19A73BA8-12DA-05E9-342D-8B13106E3AF4">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<ownerDesignName>UsimModel</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>38</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>USIM_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_0_0_0" id="279C4374-BBE9-3885-307A-BC32AC3C23F1">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<ownerDesignName>UsimModel</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<fileName>USIM_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_2_0_0" id="DCE8945D-2AEB-E66E-6475-AD454CB2164A">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<ownerDesignName>UsimModel</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>2</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>USIM_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_1_0_0" id="F173B6A6-8BB0-6A67-4739-1B65B1E56E6D">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-20 22:42:14 UTC</createdTime>
+<ownerDesignName>UsimModel</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>1</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>USIM_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+</domains>
+</DomainFile>

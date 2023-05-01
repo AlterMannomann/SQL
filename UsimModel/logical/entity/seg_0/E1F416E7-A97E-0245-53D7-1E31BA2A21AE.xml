@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="E1F416E7-A97E-0245-53D7-1E31BA2A21AE" name="usim space point">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[Describes space points and their available attributes. A space point is a point in space time that exists in exactly one dimension (n-sphere type) with one position.Space points are members of a space point binary tree structure. No direct dependencies modelled in the table. The id only refers to the attributes, not the possible relations.]]></commentInRDBMS>
+<generatorID>87E7E78E-8508-C00B-AF84-5D7D0C0EAB93</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>spo</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="usim id spo" id="2DE29381-9F1D-F7D0-4293-B7D7CF1577D7">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[Unique ID to identify a space point.]]></commentInRDBMS>
+<generatorID>4F998DCF-7DB4-21CE-9A16-9BB5DB0BD51D</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>19A73BA8-12DA-05E9-342D-8B13106E3AF4</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="usim energy" id="E85425C1-070B-26E9-9281-F0B7FCC78449">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current energy the space point has.]]></commentInRDBMS>
+<generatorID>BADE1D71-06EA-B75B-002F-78C8DCD4420E</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>279C4374-BBE9-3885-307A-BC32AC3C23F1</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="usim amplitude" id="AF963F49-CE0B-1AFE-E2E6-47C9A5B22402">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current amplitude the space point has.]]></commentInRDBMS>
+<generatorID>B4FD3ADE-9AF6-8835-A768-763E21688FD5</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>279C4374-BBE9-3885-307A-BC32AC3C23F1</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="usim wavelength" id="7615FC8B-AF3F-704C-BB83-0624F88CF65A">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current wavelength the space point has.]]></commentInRDBMS>
+<generatorID>9A94BEB9-5E51-6469-B361-A7041915A9A4</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>279C4374-BBE9-3885-307A-BC32AC3C23F1</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="E67C1982-1CE1-1F88-BA9C-4BD4A9684D25" name="usim spo pk">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<generatorID>1DC3B6C8-3D23-59AC-E206-2397002B22CC</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>2DE29381-9F1D-F7D0-4293-B7D7CF1577D7</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="8D1CA14C-D959-E908-D30E-51B8592B822E" name="usim point dimension">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[Keeps the possible n-sphere dimensions for space points. Currently limited to 99 n-sphere dimensions starting with 0. ]]></commentInRDBMS>
+<generatorID>A1DD6960-9A69-44A2-B7B3-E6324646C526</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>dim</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="usim id dim" id="54606E09-05C5-6968-A4A0-2B8A601C81EC">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[The unique ID for the dimension.]]></commentInRDBMS>
+<generatorID>1AAB95CF-23F3-5AEB-79F1-BC07619299C1</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>19A73BA8-12DA-05E9-342D-8B13106E3AF4</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="usim dimension" id="26F2B9CB-9F99-0332-C021-278D69027DD1">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<commentInRDBMS><![CDATA[The n-sphere dimension definition. Limited to 99 dimensions.]]></commentInRDBMS>
+<generatorID>A5A56B37-10F0-8E70-065B-5808096A9AC4</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>DCE8945D-2AEB-E66E-6475-AD454CB2164A</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B0306E50-AE73-F470-3DED-45277F2FA3BE" name="usim dim pk">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<generatorID>C2573559-A7A7-7D77-8CD3-D8D2AF97EE83</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>54606E09-05C5-6968-A4A0-2B8A601C81EC</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="7DBE13B4-9D4C-A4DA-C160-219BECEE5E56" name="usim dim uk">
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 00:43:17 UTC</createdTime>
+<comment><![CDATA[Every dimension is unique.]]></comment>
+<generatorID>EA12B975-1BE4-85BD-2D04-20B219BC4950</generatorID>
+<ownerDesignName>UsimModel</ownerDesignName>
+<engineerTo>
+<item key="9C118135-427F-8F3D-486A-BF557D25EDFB" value="true"/>
+</engineerTo>
+<usedAttributes>
+<attributeRef>26F2B9CB-9F99-0332-C021-278D69027DD1</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

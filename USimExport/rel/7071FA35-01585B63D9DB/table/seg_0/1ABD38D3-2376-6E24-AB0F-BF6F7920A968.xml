@@ -1,0 +1,95 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="1ABD38D3-2376-6E24-AB0F-BF6F7920A968" schemaObject="D8AD927A-9FA8-7B47-39AE-1305546F84A5" name="USIM_OVERFLOW">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<commentInRDBMS><![CDATA[Keeps overflows of space point. Will use the alias ovr.]]></commentInRDBMS>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>F84E4158-D74E-4701-42BD-657F1120C48B</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="USIM_ID_OVR" id="603EC3FF-671F-7420-5A5B-7B79E6EB3B2A">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>0686116F-F157-347D-8EBE-FB52E47FA3E6</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>63BCC15B-123C-9232-1D79-502BE86B8953</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>usim_ovr_id_seq</autoIncrementSequenceName>
+<autoIncrementTriggerName>USIM_OVR_ID_TRG</autoIncrementTriggerName>
+</Column>
+<Column name="USIM_ENERGY" id="D767E522-6BF2-6B0C-71B3-D0FD7D6FED92">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>80B00B57-D92E-DA54-88DA-6BDE443D4902</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>0BCB1025-AA3B-0547-0B23-00851B349FD0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="USIM_AMPLITUDE" id="6E434218-B4D3-5A0E-B21E-AEF79B3FA891">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>CCF1FB71-58B0-268C-558E-150E8AAAD98C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>0BCB1025-AA3B-0547-0B23-00851B349FD0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="USIM_WAVELENGTH" id="07CB118F-8BAC-A544-32AD-2C03F2054EEC">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>14FEA206-8CC6-3E7F-2789-DA7417B94E1F</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>0BCB1025-AA3B-0547-0B23-00851B349FD0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D43E45FA-5384-CF32-9A32-028499C891AE" name="USIM_OVR_PK">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>37D01591-0105-9BFF-0B44-E97A41177DE0</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="603EC3FF-671F-7420-5A5B-7B79E6EB3B2A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="700C1C77-5CC3-34FD-6DD6-450EC4474ECA" schemaObject="D8AD927A-9FA8-7B47-39AE-1305546F84A5" name="USIM_OVR_PK">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>B06DE4CA-1191-1E91-190B-8FE0EF3ECD2A</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="603EC3FF-671F-7420-5A5B-7B79E6EB3B2A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,99 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="907FDEA4-F5C4-EA43-FAC1-CD9EB93B55EA" schemaObject="D8AD927A-9FA8-7B47-39AE-1305546F84A5" name="USIM_SPACE_POINT">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<commentInRDBMS><![CDATA[Keeps all space points with their energy attributes. Will use the alias spo.]]></commentInRDBMS>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>CCB4A5D7-53A8-4E68-7DAB-02211A404F72</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="USIM_ID_SPO" id="B8E02DFF-BB39-A828-86C5-D405AABBF159">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<commentInRDBMS><![CDATA[Generic ID to identify a space point.]]></commentInRDBMS>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>F12D8BD4-2075-9B19-F302-55E3DFD5AA58</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>63BCC15B-123C-9232-1D79-502BE86B8953</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementColumn>true</autoIncrementColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<autoIncrementSequenceName>usim_spo_id_seq</autoIncrementSequenceName>
+<autoIncrementTriggerName>USIM_SPO_ID_TRG</autoIncrementTriggerName>
+</Column>
+<Column name="USIM_ENERGY" id="E124010B-C142-7280-3ED5-6A712C869C7E">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current energy of the space point.]]></commentInRDBMS>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>6A3732B6-3C79-9E87-1B2F-10C4732F97C8</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>0BCB1025-AA3B-0547-0B23-00851B349FD0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="USIM_AMPLITUDE" id="61415BC3-FD3F-C1CC-C931-87BC0F26D124">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current amplitude of the space point.]]></commentInRDBMS>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>0FF68B4E-6015-9839-2E68-A84F3F7D3C1D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>0BCB1025-AA3B-0547-0B23-00851B349FD0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="USIM_WAVELENGTH" id="59982321-41D2-E6B6-56F6-4119124F85FA">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<commentInRDBMS><![CDATA[The current wavelength of the space point.]]></commentInRDBMS>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>BAA73DD2-BF6B-DD2D-23CC-EBBD6D6CF1B3</importedID>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>0BCB1025-AA3B-0547-0B23-00851B349FD0</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AF69895A-4A3F-423B-8BB1-257D39EFF1EE" name="USIM_SPO_PK">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>A47CB759-AF6F-E9F9-9D62-978C2B8B80B5</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B8E02DFF-BB39-A828-86C5-D405AABBF159"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="0CC5F002-DA30-0BFB-FE0B-2F540206F47B" schemaObject="D8AD927A-9FA8-7B47-39AE-1305546F84A5" name="USIM_SPO_PK">
+<sourceDDLFile>USIM_EXP.sql</sourceDDLFile>
+<createdBy>Adi</createdBy>
+<createdTime>2023-04-21 01:35:25 UTC</createdTime>
+<ownerDesignName>USimExport</ownerDesignName>
+<importedID>1480C4EB-11D8-16B1-C5D0-3E6A56499A6F</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B8E02DFF-BB39-A828-86C5-D405AABBF159"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,4 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<oracle.dbtools.crest.model.design.relational.RelationalDesign>
+   <object objectType="main_view" objectID="7880188E-F4D3-0F70-59E9-6B05650CAB0E" name="USIM" visible="false"/>
+</oracle.dbtools.crest.model.design.relational.RelationalDesign>

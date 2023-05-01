@@ -63,6 +63,11 @@ SET VERIFY OFF
 @@USIM_PDP_PARENT_FK.sql
 --== create foreign keys end ==--
 
+--== create utility package start ==--
+@@USIM_UTILITY.pks
+@@USIM_UTILITY.pkb
+--== create utility package end ==--
+
 --== create views start ==--
 @@USIM_POI_DIM_POSITION_V.sql
 @@USIM_TREE_NODES_V.sql

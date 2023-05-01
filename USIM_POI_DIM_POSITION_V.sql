@@ -17,6 +17,9 @@ CREATE OR REPLACE FORCE VIEW usim_poi_dim_position_v AS
        , dim.usim_dimension
        , pos.usim_coordinate
        , pdp.usim_coords
+       , usim_utility.getX(pdp.usim_coords) AS pos_x
+       , usim_utility.getY(pdp.usim_coords) AS pos_y
+       , usim_utility.getZ(pdp.usim_coords) AS pos_z
        , pdr.usim_id_parent
        , pdc.usim_id_child_left
        , pdc.usim_id_child_right

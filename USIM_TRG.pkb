@@ -46,7 +46,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
       IF l_cnt_result = 0
       THEN
         RAISE_APPLICATION_ERROR( num => -20200
-                               , msg => 'Given parent point ID does not exist.'
+                               , msg => 'Given parent point ID (' || CASE WHEN p_usim_id_parent IS NULL THEN 'NULL' ELSE p_usim_id_parent END || ') does not exist.'
                                )
         ;
       END IF;
@@ -56,7 +56,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
       IF l_cnt_result >= usim_static.usim_max_seeds
       THEN
         RAISE_APPLICATION_ERROR( num => -20201
-                               , msg => 'A basic seed point already exists. USIM_ID_PARENT must be set.'
+                               , msg => 'A basic seed point already exists. USIM_ID_PARENT cannot be NULL.'
                                )
         ;
       END IF;
@@ -88,7 +88,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
       IF l_child_dimension != 0
       THEN
         RAISE_APPLICATION_ERROR( num => -20103
-                               , msg => 'Given dimension must be 0 if point has no parent.'
+                               , msg => 'Given dimension (' || l_child_dimension || ') must be 0 if point has no parent.'
                                )
         ;
       END IF;
@@ -119,7 +119,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
       IF l_cnt_result = 0
       THEN
         RAISE_APPLICATION_ERROR( num => -20300
-                               , msg => 'Given position ID does not exist.'
+                               , msg => 'Given position ID (' || p_usim_id_pos || ') does not exist.'
                                )
         ;
       END IF;
@@ -146,7 +146,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
         IF l_cnt_result = 0
         THEN
           RAISE_APPLICATION_ERROR( num => -20400
-                                 , msg => 'Given point structure ID does not exist.'
+                                 , msg => 'Given point structure ID (' || p_usim_id_psc || ') does not exist.'
                                  )
           ;
         END IF;
@@ -183,7 +183,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
     IF l_cnt_result >= usim_static.usim_max_childs
     THEN
       RAISE_APPLICATION_ERROR( num => -20202
-                             , msg => 'Given parent ID has already the maximum of allowed childs.'
+                             , msg => 'Given parent ID (' || p_usim_id_parent || ') has already the maximum of allowed childs.'
                              )
       ;
     END IF;

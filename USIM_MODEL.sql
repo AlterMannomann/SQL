@@ -65,10 +65,18 @@ SET VERIFY OFF
 
 --== create views start ==--
 @@USIM_POI_DIM_POSITION_V.sql
-@@USIM_POINT_INSERT_V.sql
 @@USIM_TREE_NODES_V.sql
 @@USIM_TREE_CHECK_V.sql
 --== create views end ==--
+
+--== create trigger package start ==--
+@@USIM_TRG.pks
+@@USIM_TRG.pkb
+--== create trigger package end ==--
+
+--== create insert views start ==--
+@@USIM_POINT_INSERT_V.sql
+--== create insert views end ==--
 
 -- insert test point
 @@USIM_POINT_INS.sql

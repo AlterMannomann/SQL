@@ -190,7 +190,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
   END chk_parent_childs
   ;
 
-  FUNCTION get_usim_coords( p_usim_id_dim             IN usim_dimension.usim_id_dim%TYPE
+  FUNCTION get_usim_coords( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
                           , p_usim_id_parent          IN usim_poi_dim_position.usim_id_pdp%TYPE
                           )
     RETURN usim_poi_dim_position.usim_coords%TYPE
@@ -200,7 +200,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
     l_coords_parent usim_poi_dim_position.usim_coords%TYPE;
   BEGIN
     -- build coords
-    SELECT TRIM(TO_CHAR(usim_coordinate)) INTO l_coord_base FROM usim_position WHERE usim_id_pos = p_usim_id_dim;
+    SELECT TRIM(TO_CHAR(usim_coordinate)) INTO l_coord_base FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
     -- if has parent fetch this value first
     IF p_usim_id_parent IS NOT NULL
     THEN
@@ -238,7 +238,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
     l_usim_id_parent  := get_usim_id_parent(p_usim_id_parent);
     l_usim_id_pos     := get_usim_id_pos(p_usim_id_pos, p_usim_coordinate);
     l_usim_id_psc     := get_usim_id_psc(p_usim_id_psc, p_usim_point_name);
-    l_coords          := get_usim_coords(l_usim_id_dim, l_usim_id_parent);
+    l_coords          := get_usim_coords(l_usim_id_pos, l_usim_id_parent);
     -- additional checks will throw error if not fitting
     chk_parent_dimension(l_usim_id_dim, l_usim_id_parent);
     chk_parent_childs(l_usim_id_parent, l_usim_id_psc);

@@ -35,6 +35,6 @@ DROP VIEW usim_poi_dim_position_v;
 DROP VIEW usim_point_insert_v;
 DROP VIEW usim_tree_nodes_v;
 DROP VIEW usim_tree_check_v;
---DROP VIEW usim_coords_unique_cnt_v;
---DROP VIEW usim_invalid_coords_v;
---DROP VIEW usim_tree_status_v;
+-- drop trigger package
+DROP PACKAGE BODY usim_trg;
+DROP PACKAGE usim_trg;

@@ -37,7 +37,7 @@ CREATE OR REPLACE PACKAGE usim_trg IS
                              )
   ;
 
-  FUNCTION get_usim_coords( p_usim_id_dim             IN usim_dimension.usim_id_dim%TYPE
+  FUNCTION get_usim_coords( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
                           , p_usim_id_parent          IN usim_poi_dim_position.usim_id_pdp%TYPE
                           )
     RETURN usim_poi_dim_position.usim_coords%TYPE

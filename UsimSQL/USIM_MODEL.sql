@@ -4,6 +4,10 @@ SET VERIFY OFF
 @@USIM_DROP.sql
 --== drop section end ==--
 
+--== create table independent sequences start ==--
+@@USIM_PLANCK_TIME_SEQ.sql
+--== create table independent sequences end ==--
+
 --== create static packages section start ==--
 @@USIM_STATIC.pks
 @@USIM_STATIC.pkb
@@ -44,6 +48,9 @@ SET VERIFY OFF
 
 -- USIM_PDP_PARENT (pdr)
 @@USIM_PDP_PARENT_TBL.sql
+
+-- USIM_POINT_H (hpoi)
+@@USIM_POINT_H_TBL.sql
 --== create section, relations table definitions end ==--
 
 --== create foreign keys start ==--
@@ -61,6 +68,9 @@ SET VERIFY OFF
 
 -- USIM_PDP_PARENT (pdr)
 @@USIM_PDP_PARENT_FK.sql
+
+-- USIM_POINT_H (hpoi)
+@@USIM_POINT_H_FK.sql
 --== create foreign keys end ==--
 
 --== create utility package start ==--
@@ -72,6 +82,7 @@ SET VERIFY OFF
 @@USIM_POI_DIM_POSITION_V.sql
 @@USIM_TREE_NODES_V.sql
 @@USIM_TREE_CHECK_V.sql
+@@USIM_RELATIONS_D1_V.sql
 --== create views end ==--
 
 --== create trigger package start ==--

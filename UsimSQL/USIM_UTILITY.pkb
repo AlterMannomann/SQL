@@ -61,8 +61,8 @@ CREATE OR REPLACE PACKAGE BODY usim_utility IS
                           )
     RETURN NUMBER
   IS
-    l_min_vector    VARCHAR2(4000);
-    l_max_vector    VARCHAR2(4000);
+    l_min_vector    usim_poi_dim_position.usim_coords%TYPE;
+    l_max_vector    usim_poi_dim_position.usim_coords%TYPE;
     l_sum_vector1   NUMBER;
     l_sum_vector2   NUMBER;
     l_distance      NUMBER;

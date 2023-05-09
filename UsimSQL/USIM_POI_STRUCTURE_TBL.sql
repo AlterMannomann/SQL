@@ -1,3 +1,4 @@
+-- USIM_POI_STRUCTURE (psc)
 CREATE TABLE usim_poi_structure
   ( usim_id_psc       NUMBER(38, 0)               NOT NULL ENABLE
   , usim_point_name   VARCHAR2(4000)              NOT NULL ENABLE

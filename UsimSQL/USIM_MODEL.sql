@@ -82,8 +82,12 @@ SET VERIFY OFF
 @@USIM_POI_DIM_POSITION_V.sql
 @@USIM_TREE_NODES_V.sql
 @@USIM_TREE_CHECK_V.sql
-@@USIM_RELATIONS_D1_V.sql
+@@USIM_RELATIONS_BASE_V.sql
 --== create views end ==--
+
+--== create views depending on views start ==--
+@@USIM_RELATIONS_V.sql
+--== create views depending on views end ==--
 
 --== create trigger package start ==--
 @@USIM_TRG.pks

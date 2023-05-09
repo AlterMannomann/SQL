@@ -61,5 +61,23 @@ CREATE OR REPLACE PACKAGE usim_utility IS
     RETURN usim_position.usim_coordinate%TYPE
   ;
 
+  /* Function USIM_UTILITY.VECTOR_DISTANCE
+   * Calculates the euclidian distance between two point coordinates.
+   * Substracts the greater vector from the smaller one and square roots the result vector.
+   *
+   * Parameter
+   * P_USIM_COORDS1     - the usim_coords string representing the coordinates over
+   *                      all supported dimensions, comma separated for first vector.
+   * P_USIM_COORDS1     - the usim_coords string representing the coordinates over
+   *                      all supported dimensions, comma separated for second vector.
+   * RETURNS
+   * The euclidian distance between both vectors.
+   */
+  FUNCTION vector_distance( p_usim_coords1  IN usim_poi_dim_position.usim_coords%TYPE
+                          , p_usim_coords2  IN usim_poi_dim_position.usim_coords%TYPE
+                          )
+    RETURN NUMBER
+  ;
+
 END usim_utility;
 /

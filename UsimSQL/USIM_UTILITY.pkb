@@ -56,5 +56,95 @@ CREATE OR REPLACE PACKAGE BODY usim_utility IS
   END getZ
   ;
 
+  FUNCTION vector_distance( p_usim_coords1  IN usim_poi_dim_position.usim_coords%TYPE
+                          , p_usim_coords2  IN usim_poi_dim_position.usim_coords%TYPE
+                          )
+    RETURN NUMBER
+  IS
+    l_min_vector    VARCHAR2(4000);
+    l_max_vector    VARCHAR2(4000);
+    l_sum_vector1   NUMBER;
+    l_sum_vector2   NUMBER;
+    l_distance      NUMBER;
+
+    -- get the vector with more entries
+    CURSOR cur_max_vector( cp_coords1 IN VARCHAR2
+                         , cp_coords2 IN VARCHAR2
+                         )
+    IS
+        WITH coord1 AS
+             (SELECT TRIM(REGEXP_SUBSTR(str, '[^,]+', 1, LEVEL)) AS coord
+                   , LEVEL AS lvl
+                FROM (SELECT cp_coords1 AS str
+                        FROM dual
+                     )
+             CONNECT BY LEVEL <= LENGTH(str) - LENGTH(REPLACE(str, ',')) + 1
+             )
+           , coord2 AS
+             (SELECT TRIM(REGEXP_SUBSTR(str, '[^,]+', 1, LEVEL)) AS coord
+                   , LEVEL AS lvl
+                FROM (SELECT cp_coords2 AS str
+                        FROM dual
+                     )
+             CONNECT BY LEVEL <= LENGTH(str) - LENGTH(REPLACE(str, ',')) + 1
+             )
+      SELECT (SELECT NVL(SUM(lvl), 0) FROM coord1) AS sum_coord1
+           , (SELECT NVL(SUM(lvl), 0) FROM coord2) AS sum_coord2
+        FROM dual
+    ;
+    CURSOR cur_distance( cp_coords_max IN VARCHAR2
+                       , cp_coords_min IN VARCHAR2
+                       )
+    IS
+      SELECT SQRT(SUM(diff_vec_sq)) AS distance
+        FROM (  WITH cmax AS
+                     (SELECT TRIM(REGEXP_SUBSTR(str, '[^,]+', 1, LEVEL)) AS coord
+                           , LEVEL AS lvl
+                        FROM (SELECT cp_coords_max AS str
+                                FROM dual
+                             )
+                     CONNECT BY LEVEL <= LENGTH(str) - LENGTH(REPLACE(str, ',')) + 1
+                     )
+                   , cmin AS
+                     (SELECT TRIM(REGEXP_SUBSTR(str, '[^,]+', 1, LEVEL)) AS coord
+                           , LEVEL AS lvl
+                        FROM (SELECT cp_coords_min AS str
+                                FROM dual
+                             )
+                     CONNECT BY LEVEL <= LENGTH(str) - LENGTH(REPLACE(str, ',')) + 1
+                     )
+                     -- square of difference between vec1 - vec2
+              SELECT POWER(NVL(TO_NUMBER(cmax.coord), 0) - NVL(TO_NUMBER(cmin.coord), 0), 2) AS diff_vec_sq
+                FROM cmax
+                LEFT OUTER JOIN cmin
+                  ON cmax.lvl = cmax.lvl
+             )
+    ;
+  BEGIN
+    -- if no values in both coords return 0
+    IF     (p_usim_coords1 IS NULL OR LENGTH(p_usim_coords1) = 0)
+       AND (p_usim_coords2 IS NULL OR LENGTH(p_usim_coords2) = 0)
+    THEN
+      RETURN 0;
+    END IF;
+    -- find the bigger one
+    OPEN cur_max_vector(p_usim_coords1, p_usim_coords2);
+    FETCH cur_max_vector INTO l_sum_vector1, l_sum_vector2;
+    CLOSE cur_max_vector;
+    IF l_sum_vector1 > l_sum_vector2
+    THEN
+      l_max_vector := p_usim_coords1;
+      l_min_vector := p_usim_coords2;
+    ELSE
+      l_max_vector := p_usim_coords2;
+      l_min_vector := p_usim_coords1;
+    END IF;
+    OPEN cur_distance(l_max_vector, l_min_vector);
+    FETCH cur_distance INTO l_distance;
+    CLOSE cur_distance;
+    RETURN l_distance;
+  END vector_distance
+  ;
+
 END usim_utility;
 /

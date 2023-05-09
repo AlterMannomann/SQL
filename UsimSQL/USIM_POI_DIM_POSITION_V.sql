@@ -1,3 +1,4 @@
+-- USIM_POI_DIM_POSITION_V (pdpv)
 CREATE OR REPLACE FORCE VIEW usim_poi_dim_position_v AS
     WITH pdc AS
          (SELECT usim_id_pdp

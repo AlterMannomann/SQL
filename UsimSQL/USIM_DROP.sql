@@ -43,8 +43,10 @@ DROP VIEW usim_poi_dim_position_v;
 DROP VIEW usim_point_insert_v;
 DROP VIEW usim_tree_nodes_v;
 DROP VIEW usim_tree_check_v;
-DROP VIEW usim_relations_d1_v;
-DROP VIEW usim_relations_d1x_v;
+DROP VIEW usim_relations_base_v;
+DROP VIEW usim_relations_basex_v;
+DROP VIEW usim_relations_v;
+DROP VIEW usim_relationsx_v;
 -- drop trigger package
 DROP PACKAGE BODY usim_trg;
 DROP PACKAGE usim_trg;

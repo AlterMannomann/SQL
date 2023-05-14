@@ -3,10 +3,11 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
    * before compilation.
    */
 
-  /* PROCEDURE USIM_CTRL.FILLPOINTSTRUCTURE
+  /* Procedure USIM_CTRL.FILLPOINTSTRUCTURE
    * Fills all dimensions of a given point structure with points. Means it
    * builds a perfect binary tree for the point in all dimensions. Therefore
    * only two values can be set, left and right. Which have to be distinct.
+   * Attributes like energy, amplitude and wavelength are initialized to 0 by trigger.
    *
    * Parameter
    * P_USIM_ID_PSC      - the id of the point structure to fill.
@@ -14,9 +15,6 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
    * P_POSITION_RIGHT   - the usim_position for right node.
    * P_USIM_ID_PARENT   - the parent, if needed. If NULL will create a universe
    *                      seed structure where starting point has no parent.
-   * P_USIM_ENERGY      - the energy to initialize the point with.
-   * P_USIM_AMPLITUDE   - the amplitude to initialize the point with.
-   * P_USIM_WAVELENGTH  - the wavelength to initialize the point with.
    *
    * THROWS
    * -20100 Given dimension ID (x) does not exist.
@@ -34,10 +32,41 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
                               , p_position_left     IN usim_position.usim_coordinate%TYPE
                               , p_position_right    IN usim_position.usim_coordinate%TYPE
                               , p_usim_id_parent    IN usim_poi_dim_position.usim_id_pdp%TYPE
-                              , p_usim_energy       IN usim_point.usim_energy%TYPE
-                              , p_usim_amplitude    IN usim_point.usim_amplitude%TYPE
-                              , p_usim_wavelength   IN usim_point.usim_wavelength%TYPE
                               )
+  ;
+  /* Procedure USIM_CTRL.PROCESSOUTPUT
+   * Processes one entry in the USIM_OUTPUT table.
+   *
+   * Parameter
+   * P_USIM_ID_OUTP     - the usim_id_outp of USIM_OUTPUT table to process
+   */
+  PROCEDURE processOutput(p_usim_id_outp IN usim_output.usim_id_outp%TYPE)
+  ;
+  /* Procedure USIM_CTRL.RUNONEDIRECTION
+   * Process all not processed entries in USIM_OUTPUT with one direction
+   * including new entries for the same direction. Means travel the point
+   * tree either in child or parent direction until no child or parent exists.
+   * If no entry exist for the given direction, base entries are created,
+   * depending on the direction, either from Universe Seed, if direction is childs
+   * or from all points on the highest dimension. If attributes are NULL, than
+   * existing values are used.
+   * Attributes have to be provided, if base entries have NULL attributes. Usually only
+   * needed on first init of seed.
+   *
+   * Parameter
+   * P_USIM_DIRECTION     - Either 0 (direction childs) or -1 (direction parents). Any value not 0 is interpreted as -1. Default is 0.
+   * P_USIM_ENERGY        - The energy to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
+   * P_USIM_AMPLITUDE     - The amplitude to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
+   * P_USIM_WAVELENGTH    - The wavelength to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
+   *
+   * THROWS
+   * -20700 NULL Attributes not allowed if some base attributes for direction are NULL and nothing to process.
+   */
+  PROCEDURE runOneDirection( p_usim_direction   IN usim_output.usim_direction%TYPE  DEFAULT 0
+                           , p_usim_energy      IN usim_point.usim_energy%TYPE      DEFAULT NULL
+                           , p_usim_amplitude   IN usim_point.usim_amplitude%TYPE   DEFAULT NULL
+                           , p_usim_wavelength  IN usim_point.usim_wavelength%TYPE  DEFAULT NULL
+                           )
   ;
 END usim_ctrl;
 /

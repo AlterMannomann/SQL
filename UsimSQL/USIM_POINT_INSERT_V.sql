@@ -62,9 +62,6 @@ CREATE OR REPLACE TRIGGER usim_poiv_insert_trg
                          , :NEW.usim_id_psc
                          , :NEW.usim_point_name
                          , :NEW.usim_id_parent
-                         , :NEW.usim_energy
-                         , :NEW.usim_amplitude
-                         , :NEW.usim_wavelength
                          )
     ;
   END usim_point_insert_v

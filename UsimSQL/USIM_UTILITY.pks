@@ -78,6 +78,32 @@ CREATE OR REPLACE PACKAGE usim_utility IS
                           )
     RETURN NUMBER
   ;
-
+  /* Function USIM_UTILITY.ENERGY_FORCE
+   * Determines the energy force for two points, interpreting energy as mass.
+   * F = (e1*e2)/distance^2
+   * Special cases are distance 0 which means, source and target are the same
+   * so we only set the value (Universe Seed).
+   * If parent of source is NULL we interact with the Universe Seed, which will react
+   * with positive and negative energy, depending on the target. Sign is derived from
+   * position (usim_coordinate).
+   *
+   * Parameter
+   * P_USIM_ENERGY_SOURCE  - the source energy.
+   * P_USIM_ENERGY_TARGET  - the target energy.
+   * P_USIM_DISTANCE       - the distance between the two points.
+   * P_USIM_TARGET_SIGN    - the sign of usim_coordinate of the target.
+   * P_USIM_ID_PARENT      - the parent (pdp) of the source or NULL.
+   *
+   * RETURNS
+   * The force acting evenly distributed on source and target.
+   */
+  FUNCTION energy_force( p_usim_energy_source   IN usim_point.usim_energy%TYPE
+                       , p_usim_energy_target   IN usim_point.usim_energy%TYPE
+                       , p_usim_distance        IN NUMBER
+                       , p_usim_target_sign     IN NUMBER
+                       , p_usim_id_parent       IN usim_poi_dim_position.usim_id_pdp%TYPE
+                       )
+    RETURN NUMBER
+  ;
 END usim_utility;
 /

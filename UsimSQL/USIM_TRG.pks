@@ -144,6 +144,7 @@ CREATE OR REPLACE PACKAGE usim_trg IS
 
   /* Procedure USIM_TRG.INSERT_POINT
    * Used in the instead of trigger USIM_POIV_INSERT_TRG from USIM_POINT_INSERT_V.
+   * On insert attributes, like energy, amplitude and wavelength are always set to NULL.
    *
    * Parameter
    * P_USIM_ID_DIM      - the USIM_ID_DIM from the insert.
@@ -153,9 +154,6 @@ CREATE OR REPLACE PACKAGE usim_trg IS
    * P_USIM_ID_PSC      - the USIM_ID_PSC from the insert.
    * P_USIM_POINT_NAME  - the USIM_POINT_NAME from the insert.
    * P_USIM_ID_PARENT   - the USIM_ID_PARENT from the insert.
-   * P_USIM_ENERGY      - the USIM_ENERGY from the insert.
-   * P_USIM_AMPLITUDE   - the USIM_AMPLITUDE from the insert.
-   * P_USIM_WAVELENGTH  - the USIM_WAVELENGTH from the insert.
    *
    * THROWS
    * -20100 Given dimension ID (x) does not exist.
@@ -175,9 +173,6 @@ CREATE OR REPLACE PACKAGE usim_trg IS
                         , p_usim_id_psc               IN usim_poi_structure.usim_id_psc%TYPE
                         , p_usim_point_name           IN usim_poi_structure.usim_point_name%TYPE
                         , p_usim_id_parent            IN usim_poi_dim_position.usim_id_pdp%TYPE
-                        , p_usim_energy               IN usim_point.usim_energy%TYPE
-                        , p_usim_amplitude            IN usim_point.usim_amplitude%TYPE
-                        , p_usim_wavelength           IN usim_point.usim_wavelength%TYPE
                         )
   ;
 END usim_trg;

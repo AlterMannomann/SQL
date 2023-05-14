@@ -1,4 +1,4 @@
--- USIM_RELATIONS_BASE_V (rbsv)
+-- USIM_RELATIONS_BASE_V (relbv)
 -- all pdp points connected with each other only once apart from self connections
 -- use this view to process all existing points
 -- will get slower and bigger as points increase (CROSS JOIN), maybe a candidate for a materialized view

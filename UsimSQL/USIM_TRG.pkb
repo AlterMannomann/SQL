@@ -220,9 +220,6 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
                         , p_usim_id_psc        IN usim_poi_structure.usim_id_psc%TYPE
                         , p_usim_point_name    IN usim_poi_structure.usim_point_name%TYPE
                         , p_usim_id_parent     IN usim_poi_dim_position.usim_id_pdp%TYPE
-                        , p_usim_energy        IN usim_point.usim_energy%TYPE
-                        , p_usim_amplitude     IN usim_point.usim_amplitude%TYPE
-                        , p_usim_wavelength    IN usim_point.usim_wavelength%TYPE
                         )
   IS
     l_usim_id_dim           usim_dimension.usim_id_dim%TYPE;
@@ -244,7 +241,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
     chk_parent_childs(l_usim_id_parent, l_usim_id_psc);
     -- point insert
     l_usim_id_poi := usim_poi_id_seq.NEXTVAL;
-    INSERT INTO usim_point (usim_id_poi, usim_energy, usim_amplitude, usim_wavelength) VALUES (l_usim_id_poi, p_usim_energy, p_usim_amplitude, p_usim_amplitude);
+    INSERT INTO usim_point (usim_id_poi) VALUES (l_usim_id_poi);
     -- point dimension insert
     l_usim_id_dpo := usim_dpo_id_seq.NEXTVAL;
     INSERT INTO usim_dim_point (usim_id_dpo, usim_id_poi, usim_id_dim) VALUES (l_usim_id_dpo, l_usim_id_poi, l_usim_id_dim);

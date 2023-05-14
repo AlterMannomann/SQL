@@ -13,6 +13,10 @@ CREATE OR REPLACE PACKAGE usim_static IS
   usim_seed_name          CONSTANT VARCHAR2(13) := 'UniverseSeed';
   -- USIM_CHILD_NAME      a constant name for childs (point structure trees) of a seed or one of its nodes. Always add an index to this name to keep it unique.
   usim_child_name         CONSTANT VARCHAR2(13) := 'SeedTreeChild';
+  -- PI                   PI definition with Oracle precision
+  PI                      CONSTANT NUMBER := ACOS(-1);
+  -- PI2                  2 * PI definition with Oracle precision
+  PI2                     CONSTANT NUMBER := ACOS(-1) * 2;
 
   -- Functions for SQL access of package variables
   /* USIM_STATIC.GET_MAX_CHILDS()
@@ -52,6 +56,26 @@ CREATE OR REPLACE PACKAGE usim_static IS
    */
   FUNCTION get_child_name
     RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+  /* USIM_STATIC.getPI()
+   * Get the static PI value.
+   *
+   * RETURNS: USIM_STATIC.PI
+   */
+  FUNCTION getPI
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+  /* USIM_STATIC.get2PI()
+   * Get the static PI2 (2 * PI) value.
+   *
+   * RETURNS: USIM_STATIC.PI2
+   */
+  FUNCTION get2PI
+    RETURN NUMBER
     DETERMINISTIC
     PARALLEL_ENABLE
   ;

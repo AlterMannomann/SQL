@@ -10,7 +10,7 @@ CREATE OR REPLACE FORCE VIEW usim_relations_v AS
        , pdpv2.usim_coordinate AS usim_coordinate2
        , pdpv1.usim_coords AS usim_coords1
        , pdpv2.usim_coords AS usim_coords2
-       , usim_utility.vector_distance(pdpv1.usim_coords, pdpv2.usim_coords) AS distance
+       , usim_utility.vector_distance(pdpv1.usim_coords, pdpv2.usim_coords) AS usim_distance
        , pdpv1.usim_energy AS usim_energy1
        , pdpv2.usim_energy AS usim_energy2
        , pdpv1.usim_amplitude AS usim_amplitude1
@@ -41,7 +41,7 @@ CREATE OR REPLACE FORCE VIEW usim_relations_v AS
 ;
 COMMENT ON COLUMN usim_relations_v.usim_id_pdp1 IS 'The first point. A starting or end point of an imaginary line. Direction of processing is not defined.';
 COMMENT ON COLUMN usim_relations_v.usim_id_pdp2 IS 'The second point. A starting or end point of an imaginary line. Direction of processing is not defined.';
-COMMENT ON COLUMN usim_relations_v.distance IS 'Distance of unequal vectors, missing vector values (dimensions) are interpreted as 0. Calculated by euclidian distance rule.';
+COMMENT ON COLUMN usim_relations_v.usim_distance IS 'Distance of unequal vectors, missing vector values (dimensions) are interpreted as 0. Calculated by euclidian distance rule.';
 -- USIM_RELATIONSX_V (relxv)
 CREATE OR REPLACE FORCE VIEW usim_relationsx_v AS
   SELECT rbsxv.usim_id_pdp_in
@@ -54,7 +54,7 @@ CREATE OR REPLACE FORCE VIEW usim_relationsx_v AS
        , pdpv2.usim_coordinate AS usim_coordinate2
        , pdpv1.usim_coords AS usim_coords1
        , pdpv2.usim_coords AS usim_coords2
-       , usim_utility.vector_distance(pdpv1.usim_coords, pdpv2.usim_coords) AS distance
+       , usim_utility.vector_distance(pdpv1.usim_coords, pdpv2.usim_coords) AS usim_distance
        , pdpv1.usim_energy AS usim_energy1
        , pdpv2.usim_energy AS usim_energy2
        , pdpv1.usim_amplitude AS usim_amplitude1
@@ -85,4 +85,4 @@ CREATE OR REPLACE FORCE VIEW usim_relationsx_v AS
 ;
 COMMENT ON COLUMN usim_relationsx_v.usim_id_pdp_in IS 'The starting point of an imaginary line. Limit this point by a WHERE condition.';
 COMMENT ON COLUMN usim_relationsx_v.usim_id_pdp_out IS 'The end point of an imaginary line that receives any input from the starting point.';
-COMMENT ON COLUMN usim_relationsx_v.distance IS 'Distance of unequal vectors, missing vector values (dimensions) are interpreted as 0. Calculated by euclidian distance rule.';
+COMMENT ON COLUMN usim_relationsx_v.usim_distance IS 'Distance of unequal vectors, missing vector values (dimensions) are interpreted as 0. Calculated by euclidian distance rule.';

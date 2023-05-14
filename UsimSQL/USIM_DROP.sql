@@ -15,6 +15,7 @@ DROP SEQUENCE usim_dpo_id_seq;
 DROP SEQUENCE usim_pdp_id_seq;
 DROP SEQUENCE usim_pdc_id_seq;
 DROP SEQUENCE usim_planck_time_seq;
+DROP SEQUENCE usim_outp_id_seq;
 -- drop foreign key constraints
 ALTER TABLE usim_pdp_parent DROP CONSTRAINT usim_pdr_pdp_fk;
 ALTER TABLE usim_pdp_parent DROP CONSTRAINT usim_pdr_parent_fk;
@@ -38,6 +39,7 @@ DROP TABLE usim_point;
 DROP TABLE usim_position;
 DROP TABLE usim_dimension;
 DROP TABLE usim_point_h;
+DROP TABLE usim_output;
 -- views
 DROP VIEW usim_poi_dim_position_v;
 DROP VIEW usim_point_insert_v;
@@ -47,6 +49,8 @@ DROP VIEW usim_relations_base_v;
 DROP VIEW usim_relations_basex_v;
 DROP VIEW usim_relations_v;
 DROP VIEW usim_relationsx_v;
+DROP VIEW usim_poi_relations_v;
+DROP VIEW usim_energy_state_v;
 -- drop trigger package
 DROP PACKAGE BODY usim_trg;
 DROP PACKAGE usim_trg;

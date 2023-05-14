@@ -51,6 +51,9 @@ SET VERIFY OFF
 
 -- USIM_POINT_H (hpoi)
 @@USIM_POINT_H_TBL.sql
+
+-- USIM_OUTPUT (outp)
+@@USIM_OUTPUT_TBL.sql
 --== create section, relations table definitions end ==--
 
 --== create foreign keys start ==--
@@ -79,14 +82,28 @@ SET VERIFY OFF
 --== create utility package end ==--
 
 --== create views start ==--
+-- USIM_POI_DIM_POSITION_V (pdpv)
 @@USIM_POI_DIM_POSITION_V.sql
+
+-- USIM_TREE_NODES_V (tnv)
 @@USIM_TREE_NODES_V.sql
+
+-- USIM_TREE_CHECK_V (tcv)
 @@USIM_TREE_CHECK_V.sql
+
+-- USIM_RELATIONS_BASE_V (relbv)
 @@USIM_RELATIONS_BASE_V.sql
 --== create views end ==--
 
 --== create views depending on views start ==--
+-- USIM_RELATIONS_V (relv)
 @@USIM_RELATIONS_V.sql
+
+-- USIM_POI_RELATIONS_V (relpv)
+@@USIM_POI_RELATIONS_V.sql
+
+-- USIM_ENERGY_STATE (ensv)
+@@USIM_ENERGY_STATE_V.sql
 --== create views depending on views end ==--
 
 --== create trigger package start ==--
@@ -95,6 +112,7 @@ SET VERIFY OFF
 --== create trigger package end ==--
 
 --== create insert views start ==--
+-- USIM_POINT_INSERT_V (poiv)
 @@USIM_POINT_INSERT_V.sql
 --== create insert views end ==--
 
@@ -103,5 +121,11 @@ SET VERIFY OFF
 @@USIM_CTRL.pkb
 --== create other packages end ==--
 
--- insert test point
+-- initialize the planck time
+SELECT usim_planck_time_seq.NEXTVAL FROM dual;
+
+-- insert base points
 @@USIM_POINT_INS.sql
+-- insert first action on start point
+@@USIM_OUTPUT_INS.sql
+

@@ -39,5 +39,24 @@ CREATE OR REPLACE PACKAGE BODY usim_static IS
     RETURN usim_static.usim_child_name;
   END get_child_name
   ;
+  FUNCTION getPI
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.PI;
+  END getPI
+  ;
+  FUNCTION get2PI
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.PI2;
+  END get2PI
+  ;
+
 END usim_static;
 /

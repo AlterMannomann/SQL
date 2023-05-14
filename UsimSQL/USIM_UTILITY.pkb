@@ -145,6 +145,30 @@ CREATE OR REPLACE PACKAGE BODY usim_utility IS
     RETURN l_distance;
   END vector_distance
   ;
+  -- see header for documentation
+  FUNCTION energy_force( p_usim_energy_source   IN usim_point.usim_energy%TYPE
+                       , p_usim_energy_target   IN usim_point.usim_energy%TYPE
+                       , p_usim_distance        IN NUMBER
+                       , p_usim_target_sign     IN NUMBER
+                       , p_usim_id_parent       IN usim_poi_dim_position.usim_id_pdp%TYPE
+                       )
+    RETURN NUMBER
+  IS
+    l_usim_energy_force   NUMBER;
+  BEGIN
+    -- first special cases distance = 0
+    IF p_usim_distance = 0
+    THEN
+      -- setting seed values
+      RETURN NVL(p_usim_energy_source, 0);
+    ELSE
+      l_usim_energy_force := (ABS(NVL(p_usim_energy_source, 1)) * ABS(NVL(p_usim_energy_target, 1))) / POWER(p_usim_distance, 2);
+      -- handle sign
+      l_usim_energy_force := l_usim_energy_force * CASE WHEN p_usim_target_sign = 0 THEN 1 ELSE p_usim_target_sign END;
+      RETURN l_usim_energy_force;
+    END IF;
+  END energy_force
+  ;
 
 END usim_utility;
 /

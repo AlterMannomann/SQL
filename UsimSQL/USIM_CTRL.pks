@@ -68,5 +68,45 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
                            , p_usim_wavelength  IN usim_point.usim_wavelength%TYPE  DEFAULT NULL
                            )
   ;
+  /* Procedure USIM_CTRL.RUNPLANCKCYCLE
+   * Processes a whole cycle running to the end of the tree and back again.
+   * Raises the planck time sequence by 1.
+   * Starts with direction childs and ends with direction parent reaching seed.
+   *
+   * Parameter
+   * P_USIM_ENERGY        - The energy to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
+   * P_USIM_AMPLITUDE     - The amplitude to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
+   * P_USIM_WAVELENGTH    - The wavelength to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
+   *
+   * THROWS
+   * -20700 NULL Attributes not allowed if some base attributes for direction are NULL and nothing to process.
+   */
+  PROCEDURE runPlanckCycle( p_usim_energy      IN usim_point.usim_energy%TYPE      DEFAULT NULL
+                          , p_usim_amplitude   IN usim_point.usim_amplitude%TYPE   DEFAULT NULL
+                          , p_usim_wavelength  IN usim_point.usim_wavelength%TYPE  DEFAULT NULL
+                          )
+  ;
+  PROCEDURE addPointHistory( p_usim_id_poi              IN usim_poi_history.usim_id_poi%TYPE
+                           , p_usim_id_poi_source       IN usim_poi_history.usim_id_poi_source%TYPE
+                           , p_usim_energy              IN usim_poi_history.usim_energy%TYPE
+                           , p_usim_energy_source       IN usim_poi_history.usim_energy_source%TYPE
+                           , p_usim_amplitude           IN usim_poi_history.usim_amplitude%TYPE
+                           , p_usim_amplitude_source    IN usim_poi_history.usim_amplitude_source%TYPE
+                           , p_usim_wavelength          IN usim_poi_history.usim_wavelength%TYPE
+                           , p_usim_wavelength_source   IN usim_poi_history.usim_wavelength_source%TYPE
+                           , p_usim_energy_force        IN usim_poi_history.usim_energy_force%TYPE
+                           , p_usim_distance            IN usim_poi_history.usim_distance%TYPE
+                           , p_usim_planck_time         IN usim_poi_history.usim_planck_time%TYPE
+                           , p_usim_update_direction    IN usim_poi_history.usim_update_direction%TYPE
+                           , p_usim_id_pdp              IN usim_poi_history.usim_id_pdp%TYPE
+                           , p_usim_id_pdp_source       IN usim_poi_history.usim_id_pdp_source%TYPE
+                           )
+  ;
+  PROCEDURE addOverflow( p_usim_id_pdp      IN usim_overflow.usim_id_pdp%TYPE
+                       , p_usim_energy      IN usim_overflow.usim_energy%TYPE
+                       , p_usim_amplitude   IN usim_overflow.usim_amplitude%TYPE
+                       , p_usim_wavelength  IN usim_overflow.usim_wavelength%TYPE
+                       )
+  ;
 END usim_ctrl;
 /

@@ -28,3 +28,6 @@ DB Trigger sind hier zu wenig kontrollierbar und es besteht die Gefahr das die D
 * Planck Tick in der der Trigger ausgeführt werden muss
 * Reihenfolge innerhalb des Tick oder Trigger die als nächstes ausgeführt werden
 * Status wait, start/run, success, error
+
+FEHLER
+* zur Zeit infinity handling

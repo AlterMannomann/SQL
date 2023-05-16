@@ -30,6 +30,9 @@ SET VERIFY OFF
 -- USIM_OVERFLOW (ovr)
 @@USIM_OVERFLOW_TBL.sql
 
+-- USIM_POI_HISTORY (phis)
+@@USIM_POI_HISTORY_TBL.sql
+
 -- USIM_POI_STRUCTURE (psc)
 @@USIM_POI_STRUCTURE_TBL.sql
 -- provide basic point structure
@@ -104,6 +107,9 @@ SET VERIFY OFF
 
 -- USIM_ENERGY_STATE (ensv)
 @@USIM_ENERGY_STATE_V.sql
+
+-- USIM_OUTPUT_V (outpv)
+@@USIM_OUTPUT_V.sql
 --== create views depending on views end ==--
 
 --== create trigger package start ==--

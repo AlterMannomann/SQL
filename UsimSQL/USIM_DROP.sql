@@ -17,32 +17,29 @@ DROP SEQUENCE usim_pdc_id_seq;
 DROP SEQUENCE usim_planck_time_seq;
 DROP SEQUENCE usim_outp_id_seq;
 DROP SEQUENCE usim_phis_id_seq;
-DROP SEQUENCE usim_ovr_id_seq;
 -- drop foreign key constraints
 ALTER TABLE usim_pdp_parent DROP CONSTRAINT usim_pdr_pdp_fk;
 ALTER TABLE usim_pdp_parent DROP CONSTRAINT usim_pdr_parent_fk;
 ALTER TABLE usim_pdp_childs DROP CONSTRAINT usim_pdc_pdp_fk;
 ALTER TABLE usim_pdp_childs DROP CONSTRAINT usim_pdc_child_fk;
-ALTER TABLE usim_overflow DROP CONSTRAINT usim_ovr_pdp_fk;
 ALTER TABLE usim_dim_point DROP CONSTRAINT usim_dpo_poi_fk;
 ALTER TABLE usim_dim_point DROP CONSTRAINT usim_dpo_dim_fk;
 ALTER TABLE usim_poi_dim_position DROP CONSTRAINT usim_pdp_psc_fk;
 ALTER TABLE usim_poi_dim_position DROP CONSTRAINT usim_pdp_dpo_fk;
 ALTER TABLE usim_poi_dim_position DROP CONSTRAINT usim_pdp_pos_fk;
-ALTER TABLE usim_point_h DROP CONSTRAINT usim_hpoi_poi_fk;
 -- reverse order for tables
-DROP TABLE usim_poi_structure;
-DROP TABLE usim_pdp_parent;
-DROP TABLE usim_pdp_childs;
-DROP TABLE usim_poi_dim_position;
-DROP TABLE usim_dim_point;
-DROP TABLE usim_overflow;
-DROP TABLE usim_point;
-DROP TABLE usim_position;
-DROP TABLE usim_dimension;
-DROP TABLE usim_point_h;
-DROP TABLE usim_output;
-DROP TABLE usim_poi_history;
+DROP TABLE usim_poi_structure PURGE;
+DROP TABLE usim_pdp_parent PURGE;
+DROP TABLE usim_pdp_childs PURGE;
+DROP TABLE usim_poi_dim_position PURGE;
+DROP TABLE usim_dim_point PURGE;
+DROP TABLE usim_overflow PURGE;
+DROP TABLE usim_point PURGE;
+DROP TABLE usim_position PURGE;
+DROP TABLE usim_dimension PURGE;
+DROP TABLE usim_output PURGE;
+DROP TABLE usim_poi_history PURGE;
+DROP TABLE usim_planck_time PURGE;
 -- views
 DROP VIEW usim_poi_dim_position_v;
 DROP VIEW usim_point_insert_v;
@@ -56,6 +53,23 @@ DROP VIEW usim_poi_relations_v;
 DROP VIEW usim_energy_state_v;
 DROP VIEW usim_output_v;
 DROP VIEW usim_output_order_v;
+DROP VIEW usim_poi_mirror_v;
+DROP VIEW usim_overflow_v;
+DROP VIEW usim_dim_attributes_v;
+DROP VIEW usim_position_v;
 -- drop trigger package
 DROP PACKAGE BODY usim_trg;
 DROP PACKAGE usim_trg;
+
+-- empty recycle bin
+PURGE recyclebin;
+
+SELECT COUNT(*) AS objects_after_cleanup
+  FROM user_objects
+;
+-- overview remaining objects after cleanup
+SELECT object_type
+     , COUNT(*) AS object_cnt
+  FROM user_objects
+ GROUP BY object_type
+;

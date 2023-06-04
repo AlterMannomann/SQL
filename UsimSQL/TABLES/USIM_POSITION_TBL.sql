@@ -1,12 +1,14 @@
 -- USIM_POSITION (pos)
 CREATE TABLE usim_position
-  ( usim_id_pos     CHAR(55)      NOT NULL ENABLE
-  , usim_coordinate NUMBER(38, 0) NOT NULL ENABLE
+  ( usim_id_pos       CHAR(55)      NOT NULL ENABLE
+  , usim_coordinate   NUMBER(38, 0) NOT NULL ENABLE
+  , usim_coord_level  NUMBER(38, 0) NOT NULL ENABLE
   )
 ;
 COMMENT ON TABLE usim_position IS 'Keeps unique positions which may be used more than one time. Will use the alias pos.';
 COMMENT ON COLUMN usim_position.usim_id_pos IS 'Generic big ID to identify a position.';
-COMMENT ON COLUMN usim_position.usim_coordinate IS 'The unique space position coordinate.';
+COMMENT ON COLUMN usim_position.usim_coordinate IS 'The unique space position coordinate relative to the level.';
+COMMENT ON COLUMN usim_position.usim_coord_level IS 'The the level for the coordinate starting with 1. Every level can hold a number with 38 digits.';
 
 -- pk
 ALTER TABLE usim_position
@@ -17,7 +19,7 @@ ALTER TABLE usim_position
 -- uk
 ALTER TABLE usim_position
   ADD CONSTRAINT usim_pos_uk
-  UNIQUE (usim_coordinate)
+  UNIQUE (usim_coordinate, usim_coord_level)
   ENABLE
 ;
 

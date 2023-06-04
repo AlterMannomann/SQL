@@ -88,4 +88,11 @@ TO_CHAR(SYSTIMESTAMP, 'YYYYMMDDHH24MISSFF3') || LPAD([sequence], 38, '0')
 
 Tables needing big primary keys will use in this implementation CHAR(55) columns.
 ### Point coordinates
-Currently a point coordinate is limited to the maximum integer value a system can provide.
+Currently a point coordinate is limited n^n (n = maximum integer value a system can provide).
+
+## To do
+* fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
+* Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert.
+* Eine Aufstellung max Koordinate per Dimension wird benötigt.
+* Darstellungsform für COORDS wie vorher, allerdings wird noch Level für Eindeutigkeit benötigt Format Coordinate(Level),... .
+* Distanzberechnung zwischen Koordinaten mit unterschiedlichem Level muss korrekt sein (Overflow Problem).

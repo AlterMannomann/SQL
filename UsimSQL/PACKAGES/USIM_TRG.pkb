@@ -96,6 +96,74 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
   END chk_parent_dimension
   ;
 
+  FUNCTION next_number_level(p_sign IN NUMBER)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF p_sign >= 0
+    THEN
+      UPDATE usim_levels
+         SET usim_level_positive = usim_level_positive + 1
+       WHERE usim_id_lvl = 1
+      ;
+    ELSE
+      UPDATE usim_levels
+         SET usim_level_negative = usim_level_negative + 1
+       WHERE usim_id_lvl = 1
+      ;
+    END IF;
+    RETURN current_number_level(p_sign);
+  END next_number_level
+  ;
+
+  FUNCTION current_number_level(p_sign IN NUMBER)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    IF p_sign >= 0
+    THEN
+      SELECT usim_level_positive INTO l_result FROM usim_levels WHERE usim_id_lvl = 1;
+    ELSE
+      SELECT usim_level_negative INTO l_result FROM usim_levels WHERE usim_id_lvl = 1;
+    END IF;
+    RETURN l_result;
+  END current_number_level
+  ;
+
+  FUNCTION insert_position(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
+    RETURN VARCHAR2
+  IS
+    l_current_level   INTEGER;
+    l_new_sequence    INTEGER;
+    l_check_exists    INTEGER;
+    l_next_max_value  INTEGER;
+    l_return          usim_position.usim_id_pos%TYPE;
+  BEGIN
+    -- get correct sequence
+    l_current_level := current_number_level(SIGN(p_usim_coordinate));
+    -- check if position exist
+    SELECT COUNT(*) INTO l_check_exists FROM usim_position WHERE usim_coordinate = p_usim_coordinate AND usim_coord_level = l_current_level;
+    IF l_check_exists > 0
+    THEN
+      -- exists, return id
+      SELECT usim_id_pos INTO l_return FROM usim_position WHERE usim_coordinate = p_usim_coordinate AND usim_coord_level = l_current_level;
+    ELSE
+      l_next_max_value := usim_utility.get_max_position_1st(SIGN(p_usim_coordinate));
+      -- create a new entry
+      INSERT INTO usim_position (usim_coordinate, usim_coord_level) VALUES (l_next_max_value, l_current_level);
+      -- get the id of the newly created entry
+      SELECT usim_id_pos INTO l_return FROM usim_position WHERE usim_coordinate = l_next_max_value AND usim_coord_level = l_current_level;
+      -- if max reached, update sequence
+      IF usim_static.is_overflow_reached(p_usim_coordinate)
+      THEN
+        l_current_level := next_number_level(SIGN(p_usim_coordinate));
+      END IF;
+    END IF;
+    RETURN l_return;
+  END insert_position
+  ;
+
   FUNCTION get_usim_id_pos( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
                           , p_usim_coordinate         IN usim_position.usim_coordinate%TYPE
                           )
@@ -106,14 +174,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
   BEGIN
     IF p_usim_coordinate IS NOT NULL
     THEN
-      SELECT COUNT(*) INTO l_cnt_result FROM usim_position WHERE usim_coordinate = p_usim_coordinate;
-      IF l_cnt_result = 0
-      THEN
-        INSERT INTO usim_position (usim_coordinate) VALUES (p_usim_coordinate);
-        SELECT usim_id_pos INTO l_usim_id_pos FROM usim_position WHERE usim_coordinate = p_usim_coordinate;
-      ELSE
-        SELECT usim_id_pos INTO l_usim_id_pos FROM usim_position WHERE usim_coordinate = p_usim_coordinate;
-      END IF;
+      l_usim_id_pos := insert_position(p_usim_coordinate);
     ELSE
       SELECT COUNT(*) INTO l_cnt_result FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
       IF l_cnt_result = 0
@@ -200,7 +261,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
     l_coords_parent usim_poi_dim_position.usim_coords%TYPE;
   BEGIN
     -- build coords
-    SELECT TRIM(TO_CHAR(usim_coordinate)) INTO l_coord_base FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
+    SELECT TRIM(TO_CHAR(usim_coordinate)) || '(' || TRIM(TO_CHAR(usim_coord_level)) || ')' INTO l_coord_base FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
     -- if has parent fetch this value first
     IF p_usim_id_parent IS NOT NULL
     THEN
@@ -223,7 +284,7 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
     l_coords_parent   usim_poi_dim_position.usim_coords%TYPE;
   BEGIN
     -- build coords
-    SELECT ABS(TRIM(TO_CHAR(usim_coordinate))) INTO l_coord_base FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
+    SELECT ABS(TRIM(TO_CHAR(usim_coordinate))) || '(' || TRIM(TO_CHAR(usim_coord_level)) || ')' INTO l_coord_base FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
     -- if has parent fetch this value first
     IF p_usim_id_parent IS NOT NULL
     THEN

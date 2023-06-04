@@ -18,6 +18,7 @@ CREATE OR REPLACE FORCE VIEW usim_poi_dim_position_v AS
        , poi.usim_frequency
        , dim.usim_n_dimension
        , pos.usim_coordinate
+       , pos.usim_coord_level
        , pdp.usim_coords
        , pdp.usim_abs_coords
        , usim_utility.get_x(pdp.usim_coords) AS pos_x

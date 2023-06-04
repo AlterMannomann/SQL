@@ -1,0 +1,1614 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script src="USIM_POI_DIM_POSITION_V/report.js" type="text/javascript"></script>
+<link href="USIM_POI_DIM_POSITION_V/report.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="banner">
+<table width="98%"><tr>
+<td><h2 class="banner">USIM_POI_DIM_POSITION_V</h2></td>
+</tr></table></div>
+<div id="maintabs">
+<div class="currentmaintab" onclick="onSelectMainTab(this, 0)">
+<div>
+<p>Spalten</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 1)">
+<div>
+<p>Zugriffsberechtigungen</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 2)">
+<div>
+<p>Abhängigkeiten</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 3)">
+<div>
+<p>Details</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 4)">
+<div>
+<p>Trigger</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 5)">
+<div>
+<p>Fehler</p>
+</div>
+</div>
+</div>
+<br/>
+<div id="masterreports">
+<div id="Master.0">
+<div class="currentmasterreport">
+<table id="Table.0" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>COLUMN_NAME</th>
+<th>DATA_TYPE</th>
+<th>NULLABLE</th>
+<th>DATA_DEFAULT</th>
+<th>COLUMN_ID</th>
+<th>COMMENTS</th>
+<th>INSERTABLE</th>
+<th>UPDATABLE</th>
+<th>DELETABLE</th>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 0)" class="currentrow">
+<td class="currentcell">USIM_POINT_NAME</td>
+<td class="currentcell">VARCHAR2(4000)</td>
+<td class="currentcell">Yes</td>
+<td class="currentcell">null</td>
+<td class="currentcell">1</td>
+<td class="currentcell">null</td>
+<td class="currentcell">NO</td>
+<td class="currentcell">NO</td>
+<td class="currentcell">NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 1)">
+<td>USIM_ENERGY</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>2</td>
+<td>null</td>
+<td>YES</td>
+<td>YES</td>
+<td>YES</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 2)">
+<td>USIM_AMPLITUDE</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>3</td>
+<td>null</td>
+<td>YES</td>
+<td>YES</td>
+<td>YES</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 3)">
+<td>USIM_WAVELENGTH</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>4</td>
+<td>null</td>
+<td>YES</td>
+<td>YES</td>
+<td>YES</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 4)">
+<td>USIM_FREQUENCY</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>5</td>
+<td>null</td>
+<td>YES</td>
+<td>YES</td>
+<td>YES</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 5)">
+<td>USIM_N_DIMENSION</td>
+<td>NUMBER(2)</td>
+<td>Yes</td>
+<td>null</td>
+<td>6</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 6)">
+<td>USIM_COORDINATE</td>
+<td>NUMBER(38)</td>
+<td>Yes</td>
+<td>null</td>
+<td>7</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 7)">
+<td>USIM_COORD_LEVEL</td>
+<td>NUMBER(38)</td>
+<td>Yes</td>
+<td>null</td>
+<td>8</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 8)">
+<td>USIM_COORDS</td>
+<td>VARCHAR2(4000)</td>
+<td>Yes</td>
+<td>null</td>
+<td>9</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 9)">
+<td>USIM_ABS_COORDS</td>
+<td>VARCHAR2(4000)</td>
+<td>Yes</td>
+<td>null</td>
+<td>10</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 10)">
+<td>POS_X</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>11</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 11)">
+<td>POS_Y</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>12</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 12)">
+<td>POS_Z</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>13</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 13)">
+<td>USIM_ID_PARENT</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>14</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 14)">
+<td>USIM_ID_CHILD_LEFT</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>15</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 15)">
+<td>USIM_ID_CHILD_RIGHT</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>16</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 16)">
+<td>USIM_ID_POI</td>
+<td>CHAR(55)</td>
+<td>No</td>
+<td>null</td>
+<td>17</td>
+<td>null</td>
+<td>YES</td>
+<td>YES</td>
+<td>YES</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 17)">
+<td>USIM_ID_DIM</td>
+<td>NUMBER(38)</td>
+<td>Yes</td>
+<td>null</td>
+<td>18</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 18)">
+<td>USIM_ID_DPO</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>19</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 19)">
+<td>USIM_ID_POS</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>20</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 20)">
+<td>USIM_ID_PDP</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>21</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 21)">
+<td>USIM_ID_PSC</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>22</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 22)">
+<td>DPO_USIM_ID_POI</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>23</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 23)">
+<td>DPO_USIM_ID_DIM</td>
+<td>NUMBER(38)</td>
+<td>Yes</td>
+<td>null</td>
+<td>24</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 24)">
+<td>PDP_USIM_ID_DPO</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>25</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 25)">
+<td>PDP_USIM_ID_POS</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>26</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 26)">
+<td>PDR_USIM_ID_PDP</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>27</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 27)">
+<td>PDC_USIM_ID_PDP</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>28</td>
+<td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.1">
+<div class="masterreport">
+<table id="Table.1" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>PRIVILEGE</th>
+<th>GRANTEE</th>
+<th>GRANTABLE</th>
+<th>GRANTOR</th>
+<th>OBJECT_NAME</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.2">
+<div class="masterreport">
+<table id="Table.2" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 0)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_CTRL</td>
+<td class="currentcell">PACKAGE&nbsp;BODY</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 1)">
+<td>USIM</td>
+<td>USIM_TREE_NODES_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 2)">
+<td>USIM</td>
+<td>USIM_DIM_ATTRIBUTES_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 3)">
+<td>USIM</td>
+<td>USIM_RELATIONS_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 4)">
+<td>USIM</td>
+<td>USIM_RELATIONSX_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 5)">
+<td>USIM</td>
+<td>USIM_POI_RELATIONS_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 6)">
+<td>USIM</td>
+<td>USIM_ENERGY_STATE_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 7)">
+<td>USIM</td>
+<td>USIM_OUTPUT_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 8)">
+<td>USIM</td>
+<td>USIM_POI_MIRROR_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 2, 9)">
+<td>USIM</td>
+<td>USIM_TRG</td>
+<td>PACKAGE&nbsp;BODY</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+</tr>
+</table>
+<br/>
+<hr/>
+<br/><div id="ChildTabs.2">
+<div class="currentchildtab" onclick="onSelectChildTab(this, 0)">
+<div>
+<p>Referenzen</p>
+</div>
+</div>
+</div>
+<br/>
+<div id="ChildReports.2">
+<div id="Child.0.0.2">
+<div class="currentchildreport"><table id="Table.3" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.1.2">
+<div class="childreport"><table id="Table.4" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.2.2">
+<div class="childreport"><table id="Table.5" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 5)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.3.2">
+<div class="childreport"><table id="Table.6" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 6)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.4.2">
+<div class="childreport"><table id="Table.7" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 7)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.5.2">
+<div class="childreport"><table id="Table.8" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 8)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.6.2">
+<div class="childreport"><table id="Table.9" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 9)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.7.2">
+<div class="childreport"><table id="Table.10" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 10)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.8.2">
+<div class="childreport"><table id="Table.11" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 11)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Child.0.9.2">
+<div class="childreport"><table id="Table.12" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>NAME</th>
+<th>TYPE</th>
+<th>REFERENCED_OWNER</th>
+<th>REFERENCED_NAME</th>
+<th>REFERENCED_TYPE</th>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)" class="currentrow">
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_POI_DIM_POSITION_V</td>
+<td class="currentcell">VIEW</td>
+<td class="currentcell">USIM</td>
+<td class="currentcell">USIM_UTILITY</td>
+<td class="currentcell">PACKAGE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_STRUCTURE</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIMENSION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_DIM_POINT</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 12)">
+<td>USIM</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="Master.3">
+<div class="masterreport">
+<table id="Table.13" cellpadding="0" cellspacing="0" summary="">
+<th>NAME</th>
+<th>VALUE</th>
+</tr>
+<tr>
+<td>CREATED</td>
+<td>26.05.2023&nbsp;22:56:14</td>
+</tr>
+<tr>
+<td>LAST_DDL_TIME</td>
+<td>26.05.2023&nbsp;22:56:14</td>
+</tr>
+<tr>
+<td>OWNER</td>
+<td>USIM</td>
+</tr>
+<tr>
+<td>VIEW_NAME</td>
+<td>USIM_POI_DIM_POSITION_V</td>
+</tr>
+<tr>
+<td>TEXT_LENGTH</td>
+<td>1997</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>WITH&nbsp;pdc&nbsp;AS
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(SELECT&nbsp;usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;MIN(usim_id_child)&nbsp;AS&nbsp;usim_id_child_left
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;CASE
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;MAX(usim_id_child)&nbsp;=&nbsp;MIN(usim_id_child)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN&nbsp;NULL
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE&nbsp;MAX(usim_id_child)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;AS&nbsp;usim_id_child_right
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;usim_pdp_childs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP&nbsp;BY&nbsp;usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;SELECT&nbsp;psc.usim_point_name
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_energy
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_amplitude
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_wavelength
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_frequency
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dim.usim_n_dimension
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pos.usim_coordinate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pos.usim_coord_level
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_coords
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_abs_coords
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;usim_utility.get_x(pdp.usim_coords)&nbsp;AS&nbsp;pos_x
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;usim_utility.get_y(pdp.usim_coords)&nbsp;AS&nbsp;pos_y
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;usim_utility.get_z(pdp.usim_coords)&nbsp;AS&nbsp;pos_z
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdr.usim_id_parent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdc.usim_id_child_left
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdc.usim_id_child_right
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_id_poi
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dim.usim_id_dim
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dpo.usim_id_dpo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pos.usim_id_pos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_psc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dpo.usim_id_poi&nbsp;AS&nbsp;dpo_usim_id_poi
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dpo.usim_id_dim&nbsp;AS&nbsp;dpo_usim_id_dim
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_dpo&nbsp;AS&nbsp;pdp_usim_id_dpo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_pos&nbsp;AS&nbsp;pdp_usim_id_pos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdr.usim_id_pdp&nbsp;AS&nbsp;pdr_usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdc.usim_id_pdp&nbsp;AS&nbsp;pdc_usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;usim_point&nbsp;poi
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_dim_point&nbsp;dpo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;poi.usim_id_poi&nbsp;=&nbsp;dpo.usim_id_poi
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_dimension&nbsp;dim
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;dpo.usim_id_dim&nbsp;=&nbsp;dim.usim_id_dim
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_poi_dim_position&nbsp;pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;dpo.usim_id_dpo&nbsp;=&nbsp;pdp.usim_id_dpo
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_position&nbsp;pos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_pos&nbsp;=&nbsp;pos.usim_id_pos
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_pdp_parent&nbsp;pdr
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_pdp&nbsp;=&nbsp;pdr.usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;pdc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_pdp&nbsp;=&nbsp;pdc.usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_poi_structure&nbsp;psc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_psc&nbsp;=&nbsp;psc.usim_id_psc
+&nbsp;&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;dim.usim_n_dimension
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdr.usim_id_parent&nbsp;NULLS&nbsp;FIRST</td>
+</tr>
+<tr>
+<td>TEXT_VC</td>
+<td>WITH&nbsp;pdc&nbsp;AS
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(SELECT&nbsp;usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;MIN(usim_id_child)&nbsp;AS&nbsp;usim_id_child_left
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;CASE
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;MAX(usim_id_child)&nbsp;=&nbsp;MIN(usim_id_child)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THEN&nbsp;NULL
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE&nbsp;MAX(usim_id_child)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;AS&nbsp;usim_id_child_right
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;usim_pdp_childs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GROUP&nbsp;BY&nbsp;usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;SELECT&nbsp;psc.usim_point_name
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_energy
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_amplitude
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_wavelength
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_frequency
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dim.usim_n_dimension
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pos.usim_coordinate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pos.usim_coord_level
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_coords
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_abs_coords
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;usim_utility.get_x(pdp.usim_coords)&nbsp;AS&nbsp;pos_x
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;usim_utility.get_y(pdp.usim_coords)&nbsp;AS&nbsp;pos_y
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;usim_utility.get_z(pdp.usim_coords)&nbsp;AS&nbsp;pos_z
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdr.usim_id_parent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdc.usim_id_child_left
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdc.usim_id_child_right
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;poi.usim_id_poi
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dim.usim_id_dim
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dpo.usim_id_dpo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pos.usim_id_pos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_psc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dpo.usim_id_poi&nbsp;AS&nbsp;dpo_usim_id_poi
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;dpo.usim_id_dim&nbsp;AS&nbsp;dpo_usim_id_dim
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_dpo&nbsp;AS&nbsp;pdp_usim_id_dpo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdp.usim_id_pos&nbsp;AS&nbsp;pdp_usim_id_pos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdr.usim_id_pdp&nbsp;AS&nbsp;pdr_usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdc.usim_id_pdp&nbsp;AS&nbsp;pdc_usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;usim_point&nbsp;poi
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_dim_point&nbsp;dpo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;poi.usim_id_poi&nbsp;=&nbsp;dpo.usim_id_poi
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_dimension&nbsp;dim
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;dpo.usim_id_dim&nbsp;=&nbsp;dim.usim_id_dim
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_poi_dim_position&nbsp;pdp
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;dpo.usim_id_dpo&nbsp;=&nbsp;pdp.usim_id_dpo
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_position&nbsp;pos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_pos&nbsp;=&nbsp;pos.usim_id_pos
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_pdp_parent&nbsp;pdr
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_pdp&nbsp;=&nbsp;pdr.usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;pdc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_pdp&nbsp;=&nbsp;pdc.usim_id_pdp
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;OUTER&nbsp;JOIN&nbsp;usim_poi_structure&nbsp;psc
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;pdp.usim_id_psc&nbsp;=&nbsp;psc.usim_id_psc
+&nbsp;&nbsp;&nbsp;ORDER&nbsp;BY&nbsp;dim.usim_n_dimension
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;pdr.usim_id_parent&nbsp;NULLS&nbsp;FIRST</td>
+</tr>
+<tr>
+<td>TYPE_TEXT_LENGTH</td>
+<td>null</td>
+</tr>
+<tr>
+<td>TYPE_TEXT</td>
+<td>null</td>
+</tr>
+<tr>
+<td>OID_TEXT_LENGTH</td>
+<td>null</td>
+</tr>
+<tr>
+<td>OID_TEXT</td>
+<td>null</td>
+</tr>
+<tr>
+<td>VIEW_TYPE_OWNER</td>
+<td>null</td>
+</tr>
+<tr>
+<td>VIEW_TYPE</td>
+<td>null</td>
+</tr>
+<tr>
+<td>SUPERVIEW_NAME</td>
+<td>null</td>
+</tr>
+<tr>
+<td>EDITIONING_VIEW</td>
+<td>N</td>
+</tr>
+<tr>
+<td>READ_ONLY</td>
+<td>N</td>
+</tr>
+<tr>
+<td>CONTAINER_DATA</td>
+<td>N</td>
+</tr>
+<tr>
+<td>BEQUEATH</td>
+<td>DEFINER</td>
+</tr>
+<tr>
+<td>ORIGIN_CON_ID</td>
+<td>3</td>
+</tr>
+<tr>
+<td>DEFAULT_COLLATION</td>
+<td>USING_NLS_COMP</td>
+</tr>
+<tr>
+<td>CONTAINERS_DEFAULT</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>CONTAINER_MAP</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>EXTENDED_DATA_LINK</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>EXTENDED_DATA_LINK_MAP</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>HAS_SENSITIVE_COLUMN</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>ADMIT_NULL</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>PDB_LOCAL_ONLY</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>DUPLICATED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>SHARDED</td>
+<td>N</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.4">
+<div class="masterreport">
+<table id="Table.14" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>OWNER</th>
+<th>TRIGGER_NAME</th>
+<th>TRIGGER_TYPE</th>
+<th>TRIGGERING_EVENT</th>
+<th>STATUS</th>
+<th>OBJECT_ID</th>
+</tr>
+</table>
+<br/>
+<hr/>
+<br/><div id="ChildTabs.4">
+<div class="currentchildtab" onclick="onSelectChildTab(this, 0)">
+<div>
+<p></p>
+</div>
+</div>
+</div>
+<br/>
+<div id="ChildReports.4">
+</div>
+</div>
+</div>
+<div id="Master.5">
+<div class="masterreport">
+<table id="Table.15" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>ATTRIBUTE</th>
+<th>Line:Position</th>
+<th>TEXT</th>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

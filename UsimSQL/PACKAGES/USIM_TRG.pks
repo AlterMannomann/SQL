@@ -65,10 +65,43 @@ CREATE OR REPLACE PACKAGE usim_trg IS
                                 )
   ;
 
+  /**
+  * Retrieves the next number level. Updates USIM_LEVELS. Commit is up to user, as used in insert trigger.
+  * @param p_sign a positive (including 0) or negative number to define the type of number level.
+  * @return The next number level.
+  */
+  FUNCTION next_number_level(p_sign IN NUMBER)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the current number level.
+  * @param p_sign a positive (including 0) or negative number to define the type of number level.
+  * @return The current number level.
+  */
+  FUNCTION current_number_level(p_sign IN NUMBER)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Insert a position if necessary or return the index of this position.
+  * Handle level on possible numeric overflows for coordinates.
+  * If a coordinate reaches the max for numbers, the level is raised.
+  * Will only insert the coordinate, if it does not exist yet. The level assumed for insert is the current level.
+  * On inserts the given coordinate value is ignored, always inserts the next maximum value based on sign of the coordinate.
+  * No commit as used in insert trigger.
+  * @param p_usim_coordinate - the new coordinate to insert.
+  * @return The new big id for this position or the big id found for this position.
+  */
+  FUNCTION insert_position(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
+    RETURN VARCHAR2
+  ;
+
   /* Function USIM_TRG.GET_USIM_ID_POS
    * Get, check and optionally create the USIM_ID_POS. Either USIM_ID_POS or
    * USIM_COORDINATE has to be given. If USIM_ID_POS is given, it must exist.
-   * Code uses P_USIM_COORDINATE is both values are given.
+   * Code uses P_USIM_COORDINATE is both values are given. Will insert not
+   * existing coordinates at current level.
    *
    * Parameter
    * P_USIM_ID_POS      - the position id to check, can be NULL if P_USIM_COORDINATE is given.

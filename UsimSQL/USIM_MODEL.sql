@@ -8,7 +8,17 @@ ALTER SESSION SET NLS_LENGTH_SEMANTICS = 'CHAR';
 --== create static packages section start ==--
 @@PACKAGES/USIM_STATIC.pks
 @@PACKAGES/USIM_STATIC.pkb
+@@TESTING/TEST_USIM_STATIC.sql
 --== create static packages section end ==--
+
+--== create debug section start ==--
+@@TABLES/USIM_DEBUG_LOG_TBL.sql
+@@PACKAGES/USIM_DEBUG.pks
+@@PACKAGES/USIM_DEBUG.pkb
+@@TESTING/TEST_USIM_DEBUG.sql
+-- truncate test results
+TRUNCATE TABLE usim_debug_log;
+--== create debug section end ==--
 
 --== create section, basic table definitions and prefill start ==--
 -- USIM_POI_STRUCTURE (psc)
@@ -33,6 +43,11 @@ ALTER SESSION SET NLS_LENGTH_SEMANTICS = 'CHAR';
 @@TABLES/USIM_PLANCK_TIME_TBL.sql
 -- initialize without setting sequence
 @@INS/USIM_PLANCK_TIME_INS.sql
+
+-- USIM_LEVELS (lvl)
+@@TABLES/USIM_LEVELS_TBL.sql
+-- initialize level sequences
+@@INS/USIM_LEVELS_INS.sql
 --== create section, basic table definitions and prefill end ==--
 
 --== create section, relations table definitions start ==--
@@ -75,6 +90,7 @@ ALTER SESSION SET NLS_LENGTH_SEMANTICS = 'CHAR';
 --== create utility package start ==--
 @@PACKAGES/USIM_UTILITY.pks
 @@PACKAGES/USIM_UTILITY.pkb
+@@TESTING/TEST_USIM_UTILITY.sql
 --== create utility package end ==--
 
 --== create views start ==--
@@ -136,3 +152,10 @@ ALTER SESSION SET NLS_LENGTH_SEMANTICS = 'CHAR';
 -- insert first action on start point
 @@INS/USIM_OUTPUT_INS.sql
 
+-- summary of db objects
+SELECT object_type
+     , COUNT(*) AS invalid_objects
+  FROM user_objects
+ WHERE status != 'VALID'
+ GROUP BY object_type
+;

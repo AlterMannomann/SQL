@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<oracle.dbtools.crest.model.design.relational.RelationalDesign>
-   <object objectType="SchemaObject" objectID="D8AD927A-9FA8-7B47-39AE-1305546F84A5" name="USIM" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.SchemaObject" propertyParentId="7071FA35-42C5-BF21-7614-01585B63D9DB" propertySourceId="" propertyTargetId=""/>
-   <object objectType="Table" objectID="1ABD38D3-2376-6E24-AB0F-BF6F7920A968" name="USIM_OVERFLOW" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="7071FA35-42C5-BF21-7614-01585B63D9DB" propertySourceId="" propertyTargetId=""/>
-   <object objectType="Table" objectID="7C07AE1C-563F-DD34-356B-002078B04B20" name="USIM_POSITION" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="7071FA35-42C5-BF21-7614-01585B63D9DB" propertySourceId="" propertyTargetId=""/>
-   <object objectType="Table" objectID="907FDEA4-F5C4-EA43-FAC1-CD9EB93B55EA" name="USIM_SPACE_POINT" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="7071FA35-42C5-BF21-7614-01585B63D9DB" propertySourceId="" propertyTargetId=""/>
-   <object objectType="Table" objectID="FDD1503B-D4E0-A8C8-AFD6-CAD04744032B" name="USIM_POINT_DIMENSION" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="7071FA35-42C5-BF21-7614-01585B63D9DB" propertySourceId="" propertyTargetId=""/>
-</oracle.dbtools.crest.model.design.relational.RelationalDesign>

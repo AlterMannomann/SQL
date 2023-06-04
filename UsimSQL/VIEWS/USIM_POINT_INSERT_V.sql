@@ -6,6 +6,7 @@ CREATE OR REPLACE FORCE NONEDITIONABLE VIEW usim_point_insert_v AS
        , poi.usim_wavelength
        , dim.usim_n_dimension
        , pos.usim_coordinate
+       , pos.usim_coord_level
        , pdp.usim_coords
        , pdr.usim_id_parent
        , pdc.usim_id_child
@@ -42,7 +43,8 @@ COMMENT ON COLUMN usim_point_insert_v.usim_id_parent IS 'The ID of a parent poin
 COMMENT ON COLUMN usim_point_insert_v.usim_energy IS 'The energy of the point. Optional on INSERT.';
 COMMENT ON COLUMN usim_point_insert_v.usim_amplitude IS 'The amplitude of the point. Optional on INSERT.';
 COMMENT ON COLUMN usim_point_insert_v.usim_wavelength IS 'The wavelength of the point. Optional on INSERT.';
-COMMENT ON COLUMN usim_point_insert_v.usim_coords IS 'The xyz like coordinates of the point including parent coordinates. Never used on inserts. Build on insert.';
+COMMENT ON COLUMN usim_point_insert_v.usim_coord_level IS 'The level of the position coordinate of the point. Never used on inserts.';
+COMMENT ON COLUMN usim_point_insert_v.usim_coords IS 'The xyz like coordinates of the point including parent coordinates. Never used on inserts. Build by any insert.';
 COMMENT ON COLUMN usim_point_insert_v.usim_id_pdp IS 'The ID of the point with dimension and position. Never used on inserts.';
 COMMENT ON COLUMN usim_point_insert_v.usim_id_child IS 'The ID of a child point (USIM_ID_PDP). Never used on inserts.';
 COMMENT ON COLUMN usim_point_insert_v.usim_id_poi IS 'The ID of the point. Never used on inserts.';

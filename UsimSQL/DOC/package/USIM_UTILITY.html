@@ -1,0 +1,547 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script src="USIM_UTILITY/report.js" type="text/javascript"></script>
+<link href="USIM_UTILITY/report.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="banner">
+<table width="98%"><tr>
+<td><h2 class="banner">USIM_UTILITY</h2></td>
+</tr></table></div>
+<div id="maintabs">
+<div class="currentmaintab" onclick="onSelectMainTab(this, 0)">
+<div>
+<p>Doc</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 1)">
+<div>
+<p>Details</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 2)">
+<div>
+<p>Grants</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 3)">
+<div>
+<p>References</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 4)">
+<div>
+<p>Dependencies</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 5)">
+<div>
+<p>Code</p>
+</div>
+</div>
+</div>
+<br/>
+<div id="masterreports">
+<div id="Master.0">
+<div class="currentmasterreport">
+<TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P> <BR>    Package containing utility functions and procedures<BR>    To be used in views. Create package before view creation.<BR>  </P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#amplitude">amplitude</A></B>( p_usim_energy_source IN usim_point . usim_energy % TYPE , p_usim_angular_frequency IN NUMBER ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Not implemented yet<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#coords_diff">coords_diff</A></B>( p_usim_coords1 IN usim_poi_dim_position . usim_coords % TYPE , p_usim_coords2 IN usim_poi_dim_position . usim_coords % TYPE ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Calculates the difference from relative position to relative position.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    To overcome number limitation for point positions MAX(NUMBER(38, 0)) every<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    position has a relative factor/level for the number space it is in. Producing MAX^MAX numbers.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    As positions are build on pairs of coordinates, the differences between the real numbers<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    having different number spaces should be very small. Energy flows only within its point<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    structure, not between point structures. Of course at the nodes of point<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    structures, the parent point structure is impacted.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Limitation is that level difference <= 1, otherwise there is no way to express the difference<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    in supported numbers. If the level difference is > 1 than the result of the difference will<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    always be 0, means this points are unreachable and no energy calculation is done for this points.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Example:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Limitation numbers 99 = max value<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Level difference max = 1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    So 98(1) - 2(2) equals (98 - MAX) - 2 = (98-99) - 2 = -1 - 2 = -3<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#current_planck_time">current_planck_time</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Retrieves the current planck time as a planck time big id.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#energy_force">energy_force</A></B>( p_usim_energy_source IN usim_point . usim_energy % TYPE , p_usim_energy_target IN usim_point . usim_energy % TYPE , p_usim_distance IN NUMBER , p_usim_target_sign IN NUMBER , p_usim_gravitation_constant IN NUMBER ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Determines the energy force for two points, interpreting energy as mass.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    F = (e1 e2)/distance^2<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Special cases are distance 0 which means either, source and target are the same<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    so we only set the value (Universe Seed) or point is unreachable far away.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If parent of source is NULL we interact with the Universe Seed, which will react<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    with positive and negative energy, depending on the target. Sign is derived from<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    position (usim_coordinate).<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#extract_coordinate">extract_coordinate</A></B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER , p_delimiter IN VARCHAR2 DEFAULT ',' , p_ignore_start IN VARCHAR2 DEFAULT '(' , p_ignore_end IN VARCHAR2 DEFAULT ')' ) RETURN VARCHAR2 ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts a coordinate substring from a coords string containing a defined delimiter at<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    the desired position. Ignores portions of the string that are surrounded<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    by the given ignore delimiters, like relative number levels.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#extract_number_level">extract_number_level</A></B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER , p_delimiter IN VARCHAR2 DEFAULT ',' , p_level_start IN VARCHAR2 DEFAULT '(' , p_level_end IN VARCHAR2 DEFAULT ')' ) RETURN VARCHAR2 ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts a number level substring from a coords string containing a defined delimiter at<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    the desired position. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_coordinate">get_coordinate</A></B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the nth coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_max_position">get_max_position</A></B>( p_sign IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the maximum position value used for the current number level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_max_position_1st">get_max_position_1st</A></B>( p_sign IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the first new position value used for the current number level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_max_position_2nd">get_max_position_2nd</A></B>( p_sign IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the second new position value used for the current number level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_number_level">get_number_level</A></B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the nth level of a coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_seq_currval">get_seq_currval</A></B>( p_sequence_name IN VARCHAR2 ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Retrieves the current value of a given sequence or NULL if sequence does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    In case the sequence ist not initialized yet, will execute a NEXTVAL on the sequence, to retrieve a valid value.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_x">get_x</A></B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coordinate % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the x coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_x_level">get_x_level</A></B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coord_level % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the number level of the x coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_y">get_y</A></B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coordinate % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the y coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_y_level">get_y_level</A></B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coord_level % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the number level of the y coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_z">get_z</A></B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coordinate % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the z coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_z_level">get_z_level</A></B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coord_level % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the number level of the z coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#insert_position">insert_position</A></B>( p_usim_coordinate IN usim_position . usim_coordinate % TYPE ) RETURN VARCHAR2 ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Handle level on possible numeric overflows for coordinates.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If a coordinate reaches the max for numbers, the level is raised.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Will only insert the coordinate, if it does not exist yet. The level assumed for insert is the current level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#last_planck_time">last_planck_time</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Retrieves the last planck time before the current as a planck time big id.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#next_planck_time">next_planck_time</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Updates current planck time to retrieve a new planck time big id.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#vector_distance">vector_distance</A></B>( p_usim_coords1 IN usim_poi_dim_position . usim_coords % TYPE , p_usim_coords2 IN usim_poi_dim_position . usim_coords % TYPE ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Calculates the euclidian distance between two point coordinates.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Ignores the dimension, draws and measures an imaginary line between the points.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If number levels have a difference > 1 the result will always be 0.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#wavelength">wavelength</A></B>( p_usim_angular_frequency IN NUMBER , p_usim_velocity IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Not implemented yet<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </TD></TR>
+</TABLE>
+<P></P><A NAME="method_detail"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Detail</B></FONT></TD></TABLE><A NAME="amplitude"></A>
+<H3>amplitude</H3><PRE>          <B>amplitude</B>( p_usim_energy_source IN usim_point . usim_energy % TYPE , p_usim_angular_frequency IN NUMBER ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Not implemented yet<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <DD><DL></DL></DD></DL><HR><A NAME="coords_diff"></A>
+<H3>coords_diff</H3><PRE>          <B>coords_diff</B>( p_usim_coords1 IN usim_poi_dim_position . usim_coords % TYPE , p_usim_coords2 IN usim_poi_dim_position . usim_coords % TYPE ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Calculates the difference from relative position to relative position.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    To overcome number limitation for point positions MAX(NUMBER(38, 0)) every<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    position has a relative factor/level for the number space it is in. Producing MAX^MAX numbers.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    As positions are build on pairs of coordinates, the differences between the real numbers<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    having different number spaces should be very small. Energy flows only within its point<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    structure, not between point structures. Of course at the nodes of point<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    structures, the parent point structure is impacted.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Limitation is that level difference <= 1, otherwise there is no way to express the difference<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    in supported numbers. If the level difference is > 1 than the result of the difference will<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    always be 0, means this points are unreachable and no energy calculation is done for this points.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Example:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Limitation numbers 99 = max value<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Level difference max = 1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    So 98(1) - 2(2) equals (98 - MAX) - 2 = (98-99) - 2 = -1 - 2 = -3<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords1</CODE> - - the usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.</DD><DD><CODE>p_usim_coords2</CODE> - - the usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.</DD></DT><DT><B>Returns:</B><DD>The difference of the coordinate values considering number level or 0.</DD></DT></DL></DD></DL><HR><A NAME="current_planck_time"></A>
+<H3>current_planck_time</H3><PRE>          <B>current_planck_time</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Retrieves the current planck time as a planck time big id.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Returns:</B><DD>The current planck time.</DD></DT></DL></DD></DL><HR><A NAME="energy_force"></A>
+<H3>energy_force</H3><PRE>          <B>energy_force</B>( p_usim_energy_source IN usim_point . usim_energy % TYPE , p_usim_energy_target IN usim_point . usim_energy % TYPE , p_usim_distance IN NUMBER , p_usim_target_sign IN NUMBER , p_usim_gravitation_constant IN NUMBER ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Determines the energy force for two points, interpreting energy as mass.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    F = (e1 e2)/distance^2<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Special cases are distance 0 which means either, source and target are the same<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    so we only set the value (Universe Seed) or point is unreachable far away.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If parent of source is NULL we interact with the Universe Seed, which will react<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    with positive and negative energy, depending on the target. Sign is derived from<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    position (usim_coordinate).<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_energy_source</CODE> - - the source energy.</DD><DD><CODE>p_usim_energy_target</CODE> - - the target energy.</DD><DD><CODE>p_usim_distance</CODE> - - the distance between the two points.</DD><DD><CODE>p_usim_target_sign</CODE> - - the sign of usim_coordinate of the target.</DD><DD><CODE>p_usim_gravitation_constant</CODE> - - the gravitational constant valid for the target.</DD></DT><DT><B>Returns:</B><DD>The force acting evenly distributed on source and target.</DD></DT></DL></DD></DL><HR><A NAME="extract_coordinate"></A>
+<H3>extract_coordinate</H3><PRE>          <B>extract_coordinate</B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER , p_delimiter IN VARCHAR2 DEFAULT ',' , p_ignore_start IN VARCHAR2 DEFAULT '(' , p_ignore_end IN VARCHAR2 DEFAULT ')' ) RETURN VARCHAR2 ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts a coordinate substring from a coords string containing a defined delimiter at<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    the desired position. Ignores portions of the string that are surrounded<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    by the given ignore delimiters, like relative number levels.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_string</CODE> - - the string with delimiters to extract a value from.</DD><DD><CODE>p_position</CODE> - - the position of the extract value, first position = 0, any value below 0 is treated as first position.</DD><DD><CODE>p_delimiter</CODE> - - the delimiter used in the string, defaults to a comma ",".</DD><DD><CODE>p_ignore_start</CODE> - - the start delimiter for levels to ignore, defaults to an open bracket "(".</DD><DD><CODE>p_ignore_end</CODE> - - the end delimiter for levels to ignore, defaults to an closing bracket ")".</DD></DT><DT><B>Returns:</B><DD>The extracted substring or NULL if delimiters not found as expected.</DD></DT></DL></DD></DL><HR><A NAME="extract_number_level"></A>
+<H3>extract_number_level</H3><PRE>          <B>extract_number_level</B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER , p_delimiter IN VARCHAR2 DEFAULT ',' , p_level_start IN VARCHAR2 DEFAULT '(' , p_level_end IN VARCHAR2 DEFAULT ')' ) RETURN VARCHAR2 ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts a number level substring from a coords string containing a defined delimiter at<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    the desired position. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_string</CODE> - - the string with delimiters to extract a value from.</DD><DD><CODE>p_position</CODE> - - the position of the extract value, first position = 0, any value below 0 is treated as first position.</DD><DD><CODE>p_delimiter</CODE> - - the delimiter used in the string, defaults to a comma ",".</DD><DD><CODE>p_level_start</CODE> - - the start delimiter for levels, defaults to an open bracket "(".</DD><DD><CODE>p_level_end</CODE> - - the end delimiter for levels, defaults to an closing bracket ")".</DD></DT><DT><B>Returns:</B><DD>The extracted substring or NULL if no level delimiters are found.</DD></DT></DL></DD></DL><HR><A NAME="get_coordinate"></A>
+<H3>get_coordinate</H3><PRE>          <B>get_coordinate</B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the nth coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD><DD><CODE>p_position</CODE> - - the position of the extract value, first position = 0, any value below 0 is treated as first position.</DD></DT><DT><B>Returns:</B><DD>The coordinate for the given position or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_max_position"></A>
+<H3>get_max_position</H3><PRE>          <B>get_max_position</B>( p_sign IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the maximum position value used for the current number level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_sign</CODE> - - the sign for the coordinate, either positive or negative. 0 is considered as positive.</DD></DT><DT><B>Returns:</B><DD>The maximum current position for the current number level.</DD></DT></DL></DD></DL><HR><A NAME="get_max_position_1st"></A>
+<H3>get_max_position_1st</H3><PRE>          <B>get_max_position_1st</B>( p_sign IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the first new position value used for the current number level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_sign</CODE> - - the sign for the coordinate, either positive or negative. 0 is considered as positive.</DD></DT><DT><B>Returns:</B><DD>The maximum current position +/- 1.</DD></DT></DL></DD></DL><HR><A NAME="get_max_position_2nd"></A>
+<H3>get_max_position_2nd</H3><PRE>          <B>get_max_position_2nd</B>( p_sign IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the second new position value used for the current number level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_sign</CODE> - - the sign for the coordinate, either positive or negative. 0 is considered as positive.</DD></DT><DT><B>Returns:</B><DD>The maximum current position +/- 2.</DD></DT></DL></DD></DL><HR><A NAME="get_number_level"></A>
+<H3>get_number_level</H3><PRE>          <B>get_number_level</B>( p_string IN usim_poi_dim_position . usim_coords % TYPE , p_position IN NUMBER ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the nth level of a coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD><DD><CODE>p_position</CODE> - - the position of the extract value, first position = 0, any value below 0 is treated as first position.</DD></DT><DT><B>Returns:</B><DD>The level for the given position or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_seq_currval"></A>
+<H3>get_seq_currval</H3><PRE>          <B>get_seq_currval</B>( p_sequence_name IN VARCHAR2 ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Retrieves the current value of a given sequence or NULL if sequence does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    In case the sequence ist not initialized yet, will execute a NEXTVAL on the sequence, to retrieve a valid value.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_sequence_name</CODE> - - the name of the sequence to get the current value from.</DD></DT><DT><B>Returns:</B><DD>The current value of the sequence.</DD></DT></DL></DD></DL><HR><A NAME="get_x"></A>
+<H3>get_x</H3><PRE>          <B>get_x</B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coordinate % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the x coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD></DT><DT><B>Returns:</B><DD>The coordinate for the x axis as USIM_COORDINATE type or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_x_level"></A>
+<H3>get_x_level</H3><PRE>          <B>get_x_level</B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coord_level % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the number level of the x coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD></DT><DT><B>Returns:</B><DD>The number level for the x axis as USIM_COORD_LEVEL type or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_y"></A>
+<H3>get_y</H3><PRE>          <B>get_y</B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coordinate % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the y coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD></DT><DT><B>Returns:</B><DD>The coordinate for the y axis as USIM_COORDINATE type or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_y_level"></A>
+<H3>get_y_level</H3><PRE>          <B>get_y_level</B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coord_level % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the number level of the y coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD></DT><DT><B>Returns:</B><DD>The number level for the y axis as USIM_COORD_LEVEL type or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_z"></A>
+<H3>get_z</H3><PRE>          <B>get_z</B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coordinate % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the z coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    this would cause overflow of numbers supported by the system.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD></DT><DT><B>Returns:</B><DD>The coordinate for the z axis as USIM_COORDINATE type or 0.</DD></DT></DL></DD></DL><HR><A NAME="get_z_level"></A>
+<H3>get_z_level</H3><PRE>          <B>get_z_level</B>( p_usim_coords IN usim_poi_dim_position . usim_coords % TYPE ) RETURN usim_position . usim_coord_level % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Extracts the number level of the z coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords</CODE> - - the usim_coords string representing the coordinates over all supported dimensions, comma separated.</DD></DT><DT><B>Returns:</B><DD>The number level for the z axis as USIM_COORD_LEVEL type or 0.</DD></DT></DL></DD></DL><HR><A NAME="insert_position"></A>
+<H3>insert_position</H3><PRE>          <B>insert_position</B>( p_usim_coordinate IN usim_position . usim_coordinate % TYPE ) RETURN VARCHAR2 ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Handle level on possible numeric overflows for coordinates.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If a coordinate reaches the max for numbers, the level is raised.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Will only insert the coordinate, if it does not exist yet. The level assumed for insert is the current level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coordinate</CODE> - - the new coordinate to insert.</DD></DT><DT><B>Returns:</B><DD>The new id for this position or the id found for this position.</DD></DT></DL></DD></DL><HR><A NAME="last_planck_time"></A>
+<H3>last_planck_time</H3><PRE>          <B>last_planck_time</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Retrieves the last planck time before the current as a planck time big id.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Returns:</B><DD>The last planck time before the current.</DD></DT></DL></DD></DL><HR><A NAME="next_planck_time"></A>
+<H3>next_planck_time</H3><PRE>          <B>next_planck_time</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Updates current planck time to retrieve a new planck time big id.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Returns:</B><DD>The new current planck time.</DD></DT></DL></DD></DL><HR><A NAME="vector_distance"></A>
+<H3>vector_distance</H3><PRE>          <B>vector_distance</B>( p_usim_coords1 IN usim_poi_dim_position . usim_coords % TYPE , p_usim_coords2 IN usim_poi_dim_position . usim_coords % TYPE ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Calculates the euclidian distance between two point coordinates.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Ignores the dimension, draws and measures an imaginary line between the points.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    If number levels have a difference > 1 the result will always be 0.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_coords1</CODE> - - the usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.</DD><DD><CODE>p_usim_coords2</CODE> - - the usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.</DD></DT><DT><B>Returns:</B><DD>The euclidian distance between both vectors or 0.</DD></DT></DL></DD></DL><HR><A NAME="wavelength"></A>
+<H3>wavelength</H3><PRE>          <B>wavelength</B>( p_usim_angular_frequency IN NUMBER , p_usim_velocity IN NUMBER DEFAULT 1 ) RETURN NUMBER ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Not implemented yet<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <DD><DL></DL></DD></DL><HR><TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE></div>
+</div>
+<div id="Master.1">
+<div class="masterreport">
+<table id="Table.0" cellpadding="0" cellspacing="0" summary="">
+<th>NAME</th>
+<th>VALUE</th>
+</tr>
+<tr>
+<td>OWNER</td>
+<td>USIM</td>
+</tr>
+<tr>
+<td>OBJECT_NAME</td>
+<td>USIM_UTILITY</td>
+</tr>
+<tr>
+<td>SUBOBJECT_NAME</td>
+<td>null</td>
+</tr>
+<tr>
+<td>OBJECT_ID</td>
+<td>80515</td>
+</tr>
+<tr>
+<td>DATA_OBJECT_ID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>OBJECT_TYPE</td>
+<td>PACKAGE</td>
+</tr>
+<tr>
+<td>CREATED</td>
+<td>26.05.2023&nbsp;22:56:14</td>
+</tr>
+<tr>
+<td>LAST_DDL_TIME</td>
+<td>30.05.2023&nbsp;00:00:26</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>2023-05-30:00:00:26</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>VALID</td>
+</tr>
+<tr>
+<td>TEMPORARY</td>
+<td>N</td>
+</tr>
+<tr>
+<td>GENERATED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>SECONDARY</td>
+<td>N</td>
+</tr>
+<tr>
+<td>NAMESPACE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>EDITION_NAME</td>
+<td>null</td>
+</tr>
+<tr>
+<td>SHARING</td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>EDITIONABLE</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>ORACLE_MAINTAINED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>APPLICATION</td>
+<td>N</td>
+</tr>
+<tr>
+<td>DEFAULT_COLLATION</td>
+<td>USING_NLS_COMP</td>
+</tr>
+<tr>
+<td>DUPLICATED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>SHARDED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>IMPORTED_OBJECT</td>
+<td>N</td>
+</tr>
+<tr>
+<td>CREATED_APPID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>CREATED_VSNID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>MODIFIED_APPID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>MODIFIED_VSNID</td>
+<td>null</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.2">
+<div class="masterreport">
+<table id="Table.1" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>PRIVILEGE</th>
+<th>GRANTEE</th>
+<th>GRANTABLE</th>
+<th>GRANTOR</th>
+<th>OBJECT_NAME</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.3">
+<div class="masterreport">
+<table id="Table.2" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>NAME</th>
+<th>OWNER</th>
+<th>TYPE</th>
+<th>OBJECT_ID</th>
+<th>STATUS</th>
+<th>TYPE_LINK</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.4">
+<div class="masterreport">
+<table id="Table.3" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>NAME</th>
+<th>OWNER</th>
+<th>TYPE</th>
+<th>OBJECT_ID</th>
+<th>STATUS</th>
+<th>TYPE_LINK</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.5">
+<div class="masterreport">
+<pre>
+PACKAGE usim_utility IS
+  /**
+  * Package containing utility functions and procedures
+  * To be used in views. Create package before view creation.
+  */
+
+  /**
+  * Extracts a coordinate substring from a coords string containing a defined delimiter at
+  * the desired position. Ignores portions of the string that are surrounded
+  * by the given ignore delimiters, like relative number levels.
+  * @param p_string - the string with delimiters to extract a value from.
+  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @param p_delimiter - the delimiter used in the string, defaults to a comma ",".
+  * @param p_ignore_start - the start delimiter for levels to ignore, defaults to an open bracket "(".
+  * @param p_ignore_end - the end delimiter for levels to ignore, defaults to an closing bracket ")".
+  * @return The extracted substring or NULL if delimiters not found as expected.
+  */
+  FUNCTION extract_coordinate( p_string         IN usim_poi_dim_position.usim_coords%TYPE
+                             , p_position       IN NUMBER
+                             , p_delimiter      IN VARCHAR2 DEFAULT ','
+                             , p_ignore_start   IN VARCHAR2 DEFAULT '('
+                             , p_ignore_end     IN VARCHAR2 DEFAULT ')'
+                             )
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Extracts a number level substring from a coords string containing a defined delimiter at
+  * the desired position. Ignores coordinate portions of the string.
+  * @param p_string - the string with delimiters to extract a value from.
+  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @param p_delimiter - the delimiter used in the string, defaults to a comma ",".
+  * @param p_level_start - the start delimiter for levels, defaults to an open bracket "(".
+  * @param p_level_end - the end delimiter for levels, defaults to an closing bracket ")".
+  * @return The extracted substring or NULL if no level delimiters are found.
+  */
+  FUNCTION extract_number_level( p_string         IN usim_poi_dim_position.usim_coords%TYPE
+                               , p_position       IN NUMBER
+                               , p_delimiter      IN VARCHAR2 DEFAULT ','
+                               , p_level_start    IN VARCHAR2 DEFAULT '('
+                               , p_level_end      IN VARCHAR2 DEFAULT ')'
+                               )
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Extracts the nth coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
+  * this would cause overflow of numbers supported by the system.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @return The coordinate for the given position or 0.
+  */
+  FUNCTION get_coordinate( p_string         IN usim_poi_dim_position.usim_coords%TYPE
+                         , p_position       IN NUMBER
+                         )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Extracts the nth level of a coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @return The level for the given position or 0.
+  */
+  FUNCTION get_number_level( p_string         IN usim_poi_dim_position.usim_coords%TYPE
+                           , p_position       IN NUMBER
+                           )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Extracts the x coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
+  * this would cause overflow of numbers supported by the system.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @return The coordinate for the x axis as USIM_COORDINATE type or 0.
+  */
+  FUNCTION get_x(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+  /**
+  * Extracts the number level of the x coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @return The number level for the x axis as USIM_COORD_LEVEL type or 0.
+  */
+  FUNCTION get_x_level(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
+    RETURN usim_position.usim_coord_level%TYPE
+  ;
+
+  /**
+  * Extracts the y coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
+  * this would cause overflow of numbers supported by the system.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @return The coordinate for the y axis as USIM_COORDINATE type or 0.
+  */
+  FUNCTION get_y(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+  /**
+  * Extracts the number level of the y coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @return The number level for the y axis as USIM_COORD_LEVEL type or 0.
+  */
+  FUNCTION get_y_level(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
+    RETURN usim_position.usim_coord_level%TYPE
+  ;
+
+  /**
+  * Extracts the z coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
+  * this would cause overflow of numbers supported by the system.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @return The coordinate for the z axis as USIM_COORDINATE type or 0.
+  */
+  FUNCTION get_z(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+  /**
+  * Extracts the number level of the z coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
+  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @return The number level for the z axis as USIM_COORD_LEVEL type or 0.
+  */
+  FUNCTION get_z_level(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
+    RETURN usim_position.usim_coord_level%TYPE
+  ;
+
+  /**
+  * Updates current planck time to retrieve a new planck time big id.
+  * @return The new current planck time.
+  */
+  FUNCTION next_planck_time
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Retrieves the current planck time as a planck time big id.
+  * @return The current planck time.
+  */
+  FUNCTION current_planck_time
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Retrieves the last planck time before the current as a planck time big id.
+  * @return The last planck time before the current.
+  */
+  FUNCTION last_planck_time
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Retrieves the current value of a given sequence or NULL if sequence does not exist.
+  * In case the sequence ist not initialized yet, will execute a NEXTVAL on the sequence, to retrieve a valid value.
+  * @param p_sequence_name - the name of the sequence to get the current value from.
+  * @return The current value of the sequence.
+  */
+  FUNCTION get_seq_currval(p_sequence_name IN VARCHAR2)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Calculates the difference from relative position to relative position.
+  * To overcome number limitation for point positions MAX(NUMBER(38, 0)) every
+  * position has a relative factor/level for the number space it is in. Producing MAX^MAX numbers.
+  * As positions are build on pairs of coordinates, the differences between the real numbers
+  * having different number spaces should be very small. Energy flows only within its point
+  * structure, not between point structures. Of course at the nodes of point
+  * structures, the parent point structure is impacted.
+  * Limitation is that level difference &lt;= 1, otherwise there is no way to express the difference
+  * in supported numbers. If the level difference is > 1 than the result of the difference will
+  * always be 0, means this points are unreachable and no energy calculation is done for this points.
+  *
+  * Example:
+  * Limitation numbers 99 = max value
+  * Level difference max = 1
+  * So 98(1) - 2(2) equals (98 - MAX) - 2 = (98-99) - 2 = -1 - 2 = -3
+  *
+  * @param p_usim_coords1 - the usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.
+  * @param p_usim_coords2 - the usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.
+  * @return The difference of the coordinate values considering number level or 0.
+  */
+  FUNCTION coords_diff( p_usim_coords1  IN usim_poi_dim_position.usim_coords%TYPE
+                      , p_usim_coords2  IN usim_poi_dim_position.usim_coords%TYPE
+                      )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Calculates the euclidian distance between two point coordinates.
+  * Ignores the dimension, draws and measures an imaginary line between the points.
+  * If number levels have a difference > 1 the result will always be 0.
+  * @param p_usim_coords1 - the usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.
+  * @param p_usim_coords2 - the usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.
+  * @return The euclidian distance between both vectors or 0.
+  */
+  FUNCTION vector_distance( p_usim_coords1  IN usim_poi_dim_position.usim_coords%TYPE
+                          , p_usim_coords2  IN usim_poi_dim_position.usim_coords%TYPE
+                          )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Determines the energy force for two points, interpreting energy as mass.
+  * F = (e1*e2)/distance^2
+  * Special cases are distance 0 which means either, source and target are the same
+  * so we only set the value (Universe Seed) or point is unreachable far away.
+  * If parent of source is NULL we interact with the Universe Seed, which will react
+  * with positive and negative energy, depending on the target. Sign is derived from
+  * position (usim_coordinate).
+  * @param p_usim_energy_source - the source energy.
+  * @param p_usim_energy_target - the target energy.
+  * @param p_usim_distance - the distance between the two points.
+  * @param p_usim_target_sign - the sign of usim_coordinate of the target.
+  * @param p_usim_gravitation_constant - the gravitational constant valid for the target.
+  * @return The force acting evenly distributed on source and target.
+  */
+  FUNCTION energy_force( p_usim_energy_source         IN usim_point.usim_energy%TYPE
+                       , p_usim_energy_target         IN usim_point.usim_energy%TYPE
+                       , p_usim_distance              IN NUMBER
+                       , p_usim_target_sign           IN NUMBER
+                       , p_usim_gravitation_constant  IN NUMBER
+                       )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Handle level on possible numeric overflows for coordinates.
+  * If a coordinate reaches the max for numbers, the level is raised.
+  * Will only insert the coordinate, if it does not exist yet. The level assumed for insert is the current level.
+  * @param p_usim_coordinate - the new coordinate to insert.
+  * @return The new id for this position or the id found for this position.
+  */
+  FUNCTION insert_position(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Get the maximum position value used for the current number level.
+  * @param p_sign - the sign for the coordinate, either positive or negative. 0 is considered as positive.
+  * @return The maximum current position for the current number level.
+  */
+  FUNCTION get_max_position(p_sign IN NUMBER DEFAULT 1)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Get the first new position value used for the current number level.
+  * @param p_sign - the sign for the coordinate, either positive or negative. 0 is considered as positive.
+  * @return The maximum current position +/- 1.
+  */
+  FUNCTION get_max_position_1st(p_sign IN NUMBER DEFAULT 1)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Get the second new position value used for the current number level.
+  * @param p_sign - the sign for the coordinate, either positive or negative. 0 is considered as positive.
+  * @return The maximum current position +/- 2.
+  */
+  FUNCTION get_max_position_2nd(p_sign IN NUMBER DEFAULT 1)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Not implemented yet
+  */
+  FUNCTION amplitude( p_usim_energy_source      IN usim_point.usim_energy%TYPE
+                    , p_usim_angular_frequency  IN NUMBER
+                    )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Not implemented yet
+  */
+  FUNCTION wavelength( p_usim_angular_frequency   IN NUMBER
+                     , p_usim_velocity            IN NUMBER DEFAULT 1
+                     )
+    RETURN NUMBER
+  ;
+END usim_utility;
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -5,6 +5,8 @@ DROP PACKAGE BODY usim_utility;
 DROP PACKAGE usim_utility;
 DROP PACKAGE BODY usim_ctrl;
 DROP PACKAGE usim_ctrl;
+DROP PACKAGE BODY usim_debug;
+DROP PACKAGE usim_debug;
 
 -- drop sequences
 DROP SEQUENCE usim_dim_id_seq;
@@ -17,6 +19,7 @@ DROP SEQUENCE usim_pdc_id_seq;
 DROP SEQUENCE usim_planck_time_seq;
 DROP SEQUENCE usim_outp_id_seq;
 DROP SEQUENCE usim_phis_id_seq;
+DROP SEQUENCE usim_dlg_id_seq;
 -- drop foreign key constraints
 ALTER TABLE usim_pdp_parent DROP CONSTRAINT usim_pdr_pdp_fk;
 ALTER TABLE usim_pdp_parent DROP CONSTRAINT usim_pdr_parent_fk;
@@ -40,6 +43,8 @@ DROP TABLE usim_dimension PURGE;
 DROP TABLE usim_output PURGE;
 DROP TABLE usim_poi_history PURGE;
 DROP TABLE usim_planck_time PURGE;
+DROP TABLE usim_debug_log PURGE;
+DROP TABLE usim_levels PURGE;
 -- views
 DROP VIEW usim_poi_dim_position_v;
 DROP VIEW usim_point_insert_v;

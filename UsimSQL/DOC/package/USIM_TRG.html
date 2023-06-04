@@ -1,0 +1,434 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script src="USIM_TRG/report.js" type="text/javascript"></script>
+<link href="USIM_TRG/report.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="banner">
+<table width="98%"><tr>
+<td><h2 class="banner">USIM_TRG</h2></td>
+</tr></table></div>
+<div id="maintabs">
+<div class="currentmaintab" onclick="onSelectMainTab(this, 0)">
+<div>
+<p>Doc</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 1)">
+<div>
+<p>Details</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 2)">
+<div>
+<p>Grants</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 3)">
+<div>
+<p>References</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 4)">
+<div>
+<p>Dependencies</p>
+</div>
+</div>
+<div class="maintab" onclick="onSelectMainTab(this, 5)">
+<div>
+<p>Code</p>
+</div>
+</div>
+</div>
+<br/>
+<div id="masterreports">
+<div id="Master.0">
+<div class="currentmasterreport">
+<TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P> A package for use with instead of triggers<BR>     providing trigger conform functions and procedures.<BR>     Will raise application errors if trigger requirements are<BR>     not fulfilled.<BR>     Create the package before creating instead of triggers which<BR>     use this package.<BR>   </P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#chk_parent_childs">chk_parent_childs</A></B>( p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE , p_usim_id_psc IN usim_poi_structure . usim_id_psc % TYPE ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_TRG.CHK_PARENT_CHILDS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Verfiy that parent has no more than maximum childs as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     defined in USIM_STATIC.GET_MAX_CHILDS.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id to check the childs for, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PSC      - the point structure assigned to the childs, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20202 Given parent ID (x) has already the maximum of allowed childs.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#chk_parent_dimension">chk_parent_dimension</A></B>( p_usim_id_dim IN usim_dimension . usim_id_dim % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_TRG.CHK_PARENT_DIMENSION<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Verfiy that dimension for a given parent is correct.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Dimension = Parent dimension + 1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_DIM      - the child dimension to check, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id to check the dimension, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20102 Given child dimension (x) does not match parent dimension (y) + 1.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20103 Given dimension (x) must be 0 if point has no parent.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_usim_abs_coords">get_usim_abs_coords</A></B>( p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) RETURN usim_poi_dim_position . usim_coords % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ABS_COORDS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Builds the usim_coords string, all absolute positions in current and all subsequent dimensions<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     as a comma separated list.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Coords are created for every point, so the parent always contains the complete<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     subset of the lower dimensions.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the current position of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ABS_COORDS for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_usim_coords">get_usim_coords</A></B>( p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) RETURN usim_poi_dim_position . usim_coords % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_COORDS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Builds the usim_coords string, all positions in current and all subsequent dimensions<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     as a comma separated list.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Coords are created for every point, so the parent always contains the complete<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     subset of the lower dimensions.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the current position of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_COORDS for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_usim_id_dim">get_usim_id_dim</A></B>( p_usim_id_dim IN usim_dimension . usim_id_dim % TYPE , p_usim_dimension IN usim_dimension . usim_n_dimension % TYPE ) RETURN usim_dimension . usim_id_dim % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_DIM<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get and check the USIM_ID_DIM either by id or dimension.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     One of the given values must match to identiy the USIM_ID_DIM.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Code uses USIM_ID_DIM, if both values are given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_DIM      - the USIM_ID_DIM to check, can be NULL if USIM_DIMENSION is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_DIMENSION   - the USIM_DIMENSION to get the id for, can be NULL if USIM_ID_DIM<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                          is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_DIM for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20100 Given dimension ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20101 Given dimension (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_usim_id_parent">get_usim_id_parent</A></B>( p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) RETURN usim_poi_dim_position . usim_id_pdp % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_PARENT<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get and check the USIM_ID_PARENT. NULL is only allowed for one point<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     in the whole point structures. Only one point allowed without parent.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the USIM_ID_PARENT to check, can be NULL if no point without parent exists.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_PARENT for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20200 Given parent point ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20201 A basic seed point already exists. USIM_ID_PARENT cannot be NULL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_usim_id_pos">get_usim_id_pos</A></B>( p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_coordinate IN usim_position . usim_coordinate % TYPE ) RETURN usim_position . usim_id_pos % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_POS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get, check and optionally create the USIM_ID_POS. Either USIM_ID_POS or<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     USIM_COORDINATE has to be given. If USIM_ID_POS is given, it must exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Code uses P_USIM_COORDINATE is both values are given. Will insert not<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     existing coordinates at current level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the position id to check, can be NULL if P_USIM_COORDINATE is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_COORDINATE  - the position to check or create, if it does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_POS for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20300 Given position ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_usim_id_psc">get_usim_id_psc</A></B>( p_usim_id_psc IN usim_poi_structure . usim_id_psc % TYPE , p_usim_point_name IN usim_poi_structure . usim_point_name % TYPE ) RETURN usim_poi_structure . usim_id_psc % TYPE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_PSC<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get, check and optionally create a point structure. Either USIM_ID_PSC or<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     USIM_POINT_NAME has to be given. If USIM_ID_POS is given, it must exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Code uses P_USIM_POINT_NAME is both values are given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PSC      - the point structure id to check, can be NULL if P_USIM_POINT_NAME is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_POINT_NAME  - the point structure to check or create, if it does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_PSC for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20400 Given point structure ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#insert_point">insert_point</A></B>( p_usim_id_dim IN usim_dimension . usim_id_dim % TYPE , p_usim_dimension IN usim_dimension . usim_n_dimension % TYPE , p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_coordinate IN usim_position . usim_coordinate % TYPE , p_usim_id_psc IN usim_poi_structure . usim_id_psc % TYPE , p_usim_point_name IN usim_poi_structure . usim_point_name % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_TRG.INSERT_POINT<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Used in the instead of trigger USIM_POIV_INSERT_TRG from USIM_POINT_INSERT_V.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     On insert attributes, like energy, amplitude and wavelength are always set to NULL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_DIM      - the USIM_ID_DIM from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_DIMENSION   - the USIM_DIMENSION from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the USIM_ID_POS from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_COORDINATE  - the USIM_COORDINATE from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PSC      - the USIM_ID_PSC from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_POINT_NAME  - the USIM_POINT_NAME from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the USIM_ID_PARENT from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20100 Given dimension ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20101 Given dimension (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20102 Given child dimension (x) does not match parent dimension (y) + 1.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20103 Given dimension (x) must be 0 if point has no parent.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20200 Given parent point ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20201 A basic seed point already exists. USIM_ID_PARENT cannot be NULL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20202 Given parent ID (x) has already the maximum of allowed childs.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20300 Given position ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20400 Given point structure ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+</TABLE>
+<P></P><A NAME="method_detail"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Detail</B></FONT></TD></TABLE><A NAME="chk_parent_childs"></A>
+<H3>chk_parent_childs</H3><PRE>          <B>chk_parent_childs</B>( p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE , p_usim_id_psc IN usim_poi_structure . usim_id_psc % TYPE ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_TRG.CHK_PARENT_CHILDS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Verfiy that parent has no more than maximum childs as<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     defined in USIM_STATIC.GET_MAX_CHILDS.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id to check the childs for, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PSC      - the point structure assigned to the childs, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20202 Given parent ID (x) has already the maximum of allowed childs.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="chk_parent_dimension"></A>
+<H3>chk_parent_dimension</H3><PRE>          <B>chk_parent_dimension</B>( p_usim_id_dim IN usim_dimension . usim_id_dim % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_TRG.CHK_PARENT_DIMENSION<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Verfiy that dimension for a given parent is correct.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Dimension = Parent dimension + 1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_DIM      - the child dimension to check, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id to check the dimension, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20102 Given child dimension (x) does not match parent dimension (y) + 1.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20103 Given dimension (x) must be 0 if point has no parent.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="get_usim_abs_coords"></A>
+<H3>get_usim_abs_coords</H3><PRE>          <B>get_usim_abs_coords</B>( p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) RETURN usim_poi_dim_position . usim_coords % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ABS_COORDS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Builds the usim_coords string, all absolute positions in current and all subsequent dimensions<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     as a comma separated list.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Coords are created for every point, so the parent always contains the complete<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     subset of the lower dimensions.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the current position of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ABS_COORDS for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="get_usim_coords"></A>
+<H3>get_usim_coords</H3><PRE>          <B>get_usim_coords</B>( p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) RETURN usim_poi_dim_position . usim_coords % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_COORDS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Builds the usim_coords string, all positions in current and all subsequent dimensions<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     as a comma separated list.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Coords are created for every point, so the parent always contains the complete<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     subset of the lower dimensions.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the current position of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the parent id of the point, MANDATORY.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_COORDS for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="get_usim_id_dim"></A>
+<H3>get_usim_id_dim</H3><PRE>          <B>get_usim_id_dim</B>( p_usim_id_dim IN usim_dimension . usim_id_dim % TYPE , p_usim_dimension IN usim_dimension . usim_n_dimension % TYPE ) RETURN usim_dimension . usim_id_dim % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_DIM<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get and check the USIM_ID_DIM either by id or dimension.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     One of the given values must match to identiy the USIM_ID_DIM.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Code uses USIM_ID_DIM, if both values are given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_DIM      - the USIM_ID_DIM to check, can be NULL if USIM_DIMENSION is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_DIMENSION   - the USIM_DIMENSION to get the id for, can be NULL if USIM_ID_DIM<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                          is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_DIM for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20100 Given dimension ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20101 Given dimension (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="get_usim_id_parent"></A>
+<H3>get_usim_id_parent</H3><PRE>          <B>get_usim_id_parent</B>( p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) RETURN usim_poi_dim_position . usim_id_pdp % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_PARENT<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get and check the USIM_ID_PARENT. NULL is only allowed for one point<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     in the whole point structures. Only one point allowed without parent.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the USIM_ID_PARENT to check, can be NULL if no point without parent exists.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_PARENT for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20200 Given parent point ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20201 A basic seed point already exists. USIM_ID_PARENT cannot be NULL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="get_usim_id_pos"></A>
+<H3>get_usim_id_pos</H3><PRE>          <B>get_usim_id_pos</B>( p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_coordinate IN usim_position . usim_coordinate % TYPE ) RETURN usim_position . usim_id_pos % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_POS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get, check and optionally create the USIM_ID_POS. Either USIM_ID_POS or<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     USIM_COORDINATE has to be given. If USIM_ID_POS is given, it must exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Code uses P_USIM_COORDINATE is both values are given. Will insert not<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     existing coordinates at current level.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the position id to check, can be NULL if P_USIM_COORDINATE is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_COORDINATE  - the position to check or create, if it does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_POS for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20300 Given position ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="get_usim_id_psc"></A>
+<H3>get_usim_id_psc</H3><PRE>          <B>get_usim_id_psc</B>( p_usim_id_psc IN usim_poi_structure . usim_id_psc % TYPE , p_usim_point_name IN usim_poi_structure . usim_point_name % TYPE ) RETURN usim_poi_structure . usim_id_psc % TYPE ; </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_TRG.GET_USIM_ID_PSC<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Get, check and optionally create a point structure. Either USIM_ID_PSC or<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     USIM_POINT_NAME has to be given. If USIM_ID_POS is given, it must exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Code uses P_USIM_POINT_NAME is both values are given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PSC      - the point structure id to check, can be NULL if P_USIM_POINT_NAME is given.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_POINT_NAME  - the point structure to check or create, if it does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     The USIM_ID_PSC for the given parameter.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20400 Given point structure ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="insert_point"></A>
+<H3>insert_point</H3><PRE>          <B>insert_point</B>( p_usim_id_dim IN usim_dimension . usim_id_dim % TYPE , p_usim_dimension IN usim_dimension . usim_n_dimension % TYPE , p_usim_id_pos IN usim_position . usim_id_pos % TYPE , p_usim_coordinate IN usim_position . usim_coordinate % TYPE , p_usim_id_psc IN usim_poi_structure . usim_id_psc % TYPE , p_usim_point_name IN usim_poi_structure . usim_point_name % TYPE , p_usim_id_parent IN usim_poi_dim_position . usim_id_pdp % TYPE ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_TRG.INSERT_POINT<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Used in the instead of trigger USIM_POIV_INSERT_TRG from USIM_POINT_INSERT_V.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     On insert attributes, like energy, amplitude and wavelength are always set to NULL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Parameter<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_DIM      - the USIM_ID_DIM from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_DIMENSION   - the USIM_DIMENSION from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_POS      - the USIM_ID_POS from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_COORDINATE  - the USIM_COORDINATE from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PSC      - the USIM_ID_PSC from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_POINT_NAME  - the USIM_POINT_NAME from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     P_USIM_ID_PARENT   - the USIM_ID_PARENT from the insert.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     THROWS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20100 Given dimension ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20101 Given dimension (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20102 Given child dimension (x) does not match parent dimension (y) + 1.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20103 Given dimension (x) must be 0 if point has no parent.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20200 Given parent point ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20201 A basic seed point already exists. USIM_ID_PARENT cannot be NULL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20202 Given parent ID (x) has already the maximum of allowed childs.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20300 Given position ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     -20400 Given point structure ID (x) does not exist.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE></div>
+</div>
+<div id="Master.1">
+<div class="masterreport">
+<table id="Table.0" cellpadding="0" cellspacing="0" summary="">
+<th>NAME</th>
+<th>VALUE</th>
+</tr>
+<tr>
+<td>OWNER</td>
+<td>USIM</td>
+</tr>
+<tr>
+<td>OBJECT_NAME</td>
+<td>USIM_TRG</td>
+</tr>
+<tr>
+<td>SUBOBJECT_NAME</td>
+<td>null</td>
+</tr>
+<tr>
+<td>OBJECT_ID</td>
+<td>80258</td>
+</tr>
+<tr>
+<td>DATA_OBJECT_ID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>OBJECT_TYPE</td>
+<td>PACKAGE</td>
+</tr>
+<tr>
+<td>CREATED</td>
+<td>26.05.2023&nbsp;22:56:14</td>
+</tr>
+<tr>
+<td>LAST_DDL_TIME</td>
+<td>26.05.2023&nbsp;22:56:14</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>2023-05-26:22:56:14</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>VALID</td>
+</tr>
+<tr>
+<td>TEMPORARY</td>
+<td>N</td>
+</tr>
+<tr>
+<td>GENERATED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>SECONDARY</td>
+<td>N</td>
+</tr>
+<tr>
+<td>NAMESPACE</td>
+<td>1</td>
+</tr>
+<tr>
+<td>EDITION_NAME</td>
+<td>null</td>
+</tr>
+<tr>
+<td>SHARING</td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>EDITIONABLE</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>ORACLE_MAINTAINED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>APPLICATION</td>
+<td>N</td>
+</tr>
+<tr>
+<td>DEFAULT_COLLATION</td>
+<td>USING_NLS_COMP</td>
+</tr>
+<tr>
+<td>DUPLICATED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>SHARDED</td>
+<td>N</td>
+</tr>
+<tr>
+<td>IMPORTED_OBJECT</td>
+<td>N</td>
+</tr>
+<tr>
+<td>CREATED_APPID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>CREATED_VSNID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>MODIFIED_APPID</td>
+<td>null</td>
+</tr>
+<tr>
+<td>MODIFIED_VSNID</td>
+<td>null</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.2">
+<div class="masterreport">
+<table id="Table.1" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>PRIVILEGE</th>
+<th>GRANTEE</th>
+<th>GRANTABLE</th>
+<th>GRANTOR</th>
+<th>OBJECT_NAME</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.3">
+<div class="masterreport">
+<table id="Table.2" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>NAME</th>
+<th>OWNER</th>
+<th>TYPE</th>
+<th>OBJECT_ID</th>
+<th>STATUS</th>
+<th>TYPE_LINK</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.4">
+<div class="masterreport">
+<table id="Table.3" cellpadding="0" cellspacing="0" summary="">
+<tr>
+<th>NAME</th>
+<th>OWNER</th>
+<th>TYPE</th>
+<th>OBJECT_ID</th>
+<th>STATUS</th>
+<th>TYPE_LINK</th>
+</tr>
+</table>
+</div>
+</div>
+<div id="Master.5">
+<div class="masterreport">
+<pre>
+PACKAGE usim_trg IS
+  /* A package for use with instead of triggers
+   * providing trigger conform functions and procedures.
+   * Will raise application errors if trigger requirements are
+   * not fulfilled.
+   * Create the package before creating instead of triggers which
+   * use this package.
+   */
+
+  /* Function USIM_TRG.GET_USIM_ID_DIM
+   * Get and check the USIM_ID_DIM either by id or dimension.
+   * One of the given values must match to identiy the USIM_ID_DIM.
+   * Code uses USIM_ID_DIM, if both values are given.
+   *
+   * Parameter
+   * P_USIM_ID_DIM      - the USIM_ID_DIM to check, can be NULL if USIM_DIMENSION is given.
+   * P_USIM_DIMENSION   - the USIM_DIMENSION to get the id for, can be NULL if USIM_ID_DIM
+   *                      is given.
+   *
+   * RETURNS
+   * The USIM_ID_DIM for the given parameter.
+   *
+   * THROWS
+   * -20100 Given dimension ID (x) does not exist.
+   * -20101 Given dimension (x) does not exist.
+   */
+  FUNCTION get_usim_id_dim( p_usim_id_dim             IN usim_dimension.usim_id_dim%TYPE
+                          , p_usim_dimension          IN usim_dimension.usim_n_dimension%TYPE
+                          )
+    RETURN usim_dimension.usim_id_dim%TYPE
+  ;
+
+  /* Function USIM_TRG.GET_USIM_ID_PARENT
+   * Get and check the USIM_ID_PARENT. NULL is only allowed for one point
+   * in the whole point structures. Only one point allowed without parent.
+   *
+   * Parameter
+   * P_USIM_ID_PARENT   - the USIM_ID_PARENT to check, can be NULL if no point without parent exists.
+   *
+   * RETURNS
+   * The USIM_ID_PARENT for the given parameter.
+   *
+   * THROWS
+   * -20200 Given parent point ID (x) does not exist.
+   * -20201 A basic seed point already exists. USIM_ID_PARENT cannot be NULL.
+   */
+  FUNCTION get_usim_id_parent(p_usim_id_parent        IN usim_poi_dim_position.usim_id_pdp%TYPE)
+    RETURN usim_poi_dim_position.usim_id_pdp%TYPE
+  ;
+
+  /* Procedure USIM_TRG.CHK_PARENT_DIMENSION
+   * Verfiy that dimension for a given parent is correct.
+   * Dimension = Parent dimension + 1
+   *
+   * Parameter
+   * P_USIM_ID_DIM      - the child dimension to check, MANDATORY.
+   * P_USIM_ID_PARENT   - the parent id to check the dimension, MANDATORY.
+   *
+   * THROWS
+   * -20102 Given child dimension (x) does not match parent dimension (y) + 1.
+   * -20103 Given dimension (x) must be 0 if point has no parent.
+   */
+  PROCEDURE chk_parent_dimension( p_usim_id_dim       IN usim_dimension.usim_id_dim%TYPE
+                                , p_usim_id_parent    IN usim_poi_dim_position.usim_id_pdp%TYPE
+                                )
+  ;
+
+  /* Function USIM_TRG.GET_USIM_ID_POS
+   * Get, check and optionally create the USIM_ID_POS. Either USIM_ID_POS or
+   * USIM_COORDINATE has to be given. If USIM_ID_POS is given, it must exist.
+   * Code uses P_USIM_COORDINATE is both values are given. Will insert not
+   * existing coordinates at current level.
+   *
+   * Parameter
+   * P_USIM_ID_POS      - the position id to check, can be NULL if P_USIM_COORDINATE is given.
+   * P_USIM_COORDINATE  - the position to check or create, if it does not exist.
+   *
+   * RETURNS
+   * The USIM_ID_POS for the given parameter.
+   *
+   * THROWS
+   * -20300 Given position ID (x) does not exist.
+   */
+  FUNCTION get_usim_id_pos( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
+                          , p_usim_coordinate         IN usim_position.usim_coordinate%TYPE
+                          )
+    RETURN usim_position.usim_id_pos%TYPE
+  ;
+
+  /* Function USIM_TRG.GET_USIM_ID_PSC
+   * Get, check and optionally create a point structure. Either USIM_ID_PSC or
+   * USIM_POINT_NAME has to be given. If USIM_ID_POS is given, it must exist.
+   * Code uses P_USIM_POINT_NAME is both values are given.
+   *
+   * Parameter
+   * P_USIM_ID_PSC      - the point structure id to check, can be NULL if P_USIM_POINT_NAME is given.
+   * P_USIM_POINT_NAME  - the point structure to check or create, if it does not exist.
+   *
+   * RETURNS
+   * The USIM_ID_PSC for the given parameter.
+   *
+   * THROWS
+   * -20400 Given point structure ID (x) does not exist.
+   */
+  FUNCTION get_usim_id_psc( p_usim_id_psc             IN usim_poi_structure.usim_id_psc%TYPE
+                          , p_usim_point_name         IN usim_poi_structure.usim_point_name%TYPE
+                          )
+    RETURN usim_poi_structure.usim_id_psc%TYPE
+  ;
+
+  /* Procedure USIM_TRG.CHK_PARENT_CHILDS
+   * Verfiy that parent has no more than maximum childs as
+   * defined in USIM_STATIC.GET_MAX_CHILDS.
+   *
+   * Parameter
+   * P_USIM_ID_PARENT   - the parent id to check the childs for, MANDATORY.
+   * P_USIM_ID_PSC      - the point structure assigned to the childs, MANDATORY.
+   *
+   * THROWS
+   * -20202 Given parent ID (x) has already the maximum of allowed childs.
+   */
+  PROCEDURE chk_parent_childs( p_usim_id_parent       IN usim_poi_dim_position.usim_id_pdp%TYPE
+                             , p_usim_id_psc          IN usim_poi_structure.usim_id_psc%TYPE
+                             )
+  ;
+
+  /* Function USIM_TRG.GET_USIM_COORDS
+   * Builds the usim_coords string, all positions in current and all subsequent dimensions
+   * as a comma separated list.
+   * Coords are created for every point, so the parent always contains the complete
+   * subset of the lower dimensions.
+   *
+   * Parameter
+   * P_USIM_ID_POS      - the current position of the point, MANDATORY.
+   * P_USIM_ID_PARENT   - the parent id of the point, MANDATORY.
+   *
+   * RETURNS
+   * The USIM_COORDS for the given parameter.
+   */
+  FUNCTION get_usim_coords( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
+                          , p_usim_id_parent          IN usim_poi_dim_position.usim_id_pdp%TYPE
+                          )
+    RETURN usim_poi_dim_position.usim_coords%TYPE
+  ;
+
+  /* Function USIM_TRG.GET_USIM_ABS_COORDS
+   * Builds the usim_coords string, all absolute positions in current and all subsequent dimensions
+   * as a comma separated list.
+   * Coords are created for every point, so the parent always contains the complete
+   * subset of the lower dimensions.
+   *
+   * Parameter
+   * P_USIM_ID_POS      - the current position of the point, MANDATORY.
+   * P_USIM_ID_PARENT   - the parent id of the point, MANDATORY.
+   *
+   * RETURNS
+   * The USIM_ABS_COORDS for the given parameter.
+   */
+  FUNCTION get_usim_abs_coords( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
+                              , p_usim_id_parent          IN usim_poi_dim_position.usim_id_pdp%TYPE
+                              )
+    RETURN usim_poi_dim_position.usim_coords%TYPE
+  ;
+  /* Procedure USIM_TRG.INSERT_POINT
+   * Used in the instead of trigger USIM_POIV_INSERT_TRG from USIM_POINT_INSERT_V.
+   * On insert attributes, like energy, amplitude and wavelength are always set to NULL.
+   *
+   * Parameter
+   * P_USIM_ID_DIM      - the USIM_ID_DIM from the insert.
+   * P_USIM_DIMENSION   - the USIM_DIMENSION from the insert.
+   * P_USIM_ID_POS      - the USIM_ID_POS from the insert.
+   * P_USIM_COORDINATE  - the USIM_COORDINATE from the insert.
+   * P_USIM_ID_PSC      - the USIM_ID_PSC from the insert.
+   * P_USIM_POINT_NAME  - the USIM_POINT_NAME from the insert.
+   * P_USIM_ID_PARENT   - the USIM_ID_PARENT from the insert.
+   *
+   * THROWS
+   * -20100 Given dimension ID (x) does not exist.
+   * -20101 Given dimension (x) does not exist.
+   * -20102 Given child dimension (x) does not match parent dimension (y) + 1.
+   * -20103 Given dimension (x) must be 0 if point has no parent.
+   * -20200 Given parent point ID (x) does not exist.
+   * -20201 A basic seed point already exists. USIM_ID_PARENT cannot be NULL.
+   * -20202 Given parent ID (x) has already the maximum of allowed childs.
+   * -20300 Given position ID (x) does not exist.
+   * -20400 Given point structure ID (x) does not exist.
+   */
+  PROCEDURE insert_point( p_usim_id_dim               IN usim_dimension.usim_id_dim%TYPE
+                        , p_usim_dimension            IN usim_dimension.usim_n_dimension%TYPE
+                        , p_usim_id_pos               IN usim_position.usim_id_pos%TYPE
+                        , p_usim_coordinate           IN usim_position.usim_coordinate%TYPE
+                        , p_usim_id_psc               IN usim_poi_structure.usim_id_psc%TYPE
+                        , p_usim_point_name           IN usim_poi_structure.usim_point_name%TYPE
+                        , p_usim_id_parent            IN usim_poi_dim_position.usim_id_pdp%TYPE
+                        )
+  ;
+END usim_trg;
+</pre>
+</div>
+</div>
+</div>
+</body>
+</html>

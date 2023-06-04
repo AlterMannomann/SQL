@@ -1,10 +1,10 @@
 -- USIM_POSITION_V (posv)
 CREATE OR REPLACE FORCE VIEW usim_position_v AS
-  SELECT MAX(usim_coordinate)     AS usim_max_position_positive
-       , MAX(usim_coordinate) + 1 AS usim_next_1st_position_positive
-       , MAX(usim_coordinate) + 2 AS usim_next_2nd_position_positive
-       , MIN(usim_coordinate)     AS usim_max_position_negative
-       , MIN(usim_coordinate) - 1 AS usim_next_1st_position_negative
-       , MIN(usim_coordinate) - 2 AS usim_next_2nd_position_negative
-    FROM usim_position
+  SELECT usim_utility.get_max_position              AS usim_max_position_positive
+       , usim_utility.get_max_position_1st          AS usim_next_1st_position_positive
+       , usim_utility.get_max_position_2nd          AS usim_next_2nd_position_positive
+       , usim_utility.get_max_position(-1)          AS usim_max_position_negative
+       , usim_utility.get_max_position_1st(-1)      AS usim_next_1st_position_negative
+       , usim_utility.get_max_position_2nd(-1)      AS usim_next_2nd_position_negative
+  FROM dual
 ;

@@ -110,6 +110,80 @@ CREATE OR REPLACE PACKAGE BODY usim_static IS
   END get_not_available
   ;
 
+  FUNCTION is_overflow_reached(p_check_number NUMBER)
+    RETURN BOOLEAN
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN (ABS(p_check_number) = usim_static.usim_max_number);
+  END is_overflow_reached
+  ;
+
+  FUNCTION get_debug_success
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+   IS
+  BEGIN
+    RETURN usim_static.usim_status_success;
+  END get_debug_success
+  ;
+
+  FUNCTION get_debug_error
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.usim_status_error;
+  END get_debug_error
+  ;
+
+  FUNCTION get_debug_warning
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.usim_status_warning;
+  END get_debug_warning
+  ;
+
+  FUNCTION get_debug_status(p_status  IN NUMBER)
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN CASE
+             WHEN p_status = usim_status_success
+             THEN 'SUCCESS'
+             WHEN p_status = usim_status_error
+             THEN 'ERROR'
+             WHEN p_status = usim_status_warning
+             THEN 'WARNING'
+             ELSE 'UNKNOWN'
+          END
+    ;
+  END get_debug_status
+  ;
+
+  FUNCTION get_bool_str(p_boolean IN BOOLEAN)
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    IF p_boolean
+    THEN
+      RETURN 'TRUE';
+    ELSE
+      RETURN 'FALSE';
+    END IF;
+  END get_bool_str
+  ;
+
   FUNCTION get_big_pk(p_sequence_number IN NUMBER)
     RETURN VARCHAR2
   IS

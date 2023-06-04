@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<SchemaObject class="oracle.dbtools.crest.model.design.relational.SchemaObject" name="USIM" directorySegmentName="seg_0" id="D8AD927A-9FA8-7B47-39AE-1305546F84A5">
-<createdBy>Adi</createdBy>
-<createdTime>2023-04-21 01:35:25 UTC</createdTime>
-<ownerDesignName>USimExport</ownerDesignName>
-<importedID>2EA42CC2-24F6-CE38-C1DE-D67B2C463744</importedID>
-</SchemaObject>

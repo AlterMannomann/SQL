@@ -17,3 +17,9 @@ SELECT * FROM usim_overflow_v ORDER BY usim_id_outp;
 SELECT * FROM usim_position_v;
 
 EXEC usim_ctrl.process_output(57);
+
+      SELECT *
+        FROM usim_overflow_v
+       WHERE usim_processed = 0
+       ORDER BY usim_id_outp
+    ;

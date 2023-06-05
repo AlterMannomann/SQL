@@ -13,7 +13,7 @@ Going further, we have to consider we are in the midst of nothing, really nothin
 
 The overall rule is, the energy of the nothing (0) we had before, must never change or our universe will crash. Moreover one space point has one position that can't be shared, changed or used by another space point in every dimension supported.
 
-Caution: If the simulation works (so far it create waves going for and back), the probability raises, that we are part of a simulated universe.
+Caution: If the simulation works (so far it creates waves going forth and back), the probability raises, that we are part of a simulated universe. If it works, watch the foam on the space point energy reaction. It will create its own rules.
 
 ## The one thing
 If we try to imagine nothing, we fail. How else? Thinking of dimension n = 0 is almost similar, but we can imagine at least something binary, zero and one, minus and plus. We have space for at least one *something* not more, not less. Means before we had nothing, lets name it zero and now we have something, lets name it one. By creating a dimension n = 0 we inherit a binary concept. So plus and minus are also in reach. Not in dimension n = 0, but in every following dimension.
@@ -27,7 +27,7 @@ To respect the one thing, we start the universe seed with one as the only start 
 ## The Planck thing
 Everything is at level Planck, means we have planck time t = 1 with planck velocity c = 1. We can't see what is happening in space points or space point trees. We can only observe the result. Means we'll may see the energy, wave amplitude and wave length arriving to the next point, but not the wave movement, as a parent-child relation makes them direct neighbours, even if the distance of coordinate vectors is bigger than a planck length.
 
-When one planck time tick has passed, all calculations for the universe are done. All space points are always in reach within this time frame.
+When one planck time tick has passed, all calculations for the universe are done. All space points are most likely in reach within this time frame.
 
 ## Space points
 Space points are defined as perfect binary trees up to the supported dimension, where every tree node describes and contains the space points for
@@ -39,7 +39,7 @@ Space points are, moreover, stationary and timeless. They can't move, but they c
 
 What we know as our universe is in my opinion the foam on top of this points created by the available energy.
 
-On overflow, means any calculation of point attributes results in infinity, the space point attributes are not updated. Instead the space point will create a new
+On overflow, means any calculation of point attributes results in infinity (for our available systems), the space point attributes are not updated. Instead the space point will create a new
 tree structure and initialize it with the negative values of the source attributes, that would have caused an overflow. You may imagine this as similar to the process to give birth. First it needs a lot of energy taken from the parent, in human case mother, to give a new life birth.
 
 ## Space point trees

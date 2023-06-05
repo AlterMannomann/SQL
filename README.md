@@ -97,7 +97,7 @@ Currently a point coordinate is limited n<sup>n</sup> (n = maximum integer value
 
 To overcome limits on numbers for positions, I use number levels, which result in n<sup>n</sup> more or less for possible numbers (maybe something like n<sup>n</sup> - 1 or n<sup>n-1</sup>, currently I don't care). Not well defined yet. If distances are not too extreme, which I don't expect from binary trees (who knows), calculation should be more or less correct. No way to calculate distances with number level difference > 1. Check handling of distance of points defining a point and correct it, wherever necessary.
 ### Learning SQL and PL/SQL
-You may want to look at table USIM_LEVELS how to restrict records on a table, Package USIM_DEBUG to learn mor about debugging and logging (PL/)SQL and much more. Feel free to explore the code. Apart from this, I'm convinced that there exist much more better solutions than that one's I've found and established. It is only a starting point, I didn't care about performance currently.
+You may want to look at table USIM_LEVELS how to restrict records on a table, Package USIM_DEBUG to learn more about debugging and logging (PL/)SQL and much more. Feel free to explore the code. Apart from this, I'm convinced that there exist much more better solutions than that one's I've found and established. It is only a starting point, I didn't care about performance currently.
 
 ## To do
 Sorry, mother tongue is faster for temporary problems.

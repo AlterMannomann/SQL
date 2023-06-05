@@ -97,22 +97,17 @@ CREATE OR REPLACE PACKAGE usim_trg IS
     RETURN VARCHAR2
   ;
 
-  /* Function USIM_TRG.GET_USIM_ID_POS
-   * Get, check and optionally create the USIM_ID_POS. Either USIM_ID_POS or
-   * USIM_COORDINATE has to be given. If USIM_ID_POS is given, it must exist.
-   * Code uses P_USIM_COORDINATE is both values are given. Will insert not
-   * existing coordinates at current level.
-   *
-   * Parameter
-   * P_USIM_ID_POS      - the position id to check, can be NULL if P_USIM_COORDINATE is given.
-   * P_USIM_COORDINATE  - the position to check or create, if it does not exist.
-   *
-   * RETURNS
-   * The USIM_ID_POS for the given parameter.
-   *
-   * THROWS
-   * -20300 Given position ID (x) does not exist.
-   */
+  /**
+  * Get, check and optionally create the USIM_ID_POS. Either USIM_ID_POS or
+  * USIM_COORDINATE has to be given. If USIM_ID_POS is given, it must exist.
+  * Code uses P_USIM_COORDINATE is both values are given. Will insert not
+  * existing coordinates at current level.
+  * @param p_usim_id_pos the position id to check, can be NULL if P_USIM_COORDINATE is given.
+  do we support a second line?
+  * @param p_usim_coordinate the position to check or create, if it does not exist.
+  * @throws 20300 Given position ID (x) does not exist.
+  * @return The USIM_ID_POS for the given parameter.
+  */
   FUNCTION get_usim_id_pos( p_usim_id_pos             IN usim_position.usim_id_pos%TYPE
                           , p_usim_coordinate         IN usim_position.usim_coordinate%TYPE
                           )

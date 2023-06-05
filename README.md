@@ -7,11 +7,13 @@ A (whatsoever) *particle* that rotates and spreads its energy.
 
 Going further, we have to consider we are in the midst of nothing, really nothing. We have three wishes free.
 
-1. To know what add, substract, rotation and PI is.
+1. To know what add, substract, rotation and PI or so to say mathematics is.
 2. To provide a basic *point/particle* structure with rules.
 3. To use and give the imaginary *point/particle* energy for one imaginary rotation.
 
 The overall rule is, the energy of the nothing (0) we had before, must never change or our universe will crash. Moreover one space point has one position that can't be shared, changed or used by another space point in every dimension supported.
+
+Caution: If the simulation works (so far it create waves going for and back), the probability raises, that we are part of a simulated universe.
 
 ## The one thing
 If we try to imagine nothing, we fail. How else? Thinking of dimension n = 0 is almost similar, but we can imagine at least something binary, zero and one, minus and plus. We have space for at least one *something* not more, not less. Means before we had nothing, lets name it zero and now we have something, lets name it one. By creating a dimension n = 0 we inherit a binary concept. So plus and minus are also in reach. Not in dimension n = 0, but in every following dimension.
@@ -91,8 +93,10 @@ Tables needing big primary keys will use in this implementation CHAR(55) columns
 Currently a point coordinate is limited n^n (n = maximum integer value a system can provide).
 
 ## To do
+* usim_trg.get_usim_id_pos als Beispiel für Formatierung für DB Dokumentation, - wird von Doku gemacht, return ganz zu letzt, Ora Code ohne Minus. parameter Beschreibung in einer Zeile oder ohne leading *
 * fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
-* Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert.
+* Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert. Intention: Je nach Overflow kann es unterschiedliche Wurzeln eines Punktes geben. Sorgt für Chaos, ist wichtig für das Leben.
 * Eine Aufstellung max Koordinate per Dimension wird benötigt.
 * Darstellungsform für COORDS wie vorher, allerdings wird noch Level für Eindeutigkeit benötigt Format Coordinate(Level),... .
 * Distanzberechnung zwischen Koordinaten mit unterschiedlichem Level muss korrekt sein (Overflow Problem).
+* AUf Github veröffentlichen, wenn fertig -> usim_ctrl.runSimulation (noch nicht gemacht), entweder es läuft weiter oder es läuft sich tot oder es bleibt irgendwo stehen. Mal sehen ...

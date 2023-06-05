@@ -58,28 +58,17 @@
 <th>DELETABLE</th>
 </tr>
 <tr onclick="table_onSelectMasterRow(this, 0, 0)" class="currentrow">
-<td class="currentcell">USIM_ID_PDP_IN</td>
+<td class="currentcell">USIM_ID_PDP_OUT</td>
 <td class="currentcell">CHAR(55)</td>
 <td class="currentcell">No</td>
 <td class="currentcell">null</td>
-<td class="currentcell">1</td>
-<td class="currentcell">The&nbsp;starting&nbsp;point&nbsp;of&nbsp;an&nbsp;imaginary&nbsp;line.&nbsp;Limit&nbsp;this&nbsp;point&nbsp;by&nbsp;a&nbsp;WHERE&nbsp;condition.</td>
+<td class="currentcell">2</td>
+<td class="currentcell">The&nbsp;end&nbsp;point&nbsp;of&nbsp;an&nbsp;imaginary&nbsp;line&nbsp;that&nbsp;receives&nbsp;any&nbsp;input&nbsp;from&nbsp;the&nbsp;starting&nbsp;point.</td>
 <td class="currentcell">NO</td>
 <td class="currentcell">NO</td>
 <td class="currentcell">NO</td>
 </tr>
 <tr onclick="table_onSelectMasterRow(this, 0, 1)">
-<td>USIM_ID_PDP_OUT</td>
-<td>CHAR(55)</td>
-<td>No</td>
-<td>null</td>
-<td>2</td>
-<td>The&nbsp;end&nbsp;point&nbsp;of&nbsp;an&nbsp;imaginary&nbsp;line&nbsp;that&nbsp;receives&nbsp;any&nbsp;input&nbsp;from&nbsp;the&nbsp;starting&nbsp;point.</td>
-<td>NO</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 2)">
 <td>USIM_POINT_NAME1</td>
 <td>VARCHAR2(4000)</td>
 <td>Yes</td>
@@ -90,7 +79,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 3)">
+<tr onclick="table_onSelectMasterRow(this, 0, 2)">
 <td>USIM_POINT_NAME2</td>
 <td>VARCHAR2(4000)</td>
 <td>Yes</td>
@@ -101,7 +90,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 4)">
+<tr onclick="table_onSelectMasterRow(this, 0, 3)">
 <td>USIM_DIMENSION1</td>
 <td>NUMBER(2)</td>
 <td>Yes</td>
@@ -112,7 +101,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 5)">
+<tr onclick="table_onSelectMasterRow(this, 0, 4)">
 <td>USIM_DIMENSION2</td>
 <td>NUMBER(2)</td>
 <td>Yes</td>
@@ -123,7 +112,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 6)">
+<tr onclick="table_onSelectMasterRow(this, 0, 5)">
 <td>USIM_COORDINATE1</td>
 <td>NUMBER(38)</td>
 <td>Yes</td>
@@ -134,7 +123,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 7)">
+<tr onclick="table_onSelectMasterRow(this, 0, 6)">
 <td>USIM_COORDINATE2</td>
 <td>NUMBER(38)</td>
 <td>Yes</td>
@@ -145,7 +134,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 8)">
+<tr onclick="table_onSelectMasterRow(this, 0, 7)">
 <td>USIM_COORDS1</td>
 <td>VARCHAR2(4000)</td>
 <td>Yes</td>
@@ -156,7 +145,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 9)">
+<tr onclick="table_onSelectMasterRow(this, 0, 8)">
 <td>USIM_COORDS2</td>
 <td>VARCHAR2(4000)</td>
 <td>Yes</td>
@@ -167,7 +156,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 10)">
+<tr onclick="table_onSelectMasterRow(this, 0, 9)">
 <td>USIM_DISTANCE</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -178,7 +167,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 11)">
+<tr onclick="table_onSelectMasterRow(this, 0, 10)">
 <td>USIM_ENERGY1</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -189,7 +178,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 12)">
+<tr onclick="table_onSelectMasterRow(this, 0, 11)">
 <td>USIM_ENERGY2</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -200,7 +189,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 13)">
+<tr onclick="table_onSelectMasterRow(this, 0, 12)">
 <td>USIM_AMPLITUDE1</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -211,7 +200,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 14)">
+<tr onclick="table_onSelectMasterRow(this, 0, 13)">
 <td>USIM_AMPLITUDE2</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -222,7 +211,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 15)">
+<tr onclick="table_onSelectMasterRow(this, 0, 14)">
 <td>USIM_WAVELENGTH1</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -233,7 +222,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 16)">
+<tr onclick="table_onSelectMasterRow(this, 0, 15)">
 <td>USIM_WAVELENGTH2</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -244,7 +233,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 17)">
+<tr onclick="table_onSelectMasterRow(this, 0, 16)">
 <td>USIM_FREQUENCY1</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -255,7 +244,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 18)">
+<tr onclick="table_onSelectMasterRow(this, 0, 17)">
 <td>USIM_FREQUENCY2</td>
 <td>NUMBER</td>
 <td>Yes</td>
@@ -266,7 +255,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 19)">
+<tr onclick="table_onSelectMasterRow(this, 0, 18)">
 <td>USIM_ID_PARENT1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -277,7 +266,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 20)">
+<tr onclick="table_onSelectMasterRow(this, 0, 19)">
 <td>USIM_ID_PARENT2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -288,7 +277,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 21)">
+<tr onclick="table_onSelectMasterRow(this, 0, 20)">
 <td>USIM_ID_CHILD_LEFT1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -299,7 +288,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 22)">
+<tr onclick="table_onSelectMasterRow(this, 0, 21)">
 <td>USIM_ID_CHILD_LEFT2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -310,7 +299,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 23)">
+<tr onclick="table_onSelectMasterRow(this, 0, 22)">
 <td>USIM_ID_CHILD_RIGHT1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -321,7 +310,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 24)">
+<tr onclick="table_onSelectMasterRow(this, 0, 23)">
 <td>USIM_ID_CHILD_RIGHT2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -332,7 +321,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 25)">
+<tr onclick="table_onSelectMasterRow(this, 0, 24)">
 <td>USIM_ID_PSC1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -343,7 +332,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 26)">
+<tr onclick="table_onSelectMasterRow(this, 0, 25)">
 <td>USIM_ID_PSC2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -354,7 +343,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 27)">
+<tr onclick="table_onSelectMasterRow(this, 0, 26)">
 <td>USIM_ID_POI1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -365,7 +354,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 28)">
+<tr onclick="table_onSelectMasterRow(this, 0, 27)">
 <td>USIM_ID_POI2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -376,7 +365,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 29)">
+<tr onclick="table_onSelectMasterRow(this, 0, 28)">
 <td>USIM_ID_DIM1</td>
 <td>NUMBER(38)</td>
 <td>Yes</td>
@@ -387,7 +376,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 30)">
+<tr onclick="table_onSelectMasterRow(this, 0, 29)">
 <td>USIM_ID_DIM2</td>
 <td>NUMBER(38)</td>
 <td>Yes</td>
@@ -398,7 +387,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 31)">
+<tr onclick="table_onSelectMasterRow(this, 0, 30)">
 <td>USIM_ID_DPO1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -409,7 +398,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 32)">
+<tr onclick="table_onSelectMasterRow(this, 0, 31)">
 <td>USIM_ID_DPO2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -420,7 +409,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 33)">
+<tr onclick="table_onSelectMasterRow(this, 0, 32)">
 <td>USIM_ID_POS1</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -431,13 +420,24 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 34)">
+<tr onclick="table_onSelectMasterRow(this, 0, 33)">
 <td>USIM_ID_POS2</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
 <td>null</td>
 <td>35</td>
 <td>null</td>
+<td>NO</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 34)">
+<td>USIM_ID_PDP_IN</td>
+<td>CHAR(55)</td>
+<td>No</td>
+<td>null</td>
+<td>1</td>
+<td>The&nbsp;starting&nbsp;point&nbsp;of&nbsp;an&nbsp;imaginary&nbsp;line.&nbsp;Limit&nbsp;this&nbsp;point&nbsp;by&nbsp;a&nbsp;WHERE&nbsp;condition.</td>
 <td>NO</td>
 <td>NO</td>
 <td>NO</td>
@@ -492,11 +492,11 @@
 </tr>
 <tr>
 <td>CREATED</td>
-<td>26.05.2023&nbsp;22:56:14</td>
+<td>04.06.2023&nbsp;21:00:20</td>
 </tr>
 <tr>
 <td>LAST_DDL_TIME</td>
-<td>26.05.2023&nbsp;22:56:14</td>
+<td>04.06.2023&nbsp;21:00:20</td>
 </tr>
 <tr>
 <td>OWNER</td>

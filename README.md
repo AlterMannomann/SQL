@@ -104,6 +104,5 @@ Sorry, mother tongue is faster for temporary problems.
 * fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
 * Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert. Intention: Je nach Overflow kann es unterschiedliche Wurzeln eines Punktes geben. Sorgt für Chaos, ist wichtig für das Leben.
 * Eine Aufstellung max Koordinate per Dimension wird benötigt.
-* Darstellungsform für COORDS wie vorher, allerdings wird noch Level für Eindeutigkeit benötigt Format Coordinate(Level),... .
-* Distanzberechnung zwischen Koordinaten mit unterschiedlichem Level muss korrekt sein (Overflow Problem).
-* AUf Github veröffentlichen, wenn fertig -> usim_ctrl.runSimulation (noch nicht gemacht), entweder es läuft weiter oder es läuft sich tot oder es bleibt irgendwo stehen. Mal sehen ...
+* Distanzberechnung zwischen Koordinaten mit unterschiedlichem Level muss korrekt sein (Overflow Problem) - nicht ausreichend getestet.
+* usim_ctrl.runSimulation (noch nicht gemacht), entweder es läuft weiter oder es läuft sich tot oder es bleibt irgendwo stehen. Mal sehen ...

@@ -1,5 +1,5 @@
 # UNDER CONSTRUCTION
-Feel free to use, extend and modify this. Free as free beer. No restrictions.
+Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL.
 # Intention
 This is a simulation of a (whatsoever) universe, starting with the building of space itself. The simulation uses the model of n-spheres for dimension.
 

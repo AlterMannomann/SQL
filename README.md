@@ -15,7 +15,7 @@ Going further, we have to consider we are in the midst of nothing, really nothin
 
 The overall rule is, the energy of the nothing (0) we had before, must never change or our universe will crash. Moreover one space point has one position that can't be shared, changed or used by another space point in every dimension supported.
 
-**Caution**: If the simulation works (so far it creates waves going forth and back reching infinity), the probability raises, that we are part of a simulated universe. If it works, watch the foam on the space point energy reaction. It will create its own rules.
+**Caution**: If the simulation works (so far it creates waves going forth and back reaching infinity), the probability raises, that we are part of a simulated universe. If it works, watch the foam on the space point energy reaction. It will create its own rules.
 
 ## The one thing
 If we try to imagine nothing, we fail. How else? Thinking of dimension n = 0 is almost similar, but we can imagine at least something binary, zero and one, minus and plus. We have space for at least one *something* not more, not less. Means before we had nothing, lets name it zero and now we have something, lets name it one. By creating a dimension n = 0 we inherit a binary concept. So plus and minus are also in reach. Not in dimension n = 0, but in every following dimension.

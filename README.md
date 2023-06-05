@@ -100,7 +100,7 @@ To overcome limits on numbers for positions, I use number levels, which result i
 ## To do
 Sorry, mother tongue is faster for temporary problems.
 
-* usim_trg.get_usim_id_pos als Beispiel für Formatierung für DB Dokumentation, - wird von Doku gemacht, Return ganz zu letzt, Ora Code ohne Minus. Parameter Beschreibung in einer Zeile oder ohne leading
+* usim_trg.get_usim_id_pos als Beispiel für Formatierung für DB Dokumentation, - wird von Doku gemacht, Return ganz zu letzt, Ora Code ohne Minus. Parameter Beschreibung in einer Zeile oder ohne führendes Sternchen.
 * fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
 * Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert. Intention: Je nach Overflow kann es unterschiedliche Wurzeln eines Punktes geben. Sorgt für Chaos, ist wichtig für das Leben.
 * Eine Aufstellung max Koordinate per Dimension wird benötigt.

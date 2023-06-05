@@ -37,7 +37,7 @@ the associated dimension:
 
 **tree height - 1 equals n-sphere dimension**
 
-Space points are, moreover, stationary and timeless. They can't move, but they can accumulate energy. And they can't be destroyed as long as the universe exists. The can have positive, negative or zero potential energy and that's it.
+Space points are, moreover, stationary and timeless. They can't move, but they can accumulate energy. And they can't be destroyed as long as the universe exists. They can have positive, negative or zero potential energy and that's it.
 
 What we know as our universe is in my opinion the foam on top of this points created by the available energy.
 
@@ -60,7 +60,7 @@ Independent of the size of the universe space (means, again, the basic space str
 The tick outside is different from the tick inside. Everything inside will only notice a change, when the tick has changed. How long the outside tick ever has taken, is not relevant for the inside, because inside it will look the same, whenever time tick dependent space point or foam action happens.
 
 ## Dimension n = 0
-In this dimension we place the seed for the universe. It can hold one object and attributes of this object, which are irrelevant to the rest of the simulated universe. Therefore the seed is never taken into account on calculating the energy level of the universe. Only dimensions n > 0 have to be equilibrated, if they exist childs of the seed.
+In this dimension we place the seed for the universe. It can hold one object and attributes of this object, which are irrelevant to the rest of the simulated universe. Therefore the seed is never taken into account on calculating the energy level of the universe. Only dimensions n > 0 have to be equilibrated, if there exist childs of the seed.
 
 ## Subtree structure
 Any point can have any number of subtrees. The limitation lies on position and available ressources. If a higher dimension has already used the position, the subtree can
@@ -84,7 +84,7 @@ To build the model from scratch you currently need Oracle (developed on Oracle 2
 
 ## Limitations
 ### Sequences
-As Oracle provides 38 digits for any number, tha size of indices is very limited. Better to build an index as char based on combined numbers at their maximum digits supported by the system. With numbers it may be sufficient to identify a system limitated infinity situation and handle it. Whatever system limits we may have.
+As Oracle provides 38 digits for any number, the size of indices is very limited. Better to build an index as char based on combined numbers at their maximum digits supported by the system. With numbers it may be sufficient to identify a system limitated infinity situation and handle it. Whatever system limits we may have.
 
 Indices by sequences are limited by number capacity of the system. To overcome this limit we can use char columns which combine a current timestamp with a cycling sequence like
 

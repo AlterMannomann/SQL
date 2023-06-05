@@ -1,3 +1,5 @@
+# UNDER CONSTRUCTION
+Feel free to use, extend and modify this. Free as free beer. No restrictions.
 # Intention
 This is a simulation of a (whatsoever) universe, starting with the building of space itself. The simulation uses the model of n-spheres for dimension.
 
@@ -13,7 +15,7 @@ Going further, we have to consider we are in the midst of nothing, really nothin
 
 The overall rule is, the energy of the nothing (0) we had before, must never change or our universe will crash. Moreover one space point has one position that can't be shared, changed or used by another space point in every dimension supported.
 
-Caution: If the simulation works (so far it creates waves going forth and back), the probability raises, that we are part of a simulated universe. If it works, watch the foam on the space point energy reaction. It will create its own rules.
+**Caution**: If the simulation works (so far it creates waves going forth and back reching infinity), the probability raises, that we are part of a simulated universe. If it works, watch the foam on the space point energy reaction. It will create its own rules.
 
 ## The one thing
 If we try to imagine nothing, we fail. How else? Thinking of dimension n = 0 is almost similar, but we can imagine at least something binary, zero and one, minus and plus. We have space for at least one *something* not more, not less. Means before we had nothing, lets name it zero and now we have something, lets name it one. By creating a dimension n = 0 we inherit a binary concept. So plus and minus are also in reach. Not in dimension n = 0, but in every following dimension.
@@ -58,27 +60,27 @@ Independent of the size of the universe space (means, again, the basic space str
 The tick outside is different from the tick inside. Everything inside will only notice a change, when the tick has changed. How long the outside tick ever has taken, is not relevant for the inside, because inside it will look the same, whenever time tick dependent space point or foam action happens.
 
 ## Dimension n = 0
-In this dimension we place the seed for the universe. It can hold one object and attributes of this object are irrelevant to the rest of the simulated universe. Therefore the seed is never taken into account on calculating the energy level of the universe. Only dimensions n > 0 have to be equilibrated, if they are childs of the seed.
+In this dimension we place the seed for the universe. It can hold one object and attributes of this object, which are irrelevant to the rest of the simulated universe. Therefore the seed is never taken into account on calculating the energy level of the universe. Only dimensions n > 0 have to be equilibrated, if they exist childs of the seed.
 
 ## Subtree structure
-Any point can have any number of subtrees. The limitation lies on position. If a higher dimension has already used the position, the subtree can
+Any point can have any number of subtrees. The limitation lies on position and available ressources. If a higher dimension has already used the position, the subtree can
 only spread up to the dimension that holds equivalent position values. Aim is, that all values exist in all dimension, but parentship can be different through overflow events on different points.
 
 ## The foam thing
 **not implemented yet**
 
-Space points are only defining the potential energy attributes on every point in the simulated universe currently modeled and will or should only lead to an extension of the available space. Thus we have a binary concept and a potential concept. Something that may happen on top of the potential energy it it accumulates.
+Space points are only defining the potential energy attributes on every point in the simulated universe currently modeled and will or should only lead to an extension of the available space. Thus we have a binary concept and a potential concept. Something that may happen on top of the potential energy it accumulates.
 
 Whereas the space point arithmetics are quite simple, the foam arithmetics have to consider time, location, distance and are under relativity. They have to operate most likely on more than one point representation, have to be a meta model, which either shows up or not.
 
-Thus, even a god creating some similar kind of universe would be blind, not able to see more in the foam than foam, if this god would not be looking for something similar than here. And even if, this god could maybe pick up some reference points for an inside view, but never ever all points at the same time. Ok, if this god is a god, probably possible. But if this god is me, no chance. And I truly believe, if there is something above us, what we can't understand and that has more possibilities, it is still bound to rules and limits. If there are limits, any limited god will be in the same situation as myself, probably only having bigger quantities of samples, but no possibility to interact without destroying the universe.
+Thus, even a god creating some similar kind of universe would be blind, not able to see more in the foam than foam, if this god would not be looking for something similar than our foam here. And even if, this god could maybe pick up some reference points for an inside view, but never ever all points at the same time. Ok, if this god is a god, probably possible. But if this god is me, no chance. And I truly believe, if there is something above us, what we can't understand and that has more possibilities, it is still bound to rules and limits of whatever universe it is living in. If there are limits, any limited god will be in the same situation as myself, probably only having bigger quantities of samples, but no possibility to interact without destroying the universe (that is very bad for most of the religions we have).
 
 # Build
 To build the model from scratch you currently need Oracle (developed on Oracle 21c) and an empty schema, where you want to install it.
 
 **Run USIM_MODEL.sql** to build the basic universe simulation db model.
 
-**Run EXEC usim_ctrl.run_planck_cycles([CycleLoops]);** for one cycle of space points reactions within one planck time unit.
+**Run EXEC usim_ctrl.run_planck_cycles([CycleLoops]);** for one cycle of space points reactions within one planck time unit (currently not supporting creation of subtrees - in work).
 
 ## Limitations
 ### Sequences
@@ -89,10 +91,15 @@ Indices by sequences are limited by number capacity of the system. To overcome t
 TO_CHAR(SYSTIMESTAMP, 'YYYYMMDDHH24MISSFF3') || LPAD([sequence], 38, '0')
 
 Tables needing big primary keys will use in this implementation CHAR(55) columns.
+
 ### Point coordinates
 Currently a point coordinate is limited n^n (n = maximum integer value a system can provide).
 
+To overcome limits on numbers for positions, I use number levels, which result in POWER(n, n) more or less for possible numbers. Not well defined yet. If distances are not too extreme, which I don't expect from binary trees (who knows), calculation should be more or less correct. No way to calculate distances with number level difference > 1. Check handling of distance of points defining a point and correct it, wherever necessary.
+
 ## To do
+Sorry, mother tongue is faster for temporary problems.
+
 * usim_trg.get_usim_id_pos als Beispiel für Formatierung für DB Dokumentation, - wird von Doku gemacht, return ganz zu letzt, Ora Code ohne Minus. parameter Beschreibung in einer Zeile oder ohne leading *
 * fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
 * Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert. Intention: Je nach Overflow kann es unterschiedliche Wurzeln eines Punktes geben. Sorgt für Chaos, ist wichtig für das Leben.

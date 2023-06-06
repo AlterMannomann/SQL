@@ -2,7 +2,7 @@
 Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL.
 # Intention
 This is a simulation of a (whatsoever) universe, starting with the building of space itself. The simulation uses the model of n-spheres for dimension.
-Btw. I'm aware of the fact, that I'm using terms & definitions not in the pure mathematical sense, like dimension and point. It is more likely an approximation to avoid constructing new words. I'll work on that.
+Btw. I'm aware of the fact, that I'm using terms & definitions not in the pure mathematical sense, like dimension and point. It is more likely an approximation to avoid constructing new words. I'll work on that. Probably this attempt is more something like Conways Game of life.
 
 Dimension n = 0 is the very very unknown, where I put my assumptions in:
 

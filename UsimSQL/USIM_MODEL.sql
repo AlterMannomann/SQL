@@ -130,6 +130,9 @@ TRUNCATE TABLE usim_debug_log;
 
 -- USIM_OVERFLOW_V (ovrv)
 @@VIEWS\USIM_OVERFLOW_V.sql
+
+-- USIM_DIM_COORD_LIMITS_V (dcl)
+@@USIM_DIM_COORD_LIMITS_V.sql
 --== create views depending on views end ==--
 
 --== create trigger package start ==--

@@ -38,7 +38,7 @@ the associated dimension:
 
 **tree height - 1 equals n-sphere dimension**
 
-Space points are, moreover, stationary and timeless. They can't move, but they can accumulate energy. And they can't be destroyed as long as the universe exists. They can have positive, negative or zero potential energy and that's it.
+Space points are, moreover, stationary and timeless. They can't move, but they can accumulate energy. And they can't be destroyed as long as the universe exists. They can have positive, negative or zero potential energy and that's it. They are formed by coordinates (outer bounds) to define the area, a space point is active. In n = 1 it is the line between the two coordinates, in n = 2 the coordinates form a square and so forth.
 
 What we know as our universe is in my opinion the foam on top of this points created by the available energy.
 
@@ -106,6 +106,5 @@ Sorry, mother tongue is faster for temporary problems.
 * usim_trg.get_usim_id_pos als Beispiel für Formatierung für DB Dokumentation, - wird von Doku gemacht, Return ganz zuletzt, Ora Code ohne Minus. Parameter Beschreibung in einer Zeile oder ohne führendes Sternchen.
 * fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
 * Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert. Intention: Je nach Overflow kann es unterschiedliche Wurzeln eines Punktes geben. Sorgt für Chaos, ist wichtig für das Leben.
-* Eine Aufstellung max Koordinate per Dimension wird benötigt.
 * Distanzberechnung zwischen Koordinaten mit unterschiedlichem Level muss korrekt sein (Overflow Problem) - nicht ausreichend getestet.
 * usim_ctrl.runSimulation (noch nicht gemacht), entweder es läuft weiter oder es läuft sich tot oder es bleibt irgendwo stehen. Mal sehen ...

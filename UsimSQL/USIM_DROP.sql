@@ -62,6 +62,7 @@ DROP VIEW usim_poi_mirror_v;
 DROP VIEW usim_overflow_v;
 DROP VIEW usim_dim_attributes_v;
 DROP VIEW usim_position_v;
+DROP VIEW usim_dim_coord_limits_v;
 -- drop trigger package
 DROP PACKAGE BODY usim_trg;
 DROP PACKAGE usim_trg;

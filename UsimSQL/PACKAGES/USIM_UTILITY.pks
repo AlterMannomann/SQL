@@ -1,6 +1,5 @@
 CREATE OR REPLACE PACKAGE usim_utility IS
-  /**
-  * Package containing utility functions and procedures
+  /** A Package containing utility functions and procedures.
   * To be used in views. Create package before view creation.
   */
 
@@ -8,11 +7,11 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   * Extracts a coordinate substring from a coords string containing a defined delimiter at
   * the desired position. Ignores portions of the string that are surrounded
   * by the given ignore delimiters, like relative number levels.
-  * @param p_string - the string with delimiters to extract a value from.
-  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
-  * @param p_delimiter - the delimiter used in the string, defaults to a comma ",".
-  * @param p_ignore_start - the start delimiter for levels to ignore, defaults to an open bracket "(".
-  * @param p_ignore_end - the end delimiter for levels to ignore, defaults to an closing bracket ")".
+  * @param p_string The string with delimiters to extract a value from.
+  * @param p_position The position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @param p_delimiter The delimiter used in the string, defaults to a comma ",".
+  * @param p_ignore_start The start delimiter for levels to ignore, defaults to an open bracket "(".
+  * @param p_ignore_end The end delimiter for levels to ignore, defaults to an closing bracket ")".
   * @return The extracted substring or NULL if delimiters not found as expected.
   */
   FUNCTION extract_coordinate( p_string         IN usim_poi_dim_position.usim_coords%TYPE
@@ -27,11 +26,11 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   /**
   * Extracts a number level substring from a coords string containing a defined delimiter at
   * the desired position. Ignores coordinate portions of the string.
-  * @param p_string - the string with delimiters to extract a value from.
-  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
-  * @param p_delimiter - the delimiter used in the string, defaults to a comma ",".
-  * @param p_level_start - the start delimiter for levels, defaults to an open bracket "(".
-  * @param p_level_end - the end delimiter for levels, defaults to an closing bracket ")".
+  * @param p_string The string with delimiters to extract a value from.
+  * @param p_position The position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @param p_delimiter The delimiter used in the string, defaults to a comma ",".
+  * @param p_level_start The start delimiter for levels, defaults to an open bracket "(".
+  * @param p_level_end The end delimiter for levels, defaults to an closing bracket ")".
   * @return The extracted substring or NULL if no level delimiters are found.
   */
   FUNCTION extract_number_level( p_string         IN usim_poi_dim_position.usim_coords%TYPE
@@ -46,8 +45,8 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   /**
   * Extracts the nth coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
   * this would cause overflow of numbers supported by the system.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
-  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_position The position of the extract value, first position = 0, any value below 0 is treated as first position.
   * @return The coordinate for the given position or 0.
   */
   FUNCTION get_coordinate( p_string         IN usim_poi_dim_position.usim_coords%TYPE
@@ -58,8 +57,8 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Extracts the nth level of a coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
-  * @param p_position - the position of the extract value, first position = 0, any value below 0 is treated as first position.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_position The position of the extract value, first position = 0, any value below 0 is treated as first position.
   * @return The level for the given position or 0.
   */
   FUNCTION get_number_level( p_string         IN usim_poi_dim_position.usim_coords%TYPE
@@ -71,7 +70,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   /**
   * Extracts the x coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
   * this would cause overflow of numbers supported by the system.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
   * @return The coordinate for the x axis as USIM_COORDINATE type or 0.
   */
   FUNCTION get_x(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
@@ -80,7 +79,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Extracts the number level of the x coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
   * @return The number level for the x axis as USIM_COORD_LEVEL type or 0.
   */
   FUNCTION get_x_level(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
@@ -90,7 +89,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   /**
   * Extracts the y coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
   * this would cause overflow of numbers supported by the system.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
   * @return The coordinate for the y axis as USIM_COORDINATE type or 0.
   */
   FUNCTION get_y(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
@@ -99,7 +98,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Extracts the number level of the y coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
   * @return The number level for the y axis as USIM_COORD_LEVEL type or 0.
   */
   FUNCTION get_y_level(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
@@ -109,7 +108,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   /**
   * Extracts the z coordinate out of the comma separated coordinate string. Ignores the relative level of the number, as
   * this would cause overflow of numbers supported by the system.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
   * @return The coordinate for the z axis as USIM_COORDINATE type or 0.
   */
   FUNCTION get_z(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
@@ -118,7 +117,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Extracts the number level of the z coordinate out of the comma separated coordinate string. Ignores coordinate portions of the string.
-  * @param p_usim_coords - the usim_coords string representing the coordinates over all supported dimensions, comma separated.
+  * @param p_usim_coords The usim_coords string representing the coordinates over all supported dimensions, comma separated.
   * @return The number level for the z axis as USIM_COORD_LEVEL type or 0.
   */
   FUNCTION get_z_level(p_usim_coords IN usim_poi_dim_position.usim_coords%TYPE)
@@ -166,10 +165,10 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   * Level difference max = 1
   * So 98(1) - 2(2) equals (98 - MAX) - 2 = (98-99) - 2 = -1 - 2 = -3
   *
-  * @param p_usim_coords1 - the usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.
-  *                         input value expected is one single coordinate in the format n(n), e.g. 1(1).
-  * @param p_usim_coords2 - the usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.
-  *                         input value expected is one single coordinate in the format n(n), e.g. 2(1).
+  * @param p_usim_coords1 The usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.
+                          input value expected is one single coordinate in the format n(n), e.g. 1(1).
+  * @param p_usim_coords2 The usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.
+                          input value expected is one single coordinate in the format n(n), e.g. 2(1).
   * @return The difference of the coordinate values considering number level or 0.
   */
   FUNCTION coords_diff( p_usim_coords1  IN usim_poi_dim_position.usim_coords%TYPE
@@ -182,8 +181,8 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   * Calculates the euclidian distance between two point coordinates.
   * Ignores the dimension, draws and measures an imaginary line between the points.
   * If number levels have a difference > 1 the result will always be 0.
-  * @param p_usim_coords1 - the usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.
-  * @param p_usim_coords2 - the usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.
+  * @param p_usim_coords1 The usim_coords string representing the first coordinates over all supported dimensions, comma separated for first vector.
+  * @param p_usim_coords2 The usim_coords string representing the second coordinates over all supported dimensions, comma separated for first vector.
   * @return The euclidian distance between both vectors or 0.
   */
   FUNCTION vector_distance( p_usim_coords1  IN usim_poi_dim_position.usim_coords%TYPE
@@ -194,17 +193,17 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Determines the energy force for two points, interpreting energy as mass.
-  * F = (e1*e2)/distance^2
+  * <b>F = (e1 x e2) / distance<sup>2</sup></b>
   * Special cases are distance 0 which means either, source and target are the same
   * so we only set the value (Universe Seed) or point is unreachable far away.
   * If parent of source is NULL we interact with the Universe Seed, which will react
   * with positive and negative energy, depending on the target. Sign is derived from
   * position (usim_coordinate).
-  * @param p_usim_energy_source - the source energy.
-  * @param p_usim_energy_target - the target energy.
-  * @param p_usim_distance - the distance between the two points.
-  * @param p_usim_target_sign - the sign of usim_coordinate of the target.
-  * @param p_usim_gravitation_constant - the gravitational constant valid for the target.
+  * @param p_usim_energy_source The source energy.
+  * @param p_usim_energy_target The target energy.
+  * @param p_usim_distance The distance between the two points.
+  * @param p_usim_target_sign The sign of usim_coordinate of the target.
+  * @param p_usim_gravitation_constant The gravitational constant valid for the target.
   * @return The force acting evenly distributed on source and target.
   */
   FUNCTION energy_force( p_usim_energy_source         IN usim_point.usim_energy%TYPE
@@ -218,7 +217,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Get the maximum position value used for the current number level.
-  * @param p_sign - the sign for the coordinate, either positive or negative. 0 is considered as positive.
+  * @param p_sign The sign for the coordinate, either positive or negative. 0 is considered as positive.
   * @return The maximum current position for the current number level.
   */
   FUNCTION get_max_position(p_sign IN NUMBER DEFAULT 1)
@@ -227,7 +226,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Get the first new position value used for the current number level.
-  * @param p_sign - the sign for the coordinate, either positive or negative. 0 is considered as positive.
+  * @param p_sign The sign for the coordinate, either positive or negative. 0 is considered as positive.
   * @return The maximum current position +/- 1.
   */
   FUNCTION get_max_position_1st(p_sign IN NUMBER DEFAULT 1)
@@ -236,7 +235,7 @@ CREATE OR REPLACE PACKAGE usim_utility IS
 
   /**
   * Get the second new position value used for the current number level.
-  * @param p_sign - the sign for the coordinate, either positive or negative. 0 is considered as positive.
+  * @param p_sign The sign for the coordinate, either positive or negative. 0 is considered as positive.
   * @return The maximum current position +/- 2.
   */
   FUNCTION get_max_position_2nd(p_sign IN NUMBER DEFAULT 1)

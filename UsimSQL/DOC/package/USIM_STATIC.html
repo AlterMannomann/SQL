@@ -46,7 +46,7 @@
 <div id="Master.0">
 <div class="currentmasterreport">
 <TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
-<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P> <BR>    Package containing static values and SQL functions for retrieving this values to be used with the application.<BR>   <BR>    Package constants<BR>    @constant usim_max_childs - a constant value for the allowed amount of child nodes in a binary tree point structure.<BR>    @constant usim_max_seeds - a constant value for the maximum seeds a universe can have, means the maximum of points with dimension and position without a parent.<BR>    @constant usim_seed_name - a constant name for the basic point structure of the universe. Add an index if more than one seed is used.<BR>    @constant usim_mirror_name - a constant name for the basic point mirror structure of the universe. Add an index if more than one seed is used.<BR>    @constant usim_child_add - a constant name addendum for childs (point structure trees) of seed or mirror. Always add an index to this name to keep it unique.<BR>    @constant usim_max_dimensions - a constant for n-sphere dimensions supported by the simulation.<BR>    @constant usim_planck_timer - a constant for the sequence name responsible for planck time ticks.<BR>    @constant usim_not_available - a constant name for filled char fields which are not Null, but have no usable content.<BR>    @constant usim_max_number - a constant for the positive number overflow value.<BR>    @constant usim_status_success - a constant for debug success.<BR>    @constant usim_status_error - a constant for debug error.<BR>    @constant usim_status_warning - a constant for debug warning.<BR>    @constant PI - a constant for PI definition with Oracle precision.<BR>    @constant PI_DOUBLE - a constant for 2   PI definition with Oracle precision.<BR>    @constant PI_QUARTER - a constant for PI / 4 definition with Oracle precision.<BR>  </P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_big_pk">get_big_pk</A></B>( p_sequence_number IN NUMBER ) RETURN VARCHAR2 ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Returns a VARCHAR2 of length 55 using current timestamp<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    and the number from a cycling sequence to build a generic<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    primary key which does not cause number overflows or end of<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    available sequence numbers.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P>  A Package containing static values and SQL functions for retrieving this values to be used with the application.<BR>   <BR>    Package constants:<BR>    <b>usim_max_childs</b> - a constant value for the allowed amount of child nodes in a binary tree point structure.<BR>    <b>usim_max_seeds</b> - a constant value for the maximum seeds a universe can have, means the maximum of points with dimension and position without a parent.<BR>    <b>usim_seed_name</b> - a constant name for the basic point structure of the universe. Add an index if more than one seed is used.<BR>    <b>usim_mirror_name</b> - a constant name for the basic point mirror structure of the universe. Add an index if more than one seed is used.<BR>    <b>usim_child_add</b> - a constant name addendum for childs (point structure trees) of seed or mirror. Always add an index to this name to keep it unique.<BR>    <b>usim_max_dimensions</b> - a constant for n-sphere dimensions supported by the simulation.<BR>    <b>usim_planck_timer</b> - a constant for the sequence name responsible for planck time ticks.<BR>    <b>usim_not_available</b> - a constant name for filled char fields which are not Null, but have no usable content.<BR>    <b>usim_max_number</b> - a constant for the positive number overflow value.<BR>    <b>usim_status_success</b> - a constant for debug success.<BR>    <b>usim_status_error</b> - a constant for debug error.<BR>    <b>usim_status_warning</b> - a constant for debug warning.<BR>    <b>PI</b> - a constant for PI definition with Oracle precision.<BR>    <b>PI_DOUBLE</b> - a constant for 2   PI definition with Oracle precision.<BR>    <b>PI_QUARTER</b> - a constant for PI / 4 definition with Oracle precision.<BR>  </P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_big_pk">get_big_pk</A></B>( p_sequence_number IN NUMBER ) RETURN VARCHAR2 ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Returns a VARCHAR2 of length 55 using current timestamp<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    and the number from a cycling sequence to build a generic<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    primary key which does not cause number overflows or end of<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    available sequence numbers.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
 <TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_big_pk_date">get_big_pk_date</A></B>( p_primary_key IN VARCHAR2 ) RETURN DATE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Returns the date value of a big primary key.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
 <TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_bool_str">get_bool_str</A></B>( p_boolean IN BOOLEAN ) RETURN VARCHAR2 DETERMINISTIC PARALLEL_ENABLE ; </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get a text representation of a boolean value. Only for use in PL/SQL. Won't work with SQL statements.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
 <TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#get_child_add">get_child_add</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Get the static base name for for childs (point structure trees) of a seed. Always add an index to this name to keep it unique.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
@@ -120,15 +120,15 @@
 </tr>
 <tr>
 <td>CREATED</td>
-<td>04.06.2023&nbsp;21:00:18</td>
+<td>06.06.2023&nbsp;19:56:09</td>
 </tr>
 <tr>
 <td>LAST_DDL_TIME</td>
-<td>04.06.2023&nbsp;21:00:18</td>
+<td>07.06.2023&nbsp;23:03:25</td>
 </tr>
 <tr>
 <td>TIMESTAMP</td>
-<td>2023-06-04:21:00:18</td>
+<td>2023-06-07:23:03:25</td>
 </tr>
 <tr>
 <td>STATUS</td>
@@ -250,25 +250,24 @@
 <div class="masterreport">
 <pre>
 PACKAGE usim_static IS
-  /**
-  * Package containing static values and SQL functions for retrieving this values to be used with the application.
+  /** A Package containing static values and SQL functions for retrieving this values to be used with the application.
   *
-  * Package constants
-  * @constant usim_max_childs - a constant value for the allowed amount of child nodes in a binary tree point structure.
-  * @constant usim_max_seeds - a constant value for the maximum seeds a universe can have, means the maximum of points with dimension and position without a parent.
-  * @constant usim_seed_name - a constant name for the basic point structure of the universe. Add an index if more than one seed is used.
-  * @constant usim_mirror_name - a constant name for the basic point mirror structure of the universe. Add an index if more than one seed is used.
-  * @constant usim_child_add - a constant name addendum for childs (point structure trees) of seed or mirror. Always add an index to this name to keep it unique.
-  * @constant usim_max_dimensions - a constant for n-sphere dimensions supported by the simulation.
-  * @constant usim_planck_timer - a constant for the sequence name responsible for planck time ticks.
-  * @constant usim_not_available - a constant name for filled char fields which are not Null, but have no usable content.
-  * @constant usim_max_number - a constant for the positive number overflow value.
-  * @constant usim_status_success - a constant for debug success.
-  * @constant usim_status_error - a constant for debug error.
-  * @constant usim_status_warning - a constant for debug warning.
-  * @constant PI - a constant for PI definition with Oracle precision.
-  * @constant PI_DOUBLE - a constant for 2 * PI definition with Oracle precision.
-  * @constant PI_QUARTER - a constant for PI / 4 definition with Oracle precision.
+  * Package constants:
+  * &lt;b>usim_max_childs&lt;/b> - a constant value for the allowed amount of child nodes in a binary tree point structure.
+  * &lt;b>usim_max_seeds&lt;/b> - a constant value for the maximum seeds a universe can have, means the maximum of points with dimension and position without a parent.
+  * &lt;b>usim_seed_name&lt;/b> - a constant name for the basic point structure of the universe. Add an index if more than one seed is used.
+  * &lt;b>usim_mirror_name&lt;/b> - a constant name for the basic point mirror structure of the universe. Add an index if more than one seed is used.
+  * &lt;b>usim_child_add&lt;/b> - a constant name addendum for childs (point structure trees) of seed or mirror. Always add an index to this name to keep it unique.
+  * &lt;b>usim_max_dimensions&lt;/b> - a constant for n-sphere dimensions supported by the simulation.
+  * &lt;b>usim_planck_timer&lt;/b> - a constant for the sequence name responsible for planck time ticks.
+  * &lt;b>usim_not_available&lt;/b> - a constant name for filled char fields which are not Null, but have no usable content.
+  * &lt;b>usim_max_number&lt;/b> - a constant for the positive number overflow value.
+  * &lt;b>usim_status_success&lt;/b> - a constant for debug success.
+  * &lt;b>usim_status_error&lt;/b> - a constant for debug error.
+  * &lt;b>usim_status_warning&lt;/b> - a constant for debug warning.
+  * &lt;b>PI&lt;/b> - a constant for PI definition with Oracle precision.
+  * &lt;b>PI_DOUBLE&lt;/b> - a constant for 2 * PI definition with Oracle precision.
+  * &lt;b>PI_QUARTER&lt;/b> - a constant for PI / 4 definition with Oracle precision.
   */
   usim_max_childs         CONSTANT INTEGER      := 2;
   usim_max_seeds          CONSTANT INTEGER      := 1;

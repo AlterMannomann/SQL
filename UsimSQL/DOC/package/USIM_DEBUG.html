@@ -46,22 +46,22 @@
 <div id="Master.0">
 <div class="currentmasterreport">
 <TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
-<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P> PACKAGE USIM_DEBUG<BR>     Package is session dependend. Debug mode is<BR>     disabled by default and if set only valid in the<BR>     the current session.<BR>   </P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#debug_log">debug_log</A></B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN VARCHAR2 ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_DEBUG.DEBUG_LOG<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Creates a debug log entry in USIM_DEBUG_LOG if debug state<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     is set. Requires a valid id from START_DEBUG.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     PARAMETER<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
-<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#debug_log">debug_log</A></B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN usim_debug_log . usim_log_content % TYPE ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD></TR>
-<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#is_debug">is_debug</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_DEBUG.IS_DEBUG<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Check debug state in SQL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     TRUE if debug is enabled for this session, otherwise FALSE.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
-<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#is_debug_on">is_debug_on</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_DEBUG.IS_DEBUG_ON<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Check debug state in PL/SQL Code.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     TRUE if debug is enabled for this session, otherwise FALSE.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
-<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#set_debug_off">set_debug_off</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_DEBUG.SET_DEBUG_ON<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Deactivate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
-<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#set_debug_on">set_debug_on</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_DEBUG.SET_DEBUG_ON<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Activate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
-<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#start_debug">start_debug</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_DEBUG.START_DEBUG<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Starts a debug session, if debug state is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     on for this session.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     A new debug id or NULL if debug state is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     not set.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </TD></TR>
+<TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE><HR><P>  A package for debugging purposes.<BR>   <BR>    Package is session dependend. Debug mode is<BR>    disabled by default and if set only valid in the<BR>    the current session.<BR>  </P><HR><P></P><A NAME="method_summary"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Summary</B></FONT></TD><TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#debug_log">debug_log</A></B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN VARCHAR2 ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Creates a debug log entry in USIM_DEBUG_LOG if debug state<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    is set. Requires a valid id from START_DEBUG.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#debug_log">debug_log</A></B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN usim_debug_log . usim_log_content % TYPE ) </CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Creates a debug log entry in USIM_DEBUG_LOG if debug state<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    is set. Requires a valid id from START_DEBUG.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#is_debug">is_debug</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Check debug state in SQL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#is_debug_on">is_debug_on</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Check debug state in PL/SQL Code.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#set_debug_off">set_debug_off</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Deactivate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#set_debug_on">set_debug_on</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Activate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </TD></TR>
+<TR CLASS="TableRowColor"><TD WIDTH="1%" VALIGN="top" ALIGN="right"><FONT SIZE="-1"><CODE>&nbsp;</CODE></FONT></TD><TD><CODE><B><A HREF="#start_debug">start_debug</A></B></CODE><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Starts a debug session, if debug state is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    on for this session.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </TD></TR>
 </TABLE>
 <P></P><A NAME="method_detail"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="3" BORDER="1"><TR CLASS="TableHeadingColor"><TD COLSPAN="2"><FONT SIZE="+2"><B>Method Detail</B></FONT></TD></TABLE><A NAME="debug_log"></A>
-<H3>debug_log</H3><PRE>          <B>debug_log</B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN VARCHAR2 ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_DEBUG.DEBUG_LOG<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Creates a debug log entry in USIM_DEBUG_LOG if debug state<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     is set. Requires a valid id from START_DEBUG.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     PARAMETER<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="debug_log"></A>
-<H3>debug_log</H3><PRE>          <B>debug_log</B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN usim_debug_log . usim_log_content % TYPE ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<DD><DL></DL></DD></DL><HR><A NAME="is_debug"></A>
-<H3>is_debug</H3><PRE>          <B>is_debug</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_DEBUG.IS_DEBUG<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Check debug state in SQL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     TRUE if debug is enabled for this session, otherwise FALSE.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="is_debug_on"></A>
-<H3>is_debug_on</H3><PRE>          <B>is_debug_on</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_DEBUG.IS_DEBUG_ON<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Check debug state in PL/SQL Code.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     TRUE if debug is enabled for this session, otherwise FALSE.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="set_debug_off"></A>
-<H3>set_debug_off</H3><PRE>          <B>set_debug_off</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_DEBUG.SET_DEBUG_ON<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Deactivate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="set_debug_on"></A>
-<H3>set_debug_on</H3><PRE>          <B>set_debug_on</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Procedure USIM_DEBUG.SET_DEBUG_ON<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Activate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><A NAME="start_debug"></A>
-<H3>start_debug</H3><PRE>          <B>start_debug</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Function USIM_DEBUG.START_DEBUG<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     Starts a debug session, if debug state is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     on for this session.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     RETURNS<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     A new debug id or NULL if debug state is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     not set.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <DD><DL></DL></DD></DL><HR><TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
+<H3>debug_log</H3><PRE>          <B>debug_log</B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN VARCHAR2 ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Creates a debug log entry in USIM_DEBUG_LOG if debug state<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    is set. Requires a valid id from START_DEBUG.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_id_dlg</CODE> - The debug ID to use.</DD><DD><CODE>p_usim_status</CODE> - The debug status for this debug entry.</DD><DD><CODE>p_usim_log_object</CODE> - The function or procedure name, e.g. USIM_DEBUG.DEBUG_LOG.</DD><DD><CODE>p_usim_log_content</CODE> - The debug message to use limited to VARCHAR2 size.</DD></DT></DL></DD></DL><HR><A NAME="debug_log"></A>
+<H3>debug_log</H3><PRE>          <B>debug_log</B>( p_usim_id_dlg IN usim_debug_log . usim_id_dlg % TYPE , p_usim_status IN usim_debug_log . usim_status % TYPE , p_usim_log_object IN usim_debug_log . usim_log_object % TYPE , p_usim_log_content IN usim_debug_log . usim_log_content % TYPE ) </PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Creates a debug log entry in USIM_DEBUG_LOG if debug state<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    is set. Requires a valid id from START_DEBUG.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Parameters:</B><DD><CODE>p_usim_id_dlg</CODE> - The debug ID to use.</DD><DD><CODE>p_usim_status</CODE> - The debug status for this debug entry.</DD><DD><CODE>p_usim_log_object</CODE> - The function or procedure name, e.g. USIM_DEBUG.DEBUG_LOG.</DD><DD><CODE>p_usim_log_content</CODE> - The debug message to use limited to CLOB size.</DD></DT></DL></DD></DL><HR><A NAME="is_debug"></A>
+<H3>is_debug</H3><PRE>          <B>is_debug</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Check debug state in SQL.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Returns:</B><DD>"TRUE" if debug is enabled for this session, otherwise "FALSE".</DD></DT></DL></DD></DL><HR><A NAME="is_debug_on"></A>
+<H3>is_debug_on</H3><PRE>          <B>is_debug_on</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Check debug state in PL/SQL Code.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Returns:</B><DD>TRUE if debug is enabled for this session, otherwise FALSE.</DD></DT></DL></DD></DL><HR><A NAME="set_debug_off"></A>
+<H3>set_debug_off</H3><PRE>          <B>set_debug_off</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Deactivate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <DD><DL></DL></DD></DL><HR><A NAME="set_debug_on"></A>
+<H3>set_debug_on</H3><PRE>          <B>set_debug_on</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Activate debug state.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <DD><DL></DL></DD></DL><HR><A NAME="start_debug"></A>
+<H3>start_debug</H3><PRE>          <B>start_debug</B></PRE><DL>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Starts a debug session, if debug state is<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    on for this session.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <DD><DL><DT><B>Returns:</B><DD>A new debug id or NULL if debug state is not set.</DD></DT></DL></DD></DL><HR><TABLE CELLSPACING="0" CELLPADDING="1" WIDTH="100%" BORDER="0">
 <TR><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2">      SUMMARY:  <A HREF="#field_summary">FIELD</A> | <A HREF="#type_summary">TYPE</A> | <A HREF="#method_summary">METHOD</A></FONT></TD><TD CLASS="NavBarRow3" VALIGN="top"><FONT SIZE="-2"></TR></TABLE></div>
 </div>
 <div id="Master.1">
@@ -96,15 +96,15 @@
 </tr>
 <tr>
 <td>CREATED</td>
-<td>04.06.2023&nbsp;21:00:18</td>
+<td>06.06.2023&nbsp;19:56:09</td>
 </tr>
 <tr>
 <td>LAST_DDL_TIME</td>
-<td>04.06.2023&nbsp;21:00:18</td>
+<td>07.06.2023&nbsp;23:14:04</td>
 </tr>
 <tr>
 <td>TIMESTAMP</td>
-<td>2023-06-04:21:00:18</td>
+<td>2023-06-07:23:14:04</td>
 </tr>
 <tr>
 <td>STATUS</td>
@@ -226,61 +226,56 @@
 <div class="masterreport">
 <pre>
 PACKAGE usim_debug IS
-  /* PACKAGE USIM_DEBUG
-   * Package is session dependend. Debug mode is
-   * disabled by default and if set only valid in the
-   * the current session.
-   */
+  /** A package for debugging purposes.
+  *
+  * Package is session dependend. Debug mode is
+  * disabled by default and if set only valid in the
+  * the current session.
+  */
 
-  /* Function USIM_DEBUG.IS_DEBUG_ON
-   * Check debug state in PL/SQL Code.
-   *
-   * RETURNS
-   * TRUE if debug is enabled for this session, otherwise FALSE.
-   */
+  /**
+  * Check debug state in PL/SQL Code.
+  * @return TRUE if debug is enabled for this session, otherwise FALSE.
+  */
   FUNCTION is_debug_on
     RETURN BOOLEAN
   ;
 
-  /* Function USIM_DEBUG.IS_DEBUG
-   * Check debug state in SQL.
-   *
-   * RETURNS
-   * TRUE if debug is enabled for this session, otherwise FALSE.
-   */
+  /**
+  * Check debug state in SQL.
+  * @return "TRUE" if debug is enabled for this session, otherwise "FALSE".
+  */
   FUNCTION is_debug
     RETURN VARCHAR2
   ;
 
-  /* Procedure USIM_DEBUG.SET_DEBUG_ON
-   * Activate debug state.
-   */
+  /**
+  * Activate debug state.
+  */
   PROCEDURE set_debug_on;
 
-  /* Procedure USIM_DEBUG.SET_DEBUG_ON
-   * Deactivate debug state.
-   */
+  /**
+  * Deactivate debug state.
+  */
   PROCEDURE set_debug_off;
 
-  /* Function USIM_DEBUG.START_DEBUG
-   * Starts a debug session, if debug state is
-   * on for this session.
-   *
-   * RETURNS
-   * A new debug id or NULL if debug state is
-   * not set.
-   */
+  /**
+  * Starts a debug session, if debug state is
+  * on for this session.
+  * @return A new debug id or NULL if debug state is not set.
+  */
   FUNCTION start_debug
     RETURN usim_debug_log.usim_id_dlg%TYPE
   ;
 
-  /* Procedure USIM_DEBUG.DEBUG_LOG
-   * Creates a debug log entry in USIM_DEBUG_LOG if debug state
-   * is set. Requires a valid id from START_DEBUG.
-   *
-   * PARAMETER
-   *
-   */
+  /**
+  * Creates a debug log entry in USIM_DEBUG_LOG if debug state
+  * is set. Requires a valid id from START_DEBUG.
+  * @param p_usim_id_dlg The debug ID to use.
+  * @param p_usim_status The debug status for this debug entry.
+  * @param p_usim_log_object The function or procedure name, e.g. USIM_DEBUG.DEBUG_LOG.
+  * @param p_usim_log_content The debug message to use limited to VARCHAR2 size.
+  */
   PROCEDURE debug_log( p_usim_id_dlg        IN usim_debug_log.usim_id_dlg%TYPE
                      , p_usim_status        IN usim_debug_log.usim_status%TYPE
                      , p_usim_log_object    IN usim_debug_log.usim_log_object%TYPE
@@ -288,6 +283,14 @@ PACKAGE usim_debug IS
                      )
   ;
 
+  /**
+  * Creates a debug log entry in USIM_DEBUG_LOG if debug state
+  * is set. Requires a valid id from START_DEBUG.
+  * @param p_usim_id_dlg The debug ID to use.
+  * @param p_usim_status The debug status for this debug entry.
+  * @param p_usim_log_object The function or procedure name, e.g. USIM_DEBUG.DEBUG_LOG.
+  * @param p_usim_log_content The debug message to use limited to CLOB size.
+  */
   PROCEDURE debug_log( p_usim_id_dlg        IN usim_debug_log.usim_id_dlg%TYPE
                      , p_usim_status        IN usim_debug_log.usim_status%TYPE
                      , p_usim_log_object    IN usim_debug_log.usim_log_object%TYPE

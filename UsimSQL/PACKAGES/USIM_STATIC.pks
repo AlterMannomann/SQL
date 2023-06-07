@@ -1,23 +1,22 @@
 CREATE OR REPLACE PACKAGE usim_static IS
-  /**
-  * Package containing static values and SQL functions for retrieving this values to be used with the application.
+  /** A Package containing static values and SQL functions for retrieving this values to be used with the application.
   *
-  * Package constants
-  * @constant usim_max_childs - a constant value for the allowed amount of child nodes in a binary tree point structure.
-  * @constant usim_max_seeds - a constant value for the maximum seeds a universe can have, means the maximum of points with dimension and position without a parent.
-  * @constant usim_seed_name - a constant name for the basic point structure of the universe. Add an index if more than one seed is used.
-  * @constant usim_mirror_name - a constant name for the basic point mirror structure of the universe. Add an index if more than one seed is used.
-  * @constant usim_child_add - a constant name addendum for childs (point structure trees) of seed or mirror. Always add an index to this name to keep it unique.
-  * @constant usim_max_dimensions - a constant for n-sphere dimensions supported by the simulation.
-  * @constant usim_planck_timer - a constant for the sequence name responsible for planck time ticks.
-  * @constant usim_not_available - a constant name for filled char fields which are not Null, but have no usable content.
-  * @constant usim_max_number - a constant for the positive number overflow value.
-  * @constant usim_status_success - a constant for debug success.
-  * @constant usim_status_error - a constant for debug error.
-  * @constant usim_status_warning - a constant for debug warning.
-  * @constant PI - a constant for PI definition with Oracle precision.
-  * @constant PI_DOUBLE - a constant for 2 * PI definition with Oracle precision.
-  * @constant PI_QUARTER - a constant for PI / 4 definition with Oracle precision.
+  * Package constants:
+  * <b>usim_max_childs</b> - a constant value for the allowed amount of child nodes in a binary tree point structure.
+  * <b>usim_max_seeds</b> - a constant value for the maximum seeds a universe can have, means the maximum of points with dimension and position without a parent.
+  * <b>usim_seed_name</b> - a constant name for the basic point structure of the universe. Add an index if more than one seed is used.
+  * <b>usim_mirror_name</b> - a constant name for the basic point mirror structure of the universe. Add an index if more than one seed is used.
+  * <b>usim_child_add</b> - a constant name addendum for childs (point structure trees) of seed or mirror. Always add an index to this name to keep it unique.
+  * <b>usim_max_dimensions</b> - a constant for n-sphere dimensions supported by the simulation.
+  * <b>usim_planck_timer</b> - a constant for the sequence name responsible for planck time ticks.
+  * <b>usim_not_available</b> - a constant name for filled char fields which are not Null, but have no usable content.
+  * <b>usim_max_number</b> - a constant for the positive number overflow value.
+  * <b>usim_status_success</b> - a constant for debug success.
+  * <b>usim_status_error</b> - a constant for debug error.
+  * <b>usim_status_warning</b> - a constant for debug warning.
+  * <b>PI</b> - a constant for PI definition with Oracle precision.
+  * <b>PI_DOUBLE</b> - a constant for 2 * PI definition with Oracle precision.
+  * <b>PI_QUARTER</b> - a constant for PI / 4 definition with Oracle precision.
   */
   usim_max_childs         CONSTANT INTEGER      := 2;
   usim_max_seeds          CONSTANT INTEGER      := 1;

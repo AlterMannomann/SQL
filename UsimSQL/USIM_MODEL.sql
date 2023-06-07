@@ -149,7 +149,7 @@ TRUNCATE TABLE usim_debug_log;
 @@PACKAGES/USIM_CTRL.pks
 @@PACKAGES/USIM_CTRL.pkb
 --== create other packages end ==--
-
+-- EXEC usim_debug.set_debug_on;
 -- insert base points
 @@INS/USIM_POINT_INS.sql
 -- insert first action on start point

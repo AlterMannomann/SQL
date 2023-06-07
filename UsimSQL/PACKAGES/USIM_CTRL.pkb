@@ -469,7 +469,6 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
     CLOSE cur_cnt_not_processed;
     l_usim_plancktime := usim_utility.current_planck_time;
 
-
     IF l_cnt_not_processed = 0
     THEN
       IF l_usim_direction = 0
@@ -718,6 +717,7 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
     END LOOP;
   END handle_overflows
   ;
+
   PROCEDURE add_point_history( p_usim_id_poi_target     IN usim_poi_history.usim_id_poi_target%TYPE
                              , p_usim_id_poi_source     IN usim_poi_history.usim_id_poi_source%TYPE
                              , p_usim_planck_time       IN usim_poi_history.usim_planck_time%TYPE

@@ -360,8 +360,8 @@ CREATE OR REPLACE PACKAGE BODY usim_utility IS
                              )
                      CONNECT BY LEVEL <= LENGTH(str) - LENGTH(REPLACE(str, ',')) + 1
                      )
-                     -- square of difference between vec1 - vec2
-              SELECT POWER(usim_utility.coords_diff(cmax.coord, cmin.coord), 2) AS diff_vec_sq
+                     -- square of difference between vec1 - vec2 (if NULL use 0 coordinate at level 1)
+              SELECT POWER(usim_utility.coords_diff(cmax.coord, NVL(cmin.coord, '0(1)')), 2) AS diff_vec_sq
                 FROM cmax
                 LEFT OUTER JOIN cmin
                   ON cmax.lvl = cmin.lvl

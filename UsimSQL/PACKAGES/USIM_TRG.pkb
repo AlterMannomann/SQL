@@ -7,12 +7,20 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
   IS
     l_cnt_result      INTEGER;
     l_usim_id_dim     usim_dimension.usim_id_dim%TYPE;
+    l_debug_id        usim_debug_log.usim_id_dlg%TYPE;
+    l_debug_object    usim_debug_log.usim_log_object%TYPE := 'USIM_TRG.GET_USIM_ID_DIM';
+    l_debug_content   usim_debug_log.usim_log_content%TYPE;
   BEGIN
+    l_debug_id      := usim_debug.start_debug;
+    l_debug_content := 'PARAMETER: p_usim_id_dim[' || p_usim_id_dim || '] p_usim_dimension[' || p_usim_dimension || ']';
+    usim_debug.debug_log(l_debug_id, usim_static.usim_status_success, l_debug_object, l_debug_content);
     IF p_usim_id_dim IS NOT NULL
     THEN
       SELECT COUNT(*) INTO l_cnt_result FROM usim_dimension WHERE usim_id_dim = p_usim_id_dim;
       IF l_cnt_result = 0
       THEN
+        l_debug_content := 'ERROR dimension id p_usim_id_dim[' || p_usim_id_dim || '] does not exist.';
+        usim_debug.debug_log(l_debug_id, usim_static.usim_status_error, l_debug_object, l_debug_content);
         RAISE_APPLICATION_ERROR( num => -20100
                                , msg => 'Given dimension ID (' || p_usim_id_dim || ') does not exist.'
                                )
@@ -23,6 +31,8 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
       SELECT COUNT(*) INTO l_cnt_result FROM usim_dimension WHERE usim_n_dimension = p_usim_dimension;
       IF l_cnt_result = 0
       THEN
+        l_debug_content := 'ERROR dimension p_usim_dimension[' || p_usim_dimension || '] does not exist.';
+        usim_debug.debug_log(l_debug_id, usim_static.usim_status_error, l_debug_object, l_debug_content);
         RAISE_APPLICATION_ERROR( num => -20101
                                , msg => 'Given dimension (' || p_usim_dimension || ') does not exist.'
                                )
@@ -30,6 +40,8 @@ CREATE OR REPLACE PACKAGE BODY usim_trg IS
       END IF;
       SELECT usim_id_dim INTO l_usim_id_dim FROM usim_dimension WHERE usim_n_dimension = p_usim_dimension;
     END IF;
+    l_debug_content := 'RESULT: l_usim_id_dim[' || l_usim_id_dim || ']';
+    usim_debug.debug_log(l_debug_id, usim_static.usim_status_success, l_debug_object, l_debug_content);
     RETURN l_usim_id_dim;
   END get_usim_id_dim
   ;

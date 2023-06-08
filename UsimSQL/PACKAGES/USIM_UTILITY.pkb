@@ -66,10 +66,10 @@ CREATE OR REPLACE PACKAGE BODY usim_utility IS
     THEN
       l_end     := INSTR(l_pos_string, p_ignore_start, 1) - 1;
       -- remove any non number char
-      l_result  := TRIM(REGEXP_REPLACE(SUBSTR(l_pos_string, 1, l_end), '[^0-9]', ''));
+      l_result  := TRIM(REGEXP_REPLACE(SUBSTR(l_pos_string, 1, l_end), '[^0-9-]', ''));
     ELSE
       -- remove any non number char
-      l_result  := TRIM(REGEXP_REPLACE(l_pos_string, '[^0-9]', ''));
+      l_result  := TRIM(REGEXP_REPLACE(l_pos_string, '[^0-9-]', ''));
     END IF;
     l_debug_content := 'RESULT: l_result[' || l_result || '] l_end[' || l_end || ']';
     usim_debug.debug_log(l_debug_id, usim_static.usim_status_success, l_debug_object, l_debug_content);

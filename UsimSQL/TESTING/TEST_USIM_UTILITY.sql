@@ -125,6 +125,16 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  IF TRIM(usim_utility.extract_coordinate('0(1),2(1),-2(1)', 2)) != '-2'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ': extract_coordinate 0(1),2(1),-2(1) on position 2 NOT -2';
+    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Get Coords';
   IF usim_utility.get_coordinate(' 23231 (1001) , 344455 (2000) , 23232 (3000), 65656(1)', 2) != 23232
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ': get_coordinate  23231 (1001) , 344455 (2000) , 23232 (3000), 65656(1) on position 2 NOT 23232';
@@ -141,6 +151,15 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  IF usim_utility.get_coordinate('0(1),2(1),-2(1)', 2) != -2
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_coordinate 0(1),2(1),-2(1) on position 2 NOT -2';
+    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
 
   l_test_section := 'Extract Level';
   IF usim_utility.extract_number_level('1(1)', 0) != '1'
@@ -220,6 +239,14 @@ BEGIN
   IF usim_utility.get_x(' 23231 (1001) , 344455 (2000) , 23232 (3000), 65656(1)') != 344455
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ': get_x  23231 (1001) , 344455 (2000) , 23232 (3000), 65656(1) NOT 344455';
+    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  IF usim_utility.get_x(' 23231 (1001) , -344455 (2000) , 23232 (3000), 65656(1)') != -344455
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_x  23231 (1001) , -344455 (2000) , 23232 (3000), 65656(1) NOT 344455';
     DBMS_OUTPUT.PUT_LINE(l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -403,6 +430,24 @@ BEGIN
   IF usim_utility.get_max_position_1st(-1) - 1 != usim_utility.get_max_position_2nd(-1)
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ': max negative 1st position - 1 is NOT max 2nd position';
+    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Get Vector Distance';
+  IF usim_utility.vector_distance('0(1),1(1)', '0(1),-2(1)') != 3
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ': wrong vector distance for 1(1), -2(1)';
+    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  IF usim_utility.vector_distance('0(1),1(1)', '0(1),2(1)') != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ': wrong vector distance for 1(1), 2(1)';
     DBMS_OUTPUT.PUT_LINE(l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE

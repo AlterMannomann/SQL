@@ -4,6 +4,7 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
                                 , p_position_left     IN usim_position.usim_coordinate%TYPE
                                 , p_position_right    IN usim_position.usim_coordinate%TYPE
                                 , p_usim_id_parent    IN usim_poi_dim_position.usim_id_pdp%TYPE
+                                , p_usim_id_dim_max   IN usim_dimension.usim_id_dim%TYPE DEFAULT NULL
                                 )
   IS
     PRAGMA AUTONOMOUS_TRANSACTION;

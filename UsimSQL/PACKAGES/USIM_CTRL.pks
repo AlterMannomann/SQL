@@ -5,15 +5,19 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
   */
 
   /**
-  * Fills all dimensions of a given point structure with points. Means it
+  * Fills specified dimensions of a given point structure with points. Means it
   * builds a perfect binary tree for the point in all dimensions. Therefore
   * only two values can be set, left and right. Which have to be distinct.
   * Attributes like energy, amplitude and wavelength are initialized to 0 by trigger.
+  * Does not check the positions, this should be done by calling procedures.
   * @param p_usim_id_psc The id of the point structure to fill.
   * @param p_position_left The usim_position for left node.
   * @param p_position_right The usim_position for right node.
   * @param p_usim_id_parent The parent, if needed. If NULL will create a universe
-                            seed structure where starting point has no parent.
+                            seed structure where starting point has no parent. Parent
+                            defines the starting dimension, from where to fill.
+  * @param p_usim_id_dim_max The maximum dimension, which should be filled. If not set
+                             (Default), the maximum supported dimension is used.
   * @throws 20100 Given dimension ID (x) does not exist.
   * @throws 20101 Given dimension (x) does not exist.
   * @throws 20102 Given child dimension (x) does not match parent dimension (y) + 1.
@@ -24,11 +28,14 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
   * @throws 20300 Given position ID (x) does not exist.
   * @throws 20400 Given point structure ID (x) does not exist.
   * @throws 20500 Given point structure id (x) is not empty
+  * @throws 20701 Invalid positions provided, if positions would leave holes in the position matrix or cause duplicates of positions already exist in specified dimensions.
+  * @throws 20702 Invalid maximum dimension, if given dimension is not found or dimension is lower than parent dimension + 1.
   */
   PROCEDURE fill_point_structure( p_usim_id_psc       IN usim_poi_structure.usim_id_psc%TYPE
                                 , p_position_left     IN usim_position.usim_coordinate%TYPE
                                 , p_position_right    IN usim_position.usim_coordinate%TYPE
                                 , p_usim_id_parent    IN usim_poi_dim_position.usim_id_pdp%TYPE
+                                , p_usim_id_dim_max   IN usim_dimension.usim_id_dim%TYPE DEFAULT NULL
                                 )
   ;
 

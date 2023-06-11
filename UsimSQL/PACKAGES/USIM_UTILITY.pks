@@ -7,7 +7,8 @@ CREATE OR REPLACE PACKAGE usim_utility IS
   * Extracts a coordinate substring from a coords string containing a defined delimiter at
   * the desired position. Ignores portions of the string that are surrounded
   * by the given ignore delimiters, like relative number levels.
-  * @param p_string The string with delimiters to extract a value from.
+  * @param p_string The string with delimiters to extract a value from. Values are either positive, no sign or negative with a leading minus sign.
+                    The expected string has the formatting "value(level),value(level),...", e.g. "0(1),2(1),-2(1)". Number level is always positive.
   * @param p_position The position of the extract value, first position = 0, any value below 0 is treated as first position.
   * @param p_delimiter The delimiter used in the string, defaults to a comma ",".
   * @param p_ignore_start The start delimiter for levels to ignore, defaults to an open bracket "(".

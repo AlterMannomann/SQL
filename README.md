@@ -35,14 +35,14 @@ When one planck time tick has passed, all calculations for the universe are done
 This means also, that planck time definition in relation to length is variable, as the length between the seed and the farest space point will change constantly as long as the universe builds new space. The bigger the universe gets, the more the planck time to length relation will look like a constant. Same for planck velocity. Especially if we have limited number size.
 
 ## Space points
-Space points are defined as perfect binary trees of coordinates up to the supported dimension, where every tree node describes and contains the space points for
+Space points are defined as perfect binary trees of coordinates up to the supported dimension, where every tree node describes and contains the coordinates for
 the associated dimension:
 
 **tree height - 1 equals n-sphere dimension**
 
 Space points are, moreover, stationary and timeless. They can't move, but they can accumulate energy. And they can't be destroyed as long as the universe exists. They can have positive, negative or zero potential energy and that's it. They are formed by coordinates (outer bounds) to define the area, a space point is active. In n = 1 it is the line between the two coordinates, in n = 2 the coordinates form a square and so forth. In documentation I use coordinate as well as point (not space point) simultaneously for the outer bounds of space points, which is, of course not very accurate.
 
-What we know as our universe is in my opinion the foam on top of this points created by the available energy.
+What we know as our universe is in my opinion the foam on top of this space points created by the available energy.
 
 On overflow, means any calculation of coordinate attributes results in infinity (for our available systems), the coordinate attributes are not updated. Instead the space point will create a new
 tree structure and initialize it with the negative values of the source attributes, that would have caused an overflow. You may imagine this as similar to the process to give birth. First it needs a lot of energy taken from the parent, in human case mother, to give a new life birth.

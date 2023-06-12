@@ -28,7 +28,7 @@ I'm playing a little bit god using wish 2 and provide two basic space point stru
 To respect the one thing, I start the universe seed with one (1, -1) as the only start value for attributes.
 
 ## The Planck thing
-Everything is at level Planck, means we have planck time t = 1 with planck velocity c = 1. We can't see what is happening in space points or space point trees. We can only observe the result. Means we'll may see the energy, wave amplitude and wave length arriving to the next point, but not the wave movement, as we can't look into the point dynamics itself, the reaction between points that form a space point.
+Everything is at level Planck, means we have planck time t = 1 with planck velocity c = 1. We can't see what is happening in space points or space point trees. We can only observe the result. Means we'll may see the energy, wave amplitude and wave length arriving to the next coordinate, but not the wave movement, as we can't look into the coordinate dynamics itself, the reaction between coordinates that form a space point.
 
 When one planck time tick has passed, all calculations for the universe are done. All space points/coordinates are most likely in reach within this time frame at least from their parent.
 

@@ -107,10 +107,8 @@ To overcome limits on numbers for positions, I use number levels, which result i
 You may want to look at table USIM_LEVELS how to restrict records on a table, Package USIM_DEBUG to learn more about debugging and logging (PL/)SQL and much more. Feel free to explore the code. Apart from this, I'm convinced that there exist much more better solutions than the solutions I've found and established. It is only a starting point. Btw. I didn't care about performance currently.
 
 ## To do
-Sorry, mother tongue is faster for temporary problems.
+* remove all position attributes apart from energy. One thing, one attribute. Waves and frequencies are functions on top of the topology.
+* fillPointStructure has to find out the maximum dimension possible for the given position values. The minimum dimension is given by the parent.
+* A check for new coordinates is needed. They should fit in the dimensions of the tree/subtree without creating values that already exist in this dimension. A parent coordinate, where a overflow happened, can have any dimension. New subtrees are limited to exist below any other dimension, already containing the position coordinates used by that dimension.
+* create usim_ctrl.runSimulation. A table is needed, that can be updated and is read by runSimulation to find out, if a simulation should be stopped at a certain point. Otherwise the simulation may run endlessly. Mostly equal to run_planck_cycles, without a limit of cycles. The future main interface to the simulation.
 
-* usim_trg.get_usim_id_pos als Beispiel für Formatierung für DB Dokumentation, - wird von Doku gemacht, Return ganz zuletzt, Ora Code ohne Minus. Parameter Beschreibung in einer Zeile oder ohne führendes Sternchen.
-* fillPointStructure benötigt eine max Dimension für das Füllen. Wenn NULL, dann max Dimension.
-* Bei neuen Koordinaten müssen die Dimensionen geprüft werden, je nach Ort eines Subtrees sind nur bestimmte Dimensionen erlaubt, z.B. Subtree in n = 3 hat bereits eine hohe Koordinate reserviert, die aber noch in den Dimension n < 3 untergebracht werden kann, da sie dort nicht existiert. Intention: Je nach Overflow kann es unterschiedliche Wurzeln eines Punktes geben. Sorgt für Chaos, ist wichtig für das Leben.
-* Distanzberechnung zwischen Koordinaten mit unterschiedlichem Level muss korrekt sein (Overflow Problem) - nicht ausreichend getestet.
-* usim_ctrl.runSimulation (noch nicht gemacht), entweder es läuft weiter oder es läuft sich tot oder es bleibt irgendwo stehen. Mal sehen ...

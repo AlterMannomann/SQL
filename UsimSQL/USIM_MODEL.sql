@@ -48,6 +48,9 @@ TRUNCATE TABLE usim_debug_log;
 @@TABLES/USIM_LEVELS_TBL.sql
 -- initialize level sequences
 @@INS/USIM_LEVELS_INS.sql
+
+-- USIM_RUN_LOG (rlg)
+@@TABLES/USIM_RUN_LOG_TBL.sql
 --== create section, basic table definitions and prefill end ==--
 
 --== create section, relations table definitions start ==--
@@ -149,16 +152,32 @@ TRUNCATE TABLE usim_debug_log;
 @@PACKAGES/USIM_CTRL.pks
 @@PACKAGES/USIM_CTRL.pkb
 --== create other packages end ==--
+
+-- check state of database
+SELECT CASE
+        WHEN COUNT(*) > 0
+        THEN 'ERROR Database has invalid objects'
+        ELSE 'SUCCESS All database objects are valid'
+      END AS info
+  FROM user_objects
+ WHERE status != 'VALID'
+;
+-- details if any
+SELECT object_type
+     , COUNT(*) AS invalid_objects
+  FROM user_objects
+ WHERE status != 'VALID'
+ GROUP BY object_type
+;
+
 -- EXEC usim_debug.set_debug_on;
 -- insert base points
 @@INS/USIM_POINT_INS.sql
 -- insert first action on start point
 @@INS/USIM_OUTPUT_INS.sql
 
--- summary of db objects
-SELECT object_type
-     , COUNT(*) AS invalid_objects
-  FROM user_objects
- WHERE status != 'VALID'
- GROUP BY object_type
+-- show run log
+SELECT *
+  FROM usim_run_log
+ ORDER BY usim_plancktime
 ;

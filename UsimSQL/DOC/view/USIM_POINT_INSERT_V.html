@@ -58,149 +58,28 @@
 <th>DELETABLE</th>
 </tr>
 <tr onclick="table_onSelectMasterRow(this, 0, 0)" class="currentrow">
-<td class="currentcell">USIM_ID_PSC</td>
+<td class="currentcell">USIM_ID_PDC</td>
 <td class="currentcell">CHAR(55)</td>
 <td class="currentcell">Yes</td>
 <td class="currentcell">null</td>
-<td class="currentcell">17</td>
-<td class="currentcell">The&nbsp;ID&nbsp;of&nbsp;the&nbsp;associated&nbsp;point&nbsp;structure.&nbsp;Name&nbsp;or&nbsp;ID&nbsp;is&nbsp;optional&nbsp;on&nbsp;INSERT.&nbsp;IF&nbsp;NULL&nbsp;the&nbsp;universe&nbsp;seed&nbsp;is&nbsp;used.</td>
+<td class="currentcell">16</td>
+<td class="currentcell">The&nbsp;ID&nbsp;of&nbsp;the&nbsp;child&nbsp;of&nbsp;the&nbsp;point&nbsp;with&nbsp;dimension&nbsp;and&nbsp;position.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
 <td class="currentcell">YES</td>
 <td class="currentcell">NO</td>
 <td class="currentcell">NO</td>
 </tr>
 <tr onclick="table_onSelectMasterRow(this, 0, 1)">
-<td>USIM_ID_POI</td>
+<td>USIM_ID_PSC</td>
 <td>CHAR(55)</td>
-<td>No</td>
+<td>Yes</td>
 <td>null</td>
-<td>11</td>
-<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;point.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
+<td>17</td>
+<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;associated&nbsp;point&nbsp;structure.&nbsp;Name&nbsp;or&nbsp;ID&nbsp;is&nbsp;optional&nbsp;on&nbsp;INSERT.&nbsp;IF&nbsp;NULL&nbsp;the&nbsp;universe&nbsp;seed&nbsp;is&nbsp;used.</td>
 <td>YES</td>
 <td>NO</td>
 <td>NO</td>
 </tr>
 <tr onclick="table_onSelectMasterRow(this, 0, 2)">
-<td>USIM_ID_DIM</td>
-<td>NUMBER(38)</td>
-<td>Yes</td>
-<td>null</td>
-<td>12</td>
-<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;dimension,&nbsp;related&nbsp;to&nbsp;the&nbsp;point.&nbsp;Dimension&nbsp;or&nbsp;dimension&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.&nbsp;If&nbsp;given,&nbsp;any&nbsp;given&nbsp;dimension&nbsp;is&nbsp;ignored.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 3)">
-<td>USIM_ID_DPO</td>
-<td>CHAR(55)</td>
-<td>Yes</td>
-<td>null</td>
-<td>13</td>
-<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;point&nbsp;with&nbsp;dimension.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 4)">
-<td>USIM_ID_POS</td>
-<td>CHAR(55)</td>
-<td>Yes</td>
-<td>null</td>
-<td>14</td>
-<td>The&nbsp;ID&nbsp;of&nbsp;a&nbsp;position.&nbsp;Position&nbsp;or&nbsp;position&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 5)">
-<td>USIM_ID_PDP</td>
-<td>CHAR(55)</td>
-<td>Yes</td>
-<td>null</td>
-<td>15</td>
-<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;point&nbsp;with&nbsp;dimension&nbsp;and&nbsp;position.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 6)">
-<td>USIM_ID_PDC</td>
-<td>CHAR(55)</td>
-<td>Yes</td>
-<td>null</td>
-<td>16</td>
-<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;child&nbsp;of&nbsp;the&nbsp;point&nbsp;with&nbsp;dimension&nbsp;and&nbsp;position.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 7)">
-<td>USIM_POINT_NAME</td>
-<td>VARCHAR2(4000)</td>
-<td>Yes</td>
-<td>null</td>
-<td>1</td>
-<td>The&nbsp;name&nbsp;of&nbsp;the&nbsp;associated&nbsp;point&nbsp;structure.&nbsp;Name&nbsp;or&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 8)">
-<td>USIM_ENERGY</td>
-<td>NUMBER</td>
-<td>Yes</td>
-<td>null</td>
-<td>2</td>
-<td>The&nbsp;energy&nbsp;of&nbsp;the&nbsp;point.&nbsp;Optional&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 9)">
-<td>USIM_AMPLITUDE</td>
-<td>NUMBER</td>
-<td>Yes</td>
-<td>null</td>
-<td>3</td>
-<td>The&nbsp;amplitude&nbsp;of&nbsp;the&nbsp;point.&nbsp;Optional&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 10)">
-<td>USIM_WAVELENGTH</td>
-<td>NUMBER</td>
-<td>Yes</td>
-<td>null</td>
-<td>4</td>
-<td>The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;point.&nbsp;Optional&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 11)">
-<td>USIM_N_DIMENSION</td>
-<td>NUMBER(2)</td>
-<td>Yes</td>
-<td>null</td>
-<td>5</td>
-<td>Dimension&nbsp;of&nbsp;the&nbsp;point.&nbsp;Dimension&nbsp;or&nbsp;dimension&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 12)">
-<td>USIM_COORDINATE</td>
-<td>NUMBER(38)</td>
-<td>Yes</td>
-<td>null</td>
-<td>6</td>
-<td>The&nbsp;position&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;point.&nbsp;Position&nbsp;coordinate&nbsp;or&nbsp;position&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
-<td>YES</td>
-<td>NO</td>
-<td>NO</td>
-</tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 13)">
 <td>USIM_COORD_LEVEL</td>
 <td>NUMBER(38)</td>
 <td>Yes</td>
@@ -211,7 +90,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 14)">
+<tr onclick="table_onSelectMasterRow(this, 0, 3)">
 <td>USIM_COORDS</td>
 <td>VARCHAR2(4000)</td>
 <td>Yes</td>
@@ -222,7 +101,7 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 15)">
+<tr onclick="table_onSelectMasterRow(this, 0, 4)">
 <td>USIM_ID_PARENT</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
@@ -233,13 +112,134 @@
 <td>NO</td>
 <td>NO</td>
 </tr>
-<tr onclick="table_onSelectMasterRow(this, 0, 16)">
+<tr onclick="table_onSelectMasterRow(this, 0, 5)">
 <td>USIM_ID_CHILD</td>
 <td>CHAR(55)</td>
 <td>Yes</td>
 <td>null</td>
 <td>10</td>
 <td>The&nbsp;ID&nbsp;of&nbsp;a&nbsp;child&nbsp;point&nbsp;(USIM_ID_PDP).&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 6)">
+<td>USIM_ID_POI</td>
+<td>CHAR(55)</td>
+<td>No</td>
+<td>null</td>
+<td>11</td>
+<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;point.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 7)">
+<td>USIM_ID_DIM</td>
+<td>NUMBER(38)</td>
+<td>Yes</td>
+<td>null</td>
+<td>12</td>
+<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;dimension,&nbsp;related&nbsp;to&nbsp;the&nbsp;point.&nbsp;Dimension&nbsp;or&nbsp;dimension&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.&nbsp;If&nbsp;given,&nbsp;any&nbsp;given&nbsp;dimension&nbsp;is&nbsp;ignored.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 8)">
+<td>USIM_ID_DPO</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>13</td>
+<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;point&nbsp;with&nbsp;dimension.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 9)">
+<td>USIM_ID_POS</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>14</td>
+<td>The&nbsp;ID&nbsp;of&nbsp;a&nbsp;position.&nbsp;Position&nbsp;or&nbsp;position&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 10)">
+<td>USIM_ID_PDP</td>
+<td>CHAR(55)</td>
+<td>Yes</td>
+<td>null</td>
+<td>15</td>
+<td>The&nbsp;ID&nbsp;of&nbsp;the&nbsp;point&nbsp;with&nbsp;dimension&nbsp;and&nbsp;position.&nbsp;Never&nbsp;used&nbsp;on&nbsp;inserts.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 11)">
+<td>USIM_POINT_NAME</td>
+<td>VARCHAR2(4000)</td>
+<td>Yes</td>
+<td>null</td>
+<td>1</td>
+<td>The&nbsp;name&nbsp;of&nbsp;the&nbsp;associated&nbsp;point&nbsp;structure.&nbsp;Name&nbsp;or&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 12)">
+<td>USIM_ENERGY</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>2</td>
+<td>The&nbsp;energy&nbsp;of&nbsp;the&nbsp;point.&nbsp;Optional&nbsp;on&nbsp;INSERT.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 13)">
+<td>USIM_AMPLITUDE</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>3</td>
+<td>The&nbsp;amplitude&nbsp;of&nbsp;the&nbsp;point.&nbsp;Optional&nbsp;on&nbsp;INSERT.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 14)">
+<td>USIM_WAVELENGTH</td>
+<td>NUMBER</td>
+<td>Yes</td>
+<td>null</td>
+<td>4</td>
+<td>The&nbsp;wavelength&nbsp;of&nbsp;the&nbsp;point.&nbsp;Optional&nbsp;on&nbsp;INSERT.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 15)">
+<td>USIM_N_DIMENSION</td>
+<td>NUMBER(2)</td>
+<td>Yes</td>
+<td>null</td>
+<td>5</td>
+<td>Dimension&nbsp;of&nbsp;the&nbsp;point.&nbsp;Dimension&nbsp;or&nbsp;dimension&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
+<td>YES</td>
+<td>NO</td>
+<td>NO</td>
+</tr>
+<tr onclick="table_onSelectMasterRow(this, 0, 16)">
+<td>USIM_COORDINATE</td>
+<td>NUMBER(38)</td>
+<td>Yes</td>
+<td>null</td>
+<td>6</td>
+<td>The&nbsp;position&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;point.&nbsp;Position&nbsp;coordinate&nbsp;or&nbsp;position&nbsp;ID&nbsp;is&nbsp;MANDATORY&nbsp;on&nbsp;INSERT.</td>
 <td>YES</td>
 <td>NO</td>
 <td>NO</td>
@@ -314,16 +314,8 @@
 <td class="currentcell">USIM_POINT_INSERT_V</td>
 <td class="currentcell">VIEW</td>
 <td class="currentcell">USIM</td>
-<td class="currentcell">USIM_PDP_PARENT</td>
+<td class="currentcell">USIM_POI_STRUCTURE</td>
 <td class="currentcell">TABLE</td>
-</tr>
-<tr onclick="table_onSelectRow(this, 3)">
-<td>USIM</td>
-<td>USIM_POINT_INSERT_V</td>
-<td>VIEW</td>
-<td>USIM</td>
-<td>USIM_POI_STRUCTURE</td>
-<td>TABLE</td>
 </tr>
 <tr onclick="table_onSelectRow(this, 3)">
 <td>USIM</td>
@@ -371,6 +363,14 @@
 <td>VIEW</td>
 <td>USIM</td>
 <td>USIM_PDP_CHILDS</td>
+<td>TABLE</td>
+</tr>
+<tr onclick="table_onSelectRow(this, 3)">
+<td>USIM</td>
+<td>USIM_POINT_INSERT_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
 <td>TABLE</td>
 </tr>
 </table>
@@ -391,16 +391,8 @@
 <td class="currentcell">USIM_POINT_INSERT_V</td>
 <td class="currentcell">VIEW</td>
 <td class="currentcell">USIM</td>
-<td class="currentcell">USIM_PDP_PARENT</td>
+<td class="currentcell">USIM_POI_STRUCTURE</td>
 <td class="currentcell">TABLE</td>
-</tr>
-<tr onclick="table_onSelectRow(this, 4)">
-<td>USIM</td>
-<td>USIM_POINT_INSERT_V</td>
-<td>VIEW</td>
-<td>USIM</td>
-<td>USIM_POI_STRUCTURE</td>
-<td>TABLE</td>
 </tr>
 <tr onclick="table_onSelectRow(this, 4)">
 <td>USIM</td>
@@ -450,6 +442,14 @@
 <td>USIM_PDP_CHILDS</td>
 <td>TABLE</td>
 </tr>
+<tr onclick="table_onSelectRow(this, 4)">
+<td>USIM</td>
+<td>USIM_POINT_INSERT_V</td>
+<td>VIEW</td>
+<td>USIM</td>
+<td>USIM_PDP_PARENT</td>
+<td>TABLE</td>
+</tr>
 </table>
 </div>
 </div>
@@ -464,11 +464,11 @@
 </tr>
 <tr>
 <td>CREATED</td>
-<td>06.06.2023&nbsp;19:56:11</td>
+<td>12.06.2023&nbsp;16:53:51</td>
 </tr>
 <tr>
 <td>LAST_DDL_TIME</td>
-<td>06.06.2023&nbsp;19:56:11</td>
+<td>12.06.2023&nbsp;16:53:51</td>
 </tr>
 <tr>
 <td>OWNER</td>

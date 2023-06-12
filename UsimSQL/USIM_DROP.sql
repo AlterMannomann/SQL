@@ -45,6 +45,7 @@ DROP TABLE usim_poi_history PURGE;
 DROP TABLE usim_planck_time PURGE;
 DROP TABLE usim_debug_log PURGE;
 DROP TABLE usim_levels PURGE;
+DROP TABLE usim_run_log PURGE;
 -- views
 DROP VIEW usim_poi_dim_position_v;
 DROP VIEW usim_point_insert_v;

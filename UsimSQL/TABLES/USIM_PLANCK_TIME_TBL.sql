@@ -5,7 +5,7 @@ CREATE TABLE usim_planck_time
   , usim_current_planck_time   CHAR(55) DEFAULT 'N/A'                   NOT NULL ENABLE
   )
 ;
-COMMENT ON TABLE usim_planck_time IS 'A table to manage big ids for planck time. Usually contains only one record, but more sequences could be provided. Insert and update is very restricted.';
+COMMENT ON TABLE usim_planck_time IS 'A table to manage big ids for planck time. Usually contains only one record, but more sequences could be provided. Insert and update is very restricted. Will use the alias plt.';
 COMMENT ON COLUMN usim_planck_time.usim_id_plt IS 'The identifier for the sequence responsible to trigger the planck time.';
 COMMENT ON COLUMN usim_planck_time.usim_last_planck_time IS 'The last used big planck time id or N/A.';
 COMMENT ON COLUMN usim_planck_time.usim_current_planck_time IS 'The current requested and used big planck time id or N/A.';

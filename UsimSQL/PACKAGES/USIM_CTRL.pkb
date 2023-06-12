@@ -669,6 +669,8 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
     l_usim_plancktime       usim_planck_time.usim_current_planck_time%TYPE;
     l_usim_energy_diff      NUMBER;
     l_usim_energy_total     NUMBER;
+    l_usim_energy_positive  NUMBER;
+    l_usim_energy_negative  NUMBER;
   BEGIN
     -- initialize parent to childs
     run_one_direction(0, p_usim_energy, p_usim_amplitude, p_usim_wavelength, p_usim_frequency);
@@ -678,10 +680,38 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
     run_one_direction(-1);
     -- process dependend nodes
     run_one_direction(-1);
+    -- get state and log the run
+    SELECT energy_total
+         , energy_positive
+         , energy_negative
+         , energy_diff
+         , usim_plancktime
+     INTO l_usim_energy_total
+        , l_usim_energy_positive
+        , l_usim_energy_negative
+        , l_usim_energy_diff
+        , l_usim_plancktime
+     FROM usim_energy_state_v
+    ;
+    INSERT INTO usim_run_log
+      ( usim_plancktime
+      , usim_energy_total
+      , usim_energy_diff
+      , usim_energy_positive
+      , usim_energy_negative
+      )
+      VALUES
+      ( l_usim_plancktime
+      , l_usim_energy_total
+      , l_usim_energy_diff
+      , l_usim_energy_positive
+      , l_usim_energy_negative
+      )
+    ;
+    COMMIT;
     -- set the new planck time by calling the sequence
     l_usim_plancktime := usim_utility.next_planck_time;
     -- check the state of the universe
-    SELECT energy_diff, energy_total INTO l_usim_energy_diff, l_usim_energy_total FROM usim_energy_state_v;
     IF l_usim_energy_diff != 0
     THEN
         RAISE_APPLICATION_ERROR( num => -20900

@@ -21,11 +21,11 @@ The overall rule is, the energy of the nothing (0) we had before, must never cha
 ## The one thing
 If we try to imagine nothing, we fail. How else? Thinking of dimension n = 0 is almost similar, but we can imagine at least something binary, zero and one, minus and plus. We have space for at least one *something* not more, not less. Means before we had nothing, lets name it zero and now we have something, lets name it one. By creating a dimension n = 0 we inherit a binary concept. So plus and minus are also in reach. Not in dimension n = 0, but in every following dimension.
 
-To make it obvious, we put point one, the universe seed at position 0.
+To make it obvious, I put point one, the universe seed at position 0.
 
-We're playing a little bit god using wish 2 and provide two basic space point structures up to the dimension, we support (you may adjust this to your needs). As we know one, we can build points by adding one to our position and another one for the second position. To build a point in different dimensions, we only need two position values, as they will spread with every new axis of every new dimension.
+I'm playing a little bit god using wish 2 and provide two basic space point structures up to the dimension, we support (you may adjust this to your needs). As we know one, we can build points by adding one to our position and another one for the second position. To build a point in different dimensions, we only need two position values, as they will spread with every new axis of every new dimension.
 
-To respect the one thing, we start the universe seed with one (1, -1) as the only start value for attributes.
+To respect the one thing, I start the universe seed with one (1, -1) as the only start value for attributes.
 
 ## The Planck thing
 Everything is at level Planck, means we have planck time t = 1 with planck velocity c = 1. We can't see what is happening in space points or space point trees. We can only observe the result. Means we'll may see the energy, wave amplitude and wave length arriving to the next point, but not the wave movement, as we can't look into the point dynamics itself, the reaction between points that form a space point.
@@ -52,7 +52,7 @@ There is only one universe seed possible, a space point that has **no** parent. 
 
 The sum of the energy of all trees, has to sum up to 0 to not break the universe.
 
-As we assume that the energy of the universe seed in dimension n = 0 is as well positive and negative, we spread the energy on each tree with the sign of the position of each tree to our childs.
+As I assume that the energy of the universe seed in dimension n = 0 is as well positive and negative, I spread the energy on each tree with the sign of the position of each tree to our childs.
 
 The childs will react first only in one direction. They react with the source input and deliver the result to their childs until no more child is left. Then the last childs will send their results to their parents until the universe seed is reached. That is the process within one planck time unit. Which will be repeated either to the point where every space point attribute is zero or space point extension reaches the ressource limits of used machines.
 
@@ -63,7 +63,7 @@ Independent of the size of the universe space (means, again, the basic space str
 The tick outside is different from the tick inside. Everything inside will only notice a change, when the tick has changed. How long the outside tick ever has taken, is not relevant for the inside, because inside it will look the same, whenever time tick dependent space point or foam action happens.
 
 ## Dimension n = 0
-In this dimension we place the seed for the universe. It can hold one object and attributes of this object, which are irrelevant to the rest of the simulated universe. Therefore the seed is never taken into account on calculating the energy level of the universe. Only dimensions n > 0 have to be equilibrated, if there exist childs of the seed.
+In this dimension I place the seed for the universe. It can hold one object and attributes of this object, which are irrelevant to the rest of the simulated universe. Therefore the seed is never taken into account on calculating the energy level of the universe. Only dimensions n > 0 have to be equilibrated, if there exist childs of the seed.
 
 ## Subtree structure
 Any point can have any number of subtrees. The limitation lies on position and available ressources. If a higher dimension has already used the position, the subtree can
@@ -76,9 +76,9 @@ Space points are only defining the potential energy attributes on every point in
 
 Whereas the space point arithmetics are quite simple, the foam arithmetics have to consider time, location, distance and are under relativity. They have to operate most likely on more than one point representation, have to be a meta model, which either shows up or not.
 
-To get a wave like behaviour, we do not use direct actio / reactio. We flood the coordinate attributes in one direction up to the farest coordinates using Newtons F = m1 * m2 / distance<sup>2</sup> to first calculate the reaction on the childs, without applying the same force immediately to the parent (we are still below planck time = 1, so it looks for the rest of the universe as if it is an immediate reaction). We interpret mass as equal to energy. If the wave of energy reaches the last available coordinates the energy wave floods back applying the force to the parents until the universe seed is reached. The space points can't be seen as particles, they only form the space time of the universe. The energy in the space points may create something similar as particles on the available space points which I call foam. The waves in one space point will build different waves if other space point waves are taken into account if seen from above.
+To get a wave like behaviour, we do not use direct actio / reactio. I flood the coordinate attributes in one direction up to the farest coordinates using Newtons F = m1 * m2 / distance<sup>2</sup> to first calculate the reaction on the childs, without applying the same force immediately to the parent (we are still below planck time = 1, so it looks for the rest of the universe as if it is an immediate reaction). I interpret mass as equal to energy. If the wave of energy reaches the last available coordinates the energy wave floods back applying the force to the parents until the universe seed is reached. The space points can't be seen as particles, they only form the space time of the universe. The energy in the space points may create something similar as particles on the available space points which I call foam. The waves in one space point will build different waves if other space point waves are taken into account if seen from above.
 
-Thus we implement implicitly the gravitation rule as well as wave like behaviour. The rest is up to the foam.
+Thus I implement implicitly the gravitation rule as well as wave like behaviour. The rest is up to the foam.
 
 Thus, even a god creating some similar kind of universe would be blind, not able to see more in the foam than foam, if this god would not be looking for something similar than our foam here. And even if, this god could maybe pick up some reference points for an inside view, but never ever all points at the same time. Ok, if this god is a god, probably possible. But if this god is me, no chance. And I truly believe, if there is something above us, what we can't understand and that has more possibilities, it is still bound to rules and limits of whatever universe it is living in. If there are limits, any limited god will be in the same situation as myself, probably only having bigger quantities of samples and greater numbers, but no possibility to interact without destroying the universe (that is very bad for most of the religions we have, a blind god seeing all, with no clue what is happening and no chance to interact).
 

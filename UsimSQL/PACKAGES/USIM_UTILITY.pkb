@@ -449,6 +449,7 @@ CREATE OR REPLACE PACKAGE BODY usim_utility IS
     usim_debug.debug_log(l_debug_id, usim_static.usim_status_success, l_debug_object, l_debug_content);
     IF p_sign >= 0
     THEN
+      -- usim_id_lvl is fixed and will not change
       SELECT usim_level_positive INTO l_curr_val FROM usim_levels WHERE usim_id_lvl = 1;
     ELSE
       SELECT usim_level_negative INTO l_curr_val FROM usim_levels WHERE usim_id_lvl = 1;

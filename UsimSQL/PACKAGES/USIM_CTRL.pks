@@ -80,6 +80,8 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
   * @param p_usim_amplitude The amplitude to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
   * @param p_usim_wavelength The wavelength to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
   * @throws 20700 NULL Attributes not allowed if some base attributes for direction are NULL and nothing to process.
+  * @throws 20900 Universe is not equilbrated any more. Energy difference is between positive and negative space points is not zero.
+  * @throws 20901 Universe is dead, as the total energy sums up to zero.
   */
   PROCEDURE run_planck_cycle( p_usim_energy      IN usim_point.usim_energy%TYPE      DEFAULT NULL
                             , p_usim_amplitude   IN usim_point.usim_amplitude%TYPE   DEFAULT NULL
@@ -97,6 +99,8 @@ CREATE OR REPLACE PACKAGE usim_ctrl IS
   * @param p_usim_amplitude The amplitude to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
   * @param p_usim_wavelength The wavelength to start with on base entries, if no entries exist. If NULL, current values of points are taken. Default is NULL.
   * @throws 20700 NULL Attributes not allowed if some base attributes for direction are NULL and nothing to process.
+  * @throws 20900 Universe is not equilbrated any more. Energy difference is between positive and negative space points is not zero.
+  * @throws 20901 Universe is dead, as the total energy sums up to zero.
   */
   PROCEDURE run_planck_cycles( p_usim_runs        IN NUMBER DEFAULT 1
                              , p_usim_energy      IN usim_point.usim_energy%TYPE      DEFAULT NULL

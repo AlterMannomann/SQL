@@ -67,7 +67,7 @@ In this dimension I place the seed for the universe. It can hold one object and 
 
 ## Subtree structure
 Any point can have any number of subtrees. The limitation lies on position and available ressources. If a higher dimension has already used the position, the subtree can
-only spread up to the dimension that holds equivalent position values. Aim is, that all values exist in all dimension, but parentship can be different through overflow events on different points.
+only spread up to the dimension that holds equivalent position values. Aim is, that all values exist in all dimension, but parentship can be different through overflow events on different coordinates of a tree or subtree.
 
 ## The foam thing
 **not implemented yet**
@@ -87,7 +87,7 @@ To build the model from scratch you currently need Oracle (developed on Oracle 2
 
 **Run USIM_MODEL.sql** to build the basic universe simulation db model.
 
-**Run EXEC usim_ctrl.run_planck_cycles([CycleLoops]);** for one cycle of space points reactions within one planck time unit (currently not supporting creation of subtrees - in work). The packages and their functions and procedures are highly integrated to provide the correct and expected input values. If you want to use them separatly be aware of this limitation. I'm not checking too much situations, which would not occur by design.
+**Run EXEC usim_ctrl.run_planck_cycles([CycleLoops]);** for the given cycle amount for space points reactions within one planck time unit per cycle (currently not supporting creation of subtrees - in work). The packages and their functions and procedures are highly integrated to provide the correct and expected input values. If you want to use them separatly be aware of this limitation. I'm not checking too much situations, which would not occur by design.
 
 ## Limitations
 ### Sequences

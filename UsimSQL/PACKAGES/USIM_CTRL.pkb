@@ -667,6 +667,8 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
                             )
   IS
     l_usim_plancktime       usim_planck_time.usim_current_planck_time%TYPE;
+    l_usim_energy_diff      NUMBER;
+    l_usim_energy_total     NUMBER;
   BEGIN
     -- initialize parent to childs
     run_one_direction(0, p_usim_energy, p_usim_amplitude, p_usim_wavelength, p_usim_frequency);
@@ -678,6 +680,22 @@ CREATE OR REPLACE PACKAGE BODY usim_ctrl IS
     run_one_direction(-1);
     -- set the new planck time by calling the sequence
     l_usim_plancktime := usim_utility.next_planck_time;
+    -- check the state of the universe
+    SELECT energy_diff, energy_total INTO l_usim_energy_diff, l_usim_energy_total FROM usim_energy_state_v;
+    IF l_usim_energy_diff != 0
+    THEN
+        RAISE_APPLICATION_ERROR( num => -20900
+                               , msg => 'Universe has crashed. Energy difference between positive and negative energy is not 0 (equilibrated) energy diff: ' || l_usim_energy_diff
+                               )
+        ;
+    END IF;
+    IF l_usim_energy_total = 0
+    THEN
+        RAISE_APPLICATION_ERROR( num => -20901
+                               , msg => 'Universe has died. Total energy is 0.'
+                               )
+        ;
+    END IF;
   END run_planck_cycle
   ;
 

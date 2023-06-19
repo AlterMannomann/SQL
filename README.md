@@ -28,11 +28,13 @@ I'm playing a little bit god using wish 2 and provide two basic space point stru
 To respect the one thing, I start the universe seed with one (1, -1) as the only start value for attributes.
 
 ## The Planck thing
-Everything is at level Planck, means we have planck time t = 1 with planck velocity c = 1. We can't see what is happening in space points or space point trees. We can only observe the result. Means we'll may see the energy, wave amplitude and wave length arriving to the next coordinate, but not the wave movement, as we can't look into the coordinate dynamics itself, the reaction between coordinates that form a space point.
+Of course I'm misusing Planck to express the minimal units of any universe in the multiverse. Planck has seen it from inside, I see it from outside.
 
-When one planck time tick has passed, all calculations for the universe are done. All space points/coordinates are most likely in reach within this time frame at least from their parent.
+Means the real planck length outside could be something different than 1. Everything is at level Planck, means we start with planck time t = 1, planck velocity c = 1 and planck length = 1. From inside it will always have the value 1 as the lowest representation of time, length and speed. From outside it is open for different base values at initialization of the universe. Means, that distance may change, that velocity may change and even time may change and so form different types of universes.
 
-This means also, that planck time definition in relation to length is variable, as the length between the seed and the farest space point will change constantly as long as the universe builds new space. The bigger the universe gets, the more the planck time to length relation will look like a constant. Same for planck velocity. Especially if we have limited number size.
+When one planck time tick has passed, all calculations for the universe are done. Distances (seen from outside) are only relevant between parent node and child node. I won't consider other distances in the model to control used number space at the lowest level.
+
+Planck attributes will be initialized with a certain value, relevant for calculations. The definition from inside (what equals 1) may change as the universes develop and expand or compress, because we have a relation between time, speed and length.
 
 ## Space points
 Space points are defined as perfect binary trees of coordinates up to the supported dimension, where every tree node describes and contains the coordinates for

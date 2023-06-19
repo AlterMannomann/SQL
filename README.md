@@ -1,8 +1,9 @@
 # UNDER CONSTRUCTION
 Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL.
 # Intention
-This is a simulation of a (whatsoever) universe, starting with the building of space itself. The simulation uses the model of n-spheres for dimension.
-Btw. I'm aware of the fact, that I'm using terms & definitions not in the pure mathematical sense, like dimension and point. It is more likely an approximation to avoid constructing new words. I'll work on that. Probably this attempt is more something like Conways Game of life.
+This is a simulation of a (whatsoever) universe, starting with the building of space itself. And to try to find patterns that may be similar to what we know as our universe.
+
+The simulation uses the model of n-spheres for dimension. Btw. I'm aware of the fact, that I'm using terms & definitions not in the pure mathematical sense, like dimension and point. It is more likely an approximation to avoid constructing new words. I'm using those definitions from an outside view, not from the inside view, when you live inside such a universe. I'll work on that. Probably this attempt is more something like Conways Game of life or we have to find new definitions.
 
 Dimension n = 0 is the very very unknown, where I put my assumptions in:
 
@@ -34,7 +35,7 @@ Means the real planck length outside could be something different than 1. Everyt
 
 When one planck time tick has passed, all calculations for the universe are done. Distances (seen from outside) are only relevant between parent node and child node. I won't consider other distances in the model to control used number space at the lowest level.
 
-Planck attributes will be initialized with a certain value, relevant for calculations. The definition from inside (what equals 1) may change as the universes develop and expand or compress, because we have a relation between time, speed and length.
+Planck attributes will be initialized with a certain value, relevant for calculations. The definition from inside (what equals 1) may change outside as the universes develop and expand or compress, because we have a relation between time, speed and length.
 ## The multiverse thing
 Even though I don't like the idea of a multiverse, from the perspective of limited ressources, it is the only possibility I discovered until now, that would allow a universal model, that can deal with limitations, as it outsources the problem to ressources. Whenever a universe reaches its limits on number space for calculation, it is forced to spend energy for a new universe that starts again with the known number space. Thus calculations stay still valid and can deal with the calculation of the given number space. Maybe black holes are just that, an overflow point that now feeds a different universe.
 ## Space points

@@ -35,7 +35,8 @@ Means the real planck length outside could be something different than 1. Everyt
 When one planck time tick has passed, all calculations for the universe are done. Distances (seen from outside) are only relevant between parent node and child node. I won't consider other distances in the model to control used number space at the lowest level.
 
 Planck attributes will be initialized with a certain value, relevant for calculations. The definition from inside (what equals 1) may change as the universes develop and expand or compress, because we have a relation between time, speed and length.
-
+## THe multiverse thing
+Even though I don't like the idea of a multiverse, from the perspective of limited ressources, it is the only possibility I discovered until now, that would allow a universal model, that can deal with limitations, as it outsources the problem to ressources. Whenever a universe reaches its limits on number space for calculation, it is forced to spend energy for a new universe that starts again with the known number space. Thus calculations stay still valid and can deal with the calculation of the given number space. Maybe black holes are just that, an overflow point that now feeds a different universe.
 ## Space points
 Space points are defined as perfect binary trees of coordinates up to the supported dimension, where every tree node describes and contains the coordinates for
 the associated dimension:

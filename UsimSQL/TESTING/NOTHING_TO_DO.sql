@@ -1,0 +1,1 @@
+SELECT 'Nothing to do' AS info FROM dual;

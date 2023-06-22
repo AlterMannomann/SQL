@@ -9,7 +9,7 @@ I'm trying to
 * develop a generic model that is able to deal with any mathematical resource limits (e.g. number space) outsourcing the problem to memory and diskspace resources.
 * find patterns that may be similar to what we know as our universe
 * find out if a universe/multiverse with equal start parameters behaves equal (rounding errors may be a cause for different behavior)
-*
+
 
 The simulation uses the model of n-spheres for dimension. Btw. I'm aware of the fact, that I'm using terms & definitions not in the pure mathematical sense, like dimension and point. It is more likely an approximation to avoid constructing new words. I'm using those definitions from an outside view, not from the inside view, when you live inside such a universe. I'll work on that. Probably this attempt is more something like Conways Game of life or we have to find new definitions.
 
@@ -29,7 +29,7 @@ The overall rule is, that the energy of anything above dimension 0, has to sum u
 * Space point - a point in space providing space itself (not objects in the created space) with borders (nodes) for every dimension, where the nodes form a perfect binary tree.
 * Node - a point with a coordinate in a dimension that forms together with other nodes a space point.
 * Dimension - a very free interpretation of dimensions using the n-sphere model as a base.
-* Coordinate - a single value to decribe one node position in one dimension. Two node coordinates in the dimension 1 represent a line.
+* Coordinate - a single value to describe one node position in one dimension. Two node coordinates in the dimension n = 1 represent a line.
 
 Limitations are as well a technical and a philosophical problem that an overall god may not have. See Limitations for more on this topic. Remind the allegory of the cave from Plato when thinking the unthinkable.
 
@@ -38,9 +38,9 @@ If we try to imagine nothing, we fail. How else? Thinking of dimension n = 0 is 
 
 To make it obvious, I put point one, the universe seed at position 0.
 
-I'm playing a little bit god using wish 2 and provide two basic space point structures up to the dimension, we support (you may adjust this to your needs). As we know one, we can build points by adding one to our position and another one for the second position. To build a point in different dimensions, we only need two position values, as they will spread with every new axis of every new dimension.
+I'm playing a little bit god using wish 2 and provide two basic space point structures up to the dimension, we support (you may adjust this to your needs). As we know one, we can build nodes by adding one to our position and another one for the second position. To build nodes in different dimensions, we only need two position values, as they will spread with every new axis of every new dimension through binary tree structure.
 
-To respect the one thing, I start the universe seed with one (1, -1) as the only start value for attributes.
+To respect the one thing, I start the universe seed with one (1, -1) as the only start value for energy.
 
 ## The Planck thing
 Of course I'm misusing Planck to express the minimal units of any universe in the multiverse. Planck has seen it from inside, I see it from outside.

@@ -67,7 +67,7 @@ And we are still within the limitations of dimension n = 0. Means we may add +1/
 ## What about the foam, he saw it all?
 A reminiscence to the rock opera Tommy from Who: What about the boy, he saw it all? You didn't hear it, you didn't see it ...
 
-Now we are in the vast field of speculations and hopes. The hope is to find behaviors that seem similar to things we can observe. The speculation and far, far away thing is (*the meta model for this reactions is not yet developed, not even from the technical concept*), that the whirlpool of wave behavior within a space valume structure creates new effects, not foreseen.
+Now we are in the vast field of speculations and hopes. The hope is to find behaviors that seem similar to things we can observe. The speculation and far, far away thing is (*the meta model for this reactions is not yet developed, not even from the technical concept*), that the whirlpool of wave behavior within a space volume structure creates new effects, not foreseen.
 
 If I reduce the whirlpool to a quadratic cube, there are a lot of waves influencing each other, if I calculate this. Let's start an example with coordinates 0 and 1.
 - In dimension n = 1 I have a wave running from 0 to 1 and back.
@@ -78,4 +78,4 @@ Chaos is just one step away and I'm still not at the point of interaction betwee
 
 This is, what I call **foam**. Swirls in swirls of swirls, apart from the wave movement and structure itself. Currently I have no clue how to realize this with the current technical system restrictions we have (including the impossibility to visualize anything above n = 3 in a correct way). Thus I implement a playback log for the multiverse, which can be used as input for the foam chaos calculation at a later point in time, which may create a playback log for the visualization of dimension n < 4.
 
-But even if this can be visualized, we will see it from outside, not from inside. A blind god so to say. You may choose a point inside and calculate everything including relativity from this point to get an idea of the inside. But you won't be able to see everything from inside within a time frame that is limited to human life with current tools and.
+But even if this can be visualized, we will see it from outside, not from inside. A blind god so to say. You may choose a point inside and calculate everything including relativity from this point to get an idea of the inside. But you won't be able to see everything from inside within a time frame that is limited to human life with current tools and systems.

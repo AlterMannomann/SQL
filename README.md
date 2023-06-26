@@ -37,16 +37,17 @@ And we are still within the limitations of dimension n = 0. Means we may add +1/
 #### Overflow rules
 - **Generic overflow behavior**
   - Add the negative amount of energy, that would have caused an overflow, to the node energy of the impacted node.
-  - Distribute the overflow energy evenly to all new created nodes.
+  - Add the positive amount of overflow energy to the new created node.
   - The seed node is very special due to dimension n = 0 and has access to anything in the universe, whereas all other nodes have only access to attributes in reach. Thus a node with childs in a higher dimension, can't create a new dimension, as it already exists for this node.
   - If the parent node of a new universe is in dimension n > 0, it can't output any energy anymore to the universe it is located in. It can receive energy from the parent universe, but it will never distribute energy to this parent universe, as it is now part of a new universe located in an old universe. *Anybody mentioned black holes^^?*
 - **Node overflow**
   - Seed overflow
     - Energy overflow, but new coordinates are available in number space
-      - Build new coordinates and nodes by adding +1/-1 to the absolute maximum of current coordinates for all current active dimensions.
+      - Build a new coordinate adding +1/-1 to the absolute maximum of current coordinates.
+      - Create a new node with the new coordinate.
     - Energy overflow, but new dimensions are available, no coordinates left in number space
       - Build a new dimension by adding +1 to current maximum dimension
-      - Create nodes in the new dimension with all current coordinates
+      - Create a new node in the new dimension with the current node coordinate (0)
     - Number space exhausted (coordinates, dimensions, energy)
       - Build a new universe
   - Node (between dimensions, not seed) overflow

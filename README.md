@@ -81,5 +81,7 @@ This is, what I call **foam**. Swirls in swirls of swirls, apart from the wave m
 
 But even if this can be visualized, we will see it from outside, not from inside. A blind god so to say. You may choose a point inside and calculate everything including relativity from this point to get an idea of the inside. But you won't be able to see everything from inside within a time frame that is limited to human life with current tools and systems.
 
-## Technical
+# Technical
 Removed DOC folder, to get a correct representation of the code base. Anyone may create the documentation with tools like SQL Developer.
+
+Sorry for not branching currently. I'm not at this point yet. While designing and creating I noticed that a lot of things didn't work the way I want it to operate. From the point, where I have the feeling it is a more or less stable code base, I will start with branches. So the only way to get to a specific point of the repository is rebasing it to a certain commit. I'm still renaming and restructuring the data model and packages.

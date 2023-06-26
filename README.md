@@ -80,3 +80,6 @@ Chaos is just one step away and I'm still not at the point of interaction betwee
 This is, what I call **foam**. Swirls in swirls of swirls, apart from the wave movement and structure itself. Currently I have no clue how to realize this with the current technical system restrictions we have (including the impossibility to visualize anything above n = 3 in a correct way). Thus I implement a playback log for the multiverse, which can be used as input for the foam chaos calculation at a later point in time, which may create a playback log for the visualization of dimension n < 4.
 
 But even if this can be visualized, we will see it from outside, not from inside. A blind god so to say. You may choose a point inside and calculate everything including relativity from this point to get an idea of the inside. But you won't be able to see everything from inside within a time frame that is limited to human life with current tools and systems.
+
+## Technical
+Removed DOC folder, to get a correct representation of the code base. Anyone may create the documentation with tools like SQL Developer.

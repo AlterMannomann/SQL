@@ -43,8 +43,8 @@ And we are still within the limitations of dimension n = 0. Means we may add +1/
 - **Node overflow**
   - Seed overflow
     - Energy overflow, but new coordinates are available in number space
-      - Build a new coordinate adding +1/-1 to the absolute maximum of current coordinates.
-      - Create a new node with the new coordinate in the next dimension (n = 1).
+      - Build a new coordinate adding +1/-1 to the absolute maximum of current coordinates
+      - Create a new node with the new coordinate in the next dimension (n = 1)
     - Energy overflow, but new dimensions are available, no coordinates left in number space
       - Build a new dimension by adding +1 to current maximum dimension
       - Create a new node in the new dimension with the current node coordinate (0)
@@ -52,7 +52,7 @@ And we are still within the limitations of dimension n = 0. Means we may add +1/
       - Build a new universe
   - Node (between dimensions, not seed, has child in next dimension) overflow
     - Build a new universe
-      - Only option on any type of overflow for nodes in between, as coordinates have to be build by the seed to be consistent in all dimensions and new dimensions are not reachable as the node is not on the dimension frontier
+      - Only option on any type of overflow for nodes in between, because new coordinates and new dimensions are not reachable as the node is not on the dimension frontier and has already a child in the next dimension
   - Node (dimension frontier, no child) overflow
     - Energy overflow, but new dimensions are available in number space
       - Build a new dimension by adding +1 to current node dimension

@@ -72,7 +72,7 @@ Now we are in the vast field of speculations and hopes. The hope is to find beha
 
 If I reduce the whirlpool to a quadratic cube, there are a lot of waves influencing each other, if I calculate this. Let's start an example with coordinates 0 and 1.
 - In dimension n = 1 I have a wave running from 0 to 1 and back.
-- In dimension n = 2 I have a wave front, running from 0,0 to 0,1 and 1,0 to 1,1 (and back) where the parent nodes 0,1 and 1,0 have, most likely, different energy levels. We get a swirl around the middle of the square, if we would calculate it.
+- In dimension n = 2 I have a wave front, running from 0,0 to 0,1 and 1,0 to 1,1 (and back) where the parent nodes 0,1 and 1,0 have, most likely, different energy levels. We probably get a swirl (or many) around the middle of the square, if we would calculate it.
 - In dimension n = 3 I have a wave front, running from 0,0,0 / 0,1,0 / 1,0,0 / 1,1,0 to 0,0,1 / 0,1,1 / 1,0,1 / 1,1,1 (and back) where every node, most likely, has a different energy level and we are still not considering the effects of n < 3.
 
 Chaos is just one step away and I'm still not at the point of interaction between different space volumes.

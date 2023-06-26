@@ -1,7 +1,7 @@
 **Under Construction - description is out of sync due to redesign**
 Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL.
 # Intention
-This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in.
+This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).
 
 **Attention** I'm using terms that have an exact and sharp definition in our universe, just because I'm to lazy to create new terms. So thinking about the terms and definitions has to include, that we observe a universe/multiverse from outside, not only from inside. And inside views are also used, but not very often.
 

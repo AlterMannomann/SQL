@@ -150,6 +150,9 @@ SELECT CASE
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE
+-- foreign keys
 @@../FK/USIM_RMDP_DIM_FK.sql
 @@../FK/USIM_RMDP_POS_FK.sql
+-- views
+@@../VIEW/USIM_RMDP_V.sql
 --== relation tables end ==--

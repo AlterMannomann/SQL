@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-02.07.2023 15:10:58 XEPDB1                         USIM_TEST                      Adi
+02.07.2023 16:28:32 XEPDB1                         USIM_TEST                      Adi
 
 INFO
 ----------------------
@@ -21,143 +21,291 @@ Remove all USIM objects if needed.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_STATIC_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Package body USIM_STATIC does not exist.
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../PACKAGES/DROP_USIM_STATIC_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."
+
+INFO
+---------------------------------------------------------
+Nothing to do. Package header USIM_STATIC does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MATHS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_MATHS does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MATHS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."
+
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_MATHS does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_DLG_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_MLV_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_MLV_ID_SEQ does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_PLANCK_TIME_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."
+
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_TIME_SEQ does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_PLANCK_AEON_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."
+
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_AEON_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_DIM_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DIM_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_TSU_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_POS_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_POS_ID_SEQ does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_RMDP_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMDP_ID_SEQ does not exist."
+
+INFO
+--------------------------------------------------------
+Nothing to do. Sequence USIM_RMDP_ID_SEQ does not exist.
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP_USIM_DIM_MLV_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_DIM_MLV_FK does not exist."
+
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_DIM_MLV_FK does not exist.
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../FK/DROP_USIM_RMDP_DIM_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_DIM_FK does not exist."
+
+INFO
+-----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_DIM_FK does not exist.
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../FK/DROP_USIM_RMDP_POS_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_POS_FK does not exist."
 
-SCRIPTFILE
-----------------------------------------------------------------
-../TABLES/DROP_USIM_DEBUG_LOG_TBL.sql
+INFO
+-----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_POS_FK does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_DEBUG_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_V does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_V does not exist.
+
+SCRIPTFILE
+----------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
+
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DEBUG_LOG does not exist.
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DEBUG does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_DEBUG does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP_USIM_DEBUG_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DEBUG does not exist."
+
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_DEBUG does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../TABLES/DROP_USIM_TEST_SUMMARY_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Table USIM_TEST_SUMMARY does not exist.
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP_USIM_TEST_ERRORS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."
+
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_TEST_ERRORS does not exist.
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP_USIM_TEST_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_TEST does not exist."
+
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_TEST does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_TEST_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_TEST does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_TEST does not exist.
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP_USIM_BASE_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_BASE does not exist."
+
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_BASE does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_BASE_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_BASE does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_BASE does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP_USIM_BASEDATA_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_BASEDATA does not exist."
+
+INFO
+--------------------------------------------------
+Nothing to do. Table USIM_BASEDATA does not exist.
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP_USIM_MLV_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MLV does not exist."
+
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_MLV does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MLV_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MLV does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_MLV does not exist.
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../TABLES/DROP_USIM_MULTIVERSE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_MULTIVERSE does not exist."
+
+INFO
+----------------------------------------------------
+Nothing to do. Table USIM_MULTIVERSE does not exist.
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP_USIM_DIM_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DIM does not exist."
+
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_DIM does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_DIM_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DIM does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_DIM does not exist.
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP_USIM_DIMENSION_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DIMENSION does not exist."
+
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DIMENSION does not exist.
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP_USIM_POS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_POS does not exist."
+
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_POS does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_POS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_POS does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_POS does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP_USIM_POSITION_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_POSITION does not exist."
+
+INFO
+--------------------------------------------------
+Nothing to do. Table USIM_POSITION does not exist.
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../TABLES/DROP_USIM_REL_MLV_DIM_POS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM_POS does not exist."
+
+INFO
+---------------------------------------------------------
+Nothing to do. Table USIM_REL_MLV_DIM_POS does not exist.
 
 OBJECTS_AFTER_CLEANUP
 ---------------------

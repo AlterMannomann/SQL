@@ -162,6 +162,19 @@ SELECT CASE
 @@&SCRIPTFILE
 --== foreign keys drop for easy delete end ==--
 
+--== drop views start ==--
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP_USIM_RMDP_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_RMDP_V'
+;
+@@&SCRIPTFILE
+--== drop views end ==--
+
 --== debug tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0

@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-02.07.2023 11:06:52 XEPDB1                         USIM_TEST                      Adi
+02.07.2023 16:28:25 XEPDB1                         USIM_TEST                      Adi
 
 INFO
 ----------------------------------
@@ -9,51 +9,131 @@ Remove all USIM objects if needed.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_STATIC_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Package body USIM_STATIC does not exist.
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../PACKAGES/DROP_USIM_STATIC_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."
+
+INFO
+---------------------------------------------------------
+Nothing to do. Package header USIM_STATIC does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MATHS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_MATHS does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MATHS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."
+
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_MATHS does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_DLG_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_MLV_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_MLV_ID_SEQ does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_PLANCK_TIME_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."
+
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_TIME_SEQ does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_PLANCK_AEON_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."
+
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_AEON_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_DIM_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DIM_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_TSU_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_POS_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_POS_ID_SEQ does not exist.
+
+SCRIPTFILE
+---------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMDP_ID_SEQ does not exist."
+
+INFO
+--------------------------------------------------------
+Nothing to do. Sequence USIM_RMDP_ID_SEQ does not exist.
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP_USIM_DIM_MLV_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_DIM_MLV_FK does not exist."
+
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_DIM_MLV_FK does not exist.
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_DIM_FK does not exist."
+
+INFO
+-----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_DIM_FK does not exist.
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_POS_FK does not exist."
+
+INFO
+-----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_POS_FK does not exist.
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_V does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_V does not exist.
 
 SCRIPTFILE
 ----------------------------------------------------------------
@@ -130,6 +210,10 @@ SCRIPTFILE
 SCRIPTFILE
 ---------------------------------------------------------------
 ../TABLES/DROP_USIM_POSITION_TBL.sql
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../TABLES/DROP_USIM_REL_MLV_DIM_POS_TBL.sql
 
 OBJECTS_AFTER_CLEANUP
 ---------------------

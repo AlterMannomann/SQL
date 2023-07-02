@@ -11,3 +11,6 @@ ALTER USER usim QUOTA UNLIMITED ON usim_live;
 -- ROLES
 -- basic roles
 GRANT GATHER_SYSTEM_STATISTICS, CONNECT, RESOURCE TO usim;
+
+-- privileges
+GRANT CREATE VIEW TO usim;

@@ -11,3 +11,6 @@ ALTER USER usim_test QUOTA UNLIMITED ON usim_test;
 -- ROLES
 -- basic roles
 GRANT GATHER_SYSTEM_STATISTICS, CONNECT, RESOURCE TO usim_test;
+
+-- privileges
+GRANT CREATE VIEW TO usim_test;

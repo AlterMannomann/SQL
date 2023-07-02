@@ -114,6 +114,16 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../SEQUENCES/DROP_USIM_RMDP_ID_SEQ.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMDP_ID_SEQ does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMDP_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
 --== sequences end ==--
 
 --== foreign keys drop for easy delete start ==--
@@ -126,6 +136,28 @@ SELECT CASE
  WHERE constraint_type  = 'R'
    AND table_name       = 'USIM_DIMENSION'
    AND constraint_name  = 'USIM_DIM_MLV_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP_USIM_RMDP_DIM_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_DIM_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_REL_MLV_DIM_POS'
+   AND constraint_name  = 'USIM_RMDP_DIM_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP_USIM_RMDP_POS_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_POS_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_REL_MLV_DIM_POS'
+   AND constraint_name  = 'USIM_RMDP_POS_FK'
 ;
 @@&SCRIPTFILE
 --== foreign keys drop for easy delete end ==--
@@ -337,6 +369,19 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== base tables end ==--
+
+--== relation tables start ==--
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../TABLES/DROP_USIM_REL_MLV_DIM_POS_TBL.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM_POS does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_REL_MLV_DIM_POS'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+--== relation tables end ==--
 
 
 

@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-02.07.2023 13:46:49 XEPDB1                         USIM_TEST                      Adi
+02.07.2023 15:10:58 XEPDB1                         USIM_TEST                      Adi
 
 INFO
 ----------------------
@@ -64,8 +64,20 @@ SCRIPTFILE
 ../SEQUENCES/DROP_USIM_POS_ID_SEQ.sql
 
 SCRIPTFILE
+---------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_RMDP_ID_SEQ.sql
+
+SCRIPTFILE
 -----------------------------------------------------------------------
 ../FK/DROP_USIM_DIM_MLV_FK.sql
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP_USIM_RMDP_DIM_FK.sql
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP_USIM_RMDP_POS_FK.sql
 
 SCRIPTFILE
 ----------------------------------------------------------------
@@ -143,6 +155,10 @@ SCRIPTFILE
 ---------------------------------------------------------------
 ../TABLES/DROP_USIM_POSITION_TBL.sql
 
+SCRIPTFILE
+----------------------------------------------------------------------
+../TABLES/DROP_USIM_REL_MLV_DIM_POS_TBL.sql
+
 OBJECTS_AFTER_CLEANUP
 ---------------------
                     0
@@ -172,6 +188,10 @@ SCRIPTFILE
 ../SEQUENCES/USIM_POS_ID_SEQ.sql
 
 SCRIPTFILE
+----------------------------------------------------------------------------
+../SEQUENCES/USIM_RMDP_ID_SEQ.sql
+
+SCRIPTFILE
 ----------------------------------------------------------------------
 ../TABLES/USIM_BASEDATA_TBL.sql
 
@@ -188,60 +208,24 @@ SCRIPTFILE
 ../TABLES/USIM_POSITION_TBL.sql
 
 SCRIPTFILE
---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
-
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
+-----------------------------------------------------------------------------
+../TABLES/USIM_REL_MLV_DIM_POS_TBL.sql
 
 SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_DLG_ID_SEQ.sql
 
 SCRIPTFILE
---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
-
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
-
-SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_TSU_ID_SEQ.sql
-
-SCRIPTFILE
-----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
-
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_DEBUG_LOG does not exist.
 
 SCRIPTFILE
 -------------------------------------------------------------------------------
 ../TABLES/USIM_DEBUG_LOG_TBL.sql
 
 SCRIPTFILE
--------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."
-
-INFO
-------------------------------------------------------
-Nothing to do. Table USIM_TEST_SUMMARY does not exist.
-
-SCRIPTFILE
 ----------------------------------------------------------------------------------
 ../TABLES/USIM_TEST_SUMMARY_TBL.sql
-
-SCRIPTFILE
-------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."
-
-INFO
------------------------------------------------------
-Nothing to do. Table USIM_TEST_ERRORS does not exist.
 
 SCRIPTFILE
 ---------------------------------------------------------------------------------

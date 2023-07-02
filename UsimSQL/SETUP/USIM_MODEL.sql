@@ -62,6 +62,17 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
+-- USIM_REL_MLV_DIM_POS (rmdp) sequence
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../SEQUENCES/USIM_RMDP_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_RMDP_ID_SEQ still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMDP_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
 --== sequences end ==--
 
 --== base data start ==--
@@ -126,3 +137,19 @@ SELECT CASE
 @@../PACKAGES/USIM_POS.pks
 @@../PACKAGES/USIM_POS.pkb
 --== base tables end ==--
+
+--== relation tables start ==--
+-- USIM_REL_MLV_DIM_POS (rmdp)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_REL_MLV_DIM_POS_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_MLV_DIM_POS still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_REL_MLV_DIM_POS'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+@@../FK/USIM_RMDP_DIM_FK.sql
+@@../FK/USIM_RMDP_POS_FK.sql
+--== relation tables end ==--

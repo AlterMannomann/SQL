@@ -1,0 +1,5 @@
+CREATE BIGFILE TABLESPACE usim_live
+  DATAFILE 'usim01.dbf'
+    SIZE 5G
+    AUTOEXTEND ON
+;

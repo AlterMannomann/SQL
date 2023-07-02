@@ -1,0 +1,47 @@
+
+EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
+------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
+25.06.2023 14:26:44 XEPDB1                         SYS                            Adi
+
+
+INFO
+---------------
+DROP USIM Users
+
+
+SCRIPTFILE
+----------------------------------------------------------
+USIM_DROP_TESTUSER.sql
+
+
+User USIM_TEST gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------
+USIM_DROP_USER.sql
+
+
+User USIM gelöscht.
+
+
+INFO
+---------------------
+DROP USIM Tablespaces
+
+
+SCRIPTFILE
+----------------------------------------------------------------
+USIM_DROP_TEST_TBL_SPC.sql
+
+
+TABLESPACE USIM_TEST gelöscht.
+
+
+SCRIPTFILE
+----------------------------------------------------------------
+USIM_DROP_TBL_SPC.sql
+
+
+TABLESPACE USIM_LIVE gelöscht.
+

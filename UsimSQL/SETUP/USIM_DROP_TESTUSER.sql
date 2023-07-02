@@ -1,0 +1,1 @@
+DROP USER usim_test CASCADE;

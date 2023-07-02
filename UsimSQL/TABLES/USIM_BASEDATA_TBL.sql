@@ -1,40 +1,28 @@
 -- USIM_BASEDATA (bda)
 CREATE TABLE usim_basedata
   ( usim_id_bda                 NUMBER(1)       DEFAULT 1                                       NOT NULL ENABLE
-  , usim_max_dimension          NUMBER(38, 0)   DEFAULT 11                                      NOT NULL ENABLE
+  , usim_max_dimension          NUMBER(38, 0)   DEFAULT 42                                      NOT NULL ENABLE
   , usim_abs_max_number         NUMBER(38, 0)   DEFAULT 99999999999999999999999999999999999999  NOT NULL ENABLE
-  , usim_overflow_node_seed     NUMBER(1, 0)    DEFAULT 1                                       NOT NULL ENABLE
-  , usim_planck_time_seq_last   CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
-  , usim_planck_time_seq_curr   CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
-  , usim_child_seq_last         CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
-  , usim_child_seq_curr         CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
-  , usim_child_mirror_seq_last  CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
-  , usim_child_mirror_seq_curr  CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
-  , usim_seed_name              VARCHAR2(128)   DEFAULT 'UniverseSeed'                          NOT NULL ENABLE
-  , usim_seed_mirror_name       VARCHAR2(128)   DEFAULT 'MirrorSeed'                            NOT NULL ENABLE
-  , usim_child_prefix           VARCHAR2(128)   DEFAULT 'Child'                                 NOT NULL ENABLE
-  , usim_child_mirror_prefix    VARCHAR2(128)   DEFAULT 'MirrorChild'                           NOT NULL ENABLE
+  , usim_overflow_node_seed     NUMBER(1, 0)    DEFAULT 0                                       NOT NULL ENABLE
+  , usim_planck_time_seq_last   NUMBER          DEFAULT -1                                      NOT NULL ENABLE
+  , usim_planck_time_seq_curr   NUMBER          DEFAULT -1                                      NOT NULL ENABLE
+  , usim_planck_aeon_seq_last   CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
+  , usim_planck_aeon_seq_curr   CHAR(55)        DEFAULT 'N/A'                                   NOT NULL ENABLE
   , usim_created                DATE            DEFAULT SYSDATE                                 NOT NULL ENABLE
   , usim_updated                DATE            DEFAULT SYSDATE                                 NOT NULL ENABLE
   , usim_created_by             VARCHAR2(128)   DEFAULT 'N/A'                                   NOT NULL ENABLE
   , usim_updated_by             VARCHAR2(128)   DEFAULT 'N/A'                                   NOT NULL ENABLE
   )
 ;
-COMMENT ON TABLE usim_basedata IS 'Holds the basic data used by the universe simulation. Will use the alias bda.';
+COMMENT ON TABLE usim_basedata IS 'Holds the basic data used by the multiverse simulation that belong to all universes. Will use the alias bda.';
 COMMENT ON COLUMN usim_basedata.usim_id_bda IS 'The unique id of the base data. Can only have the value 1 ensured by primary key and check constraint.';
 COMMENT ON COLUMN usim_basedata.usim_max_dimension IS 'The maximum dimension supported for any universe in this multiverse. Must be set on insert.';
 COMMENT ON COLUMN usim_basedata.usim_abs_max_number IS 'The absolute maximum number possible on the used system. Must be set on insert.';
-COMMENT ON COLUMN usim_basedata.usim_overflow_node_seed IS 'Set to 1 if all new trees should start with parent in dimension n = 0. Set to 0, if new trees should start at the node that would have caused an overflow. Must be set on insert.';
-COMMENT ON COLUMN usim_basedata.usim_planck_time_seq_last IS 'The last planck time big id or N/A if not known yet. Package usim_static holds the name of the used sequence.';
-COMMENT ON COLUMN usim_basedata.usim_planck_time_seq_curr IS 'The current planck time big id or N/A if not known yet. Package usim_static holds the name of the used sequence.';
-COMMENT ON COLUMN usim_basedata.usim_child_seq_last IS 'The last child subtree structure name big id or N/A if not known yet. Used to build unique child subtree structure names together with usim_child_prefix.';
-COMMENT ON COLUMN usim_basedata.usim_child_seq_curr IS 'The current child subtree structure name big id or N/A if not known yet. Used to build unique child subtree names structure together with usim_child_prefix.';
-COMMENT ON COLUMN usim_basedata.usim_child_mirror_seq_last IS 'The last mirror child subtree structure name big id or N/A if not known yet. Used to build unique mirror child subtree structure names together with usim_child_mirror_prefix.';
-COMMENT ON COLUMN usim_basedata.usim_child_mirror_seq_curr IS 'The current mirror child subtree structure name big id or N/A if not known yet. Used to build unique mirror child subtree structure names together with usim_child_mirror_prefix.';
-COMMENT ON COLUMN usim_basedata.usim_seed_name IS 'The static name of the basic universe seed structure.';
-COMMENT ON COLUMN usim_basedata.usim_seed_mirror_name IS 'The static name of the basic universe mirror seed structure.';
-COMMENT ON COLUMN usim_basedata.usim_child_prefix IS 'The prefix to use for creating unique child subtree structure names.';
-COMMENT ON COLUMN usim_basedata.usim_child_mirror_prefix IS 'The prefix to use for creating unique mirror child subtree structure names.';
+COMMENT ON COLUMN usim_basedata.usim_overflow_node_seed IS 'Set to 1 if all new structures should start with parent in dimension n = 0. Set to 0, if new structures should use standard overflow handling. Must be set on insert.';
+COMMENT ON COLUMN usim_basedata.usim_planck_time_seq_last IS 'The last planck time tick or -1 if not known yet. Package usim_static holds the name of the used sequence.';
+COMMENT ON COLUMN usim_basedata.usim_planck_time_seq_curr IS 'The current planck time tick or -1 if not known yet. Package usim_static holds the name of the used sequence.';
+COMMENT ON COLUMN usim_basedata.usim_planck_aeon_seq_last IS 'The last planck aeon big id or N/A if not known yet. Package usim_static holds the name of the used sequence.';
+COMMENT ON COLUMN usim_basedata.usim_planck_aeon_seq_curr IS 'The current planck aeon big id or N/A if not known yet. Package usim_static holds the name of the used sequence.';
 COMMENT ON COLUMN usim_basedata.usim_created IS 'Date of record creation.';
 COMMENT ON COLUMN usim_basedata.usim_updated IS 'Date of record update.';
 COMMENT ON COLUMN usim_basedata.usim_created_by IS 'OS user responsible for record creation.';
@@ -61,17 +49,17 @@ ALTER TABLE usim_basedata
   ENABLE
 ;
 
--- check seed names - can't be equal
+-- max dimensions >= 0
 ALTER TABLE usim_basedata
-  ADD CONSTRAINT usim_seed_bda_chk
-  CHECK (TRIM(usim_seed_name) != TRIM(usim_seed_mirror_name))
+  ADD CONSTRAINT usim_dim_bda_chk
+  CHECK (usim_max_dimension >= 0)
   ENABLE
 ;
 
--- check child prefix names - can't be equal
+-- absolute max >= 0
 ALTER TABLE usim_basedata
-  ADD CONSTRAINT usim_child_bda_chk
-  CHECK (TRIM(usim_child_prefix) != TRIM(usim_child_mirror_prefix))
+  ADD CONSTRAINT usim_maxn_bda_chk
+  CHECK (usim_abs_max_number >= 0)
   ENABLE
 ;
 
@@ -86,14 +74,12 @@ CREATE OR REPLACE TRIGGER usim_bda_ins_trg
         -- ensure correct id
         :NEW.usim_id_bda := 1;
       END IF;
-      -- we ignore any input values and initialize to the default
-      :NEW.usim_planck_time_seq_last  := usim_static.usim_not_available;
-      :NEW.usim_planck_time_seq_curr  := usim_static.usim_not_available;
-      :NEW.usim_child_seq_last        := usim_static.usim_not_available;
-      :NEW.usim_child_seq_curr        := usim_static.usim_not_available;
-      :NEW.usim_child_mirror_seq_last := usim_static.usim_not_available;
-      :NEW.usim_child_mirror_seq_curr := usim_static.usim_not_available;
-      -- set os user for create and update, ignore given values if any
+      -- we ignore input values which should not be set on insert and initialize them to the default
+      :NEW.usim_planck_time_seq_last  := -1;
+      :NEW.usim_planck_time_seq_curr  := -1;
+      :NEW.usim_planck_aeon_seq_last  := usim_static.usim_not_available;
+      :NEW.usim_planck_aeon_seq_curr  := usim_static.usim_not_available;
+      -- set os user for create, ignore given values if any
       :NEW.usim_created               := SYSDATE;
       :NEW.usim_updated               := SYSDATE;
       :NEW.usim_created_by            := SYS_CONTEXT('USERENV', 'OS_USER');
@@ -114,13 +100,9 @@ CREATE OR REPLACE TRIGGER usim_bda_upd_trg
       THEN
         :NEW.usim_planck_time_seq_last := :OLD.usim_planck_time_seq_last;
       END IF;
-      IF :NEW.usim_child_seq_last IS NOT NULL
+      IF :NEW.usim_planck_aeon_seq_last IS NOT NULL
       THEN
-        :NEW.usim_child_seq_last := :OLD.usim_child_seq_last;
-      END IF;
-      IF :NEW.usim_child_mirror_seq_last IS NOT NULL
-      THEN
-        :NEW.usim_child_mirror_seq_last := :OLD.usim_child_mirror_seq_last;
+        :NEW.usim_planck_aeon_seq_last := :OLD.usim_planck_aeon_seq_last;
       END IF;
       -- update current and last sequences if current is given
       IF :NEW.usim_planck_time_seq_curr IS NOT NULL
@@ -130,11 +112,11 @@ CREATE OR REPLACE TRIGGER usim_bda_upd_trg
           :NEW.usim_planck_time_seq_last := :OLD.usim_planck_time_seq_curr;
         END IF;
       END IF;
-      IF :NEW.usim_child_seq_curr IS NOT NULL
+      IF :NEW.usim_planck_aeon_seq_curr IS NOT NULL
       THEN
-        IF :NEW.usim_child_seq_curr != :OLD.usim_child_seq_curr
+        IF :NEW.usim_planck_aeon_seq_curr != :OLD.usim_planck_aeon_seq_curr
         THEN
-          :NEW.usim_child_seq_last := :OLD.usim_child_seq_curr;
+          :NEW.usim_planck_aeon_seq_last := :OLD.usim_planck_aeon_seq_curr;
         END IF;
       END IF;
       -- no updates on basic design values
@@ -146,7 +128,11 @@ CREATE OR REPLACE TRIGGER usim_bda_upd_trg
       THEN
         :NEW.usim_max_dimension := :OLD.usim_max_dimension;
       END IF;
-      -- no update of created only update
+      IF :NEW.usim_abs_max_number IS NOT NULL
+      THEN
+        :NEW.usim_abs_max_number := :OLD.usim_abs_max_number;
+      END IF;
+      -- no update of created only on updated
       IF :NEW.usim_created IS NOT NULL
       THEN
         :NEW.usim_created := :OLD.usim_created;

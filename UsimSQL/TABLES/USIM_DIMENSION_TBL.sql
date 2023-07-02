@@ -1,12 +1,14 @@
 -- USIM_DIMENSION (dim)
 CREATE TABLE usim_dimension
-  ( usim_id_dim       NUMBER(38, 0) NOT NULL ENABLE
-  , usim_n_dimension  NUMBER(2, 0)  NOT NULL ENABLE
+  ( usim_id_dim           CHAR(55)                  NOT NULL ENABLE
+  , usim_id_mlv           CHAR(55)                  NOT NULL ENABLE
+  , usim_n_dimension      NUMBER(38, 0)             NOT NULL ENABLE
   )
 ;
-COMMENT ON TABLE usim_dimension IS 'Keeps the possible dimensions. Will use the alias dim.';
-COMMENT ON COLUMN usim_dimension.usim_id_dim IS 'Generic small ID to identify a dimension.';
-COMMENT ON COLUMN usim_dimension.usim_n_dimension IS 'The n-sphere dimension 0-99 for space simulation.';
+COMMENT ON TABLE usim_dimension IS 'Persist the possible dimensions. Will use the alias dim.';
+COMMENT ON COLUMN usim_dimension.usim_id_dim IS 'The generic big id the associated dimension.';
+COMMENT ON COLUMN usim_dimension.usim_id_mlv IS 'The associated universe id (foreign key) for this dimension.';
+COMMENT ON COLUMN usim_dimension.usim_n_dimension IS 'The n-sphere supported dimensions for space simulation. Must be >= 0 and <= usim_basedata.usim_max_dimension.';
 
 -- pk
 ALTER TABLE usim_dimension
@@ -15,45 +17,48 @@ ALTER TABLE usim_dimension
   ENABLE
 ;
 
--- uk - dimension must be unique
+-- uk
 ALTER TABLE usim_dimension
   ADD CONSTRAINT usim_dim_uk
-  UNIQUE (usim_n_dimension)
+  UNIQUE (usim_id_mlv, usim_n_dimension)
   ENABLE
 ;
 
--- chk - dimension must be >= 0 and <= 99
+-- chk - dimension must be >= 0
 ALTER TABLE usim_dimension
   ADD CONSTRAINT usim_dim_dimension_chk
-  CHECK (usim_n_dimension BETWEEN 0 AND 99)
+  CHECK (usim_n_dimension >= 0)
   ENABLE
 ;
 
--- seq
-CREATE SEQUENCE usim_dim_id_seq
-  MINVALUE 1
-  INCREMENT BY 1
-  START WITH 1
-  CACHE 20
-  NOORDER
-  NOCYCLE
-  NOKEEP
-  NOSCALE
-  GLOBAL
-;
-
--- id trigger
-CREATE OR REPLACE TRIGGER usim_dim_id_trg
+-- insert trigger
+CREATE OR REPLACE TRIGGER usim_dim_ins_trg
   BEFORE INSERT ON usim_dimension
     FOR EACH ROW
     BEGIN
-      <<COLUMN_SEQUENCES>>
-      BEGIN
-        IF INSERTING AND :NEW.usim_id_dim IS NULL
-        THEN
-          SELECT usim_dim_id_seq.NEXTVAL INTO :NEW.usim_id_dim FROM SYS.dual;
-        END IF;
-      END COLUMN_SEQUENCES;
+      -- verify insert value
+      IF :NEW.usim_n_dimension > usim_base.get_max_dimension
+      THEN
+        RAISE_APPLICATION_ERROR( num => -20000
+                               , msg => 'Insert requirement not fulfilled. Dimension must be <= usim_base.get_max_dimension.'
+                               )
+        ;
+      END IF;
+      -- ignore input on pk
+      :NEW.usim_id_dim := usim_static.get_big_pk(usim_dim_id_seq.NEXTVAL);
     END;
 /
-ALTER TRIGGER usim_dim_id_trg ENABLE;
+ALTER TRIGGER usim_dim_ins_trg ENABLE;
+
+-- update trigger to prevent updates
+CREATE OR REPLACE TRIGGER usim_dim_upd_trg
+  BEFORE UPDATE ON usim_dimension
+    FOR EACH ROW
+    BEGIN
+      -- NEW is OLD, no updates
+      :NEW.usim_id_dim      := :OLD.usim_id_dim;
+      :NEW.usim_id_mlv      := :OLD.usim_id_mlv;
+      :NEW.usim_n_dimension := :OLD.usim_n_dimension;
+    END;
+/
+ALTER TRIGGER usim_dim_upd_trg ENABLE;

@@ -1,0 +1,50 @@
+
+EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
+------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
+25.06.2023 15:13:58 XEPDB1                         USIM_TEST                      Adi
+
+
+INFO
+----------------------
+Check USIM user/schema
+
+
+SCRIPTFILE
+--------------------------------------------------------------------------
+../UTIL/CHECK_SUCCESSFUL.sql "Acting on schema USIM_TEST."
+
+
+INFO
+---------------------------------------------
+Check successful. Acting on schema USIM_TEST.
+
+
+INFO
+------------------------------
+Create USIM objects if needed.
+
+
+Package USIM_STATIC kompiliert
+
+
+Package Body USIM_STATIC kompiliert
+
+
+Package USIM_MATHS kompiliert
+
+
+Package Body USIM_MATHS kompiliert
+
+LINE/COL  ERROR
+--------- -------------------------------------------------------------
+59/5      PLS-00103: Fand das Symbol "RETURN" als eines der folgenden erwartet wurde:     begin end function pragma procedure
+Fehler: Compilerlog prüfen
+
+INFO
+----------------------------
+Execute tests on USIM model.
+
+USIM_STATIC Tests: SUCCESS (71) ERROR (0)
+USIM_STATIC Test: PASSED
+
+PL/SQL-Prozedur erfolgreich abgeschlossen.

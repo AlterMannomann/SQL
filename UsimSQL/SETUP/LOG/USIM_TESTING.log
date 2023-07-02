@@ -1,0 +1,269 @@
+
+EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
+------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
+02.07.2023 13:46:49 XEPDB1                         USIM_TEST                      Adi
+
+INFO
+----------------------
+Check USIM user/schema
+
+SCRIPTFILE
+------------------------------------------------------------------------------
+../UTIL/CHECK_SUCCESSFUL.sql "Acting on schema USIM_TEST."
+
+INFO
+---------------------------------------------
+Check successful. Acting on schema USIM_TEST.
+
+INFO
+----------------------------------
+Remove all USIM objects if needed.
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../PACKAGES/DROP_USIM_STATIC_PKB.sql
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../PACKAGES/DROP_USIM_STATIC_PKS.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP_USIM_MATHS_PKB.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------
+../PACKAGES/DROP_USIM_MATHS_PKS.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_DLG_ID_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_MLV_ID_SEQ.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_PLANCK_TIME_SEQ.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_PLANCK_AEON_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_DIM_ID_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_TSU_ID_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP_USIM_POS_ID_SEQ.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP_USIM_DIM_MLV_FK.sql
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP_USIM_DEBUG_LOG_TBL.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP_USIM_DEBUG_PKB.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------
+../PACKAGES/DROP_USIM_DEBUG_PKS.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../TABLES/DROP_USIM_TEST_SUMMARY_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP_USIM_TEST_ERRORS_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../PACKAGES/DROP_USIM_TEST_PKB.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../PACKAGES/DROP_USIM_TEST_PKS.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../PACKAGES/DROP_USIM_BASE_PKB.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../PACKAGES/DROP_USIM_BASE_PKS.sql
+
+SCRIPTFILE
+---------------------------------------------------------------
+../TABLES/DROP_USIM_BASEDATA_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP_USIM_MLV_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP_USIM_MLV_PKS.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../TABLES/DROP_USIM_MULTIVERSE_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP_USIM_DIM_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP_USIM_DIM_PKS.sql
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP_USIM_DIMENSION_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP_USIM_POS_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP_USIM_POS_PKS.sql
+
+SCRIPTFILE
+---------------------------------------------------------------
+../TABLES/DROP_USIM_POSITION_TBL.sql
+
+OBJECTS_AFTER_CLEANUP
+---------------------
+                    0
+
+INFO
+--------------------------------
+Create or recreate USIM objects.
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_MLV_ID_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------------------
+../SEQUENCES/USIM_PLANCK_TIME_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------------------
+../SEQUENCES/USIM_PLANCK_AEON_SEQ.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_DIM_ID_SEQ.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_POS_ID_SEQ.sql
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../TABLES/USIM_BASEDATA_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../TABLES/USIM_MULTIVERSE_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../TABLES/USIM_DIMENSION_TBL.sql
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../TABLES/USIM_POSITION_TBL.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_DLG_ID_SEQ.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
+
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_TSU_ID_SEQ.sql
+
+SCRIPTFILE
+----------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
+
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DEBUG_LOG does not exist.
+
+SCRIPTFILE
+-------------------------------------------------------------------------------
+../TABLES/USIM_DEBUG_LOG_TBL.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."
+
+INFO
+------------------------------------------------------
+Nothing to do. Table USIM_TEST_SUMMARY does not exist.
+
+SCRIPTFILE
+----------------------------------------------------------------------------------
+../TABLES/USIM_TEST_SUMMARY_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."
+
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_TEST_ERRORS does not exist.
+
+SCRIPTFILE
+---------------------------------------------------------------------------------
+../TABLES/USIM_TEST_ERRORS_TBL.sql
+
+INFO
+--------------------------------------
+SUCCESS All database objects are valid
+
+INFO
+----------------------------
+Execute tests on USIM model.
+
+STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
+------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
+SUCCESS                 49                 0 USIM_STATIC
+SUCCESS                 36                 0 USIM_MATHS
+SUCCESS                  8                 0 USIM_DEBUG
+SUCCESS                 27                 0 USIM_BASE_DATA table
+SUCCESS                 28                 0 USIM_BASE
+SUCCESS                 30                 0 USIM_MULTIVERSE table
+SUCCESS                 62                 0 USIM_MLV
+SUCCESS                  5                 0 USIM_DIMENSION table
+SUCCESS                 19                 0 USIM_DIM
+SUCCESS                 21                 0 USIM_POS

@@ -1,0 +1,1 @@
+DROP SEQUENCE usim_planck_time_seq;

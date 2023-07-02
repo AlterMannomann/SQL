@@ -1,14 +1,12 @@
 -- USIM_POSITION (pos)
 CREATE TABLE usim_position
-  ( usim_id_pos       CHAR(55)      NOT NULL ENABLE
-  , usim_coordinate   NUMBER(38, 0) NOT NULL ENABLE
-  , usim_coord_level  NUMBER(38, 0) NOT NULL ENABLE
+  ( usim_id_pos     CHAR(55)  NOT NULL ENABLE
+  , usim_coordinate NUMBER    NOT NULL ENABLE
   )
 ;
-COMMENT ON TABLE usim_position IS 'Keeps unique positions which may be used more than one time. Will use the alias pos.';
-COMMENT ON COLUMN usim_position.usim_id_pos IS 'Generic big ID to identify a position.';
-COMMENT ON COLUMN usim_position.usim_coordinate IS 'The unique space position coordinate relative to the level.';
-COMMENT ON COLUMN usim_position.usim_coord_level IS 'The the level for the coordinate starting with 1. Every level can hold a number with 38 digits.';
+COMMENT ON TABLE usim_position IS 'A table holding the possible coordinates for reuse by different universes. Will use the alias pos.';
+COMMENT ON COLUMN usim_position.usim_id_pos IS 'The big id of the coordinate';
+COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space';
 
 -- pk
 ALTER TABLE usim_position
@@ -16,39 +14,33 @@ ALTER TABLE usim_position
   PRIMARY KEY (usim_id_pos)
   ENABLE
 ;
+
 -- uk
 ALTER TABLE usim_position
   ADD CONSTRAINT usim_pos_uk
-  UNIQUE (usim_coordinate, usim_coord_level)
+  UNIQUE (usim_coordinate)
   ENABLE
 ;
 
--- seq
-CREATE SEQUENCE usim_pos_id_seq
-  MINVALUE 1
-  MAXVALUE 99999999999999999999999999999999999999
-  INCREMENT BY 1
-  START WITH 1
-  CACHE 20
-  NOORDER
-  CYCLE
-  NOKEEP
-  NOSCALE
-  GLOBAL
-;
-
--- id trigger
-CREATE OR REPLACE TRIGGER usim_pos_id_trg
+-- insert trigger
+CREATE OR REPLACE TRIGGER usim_pos_ins_trg
   BEFORE INSERT ON usim_position
     FOR EACH ROW
     BEGIN
-      <<COLUMN_SEQUENCES>>
-      BEGIN
-        IF INSERTING AND :NEW.usim_id_pos IS NULL
-        THEN
-          SELECT usim_static.get_big_pk(usim_pos_id_seq.NEXTVAL) INTO :NEW.usim_id_pos FROM SYS.dual;
-        END IF;
-      END COLUMN_SEQUENCES;
+      -- ignore input on pk
+      :NEW.usim_id_pos := usim_static.get_big_pk(usim_pos_id_seq.NEXTVAL);
     END;
 /
-ALTER TRIGGER usim_pos_id_trg ENABLE;
+ALTER TRIGGER usim_pos_ins_trg ENABLE;
+
+-- update trigger to prevent updates
+CREATE OR REPLACE TRIGGER usim_pos_upd_trg
+  BEFORE UPDATE ON usim_position
+    FOR EACH ROW
+    BEGIN
+      -- NEW is OLD, no updates
+      :NEW.usim_id_pos      := :OLD.usim_id_pos;
+      :NEW.usim_coordinate  := :OLD.usim_coordinate;
+    END;
+/
+ALTER TRIGGER usim_pos_upd_trg ENABLE;

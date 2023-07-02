@@ -85,3 +85,10 @@ But even if this can be visualized, we will see it from outside, not from inside
 Removed DOC folder, to get a correct representation of the code base. Anyone may create the documentation with tools like SQL Developer.
 
 Sorry for not branching currently. I'm not at this point yet. While designing and creating I noticed that a lot of things didn't work the way I want it to operate. From the point, where I have the feeling it is a more or less stable code base, I will start with branches. So the only way to get to a specific point of the repository is rebasing it to a certain commit. I'm still renaming and restructuring the data model and packages.
+
+## Exceptions
+Exceptions are used very limited. Mostly tables will raise exceptions on insert, if requirements like base data exist are not fulfilled. Packages will avoid to raise application errors, instead they may return default values or NULL as an indicator that the desired operation is not available. Oracle errors simply show application errors not covered by tests.
+
+Defined errors
+- -20000 Insert requirement not fulfilled.
+- -20001 Update requirement not fulfilled.

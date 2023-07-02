@@ -1,565 +1,488 @@
-SET SERVEROUTPUT ON SIZE UNLIMITED
 DECLARE
   l_tests_success     INTEGER := 0;
   l_tests_failed      INTEGER := 0;
-  l_fail_message      VARCHAR2(32000);
+  l_fail_message      VARCHAR2(4000);
+  l_run_id            VARCHAR2(10);
   l_test_section      VARCHAR2(100);
   l_test_object       VARCHAR2(128) := 'USIM_STATIC';
   l_sql_number_result NUMBER;
   l_sql_char_result   VARCHAR2(32000);
   l_sql_date_result   DATE;
+  l_test_id           NUMBER;
 BEGIN
+  l_test_id := usim_test.init_test(l_test_object);
   l_test_section := 'PACKAGE Variables';
-  IF usim_static.usim_max_childs != 2
+  l_run_id := '001';
+  IF usim_static.usim_max_childs_per_dimension != 1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_max_childs NOT 2';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_max_childs_per_dimension NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '002';
   IF usim_static.usim_max_seeds != 1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_max_seeds NOT 1';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_max_seeds NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.usim_seed_name != 'UniverseSeed'
+  l_run_id := '003';
+  IF usim_static.usim_planck_time_seq_name != 'USIM_PLANCK_TIME_SEQ'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_seed_name NOT UniverseSeed';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_planck_time_seq_name NOT USIM_PLANCK_TIME_SEQ';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.usim_mirror_name != 'MirrorSeed'
+  l_run_id := '004';
+  IF usim_static.usim_planck_aeon_seq_name != 'USIM_PLANCK_AEON_SEQ'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_mirror_name NOT MirrorSeed';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_planck_aeon_seq_name NOT USIM_PLANCK_AEON_SEQ';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.usim_child_add != 'Child'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_child_add NOT Child';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.usim_max_dimensions != 3
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_max_dimensions NOT 3';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.usim_planck_timer != 'USIM_PLANCK_TIME_SEQ'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_planck_timer NOT USIM_PLANCK_TIME_SEQ';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '005';
   IF usim_static.usim_not_available != 'N/A'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_not_available NOT N/A';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_not_available NOT "N/A"';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.usim_max_number != 99999999999999999999999999999999999999
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_max_number NOT 99999999999999999999999999999999999999';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '006';
   IF usim_static.usim_status_success != 1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_status_success NOT 1';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_status_success NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '007';
   IF usim_static.usim_status_error != -1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_status_error NOT -1';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_status_error NOT -1';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '008';
   IF usim_static.usim_status_warning != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': usim_status_warning NOT 0';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_status_warning NOT 0';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '009';
   IF usim_static.PI != ACOS(-1)
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': PI NOT ACOS(-1)';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': PI NOT ACOS(-1)';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '010';
   IF usim_static.PI_DOUBLE != ACOS(-1) * 2
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': PI_DOUBLE NOT ACOS(-1) * 2';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': PI_DOUBLE NOT ACOS(-1) * 2';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '011';
   IF usim_static.PI_QUARTER != ACOS(-1) / 4
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': PI_QUARTER NOT ACOS(-1) / 4';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': PI_QUARTER NOT ACOS(-1) / 4';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '012';
+  IF usim_static.usim_multiverse_status_active != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_multiverse_status_active NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '013';
+  IF usim_static.usim_multiverse_status_inactive != 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_multiverse_status_inactive NOT 0';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '014';
+  IF usim_static.usim_multiverse_status_dead != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_multiverse_status_dead NOT -1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '015';
+  IF usim_static.usim_multiverse_status_crashed != -2
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_multiverse_status_crashed NOT -2';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
   l_test_section := 'NON SQL Functions';
+  l_run_id := '016';
   IF usim_static.get_bool_str(TRUE) != 'TRUE'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_bool_str(TRUE) NOT "TRUE"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_bool_str(TRUE) NOT "TRUE"';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '017';
   IF usim_static.get_bool_str(1 = 1) != 'TRUE'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_bool_str(1 = 1) NOT "TRUE"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_bool_str(1 = 1) NOT "TRUE"';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '018';
   IF usim_static.get_bool_str(FALSE) != 'FALSE'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_bool_str(FALSE) NOT "FALSE"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_bool_str(FALSE) NOT "FALSE"';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '019';
   IF usim_static.get_bool_str(1 = 2) != 'FALSE'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_bool_str(1 = 2) NOT "FALSE"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.is_overflow_reached(usim_static.usim_max_number - 1)
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': is_overflow_reached(usim_static.usim_max_number - 1) NOT FALSE';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_bool_str(1 = 2) NOT "FALSE"';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
 
   l_test_section := 'SQL Functions';
-  IF usim_static.get_max_childs != usim_static.usim_max_childs
+  l_run_id := '020';
+  SELECT usim_static.get_max_childs_per_dimension INTO l_sql_number_result FROM dual;
+  IF l_sql_number_result != usim_static.usim_max_childs_per_dimension
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_max_childs NOT usim_max_childs';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_max_childs_per_dimension NOT usim_max_childs_per_dimension';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  SELECT usim_static.get_max_childs INTO l_sql_number_result FROM dual;
-  IF l_sql_number_result != usim_static.usim_max_childs
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_max_childs FROM dual NOT usim_max_childs';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_max_seeds != usim_static.usim_max_seeds
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_max_seeds NOT usim_max_seeds';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '021';
   SELECT usim_static.get_max_seeds INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.usim_max_seeds
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_max_seeds FROM dual NOT usim_max_seeds';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_max_seeds FROM dual NOT usim_max_seeds';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_seed_name != usim_static.usim_seed_name
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_seed_name NOT usim_seed_name';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_seed_name INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != usim_static.usim_seed_name
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_seed_name FROM dual NOT usim_seed_name';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_mirror_name != usim_static.usim_mirror_name
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_mirror_name NOT usim_mirror_name';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_mirror_name INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != usim_static.usim_mirror_name
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_mirror_name FROM dual NOT usim_mirror_name';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_child_add != usim_static.usim_child_add
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_child_add NOT usim_child_add';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_child_add INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != usim_static.usim_child_add
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_child_add FROM dual NOT usim_child_add';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_pi != usim_static.PI
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_pi NOT PI';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '022';
   SELECT usim_static.get_pi INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.PI
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_pi FROM dual NOT PI';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_pi FROM dual NOT PI';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_pi_double != usim_static.PI_DOUBLE
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_pi_double NOT PI_DOUBLE';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '023';
   SELECT usim_static.get_pi_double INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.PI_DOUBLE
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_pi_double FROM dual NOT PI_DOUBLE';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_pi_double FROM dual NOT PI_DOUBLE';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_pi_quarter != usim_static.PI_QUARTER
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_pi_quarter NOT PI_QUARTER';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '024';
   SELECT usim_static.get_pi_quarter INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.PI_QUARTER
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_pi_quarter FROM dual NOT PI_QUARTER';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_pi_quarter FROM dual NOT PI_QUARTER';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_max_dimensions != usim_static.usim_max_dimensions
+  l_run_id := '025';
+  SELECT usim_static.get_planck_time_seq_name INTO l_sql_char_result FROM dual;
+  IF l_sql_char_result != usim_static.usim_planck_time_seq_name
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_max_dimensions NOT usim_max_dimensions';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_planck_time_seq_name FROM dual NOT usim_planck_time_seq_name';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  SELECT usim_static.get_max_dimensions INTO l_sql_number_result FROM dual;
-  IF l_sql_number_result != usim_static.usim_max_dimensions
+  l_run_id := '026';
+  SELECT usim_static.get_planck_aeon_seq_name INTO l_sql_char_result FROM dual;
+  IF l_sql_char_result != usim_static.usim_planck_aeon_seq_name
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_max_dimensions FROM dual NOT usim_max_dimensions';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_planck_aeon_seq_name NOT usim_planck_aeon_seq_name';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_planck_timer != usim_static.usim_planck_timer
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_planck_timer NOT usim_planck_timer';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_planck_timer INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != usim_static.usim_planck_timer
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_planck_timer FROM dual NOT usim_planck_timer';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_not_available != usim_static.usim_not_available
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_not_available NOT usim_not_available';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '027';
   SELECT usim_static.get_not_available INTO l_sql_char_result FROM dual;
   IF l_sql_char_result != usim_static.usim_not_available
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_not_available FROM dual NOT usim_not_available';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_not_available NOT usim_not_available';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_debug_success != usim_static.usim_status_success
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_success NOT usim_status_success';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '028';
   SELECT usim_static.get_debug_success INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.usim_status_success
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_debug_success FROM dual NOT usim_status_success';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_debug_success FROM dual NOT usim_status_success';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_debug_error != usim_static.usim_status_error
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_error NOT usim_status_error';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '029';
   SELECT usim_static.get_debug_error INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.usim_status_error
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_debug_error FROM dual NOT usim_status_error';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_debug_error FROM dual NOT usim_status_error';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_debug_warning != usim_static.usim_status_warning
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_warning NOT usim_status_warning';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '030';
   SELECT usim_static.get_debug_warning INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != usim_static.usim_status_warning
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT get_debug_warning FROM dual NOT usim_status_warning';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_debug_warning FROM dual NOT usim_status_warning';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_debug_status(usim_static.usim_status_success) != 'SUCCESS'
+  l_run_id := '031';
+  SELECT usim_static.get_multiverse_active INTO l_sql_number_result FROM dual;
+  IF l_sql_number_result != usim_static.usim_multiverse_status_active
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_status(usim_static.usim_status_success) NOT "SUCCESS"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_multiverse_active FROM dual NOT usim_multiverse_status_active';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  SELECT usim_static.get_debug_status(usim_static.get_debug_success) INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != 'SUCCESS'
+  l_run_id := '032';
+  SELECT usim_static.get_multiverse_inactive INTO l_sql_number_result FROM dual;
+  IF l_sql_number_result != usim_static.usim_multiverse_status_inactive
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT usim_static.get_debug_status(usim_static.get_debug_success) FROM dual NOT "SUCCESS"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_multiverse_inactive FROM dual NOT usim_multiverse_status_inactive';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  IF usim_static.get_debug_status(usim_static.usim_status_error) != 'ERROR'
+  l_run_id := '033';
+  SELECT usim_static.get_multiverse_dead INTO l_sql_number_result FROM dual;
+  IF l_sql_number_result != usim_static.usim_multiverse_status_dead
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_status(usim_static.usim_status_error) NOT "ERROR"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_multiverse_dead FROM dual NOT usim_multiverse_status_dead';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  SELECT usim_static.get_debug_status(usim_static.get_debug_error) INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != 'ERROR'
+  l_run_id := '034';
+  SELECT usim_static.get_multiverse_crashed INTO l_sql_number_result FROM dual;
+  IF l_sql_number_result != usim_static.usim_multiverse_status_crashed
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT usim_static.get_debug_status(usim_static.get_debug_error) FROM dual NOT "ERROR"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_debug_status(usim_static.usim_status_warning) != 'WARNING'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_status(usim_static.usim_status_error) NOT "WARNING"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_debug_status(usim_static.get_debug_warning) INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != 'WARNING'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT usim_static.get_debug_status(usim_static.get_debug_warning) FROM dual NOT "WARNING"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_debug_status(10) != 'UNKNOWN'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_status(10) NOT "UNKNOWN"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_debug_status(10) INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != 'UNKNOWN'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT usim_static.get_debug_status(10) FROM dual NOT "UNKNOWN"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  IF usim_static.get_debug_status(-10) != 'UNKNOWN'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': get_debug_status(-10) NOT "UNKNOWN"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  SELECT usim_static.get_debug_status(-10) INTO l_sql_char_result FROM dual;
-  IF l_sql_char_result != 'UNKNOWN'
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT usim_static.get_debug_status(-10) FROM dual NOT "UNKNOWN"';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT get_multiverse_crashed FROM dual NOT usim_multiverse_status_crashed';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
 
-  IF LENGTH(usim_static.get_big_pk(1)) != 55
+  l_test_section := 'Status Functions';
+  l_run_id := '035';
+  IF usim_static.get_multiverse_status(usim_static.usim_multiverse_status_active) != 'ACTIVE'
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': LENGTH(usim_static.get_big_pk(1)) NOT 55';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_multiverse_status(usim_static.usim_multiverse_status_active) NOT "ACTIVE"';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '036';
+  IF usim_static.get_multiverse_status(usim_static.usim_multiverse_status_inactive) != 'INACTIVE'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_multiverse_status(usim_static.usim_multiverse_status_inactive) NOT "INACTIVE"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '037';
+  IF usim_static.get_multiverse_status(usim_static.usim_multiverse_status_dead) != 'DEAD'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_multiverse_status(usim_static.usim_multiverse_status_dead) NOT "DEAD"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '038';
+  IF usim_static.get_multiverse_status(usim_static.usim_multiverse_status_crashed) != 'CRASHED'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_multiverse_status(usim_static.usim_multiverse_status_crashed) NOT "CRASHED"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '039';
+  IF usim_static.get_multiverse_status(-10) != 'UNKNOWN'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_multiverse_status(-10) NOT "UNKNOWN"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '040';
+  IF usim_static.get_debug_status(usim_static.usim_status_success) != 'SUCCESS'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_debug_status(usim_static.usim_status_success) NOT "SUCCESS"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '041';
+  IF usim_static.get_debug_status(usim_static.usim_status_error) != 'ERROR'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_debug_status(usim_static.usim_status_error) NOT "ERROR"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '042';
+  IF usim_static.get_debug_status(usim_static.usim_status_warning) != 'WARNING'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_debug_status(usim_static.usim_status_error) NOT "WARNING"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '043';
+  IF usim_static.get_debug_status(10) != 'UNKNOWN'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_debug_status(10) NOT "UNKNOWN"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '044';
+  IF usim_static.get_debug_status(-10) != 'UNKNOWN'
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_debug_status(-10) NOT "UNKNOWN"';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Big PK Functions';
+  l_run_id := '045';
+  IF LENGTH(usim_static.get_big_pk(1)) != 55
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': LENGTH(usim_static.get_big_pk(1)) NOT 55';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '046';
   SELECT LENGTH(usim_static.get_big_pk(1)) INTO l_sql_number_result FROM dual;
   IF l_sql_number_result != 55
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT LENGTH(usim_static.get_big_pk(1)) FROM dual NOT 55';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': SELECT LENGTH(usim_static.get_big_pk(1)) FROM dual NOT 55';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+  l_run_id := '047';
   IF TO_NUMBER(SUBSTR(usim_static.get_big_pk(1), -38)) != 1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': TO_NUMBER(SUBSTR(usim_static.get_big_pk(1), -38)) NOT 1';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': TO_NUMBER(SUBSTR(usim_static.get_big_pk(1), -38)) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  SELECT TO_NUMBER(SUBSTR(usim_static.get_big_pk(1), -38)) INTO l_sql_number_result FROM dual;
-  IF l_sql_number_result != 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT TO_NUMBER(SUBSTR(usim_static.get_big_pk(1), -38)) FROM dual NOT 1';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '048';
   IF TRUNC(usim_static.get_big_pk_date(usim_static.get_big_pk(1))) != TRUNC(SYSDATE)
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': TRUNC(usim_static.get_big_pk_date(usim_static.get_big_pk(1))) NOT TRUNC(SYSDATE)';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': TRUNC(usim_static.get_big_pk_date(usim_static.get_big_pk(1))) NOT TRUNC(SYSDATE)';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  SELECT TRUNC(usim_static.get_big_pk_date(usim_static.get_big_pk(1))) INTO l_sql_date_result FROM dual;
-  IF l_sql_date_result != TRUNC(SYSDATE)
+  l_run_id := '049';
+  IF usim_static.get_big_pk_number(usim_static.get_big_pk(1)) != 1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ': SELECT TRUNC(usim_static.get_big_pk_date(usim_static.get_big_pk(1))) FROM dual NOT TRUNC(SYSDATE)';
-    DBMS_OUTPUT.PUT_LINE(l_fail_message);
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ':  usim_static.get_big_pk_number(usim_static.get_big_pk(1)) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
 
-  -- Summary
-  DBMS_OUTPUT.PUT_LINE(l_test_object || ' Tests: SUCCESS (' || l_tests_success || ') ERROR (' || l_tests_failed || ')');
-  IF l_tests_failed > 0
-  THEN
-    DBMS_OUTPUT.PUT_LINE(l_test_object || ' Test: FAILED');
-  ELSE
-    DBMS_OUTPUT.PUT_LINE(l_test_object || ' Test: PASSED');
-  END IF;
+  -- write test results
+  usim_test.write_test_results(l_test_id, l_tests_success, l_tests_failed);
 EXCEPTION
   WHEN OTHERS THEN
-    DBMS_OUTPUT.PUT_LINE('Test section failed unexpected: [' || l_test_section || '] tests done: ' || TO_CHAR(NVL(l_tests_success, 0) + NVL(l_tests_failed, 0)));
-    DBMS_OUTPUT.PUT_LINE(SQLERRM);
+    usim_test.log_error(l_test_id, SUBSTR('Test section failed unexpected: [' || l_test_section || '] tests done: ' || TO_CHAR(NVL(l_tests_success, 0) + NVL(l_tests_failed, 0)) || ' last runs id ' || l_run_id || ' ora: ' || SQLERRM, 1, 4000));
+    usim_test.write_test_results(l_test_id, l_tests_success, l_tests_failed);
 END;
 /

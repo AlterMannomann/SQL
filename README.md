@@ -114,7 +114,7 @@ Defined errors
 - -20001 Update requirement not fulfilled.
 
 ## NF problematic
-You probably (I myself do this) may ask you, why I go at least 3NF, more likely 4NF/5NF. A f...ing overhead in joining the things together. But also f...ing true, if you get to mass data, really mass data, like a universe or a multiverse, that it is, so far known, the best way to reduce redundancy and thus save disk space, in the end. Remember? I try to make a compromise about number space, possible planck time and calculations for the price of memory and disk space.
+You probably (I myself do this) may ask you, why I go at least 3NF, more likely 4NF/5NF. A f...ing overhead in joining the things together. But also f...ing true, if you get to mass data, really mass data, like a universe or a multiverse, this it is, so far known, the best way to reduce redundancy and thus save disk space, in the end. Remember? I try to make a compromise about number space, possible planck time and calculations for the price of memory and disk space.
 
 And of course, I try, in the end, to save disk space on cost of processors. There is no perfect way, costs remain costs, in whatever currency. But with Moore's law I bet on processors more than on disk space. Currently. They go hand in hand, obvîously.
 

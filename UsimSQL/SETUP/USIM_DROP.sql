@@ -3,7 +3,7 @@ SELECT 'Remove all USIM objects if needed.' AS info FROM dual;
 --== basic packages start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_STATIC_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_STATIC_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -13,7 +13,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_STATIC_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_STATIC_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -23,7 +23,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_MATHS_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_MATHS_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -33,7 +33,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_MATHS_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_MATHS_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -46,7 +46,7 @@ SELECT CASE
 --== sequences start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_DLG_ID_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -56,7 +56,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_MLV_ID_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_MLV_ID_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -66,7 +66,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_PLANCK_TIME_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_PLANCK_TIME_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -76,7 +76,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_PLANCK_AEON_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_PLANCK_AEON_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -86,7 +86,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_DIM_ID_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_DIM_ID_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -96,7 +96,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_TSU_ID_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_TSU_ID_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -106,7 +106,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_POS_ID_SEQ.sql'
+         THEN '../SEQUENCES/DROP/DROP_USIM_POS_ID_SEQ.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -116,11 +116,31 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../SEQUENCES/DROP_USIM_RMDP_ID_SEQ.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMDP_ID_SEQ does not exist."'
+         THEN '../SEQUENCES/DROP/DROP_USIM_NOD_ID_SEQ.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_NOD_ID_SEQ does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_RMDP_ID_SEQ'
+ WHERE object_name = 'USIM_NOD_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMD_ID_SEQ does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMD_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../SEQUENCES/DROP/DROP_USIM_RRPN_ID_SEQ.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RRPN_ID_SEQ does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RRPN_ID_SEQ'
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
@@ -129,7 +149,7 @@ SELECT CASE
 --== foreign keys drop for easy delete start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../FK/DROP_USIM_DIM_MLV_FK.sql'
+         THEN '../FK/DROP/DROP_USIM_DIM_MLV_FK.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_DIM_MLV_FK does not exist."'
        END AS SCRIPTFILE
   FROM user_constraints
@@ -140,7 +160,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../FK/DROP_USIM_RMDP_DIM_FK.sql'
+         THEN '../FK/DROP/DROP_USIM_RMDP_DIM_FK.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_DIM_FK does not exist."'
        END AS SCRIPTFILE
   FROM user_constraints
@@ -151,7 +171,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../FK/DROP_USIM_RMDP_POS_FK.sql'
+         THEN '../FK/DROP/DROP_USIM_RMDP_POS_FK.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_POS_FK does not exist."'
        END AS SCRIPTFILE
   FROM user_constraints
@@ -165,7 +185,7 @@ SELECT CASE
 --== drop views start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../VIEW/DROP_USIM_RMDP_V.sql'
+         THEN '../VIEW/DROP/DROP_USIM_RMDP_V.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_V does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -178,7 +198,7 @@ SELECT CASE
 --== debug tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_DEBUG_LOG_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_DEBUG_LOG_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -191,7 +211,7 @@ SELECT CASE
 --== debug package start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_DEBUG_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_DEBUG_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_DEBUG does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -201,7 +221,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_DEBUG_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_DEBUG_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_DEBUG does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -214,7 +234,7 @@ SELECT CASE
 --== test tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_TEST_SUMMARY_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_TEST_SUMMARY_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -224,7 +244,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_TEST_ERRORS_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_TEST_ERRORS_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -237,7 +257,7 @@ SELECT CASE
 --== test package start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_TEST_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_TEST_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_TEST does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -247,7 +267,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_TEST_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_TEST_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_TEST does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -260,7 +280,7 @@ SELECT CASE
 --== base data start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_BASE_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_BASE_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_BASE does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -270,7 +290,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_BASE_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_BASE does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -280,7 +300,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_BASEDATA_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_BASEDATA does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -293,7 +313,7 @@ SELECT CASE
 --== base tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_MLV_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_MLV does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -303,7 +323,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_MLV_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_MLV does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -313,7 +333,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_MULTIVERSE_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_MULTIVERSE does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -323,7 +343,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_DIM_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_DIM_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_DIM does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -333,7 +353,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_DIM_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_DIM does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -343,7 +363,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_DIMENSION_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_DIMENSION does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -353,7 +373,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_POS_PKB.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_POS_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_POS does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -363,7 +383,7 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../PACKAGES/DROP_USIM_POS_PKS.sql'
+         THEN '../PACKAGES/DROP/DROP_USIM_POS_PKS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_POS does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
@@ -373,11 +393,41 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_POSITION_TBL.sql'
+         THEN '../TABLES/DROP/DROP_USIM_POSITION_TBL.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_POSITION does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
  WHERE object_name = 'USIM_POSITION'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_NOD_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_NOD'
+   AND object_type = 'PACKAGE BODY'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_NOD'
+   AND object_type = 'PACKAGE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../TABLES/DROP/DROP_USIM_NODE_TBL.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_NODE does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_NODE'
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE
@@ -386,11 +436,61 @@ SELECT CASE
 --== relation tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
-         THEN '../TABLES/DROP_USIM_REL_MLV_DIM_POS_TBL.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM_POS does not exist."'
+         THEN '../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_RMD does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_REL_MLV_DIM_POS'
+ WHERE object_name = 'USIM_RMD'
+   AND object_type = 'PACKAGE BODY'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_RMD does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMD'
+   AND object_type = 'PACKAGE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_REL_MLV_DIM'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_RRPN_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_RRPN does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RRPN'
+   AND object_type = 'PACKAGE BODY'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_RRPN_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_RRPN does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RRPN'
+   AND object_type = 'PACKAGE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../TABLES/DROP/DROP_USIM_REL_RMD_POS_NOD_TBL.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_RMD_POS_NOD does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_REL_RMD_POS_NOD'
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE

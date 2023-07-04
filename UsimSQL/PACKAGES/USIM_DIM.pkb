@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_dim IS
+CREATE OR REPLACE PACKAGE BODY usim_dim
+IS
   -- see header for documentation
   FUNCTION has_data
     RETURN NUMBER
@@ -10,25 +11,25 @@ CREATE OR REPLACE PACKAGE BODY usim_dim IS
   END has_data
   ;
 
-  FUNCTION has_data(p_usim_id_mlv IN usim_dimension.usim_id_mlv%TYPE)
+  FUNCTION has_data(p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE)
     RETURN NUMBER
   IS
     l_result  NUMBER;
   BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_dimension WHERE usim_id_mlv = p_usim_id_mlv;
-    RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
+    SELECT COUNT(*) INTO l_result FROM usim_dimension WHERE usim_id_dim = p_usim_id_dim;
+    RETURN l_result;
   END has_data
   ;
 
-  FUNCTION overflow_reached(p_usim_id_mlv IN usim_dimension.usim_id_mlv%TYPE)
+  FUNCTION overflow_reached
     RETURN NUMBER
   IS
     l_max_dim   usim_dimension.usim_n_dimension%TYPE;
   BEGIN
-    IF      usim_base.has_basedata            = 1
-       AND  usim_dim.has_data(p_usim_id_mlv)  = 1
+    IF      usim_base.has_basedata  = 1
+       AND  usim_dim.has_data       = 1
     THEN
-      SELECT MAX(usim_n_dimension) INTO l_max_dim FROM usim_dimension WHERE usim_id_mlv = p_usim_id_mlv;
+      SELECT MAX(usim_n_dimension) INTO l_max_dim FROM usim_dimension;
       IF l_max_dim = usim_base.get_max_dimension
       THEN
         RETURN 1;
@@ -41,14 +42,14 @@ CREATE OR REPLACE PACKAGE BODY usim_dim IS
   END overflow_reached
   ;
 
-  FUNCTION get_max_dimension(p_usim_id_mlv IN usim_dimension.usim_id_mlv%TYPE)
+  FUNCTION get_max_dimension
     RETURN usim_dimension.usim_n_dimension%TYPE
   IS
     l_result  NUMBER;
   BEGIN
-    IF usim_dim.has_data(p_usim_id_mlv) = 1
+    IF usim_dim.has_data = 1
     THEN
-      SELECT MAX(usim_n_dimension) INTO l_result FROM usim_dimension WHERE usim_id_mlv = p_usim_id_mlv;
+      SELECT MAX(usim_n_dimension) INTO l_result FROM usim_dimension;
       RETURN l_result;
     ELSE
       RETURN -1;
@@ -56,14 +57,29 @@ CREATE OR REPLACE PACKAGE BODY usim_dim IS
   END get_max_dimension
   ;
 
-  FUNCTION dimension_exists(p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE)
+  FUNCTION dimension_exists(p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE)
     RETURN NUMBER
   IS
     l_result  NUMBER;
   BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_dimension WHERE usim_id_dim = p_usim_id_dim;
+    SELECT COUNT(*) INTO l_result FROM usim_dimension WHERE usim_n_dimension = p_usim_n_dimension;
     RETURN l_result;
   END dimension_exists
+  ;
+
+  FUNCTION get_id_dim(p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE)
+    RETURN usim_dimension.usim_id_dim%TYPE
+  IS
+    l_usim_id_dim   usim_dimension.usim_id_dim%TYPE;
+  BEGIN
+    IF usim_dim.has_data(p_usim_n_dimension) = 1
+    THEN
+      SELECT usim_id_dim INTO l_usim_id_dim FROM usim_dimension WHERE usim_n_dimension = p_usim_n_dimension;
+      RETURN l_usim_id_dim;
+    ELSE
+      RETURN NULL;
+    END IF;
+  END get_id_dim
   ;
 
   FUNCTION get_dimension(p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE)
@@ -71,7 +87,7 @@ CREATE OR REPLACE PACKAGE BODY usim_dim IS
   IS
     l_result usim_dimension.usim_n_dimension%TYPE;
   BEGIN
-    IF usim_dim.dimension_exists(p_usim_id_dim) = 1
+    IF usim_dim.has_data(p_usim_id_dim) = 1
     THEN
       SELECT usim_n_dimension INTO l_result FROM usim_dimension WHERE usim_id_dim = p_usim_id_dim;
       RETURN l_result;
@@ -81,26 +97,19 @@ CREATE OR REPLACE PACKAGE BODY usim_dim IS
   END get_dimension
   ;
 
-  FUNCTION insert_next_dimension( p_usim_id_mlv IN usim_dimension.usim_id_mlv%TYPE
-                                , p_do_commit   IN BOOLEAN                          DEFAULT TRUE
-                                )
+  FUNCTION insert_next_dimension(p_do_commit IN BOOLEAN DEFAULT TRUE)
     RETURN usim_dimension.usim_id_dim%TYPE
   IS
     l_new_dimension NUMBER;
     l_result        usim_dimension.usim_id_dim%TYPE;
   BEGIN
-    IF     usim_mlv.universe_exists(p_usim_id_mlv)  = 1
-       AND usim_dim.overflow_reached(p_usim_id_mlv) = 0
+    IF usim_dim.overflow_reached = 0
     THEN
-      l_new_dimension := usim_dim.get_max_dimension(p_usim_id_mlv) + 1;
+      l_new_dimension := usim_dim.get_max_dimension + 1;
       INSERT INTO usim_dimension
-        ( usim_id_mlv
-        , usim_n_dimension
-        )
+        (usim_n_dimension)
         VALUES
-        ( p_usim_id_mlv
-        , l_new_dimension
-        )
+        (l_new_dimension)
         RETURNING usim_id_dim INTO l_result
       ;
       IF p_do_commit
@@ -114,5 +123,5 @@ CREATE OR REPLACE PACKAGE BODY usim_dim IS
   END insert_next_dimension
   ;
 
-END;
+END usim_dim;
 /

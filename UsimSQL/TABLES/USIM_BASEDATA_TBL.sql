@@ -16,16 +16,16 @@ CREATE TABLE usim_basedata
 ;
 COMMENT ON TABLE usim_basedata IS 'Holds the basic data used by the multiverse simulation that belong to all universes. Will use the alias bda.';
 COMMENT ON COLUMN usim_basedata.usim_id_bda IS 'The unique id of the base data. Can only have the value 1 ensured by primary key and check constraint.';
-COMMENT ON COLUMN usim_basedata.usim_max_dimension IS 'The maximum dimension supported for any universe in this multiverse. Must be set on insert.';
-COMMENT ON COLUMN usim_basedata.usim_abs_max_number IS 'The absolute maximum number possible on the used system. Must be set on insert.';
-COMMENT ON COLUMN usim_basedata.usim_overflow_node_seed IS 'Set to 1 if all new structures should start with parent in dimension n = 0. Set to 0, if new structures should use standard overflow handling. Must be set on insert.';
+COMMENT ON COLUMN usim_basedata.usim_max_dimension IS 'The maximum dimension supported for any universe in this multiverse. Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_basedata.usim_abs_max_number IS 'The absolute maximum number possible on the used system. Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_basedata.usim_overflow_node_seed IS 'Set to 1 if all new structures should start with parent in dimension n = 0. Set to 0, if new structures should use standard overflow handling. Must be set on insert, ignored on update.';
 COMMENT ON COLUMN usim_basedata.usim_planck_time_seq_last IS 'The last planck time tick or -1 if not known yet. Package usim_static holds the name of the used sequence.';
 COMMENT ON COLUMN usim_basedata.usim_planck_time_seq_curr IS 'The current planck time tick or -1 if not known yet. Package usim_static holds the name of the used sequence.';
 COMMENT ON COLUMN usim_basedata.usim_planck_aeon_seq_last IS 'The last planck aeon big id or N/A if not known yet. Package usim_static holds the name of the used sequence.';
 COMMENT ON COLUMN usim_basedata.usim_planck_aeon_seq_curr IS 'The current planck aeon big id or N/A if not known yet. Package usim_static holds the name of the used sequence.';
-COMMENT ON COLUMN usim_basedata.usim_created IS 'Date of record creation.';
-COMMENT ON COLUMN usim_basedata.usim_updated IS 'Date of record update.';
-COMMENT ON COLUMN usim_basedata.usim_created_by IS 'OS user responsible for record creation.';
+COMMENT ON COLUMN usim_basedata.usim_created IS 'Date of record creation. Automatically set, ignored on update';
+COMMENT ON COLUMN usim_basedata.usim_updated IS 'Date of record update. Automatically set, ignored on update';
+COMMENT ON COLUMN usim_basedata.usim_created_by IS 'OS user responsible for record creation. Automatically set, ignored on update';
 COMMENT ON COLUMN usim_basedata.usim_updated IS 'OS user, schema owner or user (depending on situation of update) responsible for record update.';
 
 -- pk (only to ensure not more than one entry)

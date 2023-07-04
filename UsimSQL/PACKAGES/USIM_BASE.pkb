@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_base IS
+CREATE OR REPLACE PACKAGE BODY usim_base
+IS
   -- see header for documentation
   FUNCTION has_basedata
     RETURN NUMBER

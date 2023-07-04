@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_mlv IS
+CREATE OR REPLACE PACKAGE BODY usim_mlv
+IS
   -- see header for documentation
   FUNCTION has_data
     RETURN NUMBER
@@ -297,5 +298,5 @@ CREATE OR REPLACE PACKAGE BODY usim_mlv IS
   END update_planck_unit_speed_length
   ;
 
-END;
+END usim_mlv;
 /

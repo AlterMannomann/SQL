@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_static IS
+CREATE OR REPLACE PACKAGE BODY usim_static
+IS
   -- decription see header
   FUNCTION get_max_childs_per_dimension
     RETURN NUMBER

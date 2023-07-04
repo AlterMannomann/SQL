@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_pos IS
+CREATE OR REPLACE PACKAGE usim_pos
+IS
   /**A package for actions on table usim_position.*/
 
   /**
@@ -10,11 +11,20 @@ CREATE OR REPLACE PACKAGE usim_pos IS
   ;
 
   /**
+  * Checks if usim_position has the given position id.
+  * @param p_usim_id_pos The position id to verify.
+  * @return Returns 1 if position id exists, otherwise 0.
+  */
+  FUNCTION has_data(p_usim_id_pos IN usim_position.usim_id_pos%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Checks if usim_position has the given coordinate.
   * @param p_usim_coordinate The coordinate to verify.
   * @return Returns 1 if coordinate exists, otherwise 0.
   */
-  FUNCTION has_coordinate(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
+  FUNCTION coordinate_exists(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
     RETURN NUMBER
   ;
 
@@ -33,15 +43,6 @@ CREATE OR REPLACE PACKAGE usim_pos IS
   */
   FUNCTION get_max_coordinate(p_sign IN NUMBER DEFAULT 1)
     RETURN usim_position.usim_coordinate%TYPE
-  ;
-
-  /**
-  * Checks if usim_position has the given position id.
-  * @param p_usim_id_pos The position id to verify.
-  * @return Returns 1 if position id exists, otherwise 0.
-  */
-  FUNCTION coordinate_exists(p_usim_id_pos IN usim_position.usim_id_pos%TYPE)
-    RETURN NUMBER
   ;
 
   /**
@@ -75,5 +76,5 @@ CREATE OR REPLACE PACKAGE usim_pos IS
     RETURN usim_position.usim_id_pos%TYPE
   ;
 
-END;
+END usim_pos;
 /

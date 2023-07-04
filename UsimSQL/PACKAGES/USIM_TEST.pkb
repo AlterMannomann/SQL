@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_test IS
+CREATE OR REPLACE PACKAGE BODY usim_test
+IS
   -- see header for description
   FUNCTION init_test(p_usim_test_object IN usim_test_summary.usim_test_object%TYPE)
     RETURN NUMBER
@@ -46,5 +47,5 @@ CREATE OR REPLACE PACKAGE BODY usim_test IS
   END write_test_results
   ;
 
-END;
+END usim_test;
 /

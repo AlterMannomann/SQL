@@ -1,4 +1,4 @@
--- USIM_DEBUG_LOG (dlg) sequence
+-- USIM_TEST_SUMMARY (tsu) sequence
 CREATE SEQUENCE usim_tsu_id_seq
   MINVALUE 1
   INCREMENT BY 1

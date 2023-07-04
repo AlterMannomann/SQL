@@ -17,20 +17,20 @@ CREATE TABLE usim_multiverse
   )
 ;
 COMMENT ON TABLE usim_multiverse IS 'A table to manage existing universes. Will use the alias mlv.';
-COMMENT ON COLUMN usim_multiverse.usim_id_mlv IS 'The generic big id for a universe in the multiverse.';
-COMMENT ON COLUMN usim_multiverse.usim_universe_status IS 'The current state of the associated universe at usim_planck_time. Either INACTIVE, ACTIVE, DEAD, CRASHED or UNKNOWN.';
-COMMENT ON COLUMN usim_multiverse.usim_is_base_universe IS 'Defines if the universe the base universe for the multiverse. 1 means base universe, 0 depending universe. Only one base allowed by application. Must be set on insert.';
-COMMENT ON COLUMN usim_multiverse.usim_energy_start_value IS 'The energy start value for the associated universe. Must be set on insert.';
+COMMENT ON COLUMN usim_multiverse.usim_id_mlv IS 'The unique id for a universe in the multiverse. Automatically set on insert, update ignored.';
+COMMENT ON COLUMN usim_multiverse.usim_universe_status IS 'The current state of the associated universe at usim_planck_time. Either INACTIVE, ACTIVE, DEAD, CRASHED or UNKNOWN. Calculated, set to INACTIVE on insert, update ignored.';
+COMMENT ON COLUMN usim_multiverse.usim_is_base_universe IS 'Defines if the universe the base universe for the multiverse. 1 means base universe, 0 depending universe. Only one base allowed by application. Must be set on insert, update ignored';
+COMMENT ON COLUMN usim_multiverse.usim_energy_start_value IS 'The energy start value for the associated universe. Must be set on insert, update ignored.';
 COMMENT ON COLUMN usim_multiverse.usim_energy_positive IS 'The total positive energy for the associated universe at usim_planck_time.';
 COMMENT ON COLUMN usim_multiverse.usim_energy_negative IS 'The total negative energy for the associated universe at usim_planck_time.';
-COMMENT ON COLUMN usim_multiverse.usim_planck_aeon IS 'The planck aeon big id at insert or update of energy and universe state.';
-COMMENT ON COLUMN usim_multiverse.usim_planck_time IS 'The planck time tick at insert or update of energy and universe state.';
-COMMENT ON COLUMN usim_multiverse.usim_planck_time_unit IS 'The relative time unit of planck time for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allow if usim_planck_stable = 0.';
-COMMENT ON COLUMN usim_multiverse.usim_planck_length_unit IS 'The relative length unit of planck length for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allow if usim_planck_stable = 0.';
-COMMENT ON COLUMN usim_multiverse.usim_planck_speed_unit IS 'The relative speed (c) unit of planck speed for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allow if usim_planck_stable = 0.';
+COMMENT ON COLUMN usim_multiverse.usim_planck_aeon IS 'The planck aeon big id at insert or update of energy and universe state. Automatically set, insert and update ignored.';
+COMMENT ON COLUMN usim_multiverse.usim_planck_time IS 'The planck time tick at insert or update of energy and universe state. Automatically set, insert and update ignored.';
+COMMENT ON COLUMN usim_multiverse.usim_planck_time_unit IS 'The relative time unit of planck time for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allowed if usim_planck_stable = 0.';
+COMMENT ON COLUMN usim_multiverse.usim_planck_length_unit IS 'The relative length unit of planck length for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allowed if usim_planck_stable = 0.';
+COMMENT ON COLUMN usim_multiverse.usim_planck_speed_unit IS 'The relative speed (c) unit of planck speed for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allowed if usim_planck_stable = 0.';
 COMMENT ON COLUMN usim_multiverse.usim_planck_stable IS 'The indicator if planck values may change over time (0) or are constant (1). Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_multiverse.usim_base_sign IS 'The sign for coordinates and energy of this universe structures. Must be set on insert.';
-COMMENT ON COLUMN usim_multiverse.usim_mirror_sign IS 'The sign for coordinates and energy of this mirror universe structures. Must be set on insert.';
+COMMENT ON COLUMN usim_multiverse.usim_base_sign IS 'The sign for coordinates and energy of this universe structures. Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_multiverse.usim_mirror_sign IS 'The sign for coordinates and energy of this mirror universe structures. Must be set on insert, ignored on update.';
 
 -- pk
 ALTER TABLE usim_multiverse

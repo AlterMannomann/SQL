@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_base IS
+CREATE OR REPLACE PACKAGE usim_base
+IS
   /** A package for getting/setting values of USIM_BASEDATA table.
   */
 

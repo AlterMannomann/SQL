@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_maths IS
+CREATE OR REPLACE PACKAGE BODY usim_maths
+IS
   -- see header for documentation
   FUNCTION init_planck_speed( p_planck_length IN NUMBER
                             , p_planck_time   IN NUMBER

@@ -5,8 +5,8 @@ CREATE TABLE usim_position
   )
 ;
 COMMENT ON TABLE usim_position IS 'A table holding the possible coordinates for reuse by different universes. Will use the alias pos.';
-COMMENT ON COLUMN usim_position.usim_id_pos IS 'The big id of the coordinate';
-COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space';
+COMMENT ON COLUMN usim_position.usim_id_pos IS 'The unique id of the coordinate. Automatically set, ignored on update';
+COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space. Must be set on insert, ignored on update.';
 
 -- pk
 ALTER TABLE usim_position

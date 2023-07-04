@@ -9,7 +9,6 @@ DECLARE
   l_sql_char_result   VARCHAR2(32000);
   l_sql_date_result   DATE;
   l_test_id           NUMBER;
-  l_usim_id_mlv       usim_multiverse.usim_id_mlv%TYPE;
   l_usim_id_dim       usim_dimension.usim_id_dim%TYPE;
 BEGIN
   l_test_id := usim_test.init_test(l_test_object);
@@ -17,11 +16,9 @@ BEGIN
   l_run_id := '001';
   -- setup
   DELETE usim_basedata;
-  DELETE usim_multiverse;
   DELETE usim_dimension;
   COMMIT;
   usim_base.init_basedata(2); -- limit to 2 dimensions for tests
-  l_usim_id_mlv := usim_mlv.insert_universe;
   IF usim_dim.has_data != 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.has_data should not have any data.';
@@ -31,27 +28,27 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '002';
-  IF usim_dim.has_data(l_usim_id_mlv) != 0
+  IF usim_dim.has_data('NO_VALID_ID') != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.has_data(l_usim_id_mlv) should not have any data for the given universe.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.has_data(NO_VALID_ID) should not have any data for the given id.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '003';
-  IF usim_dim.get_max_dimension(l_usim_id_mlv) != -1
+  IF usim_dim.get_max_dimension != -1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.get_max_dimension should not have any max data for the given universe.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.get_max_dimension should not have any max data.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '004';
-  IF usim_dim.dimension_exists('NO_VALID_ID') != 0
+  IF usim_dim.overflow_reached != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.dimension_exists should not have any data for the given id.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.overflow_reached should not have happen without data.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -69,7 +66,7 @@ BEGIN
 
   l_test_section := 'Insert first dimension and checks';
   l_run_id := '006';
-  l_usim_id_dim := usim_dim.insert_next_dimension(l_usim_id_mlv);
+  l_usim_id_dim := usim_dim.insert_next_dimension;
   l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
   IF l_sql_number_result != 0
   THEN
@@ -80,7 +77,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '007';
-  IF usim_dim.dimension_exists(l_usim_id_dim) != 1
+  IF usim_dim.has_data(l_usim_id_dim) != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': dimension id [' || l_usim_id_dim || '] should exist.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -89,7 +86,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '008';
-  l_sql_number_result := usim_dim.get_max_dimension(l_usim_id_mlv);
+  l_sql_number_result := usim_dim.get_max_dimension;
   IF l_sql_number_result != 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': first max dimension [' || l_sql_number_result || '] should be 0.';
@@ -108,17 +105,18 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '010';
-  IF usim_dim.has_data(l_usim_id_mlv) != 1
+  IF usim_dim.overflow_reached != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.has_data should have data for the given universe.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_dim.overflow_reached should not happen first dimension < 2.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
+
   l_test_section := 'Insert second dimension and checks';
   l_run_id := '011';
-  l_usim_id_dim := usim_dim.insert_next_dimension(l_usim_id_mlv);
+  l_usim_id_dim := usim_dim.insert_next_dimension;
   l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
   IF l_sql_number_result != 1
   THEN
@@ -131,7 +129,7 @@ BEGIN
 
   l_test_section := 'Insert third dimension and checks';
   l_run_id := '012';
-  l_usim_id_dim := usim_dim.insert_next_dimension(l_usim_id_mlv);
+  l_usim_id_dim := usim_dim.insert_next_dimension;
   l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
   IF l_sql_number_result != 2
   THEN
@@ -144,7 +142,7 @@ BEGIN
 
   l_test_section := 'Insert dimension over max and checks';
   l_run_id := '013';
-  l_usim_id_dim := usim_dim.insert_next_dimension(l_usim_id_mlv);
+  l_usim_id_dim := usim_dim.insert_next_dimension;
   IF l_usim_id_dim IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': new dimension id [' || l_usim_id_dim || '] should not exist for dimension over max.';
@@ -154,20 +152,41 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '014';
-  l_usim_id_dim := usim_dim.insert_next_dimension('NO_VALID_ID');
-  IF l_usim_id_dim IS NOT NULL
+  l_usim_id_dim := usim_dim.overflow_reached;
+  IF usim_dim.overflow_reached != 1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': new dimension id [' || l_usim_id_dim || '] should not exist for not existing universe.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow should be reached for dimension 2.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_test_section := 'Insert dimension do commit check';
   l_run_id := '015';
+  l_sql_number_result := usim_dim.dimension_exists(usim_base.get_max_dimension);
+  IF l_sql_number_result != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': dimension_exists [' || l_sql_number_result || '] wrong for max dimension.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '016';
+  l_sql_char_result := usim_dim.get_id_dim(usim_base.get_max_dimension);
+  IF TRIM(l_sql_char_result) != l_usim_id_dim
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_dim [' || l_sql_char_result || '] wrong for max dimension[' || l_usim_id_dim || '].';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Insert dimension do commit check';
+  l_run_id := '017';
   DELETE usim_dimension;
   COMMIT;
-  l_usim_id_dim := usim_dim.insert_next_dimension(l_usim_id_mlv, FALSE);
+  l_usim_id_dim := usim_dim.insert_next_dimension(FALSE);
   l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
   IF l_sql_number_result != 0
   THEN
@@ -177,7 +196,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '016';
+  l_run_id := '018';
   ROLLBACK;
   l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
   IF l_sql_number_result != -1
@@ -189,45 +208,8 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
 
-  l_test_section := 'Overflow state';
-  l_run_id := '017';
-  l_sql_number_result := usim_dim.overflow_reached(l_usim_id_mlv);
-  IF l_sql_number_result != 0
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow [' || l_sql_number_result || '] wrong for empty dimensions.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '018';
-  l_usim_id_dim := usim_dim.insert_next_dimension(l_usim_id_mlv);
-  l_sql_number_result := usim_dim.overflow_reached(l_usim_id_mlv);
-  IF l_sql_number_result != 0
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow [' || l_sql_number_result || '] wrong for first dimension.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '019';
-  -- mimic overflow by insert
-  INSERT INTO usim_dimension (usim_id_mlv, usim_n_dimension) VALUES (l_usim_id_mlv, usim_base.get_max_dimension);
-  COMMIT;
-  l_sql_number_result := usim_dim.overflow_reached(l_usim_id_mlv);
-  IF l_sql_number_result != 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow [' || l_sql_number_result || '] wrong for max dimension.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-
   -- cleanup
   DELETE usim_basedata;
-  DELETE usim_multiverse;
   DELETE usim_dimension;
   COMMIT;
   -- write test results

@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_static IS
+CREATE OR REPLACE PACKAGE usim_static
+IS
   /** A Package containing static values and SQL functions for retrieving this values to be used with the application. Changing values
   * in this package may break the application.
   *

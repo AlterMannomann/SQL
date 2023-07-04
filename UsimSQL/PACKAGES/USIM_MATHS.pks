@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_maths IS
+CREATE OR REPLACE PACKAGE usim_maths
+IS
   /** A package for all mathematical calculations in this multiverse which will not use any database access.
   * The universes itself don't care about units, their units are always based on 1, like the planck units. Units like seconds do only
   * make sense for an observer inside a universe, but not from the universe perspective.

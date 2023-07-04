@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_debug IS
+CREATE OR REPLACE PACKAGE BODY usim_debug
+IS
   debug_status  BOOLEAN;
   FUNCTION is_debug_on
     RETURN BOOLEAN

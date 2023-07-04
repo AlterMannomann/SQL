@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_test IS
+CREATE OR REPLACE PACKAGE usim_test
+IS
   /** Package for test support.
   * No checks are done, parameters must be valid.
   */
@@ -33,5 +34,5 @@ CREATE OR REPLACE PACKAGE usim_test IS
                               , p_usim_failed   IN NUMBER
                               )
   ;
-END;
+END usim_test;
 /

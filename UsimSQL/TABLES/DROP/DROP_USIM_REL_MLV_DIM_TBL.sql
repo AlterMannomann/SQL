@@ -1,0 +1,1 @@
+DROP TABLE usim_rel_mlv_dim PURGE;

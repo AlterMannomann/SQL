@@ -29,9 +29,9 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '002';
-  IF usim_pos.has_coordinate(0) != 0
+  IF usim_pos.coordinate_exists(0) != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.has_coordinate(0) should not find data.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.coordinate_exists(0) should not find data.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -56,9 +56,9 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '005';
-  IF usim_pos.coordinate_exists('NO_VALID_ID') != 0
+  IF usim_pos.has_data('NO_VALID_ID') != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.coordinate_exists(NO_VALID_ID) should not find data.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.has_data(NO_VALID_ID) should not find data.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -220,7 +220,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '019';
-  IF usim_pos.coordinate_exists(l_usim_id_pos) != 1
+  IF usim_pos.has_data(l_usim_id_pos) != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': coordinate id [' || l_usim_id_pos || '] should exist.';
     usim_test.log_error(l_test_id, l_fail_message);

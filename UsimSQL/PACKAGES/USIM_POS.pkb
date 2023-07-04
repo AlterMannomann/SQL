@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY usim_pos IS
+CREATE OR REPLACE PACKAGE BODY usim_pos
+IS
   -- see header for documentation
   FUNCTION has_data
     RETURN NUMBER
@@ -10,14 +11,24 @@ CREATE OR REPLACE PACKAGE BODY usim_pos IS
   END has_data
   ;
 
-  FUNCTION has_coordinate(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
+  FUNCTION has_data(p_usim_id_pos IN usim_position.usim_id_pos%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO l_result FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
+    RETURN l_result;
+  END has_data
+  ;
+
+  FUNCTION coordinate_exists(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
     RETURN NUMBER
   IS
     l_result NUMBER;
   BEGIN
     SELECT COUNT(*) INTO l_result FROM usim_position WHERE usim_coordinate = p_usim_coordinate;
     RETURN l_result;
-  END has_coordinate
+  END coordinate_exists
   ;
 
   FUNCTION overflow_reached
@@ -71,22 +82,12 @@ CREATE OR REPLACE PACKAGE BODY usim_pos IS
   END get_max_coordinate
   ;
 
-  FUNCTION coordinate_exists(p_usim_id_pos IN usim_position.usim_id_pos%TYPE)
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
-    RETURN l_result;
-  END coordinate_exists
-  ;
-
   FUNCTION get_coordinate(p_usim_id_pos IN usim_position.usim_id_pos%TYPE)
     RETURN usim_position.usim_coordinate%TYPE
   IS
     l_result usim_position.usim_coordinate%TYPE;
   BEGIN
-    IF usim_pos.coordinate_exists(p_usim_id_pos) = 1
+    IF usim_pos.has_data(p_usim_id_pos) = 1
     THEN
       SELECT usim_coordinate INTO l_result FROM usim_position WHERE usim_id_pos = p_usim_id_pos;
       RETURN l_result;
@@ -101,7 +102,7 @@ CREATE OR REPLACE PACKAGE BODY usim_pos IS
   IS
     l_result usim_position.usim_id_pos%TYPE;
   BEGIN
-    IF usim_pos.has_coordinate(p_usim_coordinate) = 1
+    IF usim_pos.coordinate_exists(p_usim_coordinate) = 1
     THEN
       SELECT usim_id_pos INTO l_result FROM usim_position WHERE usim_coordinate = p_usim_coordinate;
       RETURN l_result;
@@ -144,5 +145,5 @@ CREATE OR REPLACE PACKAGE BODY usim_pos IS
   END insert_next_position
   ;
 
-END;
+END usim_pos;
 /

@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_mlv IS
+CREATE OR REPLACE PACKAGE usim_mlv
+IS
   /**A package for actions on table usim_multiverse.*/
 
   /**
@@ -115,5 +116,5 @@ CREATE OR REPLACE PACKAGE usim_mlv IS
     RETURN NUMBER
   ;
 
-END;
+END usim_mlv;
 /

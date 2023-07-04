@@ -1,1 +1,0 @@
-DROP SEQUENCE usim_mlv_id_seq;

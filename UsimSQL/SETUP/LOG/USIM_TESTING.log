@@ -1,247 +1,1112 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-02.07.2023 20:07:35 XEPDB1                         USIM_TEST                      Adi
+04.07.2023 18:51:28 XEPDB1                         USIM_TEST                      Adi
+
+1 Zeile ausgewählt.
+
 
 INFO
 ----------------------
 Check USIM user/schema
 
+1 Zeile ausgewählt.
+
+
 SCRIPTFILE
 ------------------------------------------------------------------------------
 ../UTIL/CHECK_SUCCESSFUL.sql "Acting on schema USIM_TEST."
+
+1 Zeile ausgewählt.
+
 
 INFO
 ---------------------------------------------
 Check successful. Acting on schema USIM_TEST.
 
+1 Zeile ausgewählt.
+
+
 INFO
 ----------------------------------
 Remove all USIM objects if needed.
 
+1 Zeile ausgewählt.
+
+
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_STATIC_PKB.sql
+../PACKAGES/DROP/DROP_USIM_STATIC_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_STATIC gelöscht.
+
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../PACKAGES/DROP_USIM_STATIC_PKS.sql
+../PACKAGES/DROP/DROP_USIM_STATIC_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_STATIC gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MATHS_PKB.sql
+../PACKAGES/DROP/DROP_USIM_MATHS_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_MATHS gelöscht.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MATHS_PKS.sql
+../PACKAGES/DROP/DROP_USIM_MATHS_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_MATHS gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_DLG_ID_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_DLG_ID_SEQ gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_MLV_ID_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_MLV_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_MLV_ID_SEQ gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_PLANCK_TIME_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_PLANCK_TIME_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_PLANCK_TIME_SEQ gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_PLANCK_AEON_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_PLANCK_AEON_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_PLANCK_AEON_SEQ gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_DIM_ID_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_DIM_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_DIM_ID_SEQ gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_TSU_ID_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_TSU_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_TSU_ID_SEQ gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_POS_ID_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_POS_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_POS_ID_SEQ gelöscht.
+
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP/DROP_USIM_NOD_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_NOD_ID_SEQ gelöscht.
+
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_RMD_ID_SEQ gelöscht.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../SEQUENCES/DROP_USIM_RMDP_ID_SEQ.sql
+../SEQUENCES/DROP/DROP_USIM_RRPN_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_RRPN_ID_SEQ gelöscht.
+
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP_USIM_DIM_MLV_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_DIM_MLV_FK does not exist."
+
+1 Zeile ausgewählt.
+
+
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_DIM_MLV_FK does not exist.
+
+1 Zeile ausgewählt.
+
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../FK/DROP_USIM_RMDP_DIM_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_DIM_FK does not exist."
+
+1 Zeile ausgewählt.
+
+
+INFO
+-----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_DIM_FK does not exist.
+
+1 Zeile ausgewählt.
+
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../FK/DROP_USIM_RMDP_POS_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_POS_FK does not exist."
+
+1 Zeile ausgewählt.
+
+
+INFO
+-----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_POS_FK does not exist.
+
+1 Zeile ausgewählt.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../VIEW/DROP_USIM_RMDP_V.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_V does not exist."
+
+1 Zeile ausgewählt.
+
+
+INFO
+------------------------------------------------------
+Nothing to do. Foreign key USIM_RMDP_V does not exist.
+
+1 Zeile ausgewählt.
+
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP_USIM_DEBUG_LOG_TBL.sql
+../TABLES/DROP/DROP_USIM_DEBUG_LOG_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_DEBUG_LOG gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_DEBUG_PKB.sql
+../PACKAGES/DROP/DROP_USIM_DEBUG_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_DEBUG gelöscht.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP_USIM_DEBUG_PKS.sql
+../PACKAGES/DROP/DROP_USIM_DEBUG_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_DEBUG gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../TABLES/DROP_USIM_TEST_SUMMARY_TBL.sql
+../TABLES/DROP/DROP_USIM_TEST_SUMMARY_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_TEST_SUMMARY gelöscht.
+
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP_USIM_TEST_ERRORS_TBL.sql
+../TABLES/DROP/DROP_USIM_TEST_ERRORS_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_TEST_ERRORS gelöscht.
+
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP_USIM_TEST_PKB.sql
+../PACKAGES/DROP/DROP_USIM_TEST_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_TEST gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_TEST_PKS.sql
+../PACKAGES/DROP/DROP_USIM_TEST_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_TEST gelöscht.
+
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP_USIM_BASE_PKB.sql
+../PACKAGES/DROP/DROP_USIM_BASE_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_BASE gelöscht.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP_USIM_BASE_PKS.sql
+../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_BASE gelöscht.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP_USIM_BASEDATA_TBL.sql
+../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_BASEDATA gelöscht.
+
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP_USIM_MLV_PKB.sql
+../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_MLV gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_MLV_PKS.sql
+../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_MLV gelöscht.
+
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../TABLES/DROP_USIM_MULTIVERSE_TBL.sql
+../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_MULTIVERSE gelöscht.
+
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP_USIM_DIM_PKB.sql
+../PACKAGES/DROP/DROP_USIM_DIM_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_DIM gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_DIM_PKS.sql
+../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_DIM gelöscht.
+
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP_USIM_DIMENSION_TBL.sql
+../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_DIMENSION gelöscht.
+
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP_USIM_POS_PKB.sql
+../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_POS gelöscht.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP_USIM_POS_PKS.sql
+../PACKAGES/DROP/DROP_USIM_POS_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_POS gelöscht.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP_USIM_POSITION_TBL.sql
+../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_POSITION gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."
+
+1 Zeile ausgewählt.
+
+
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_NOD does not exist.
+
+1 Zeile ausgewählt.
+
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."
+
+1 Zeile ausgewählt.
+
+
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_NOD does not exist.
+
+1 Zeile ausgewählt.
+
+
+SCRIPTFILE
+-----------------------------------------------------------
+../TABLES/DROP/DROP_USIM_NODE_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_NODE gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_RMD gelöscht.
+
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_RMD gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_MLV_DIM gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RRPN_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_RRPN gelöscht.
+
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RRPN_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_RRPN gelöscht.
+
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../TABLES/DROP_USIM_REL_MLV_DIM_POS_TBL.sql
+../TABLES/DROP/DROP_USIM_REL_RMD_POS_NOD_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_RMD_POS_NOD gelöscht.
+
+
+Recyclebin gelöscht.
+
 
 OBJECTS_AFTER_CLEANUP
 ---------------------
                     0
 
+1 Zeile ausgewählt.
+
+
+0 Zeilen ausgewählt.
+
+
 INFO
 --------------------------------
 Create or recreate USIM objects.
+
+1 Zeile ausgewählt.
+
+
+Package USIM_STATIC kompiliert
+
+
+Package Body USIM_STATIC kompiliert
+
+
+Package USIM_MATHS kompiliert
+
+
+Package Body USIM_MATHS kompiliert
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_MLV_ID_SEQ.sql
 
+1 Zeile ausgewählt.
+
+
+Sequence USIM_MLV_ID_SEQ erstellt.
+
+
 SCRIPTFILE
 --------------------------------------------------------------------------------
 ../SEQUENCES/USIM_PLANCK_TIME_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_PLANCK_TIME_SEQ erstellt.
+
 
 SCRIPTFILE
 --------------------------------------------------------------------------------
 ../SEQUENCES/USIM_PLANCK_AEON_SEQ.sql
 
+1 Zeile ausgewählt.
+
+
+Sequence USIM_PLANCK_AEON_SEQ erstellt.
+
+
 SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_DIM_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_DIM_ID_SEQ erstellt.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_POS_ID_SEQ.sql
 
+1 Zeile ausgewählt.
+
+
+Sequence USIM_POS_ID_SEQ erstellt.
+
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_NOD_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_NOD_ID_SEQ erstellt.
+
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_RMD_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_RMD_ID_SEQ erstellt.
+
+
 SCRIPTFILE
 ----------------------------------------------------------------------------
-../SEQUENCES/USIM_RMDP_ID_SEQ.sql
+../SEQUENCES/USIM_RRPN_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_RRPN_ID_SEQ erstellt.
+
 
 SCRIPTFILE
 ----------------------------------------------------------------------
 ../TABLES/USIM_BASEDATA_TBL.sql
 
+1 Zeile ausgewählt.
+
+
+Table USIM_BASEDATA erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_BASEDATA geändert.
+
+
+Table USIM_BASEDATA geändert.
+
+
+Table USIM_BASEDATA geändert.
+
+
+Table USIM_BASEDATA geändert.
+
+
+Table USIM_BASEDATA geändert.
+
+
+Trigger USIM_BDA_INS_TRG kompiliert
+
+
+Trigger USIM_BDA_INS_TRG geändert.
+
+
+Trigger USIM_BDA_UPD_TRG kompiliert
+
+
+Trigger USIM_BDA_UPD_TRG geändert.
+
+
+Package USIM_BASE kompiliert
+
+
+Package Body USIM_BASE kompiliert
+
+
 SCRIPTFILE
 ------------------------------------------------------------------------
 ../TABLES/USIM_MULTIVERSE_TBL.sql
 
-SCRIPTFILE
------------------------------------------------------------------------
-../TABLES/USIM_DIMENSION_TBL.sql
+1 Zeile ausgewählt.
+
+
+Table USIM_MULTIVERSE erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_MULTIVERSE geändert.
+
+
+Table USIM_MULTIVERSE geändert.
+
+
+Table USIM_MULTIVERSE geändert.
+
+
+Table USIM_MULTIVERSE geändert.
+
+
+Trigger USIM_MLV_INS_TRG kompiliert
+
+
+Trigger USIM_MLV_INS_TRG geändert.
+
+
+Trigger USIM_MLV_UPD_TRG kompiliert
+
+
+Trigger USIM_MLV_UPD_TRG geändert.
+
+
+Package USIM_MLV kompiliert
+
+
+Package Body USIM_MLV kompiliert
+
 
 SCRIPTFILE
 ----------------------------------------------------------------------
 ../TABLES/USIM_POSITION_TBL.sql
 
+1 Zeile ausgewählt.
+
+
+Table USIM_POSITION erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_POSITION geändert.
+
+
+Table USIM_POSITION geändert.
+
+
+Trigger USIM_POS_INS_TRG kompiliert
+
+
+Trigger USIM_POS_INS_TRG geändert.
+
+
+Trigger USIM_POS_UPD_TRG kompiliert
+
+
+Trigger USIM_POS_UPD_TRG geändert.
+
+
+Package USIM_POS kompiliert
+
+
+Package Body USIM_POS kompiliert
+
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../TABLES/USIM_DIMENSION_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_DIMENSION erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_DIMENSION geändert.
+
+
+Table USIM_DIMENSION geändert.
+
+
+Table USIM_DIMENSION geändert.
+
+
+Trigger USIM_DIM_INS_TRG kompiliert
+
+
+Trigger USIM_DIM_INS_TRG geändert.
+
+
+Trigger USIM_DIM_UPD_TRG kompiliert
+
+
+Trigger USIM_DIM_UPD_TRG geändert.
+
+
+Package USIM_DIM kompiliert
+
+
+Package Body USIM_DIM kompiliert
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/USIM_NODE_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_NODE erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_NODE geändert.
+
+
+Trigger USIM_NODE_INS_TRG kompiliert
+
+
+Trigger USIM_NODE_INS_TRG geändert.
+
+
+Trigger USIM_NODE_UPD_TRG kompiliert
+
+
+Trigger USIM_NODE_UPD_TRG geändert.
+
+
+SCRIPTFILE
+-------------------------------------------------------------------------
+../TABLES/USIM_REL_MLV_DIM_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_MLV_DIM erstellt.
+
+
+Package USIM_RMD kompiliert
+
+
+Package Body USIM_RMD kompiliert
+
+
 SCRIPTFILE
 -----------------------------------------------------------------------------
-../TABLES/USIM_REL_MLV_DIM_POS_TBL.sql
+../TABLES/USIM_REL_RMD_POS_NOD_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_RMD_POS_NOD erstellt.
+
+
+Package USIM_RRPN kompiliert
+
+
+Package Body USIM_RRPN kompiliert
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_DLG_ID_SEQ.sql
 
+1 Zeile ausgewählt.
+
+
+Sequence USIM_DLG_ID_SEQ erstellt.
+
+
 SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_TSU_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_TSU_ID_SEQ erstellt.
+
 
 SCRIPTFILE
 -------------------------------------------------------------------------------
 ../TABLES/USIM_DEBUG_LOG_TBL.sql
 
+1 Zeile ausgewählt.
+
+
+Table USIM_DEBUG_LOG erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Index USIM_DLG_IDX erstellt.
+
+
+Package USIM_DEBUG kompiliert
+
+
+Package Body USIM_DEBUG kompiliert
+
+
 SCRIPTFILE
 ----------------------------------------------------------------------------------
 ../TABLES/USIM_TEST_SUMMARY_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_TEST_SUMMARY erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_TEST_SUMMARY geändert.
+
+
+Trigger USIM_TSU_INS_TRG kompiliert
+
+
+Trigger USIM_TSU_INS_TRG geändert.
+
 
 SCRIPTFILE
 ---------------------------------------------------------------------------------
 ../TABLES/USIM_TEST_ERRORS_TBL.sql
 
+1 Zeile ausgewählt.
+
+
+Table USIM_TEST_ERRORS erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Package USIM_TEST kompiliert
+
+
+Package Body USIM_TEST kompiliert
+
+
 INFO
 --------------------------------------
 SUCCESS All database objects are valid
 
+1 Zeile ausgewählt.
+
+
+0 Zeilen ausgewählt.
+
+
+0 Zeilen ausgewählt.
+
+
 INFO
 ----------------------------
 Execute tests on USIM model.
+
+1 Zeile ausgewählt.
+
+
+0 Zeilen gelöscht.
+
+
+0 Zeilen gelöscht.
+
+Commit abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
 ------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
@@ -252,7 +1117,13 @@ SUCCESS                 27                 0 USIM_BASE_DATA table
 SUCCESS                 28                 0 USIM_BASE
 SUCCESS                 30                 0 USIM_MULTIVERSE table
 SUCCESS                 62                 0 USIM_MLV
-SUCCESS                  5                 0 USIM_DIMENSION table
-SUCCESS                 19                 0 USIM_DIM
+SUCCESS                  6                 0 USIM_DIMENSION table
+SUCCESS                 18                 0 USIM_DIM
 SUCCESS                 21                 0 USIM_POS
-SUCCESS                  5                 0 USIM_REL_MLV_DIM_POS Table
+
+10 Zeilen ausgewählt.
+
+
+0 Zeilen ausgewählt.
+
+PL/SQL-Prozedur erfolgreich abgeschlossen.

@@ -62,14 +62,36 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
--- USIM_REL_MLV_DIM_POS (rmdp) sequence
+-- USIM_NODE (nod) sequence
 SELECT CASE
          WHEN COUNT(*) = 0
-         THEN '../SEQUENCES/USIM_RMDP_ID_SEQ.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_RMDP_ID_SEQ still exists."'
+         THEN '../SEQUENCES/USIM_NOD_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_NOD_ID_SEQ still exists."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_RMDP_ID_SEQ'
+ WHERE object_name = 'USIM_NOD_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
+-- USIM_REL_MLV_DIM (rmd) sequence
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../SEQUENCES/USIM_RMD_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_RMD_ID_SEQ still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMD_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
+-- USIM_REL_RMD_POS_NOD (rrpn)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../SEQUENCES/USIM_RRPN_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_RRPN_ID_SEQ still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RRPN_ID_SEQ'
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
@@ -107,21 +129,6 @@ SELECT CASE
 -- usim_multiverse package
 @@../PACKAGES/USIM_MLV.pks
 @@../PACKAGES/USIM_MLV.pkb
--- USIM_DIMENSION (dim)
-SELECT CASE
-         WHEN COUNT(*) = 0
-         THEN '../TABLES/USIM_DIMENSION_TBL.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_DIMENSION still exists."'
-       END AS SCRIPTFILE
-  FROM user_objects
- WHERE object_name = 'USIM_DIMENSION'
-   AND object_type = 'TABLE'
-;
-@@&SCRIPTFILE
-@@../FK/USIM_DIM_MLV_FK.sql
--- usim_dimension package
-@@../PACKAGES/USIM_DIM.pks
-@@../PACKAGES/USIM_DIM.pkb
 -- USIM_POSITION (pos)
 SELECT CASE
          WHEN COUNT(*) = 0
@@ -136,23 +143,65 @@ SELECT CASE
 -- usim_position package
 @@../PACKAGES/USIM_POS.pks
 @@../PACKAGES/USIM_POS.pkb
+-- USIM_DIMENSION (dim)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_DIMENSION_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_DIMENSION still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_DIMENSION'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- usim_dimension package
+@@../PACKAGES/USIM_DIM.pks
+@@../PACKAGES/USIM_DIM.pkb
+-- USIM_NODE (nod)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_NODE_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_NODE still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_NODE'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
 --== base tables end ==--
 
 --== relation tables start ==--
 -- USIM_REL_MLV_DIM_POS (rmdp)
 SELECT CASE
          WHEN COUNT(*) = 0
-         THEN '../TABLES/USIM_REL_MLV_DIM_POS_TBL.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_MLV_DIM_POS still exists."'
+         THEN '../TABLES/USIM_REL_MLV_DIM_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_MLV_DIM still exists."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_REL_MLV_DIM_POS'
+ WHERE object_name = 'USIM_REL_MLV_DIM'
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE
 -- foreign keys
-@@../FK/USIM_RMDP_DIM_FK.sql
-@@../FK/USIM_RMDP_POS_FK.sql
 -- views
-@@../VIEW/USIM_RMDP_V.sql
+-- usim_rel_mlv_dim package
+@@../PACKAGES/USIM_RMD.pks
+@@../PACKAGES/USIM_RMD.pkb
+-- USIM_REL_RMD_POS_NOD (rrpn)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_REL_RMD_POS_NOD_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_RMD_POS_NOD still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_REL_RMD_POS_NOD'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- foreign keys
+-- views
+-- usim_rel_mlv_dim package
+@@../PACKAGES/USIM_RRPN.pks
+@@../PACKAGES/USIM_RRPN.pkb
+
 --== relation tables end ==--

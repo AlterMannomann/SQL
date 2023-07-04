@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE usim_debug IS
+CREATE OR REPLACE PACKAGE usim_debug
+IS
   /** A package for debugging purposes.
   *
   * Package is session dependend. Debug mode is

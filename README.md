@@ -97,9 +97,27 @@ Execute the setup script **../SETUP/USIM_TEST_SETUP.sql** with user USIM_TEST.
 ### Application
 Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
 
+## Table packages
+- package names
+  - Package name is usually USIM_*table alias*, like USIM_DIM.
+- function names
+  - has_data... - checks in general or for specific ids, if the table has data. Return 0 or 1.
+  - ..._exists - checks for specific attributes, if the table has data. Return 0 or 1.
+  - get_id_... - retrieves the pk of the table by ids or attributes.
+  - insert_... - inserts an record into the table by given parameters and returns the new id.
+
 ## Exceptions
 Exceptions are used very limited. Mostly tables will raise exceptions on insert, if requirements like base data exist are not fulfilled. Packages will avoid to raise application errors, instead they may return default values or NULL as an indicator that the desired operation is not available. Oracle errors simply show application errors not covered by tests.
 
 Defined errors
 - -20000 Insert requirement not fulfilled.
 - -20001 Update requirement not fulfilled.
+
+## NF problematic
+You probably (I myself do this) may ask you, why I go at least 3NF, more likely 4NF/5NF. A f...ing overhead in joining the things together. But also f...ing true, if you get to mass data, really mass data, like a universe or a multiverse, that it is, so far known, the best way to reduce redundancy and thus save disk space, in the end. Remember? I try to make a compromise about number space, possible planck time and calculations for the price of memory and disk space.
+
+And of course, I try, in the end, to save disk space on cost of processors. There is no perfect way, costs remain costs, in whatever currency. But with Moore's law I bet on processors more than on disk space. Currently. They go hand in hand, obvîously.
+
+Another reason for saving space, as a side effect, is, to see things as they are. **Unique.** Everyone, everything. Of course we have similarities. But any object (on whatever level you like to see it), is unique. Somehow. Thus, by saving space, I also create the uniqueness we get and expect from out universe. Redundancy would be like beaming. If you reassemble me, you can do it as often as you want. I may most likely get into the problems with the copies of myself, not knowing, which is the original, if there still is any ... apart from the problem where do I get the mass from for the copies?
+
+Long story short, it is an attempt. Nothing more, nothing less. Results will prove it.

@@ -120,4 +120,4 @@ And of course, I try, in the end, to save disk space on cost of processors. Ther
 
 Another reason for saving space, as a side effect, is, to see things as they are. **Unique.** Everyone, everything. Of course we have similarities. But any object (on whatever level you like to see it), is unique. Somehow. Thus, by saving space, I also create the uniqueness we get and expect from out universe. Redundancy would be like beaming. If you reassemble me, you can do it as often as you want. I may most likely get into the problems with the copies of myself, not knowing, which is the original, if there still is any ... apart from the problem where do I get the mass from for the copies?
 
-Long story short, it is an attempt. Nothing more, nothing less. Results will prove it.
+Long story short, it is an attempt. Nothing more, nothing less. Results will proof it.

@@ -109,7 +109,7 @@ Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
   ### Risky attempts
   In the packages I reduce sometimes complexity, in form of a very hard "normalization" to 1 or 0, even if a count delivers more than one record. This implies loss of information. Of course. But it also implies rules, valid for this system. In other situations I rely on constraints and triggers, not expecting a result > 1, which still may happen. But isn't handled. Most likely, this will crash at a certain point in time the application.
 
-  </br>Intention: Feed Heisenberg's uncertainty principle.
+  Intention: Feed Schrödingers cat and Heisenbergs uncertainty principle.
 
 
 ## Exceptions

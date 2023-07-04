@@ -113,7 +113,7 @@ Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
 
 
 ## Exceptions
-Exceptions are used very limited. Mostly tables will raise exceptions on insert, if requirements like base data exist are not fulfilled. Packages will avoid to raise application errors, instead they may return default values or NULL as an indicator that the desired operation is not available. Oracle errors simply show application errors not covered by tests.
+Exceptions are used very limited. Mostly tables will raise exceptions on insert, if requirements like base data exist are not fulfilled. Packages will avoid to raise application errors, instead they may return default values or NULL as an indicator that the desired operation is not available. Oracle errors simply show application errors not covered by tests and design.
 
 Defined errors
 - -20000 Insert requirement not fulfilled.

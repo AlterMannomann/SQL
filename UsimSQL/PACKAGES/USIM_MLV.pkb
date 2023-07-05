@@ -11,6 +11,16 @@ IS
   END has_data
   ;
 
+  FUNCTION has_data(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  IS
+    l_result  NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+    RETURN l_result;
+  END has_data
+  ;
+
   FUNCTION insert_universe( p_usim_energy_start_value IN usim_multiverse.usim_energy_start_value%TYPE DEFAULT 1
                           , p_usim_planck_time_unit   IN usim_multiverse.usim_planck_time_unit%TYPE   DEFAULT 1
                           , p_usim_planck_length_unit IN usim_multiverse.usim_planck_length_unit%TYPE DEFAULT 1
@@ -112,16 +122,6 @@ IS
   END insert_universe
   ;
 
- FUNCTION universe_exists(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN NUMBER
-  IS
-    l_result  NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
-    RETURN l_result;
-  END universe_exists
-  ;
-
   FUNCTION update_energy( p_usim_id_mlv          IN usim_multiverse.usim_id_mlv%TYPE
                         , p_usim_energy_positive IN usim_multiverse.usim_energy_positive%TYPE
                         , p_usim_energy_negative IN usim_multiverse.usim_energy_negative%TYPE
@@ -132,7 +132,7 @@ IS
     l_usim_energy_positive usim_multiverse.usim_energy_positive%TYPE;
     l_usim_energy_negative usim_multiverse.usim_energy_negative%TYPE;
   BEGIN
-    IF usim_mlv.universe_exists(p_usim_id_mlv) = 1
+    IF usim_mlv.has_data(p_usim_id_mlv) = 1
     THEN
       l_usim_energy_positive := NVL(p_usim_energy_positive, 0);
       l_usim_energy_negative := NVL(p_usim_energy_negative, 0);
@@ -158,7 +158,7 @@ IS
     l_result usim_multiverse.usim_planck_stable%TYPE;
   BEGIN
     l_result := -1;
-    IF usim_mlv.universe_exists(p_usim_id_mlv) = 1
+    IF usim_mlv.has_data(p_usim_id_mlv) = 1
     THEN
       SELECT usim_planck_stable INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
     END IF;
@@ -177,7 +177,7 @@ IS
     l_length    NUMBER;
     l_time      NUMBER;
   BEGIN
-    IF     usim_mlv.universe_exists(p_usim_id_mlv)   = 1
+    IF     usim_mlv.has_data(p_usim_id_mlv)   = 1
        AND usim_mlv.get_planck_stable(p_usim_id_mlv) = 0
     THEN
       IF NVL(p_usim_planck_time_unit, 0) = 0
@@ -221,7 +221,7 @@ IS
     l_length    NUMBER;
     l_time      NUMBER;
   BEGIN
-    IF     usim_mlv.universe_exists(p_usim_id_mlv)   = 1
+    IF     usim_mlv.has_data(p_usim_id_mlv)   = 1
        AND usim_mlv.get_planck_stable(p_usim_id_mlv) = 0
     THEN
       IF NVL(p_usim_planck_time_unit, 0) = 0
@@ -265,7 +265,7 @@ IS
     l_length    NUMBER;
     l_time      NUMBER;
   BEGIN
-    IF     usim_mlv.universe_exists(p_usim_id_mlv)   = 1
+    IF     usim_mlv.has_data(p_usim_id_mlv)   = 1
        AND usim_mlv.get_planck_stable(p_usim_id_mlv) = 0
     THEN
       IF NVL(p_usim_planck_speed_unit, 0) = 0

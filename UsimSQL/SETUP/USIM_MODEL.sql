@@ -171,7 +171,7 @@ SELECT CASE
 --== base tables end ==--
 
 --== relation tables start ==--
--- USIM_REL_MLV_DIM_POS (rmdp)
+-- USIM_REL_MLV_DIM (rmd)
 SELECT CASE
          WHEN COUNT(*) = 0
          THEN '../TABLES/USIM_REL_MLV_DIM_TBL.sql'
@@ -183,7 +183,10 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- foreign keys
+@@../FK/USIM_RMD_MLV_FK.sql
+@@../FK/USIM_RMD_DIM_FK.sql
 -- views
+@@../VIEW/USIM_RMD_V.sql
 -- usim_rel_mlv_dim package
 @@../PACKAGES/USIM_RMD.pks
 @@../PACKAGES/USIM_RMD.pkb

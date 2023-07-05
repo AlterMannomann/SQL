@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-04.07.2023 18:51:28 XEPDB1                         USIM_TEST                      Adi
+06.07.2023 00:22:45 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -176,58 +176,46 @@ Sequence USIM_RRPN_ID_SEQ gelöscht.
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_DIM_MLV_FK does not exist."
+../FK/DROP/DROP_USIM_RMD_MLV_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_DIM_MLV_FK does not exist.
+Table USIM_REL_MLV_DIM geändert.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
 
 1 Zeile ausgewählt.
+
+
+Table USIM_REL_MLV_DIM geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_DIM_FK does not exist."
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_RMD_FK does not exist."
 
 1 Zeile ausgewählt.
 
 
 INFO
 -----------------------------------------------------------
-Nothing to do. Foreign key USIM_RMDP_DIM_FK does not exist.
+Nothing to do. Foreign key USIM_RRPN_RMD_FK does not exist.
 
 1 Zeile ausgewählt.
 
 
 SCRIPTFILE
-------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_POS_FK does not exist."
+------------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_RMD_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_RMDP_POS_FK does not exist.
-
-1 Zeile ausgewählt.
-
-
-SCRIPTFILE
--------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMDP_V does not exist."
-
-1 Zeile ausgewählt.
-
-
-INFO
-------------------------------------------------------
-Nothing to do. Foreign key USIM_RMDP_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_RMD_V gelöscht.
 
 
 SCRIPTFILE
@@ -930,6 +918,45 @@ SCRIPTFILE
 Table USIM_REL_MLV_DIM erstellt.
 
 
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_REL_MLV_DIM geändert.
+
+
+Table USIM_REL_MLV_DIM geändert.
+
+
+Trigger USIM_RMD_INS_TRG kompiliert
+
+
+Trigger USIM_RMD_INS_TRG geändert.
+
+
+Trigger USIM_RMD_UPD_TRG kompiliert
+
+
+Trigger USIM_RMD_UPD_TRG geändert.
+
+
+Table USIM_REL_MLV_DIM geändert.
+
+
+Table USIM_REL_MLV_DIM geändert.
+
+
+View USIM_RMD_V erstellt.
+
+
 Package USIM_RMD kompiliert
 
 
@@ -1107,6 +1134,9 @@ PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
 ------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
@@ -1119,9 +1149,12 @@ SUCCESS                 30                 0 USIM_MULTIVERSE table
 SUCCESS                 62                 0 USIM_MLV
 SUCCESS                  6                 0 USIM_DIMENSION table
 SUCCESS                 18                 0 USIM_DIM
+SUCCESS                  5                 0 USIM_POSITION table
 SUCCESS                 21                 0 USIM_POS
+SUCCESS                  7                 0 USIM_REL_MLV_DIM Table
+SUCCESS                 15                 0 USIM_RMD
 
-10 Zeilen ausgewählt.
+13 Zeilen ausgewählt.
 
 
 0 Zeilen ausgewählt.

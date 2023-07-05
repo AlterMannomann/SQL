@@ -1,1 +1,0 @@
-ALTER TABLE usim_rel_mlv_dim_pos  DROP CONSTRAINT usim_rmdp_dim_fk;

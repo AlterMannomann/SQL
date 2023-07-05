@@ -13,6 +13,10 @@ BEGIN
   l_test_id := usim_test.init_test(l_test_object);
   l_test_section := 'SECTION';
   l_run_id := '001';
+  -- setup
+  DELETE <table>;
+  COMMIT;
+
   -- functions
   IF FALSE
   THEN
@@ -25,20 +29,11 @@ BEGIN
   -- tables
   l_run_id := '002';
   BEGIN
-    INSERT INTO usim_basedata (usim_id_bda) VALUES (2) RETURNING usim_id_bda INTO l_sql_number_result;
+    INSERT INTO <table> (<column>) VALUES (<value>) RETURNING <column> INTO l_sql_number_result;
     -- input should be prevented by constraint
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] error message';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] error message.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
-    -- or check input value
-    IF TRIM(l_sql_char_result) = usim_static.usim_not_available
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] insert BLA for usim_child_mirror_seq_curr NOT ' || usim_static.usim_not_available;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
   EXCEPTION
     WHEN OTHERS THEN
       IF INSTR(SQLERRM, 'CONSTRAINT') > 0
@@ -52,6 +47,29 @@ BEGIN
   END;
   ROLLBACK;
 
+  l_run_id := '003';
+  BEGIN
+    INSERT INTO <table> (<column>) VALUES (<value>) RETURNING <column> INTO l_sql_number_result;
+    -- check input value
+    IF TRIM(l_sql_char_result) = <compare>
+    THEN
+      l_tests_success := l_tests_success + 1;
+    ELSE
+      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] error message[' || <var> || '].';
+      usim_test.log_error(l_test_id, l_fail_message);
+      l_tests_failed := l_tests_failed + 1;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
+      usim_test.log_error(l_test_id, l_fail_message);
+      l_tests_failed := l_tests_failed + 1;
+  END;
+  ROLLBACK;
+
+  -- cleanup
+  DELETE <table>;
+  COMMIT;
   -- write test results
   usim_test.write_test_results(l_test_id, l_tests_success, l_tests_failed);
 EXCEPTION

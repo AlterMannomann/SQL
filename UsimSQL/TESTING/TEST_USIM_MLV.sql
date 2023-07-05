@@ -223,7 +223,7 @@ BEGIN
   END IF;
   l_test_section := 'Universe exists and p_do_commit';
   l_run_id := '021';
-  IF usim_mlv.universe_exists(l_usim_id_mlv) != 1
+  IF usim_mlv.has_data(l_usim_id_mlv) != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_mlv.universe_exists[' || l_usim_id_mlv || '] NOT 1.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -233,7 +233,7 @@ BEGIN
   END IF;
   l_run_id := '022';
   l_usim_id_mlv := usim_mlv.insert_universe(0, 0, 0, 0, 1, 0, FALSE);
-  IF usim_mlv.universe_exists(l_usim_id_mlv) != 1
+  IF usim_mlv.has_data(l_usim_id_mlv) != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_mlv.universe_exists[' || l_usim_id_mlv || '] NOT 1.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -243,7 +243,7 @@ BEGIN
   END IF;
   l_run_id := '023';
   ROLLBACK;
-  IF usim_mlv.universe_exists(l_usim_id_mlv) != 0
+  IF usim_mlv.has_data(l_usim_id_mlv) != 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_mlv.universe_exists[' || l_usim_id_mlv || '] NOT 0.';
     usim_test.log_error(l_test_id, l_fail_message);

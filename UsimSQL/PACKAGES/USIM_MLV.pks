@@ -11,6 +11,14 @@ IS
   ;
 
   /**
+  * Checks if a given usim_multiverse id exists.
+  * @return Returns 1 if universe exists, otherwise 0.
+  */
+ FUNCTION has_data(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Inserts a new universe and sets automatically base universe, if the universe is the first universe inserted.
   * All other universes will not be considered as base universe (usim_is_base_universe).
   * Only provides columns, that have to be set on insert and can't be changed afterwards. Will only insert, if base data exist.
@@ -32,14 +40,6 @@ IS
                           , p_do_commit               IN BOOLEAN                                      DEFAULT TRUE
                           )
     RETURN usim_multiverse.usim_id_mlv%TYPE
-  ;
-
-  /**
-  * Checks if a given usim_multiverse id exists.
-  * @return Returns 1 if universe exists, otherwise 0.
-  */
- FUNCTION universe_exists(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN NUMBER
   ;
 
   /**

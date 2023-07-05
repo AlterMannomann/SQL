@@ -27,6 +27,14 @@ CREATE OR REPLACE TRIGGER usim_pos_ins_trg
   BEFORE INSERT ON usim_position
     FOR EACH ROW
     BEGIN
+      -- verify insert value
+      IF ABS(:NEW.usim_coordinate) > usim_base.get_abs_max_number
+      THEN
+        RAISE_APPLICATION_ERROR( num => -20000
+                               , msg => 'Insert requirement not fulfilled. Absolute coordinate must be >= 0 and <= usim_base.get_abs_max_number.'
+                               )
+        ;
+      END IF;
       -- ignore input on pk
       :NEW.usim_id_pos := usim_static.get_big_pk(usim_pos_id_seq.NEXTVAL);
     END;

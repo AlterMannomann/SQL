@@ -37,7 +37,7 @@ CREATE OR REPLACE TRIGGER usim_dim_ins_trg
       IF :NEW.usim_n_dimension > usim_base.get_max_dimension
       THEN
         RAISE_APPLICATION_ERROR( num => -20000
-                               , msg => 'Insert requirement not fulfilled. Dimension must be > 0 and <= usim_base.get_max_dimension.'
+                               , msg => 'Insert requirement not fulfilled. Dimension must be >= 0 and <= usim_base.get_max_dimension.'
                                )
         ;
       END IF;

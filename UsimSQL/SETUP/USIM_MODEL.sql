@@ -168,6 +168,9 @@ SELECT CASE
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE
+-- usim_node packages
+@@../PACKAGES/USIM_NOD.pks
+@@../PACKAGES/USIM_NOD.pkb
 --== base tables end ==--
 
 --== relation tables start ==--
@@ -202,8 +205,12 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- foreign keys
+@@../FK/USIM_RRPN_RMD_FK.sql
+@@../FK/USIM_RRPN_POS_FK.sql
+@@../FK/USIM_RRPN_NOD_FK.sql
 -- views
--- usim_rel_mlv_dim package
+@@../VIEW/USIM_RRPN_V.sql
+-- usim_rel_rmd_pos_nod package
 @@../PACKAGES/USIM_RRPN.pks
 @@../PACKAGES/USIM_RRPN.pkb
 

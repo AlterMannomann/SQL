@@ -4,7 +4,7 @@ DECLARE
   l_fail_message      VARCHAR2(4000);
   l_run_id            VARCHAR2(10);
   l_test_section      VARCHAR2(100);
-  l_test_object       VARCHAR2(128) := 'USIM_REL_MLV_DIM Table';
+  l_test_object       VARCHAR2(128) := 'USIM_REL_MLV_DIM table';
   l_sql_number_result NUMBER;
   l_sql_char_result   VARCHAR2(32000);
   l_sql_date_result   DATE;

@@ -29,7 +29,7 @@ ALTER TRIGGER usim_node_ins_trg ENABLE;
 
 -- update trigger
 CREATE OR REPLACE TRIGGER usim_node_upd_trg
-  BEFORE INSERT ON usim_node
+  BEFORE UPDATE ON usim_node
     FOR EACH ROW
     BEGIN
       -- ignore update on pk

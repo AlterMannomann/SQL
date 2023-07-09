@@ -180,19 +180,52 @@ SELECT CASE
    AND constraint_name  = 'USIM_RRPN_RMD_FK'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_RRPN_POS_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_POS_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_REL_RMD_POS_NOD'
+   AND constraint_name  = 'USIM_RRPN_POS_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_RRPN_NOD_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_NOD_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_REL_RMD_POS_NOD'
+   AND constraint_name  = 'USIM_RRPN_NOD_FK'
+;
+@@&SCRIPTFILE
 --== foreign keys drop for easy delete end ==--
 
 --== drop views start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
          THEN '../VIEW/DROP/DROP_USIM_RMD_V.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_V does not exist."'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_RMD_V does not exist."'
        END AS SCRIPTFILE
   FROM user_objects
  WHERE object_type = 'VIEW'
    AND object_name = 'USIM_RMD_V'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_RRPN_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_RRPN_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_RRPN_V'
+;
+@@&SCRIPTFILE
+
 --== drop views end ==--
 
 --== debug tables start ==--

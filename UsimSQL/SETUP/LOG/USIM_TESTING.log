@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-06.07.2023 00:22:45 XEPDB1                         USIM_TEST                      Adi
+09.07.2023 17:01:24 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -196,26 +196,52 @@ Table USIM_REL_MLV_DIM geändert.
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_RMD_FK does not exist."
+../FK/DROP/DROP_USIM_RRPN_RMD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_RRPN_RMD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_RMD_POS_NOD geändert.
 
 
 SCRIPTFILE
-------------------------------------------------------------------
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RRPN_POS_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RRPN_NOD_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+SCRIPTFILE
+-----------------------------------------------------------
 ../VIEW/DROP/DROP_USIM_RMD_V.sql
 
 1 Zeile ausgewählt.
 
 
 View USIM_RMD_V gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_RRPN_V.sql
+
+1 Zeile ausgewählt.
+
+
+View USIM_RRPN_V gelöscht.
 
 
 SCRIPTFILE
@@ -410,30 +436,22 @@ Table USIM_POSITION gelöscht.
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."
+../PACKAGES/DROP/DROP_USIM_NOD_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_NOD does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_NOD gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."
+../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_NOD does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_NOD gelöscht.
 
 
 SCRIPTFILE
@@ -908,6 +926,12 @@ Trigger USIM_NODE_UPD_TRG kompiliert
 Trigger USIM_NODE_UPD_TRG geändert.
 
 
+Package USIM_NOD kompiliert
+
+
+Package Body USIM_NOD kompiliert
+
+
 SCRIPTFILE
 -------------------------------------------------------------------------
 ../TABLES/USIM_REL_MLV_DIM_TBL.sql
@@ -971,6 +995,54 @@ SCRIPTFILE
 
 
 Table USIM_REL_RMD_POS_NOD erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+Trigger USIM_RRPN_INS_TRG kompiliert
+
+
+Trigger USIM_RRPN_INS_TRG geändert.
+
+
+Trigger USIM_RRPN_UPD_TRG kompiliert
+
+
+Trigger USIM_RRPN_UPD_TRG geändert.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+Table USIM_REL_RMD_POS_NOD geändert.
+
+
+View USIM_RRPN_V erstellt.
 
 
 Package USIM_RRPN kompiliert
@@ -1137,6 +1209,10 @@ PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
 ------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
@@ -1151,10 +1227,14 @@ SUCCESS                  6                 0 USIM_DIMENSION table
 SUCCESS                 18                 0 USIM_DIM
 SUCCESS                  5                 0 USIM_POSITION table
 SUCCESS                 21                 0 USIM_POS
-SUCCESS                  7                 0 USIM_REL_MLV_DIM Table
+SUCCESS                  4                 0 USIM_NODE table
+SUCCESS                 36                 0 USIM_NOD
+SUCCESS                  7                 0 USIM_REL_MLV_DIM table
 SUCCESS                 15                 0 USIM_RMD
+SUCCESS                 10                 0 USIM_REL_RMD_POS_NOD table
+SUCCESS                 10                 0 USIM_RRPN
 
-13 Zeilen ausgewählt.
+17 Zeilen ausgewählt.
 
 
 0 Zeilen ausgewählt.

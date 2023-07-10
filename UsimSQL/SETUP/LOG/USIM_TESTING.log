@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-09.07.2023 17:01:24 XEPDB1                         USIM_TEST                      Adi
+10.07.2023 02:00:21 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -172,6 +172,66 @@ SCRIPTFILE
 
 
 Sequence USIM_RRPN_ID_SEQ gelöscht.
+
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP/DROP_USIM_VOL_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_VOL_ID_SEQ gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_VOL_MLV_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME geändert.
+
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_VOL_POS1_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME geändert.
+
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_VOL_POS2_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME geändert.
+
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_VOL_POS3_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME geändert.
+
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_VOL_POS4_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
@@ -465,6 +525,16 @@ Table USIM_NODE gelöscht.
 
 
 SCRIPTFILE
+-------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME gelöscht.
+
+
+SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
 
@@ -614,6 +684,16 @@ SCRIPTFILE
 
 
 Sequence USIM_NOD_ID_SEQ erstellt.
+
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../SEQUENCES/USIM_VOL_ID_SEQ.sql
+
+1 Zeile ausgewählt.
+
+
+Sequence USIM_VOL_ID_SEQ erstellt.
 
 
 SCRIPTFILE
@@ -822,6 +902,9 @@ Comment erstellt.
 Comment erstellt.
 
 
+Comment erstellt.
+
+
 Table USIM_POSITION geändert.
 
 
@@ -930,6 +1013,70 @@ Package USIM_NOD kompiliert
 
 
 Package Body USIM_NOD kompiliert
+
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../TABLES/USIM_VOLUME_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_VOLUME geändert.
+
+
+Table USIM_VOLUME geändert.
+
+
+Trigger USIM_VOL_INS_TRG kompiliert
+
+
+Trigger USIM_VOL_INS_TRG geändert.
+
+
+Trigger USIM_VOL_UPD_TRG kompiliert
+
+
+Trigger USIM_VOL_UPD_TRG geändert.
+
+
+Table USIM_VOLUME geändert.
+
+
+Table USIM_VOLUME geändert.
+
+
+Table USIM_VOLUME geändert.
+
+
+Table USIM_VOLUME geändert.
+
+
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
@@ -1222,11 +1369,11 @@ SUCCESS                  8                 0 USIM_DEBUG
 SUCCESS                 27                 0 USIM_BASE_DATA table
 SUCCESS                 28                 0 USIM_BASE
 SUCCESS                 30                 0 USIM_MULTIVERSE table
-SUCCESS                 62                 0 USIM_MLV
+SUCCESS                 66                 0 USIM_MLV
 SUCCESS                  6                 0 USIM_DIMENSION table
 SUCCESS                 18                 0 USIM_DIM
-SUCCESS                  5                 0 USIM_POSITION table
-SUCCESS                 21                 0 USIM_POS
+SUCCESS                 12                 0 USIM_POSITION table
+SUCCESS                 30                 0 USIM_POS
 SUCCESS                  4                 0 USIM_NODE table
 SUCCESS                 36                 0 USIM_NOD
 SUCCESS                  7                 0 USIM_REL_MLV_DIM table

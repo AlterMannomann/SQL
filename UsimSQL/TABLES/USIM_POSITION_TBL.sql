@@ -1,12 +1,14 @@
 -- USIM_POSITION (pos)
 CREATE TABLE usim_position
-  ( usim_id_pos     CHAR(55)  NOT NULL ENABLE
-  , usim_coordinate NUMBER    NOT NULL ENABLE
+  ( usim_id_pos     CHAR(55)      NOT NULL ENABLE
+  , usim_coordinate NUMBER        NOT NULL ENABLE
+  , usim_sign       NUMBER(1, 0)  NOT NULL ENABLE
   )
 ;
 COMMENT ON TABLE usim_position IS 'A table holding the possible coordinates for reuse by different universes. Will use the alias pos.';
 COMMENT ON COLUMN usim_position.usim_id_pos IS 'The unique id of the coordinate. Automatically set, ignored on update';
 COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space. Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_position.usim_sign IS 'The coordinate sign. Mainly needed to distinguish between +-0 (sign 0), +0 (sign 1) and -0 (sign -1). For number != 0 +1 and -1 are allowed. Must be set on insert for 0 otherwise calculated, ignored on update.';
 
 -- pk
 ALTER TABLE usim_position
@@ -18,7 +20,7 @@ ALTER TABLE usim_position
 -- uk
 ALTER TABLE usim_position
   ADD CONSTRAINT usim_pos_uk
-  UNIQUE (usim_coordinate)
+  UNIQUE (usim_coordinate, usim_sign)
   ENABLE
 ;
 
@@ -35,6 +37,19 @@ CREATE OR REPLACE TRIGGER usim_pos_ins_trg
                                )
         ;
       END IF;
+      IF :NEW.usim_coordinate = 0
+      THEN
+        IF :NEW.usim_sign NOT IN (1, 0, -1)
+        THEN
+          RAISE_APPLICATION_ERROR( num => -20000
+                                , msg => 'Insert requirement not fulfilled. USIM_SIGN must be given for coordinate 0 and be either 1, 0 or -1.'
+                                )
+          ;
+        END IF;
+      ELSIF :NEW.usim_coordinate != 0
+      THEN
+        :NEW.usim_sign := SIGN(:NEW.usim_coordinate);
+      END IF;
       -- ignore input on pk
       :NEW.usim_id_pos := usim_static.get_big_pk(usim_pos_id_seq.NEXTVAL);
     END;
@@ -49,6 +64,7 @@ CREATE OR REPLACE TRIGGER usim_pos_upd_trg
       -- NEW is OLD, no updates
       :NEW.usim_id_pos      := :OLD.usim_id_pos;
       :NEW.usim_coordinate  := :OLD.usim_coordinate;
+      :NEW.usim_sign        := :OLD.usim_sign;
     END;
 /
 ALTER TRIGGER usim_pos_upd_trg ENABLE;

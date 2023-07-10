@@ -671,6 +671,44 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
 
+  l_test_section := 'Get universe sign';
+  l_run_id := '063';
+  IF usim_mlv.get_base_sign(l_usim_id_mlv) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': default base sign not 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '064';
+  IF usim_mlv.get_mirror_sign(l_usim_id_mlv) != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': default mirror sign not -1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '065';
+  IF usim_mlv.get_base_sign('NOT EXISTS') != 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': base sign for not existing universe not 0.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '066';
+  IF usim_mlv.get_mirror_sign('NOT EXISTS') != 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': mirror sign for not existing universe not 0.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
   -- cleanup
   DELETE usim_basedata;
   DELETE usim_multiverse;

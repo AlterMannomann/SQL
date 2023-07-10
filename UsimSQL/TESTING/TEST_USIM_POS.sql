@@ -11,6 +11,7 @@ DECLARE
   l_test_id           NUMBER;
   l_usim_id_pos       usim_position.usim_id_pos%TYPE;
   l_usim_coordinate   usim_position.usim_coordinate%TYPE;
+  l_sign              NUMBER;
 BEGIN
   l_test_id := usim_test.init_test(l_test_object);
   l_test_section := 'Check functions no data';
@@ -29,16 +30,16 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '002';
-  IF usim_pos.coordinate_exists(0) != 0
+  IF usim_pos.coordinate_exists(0, 0) != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.coordinate_exists(0) should not find data.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.coordinate_exists(0, 0) should not find data.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '003';
-  IF usim_pos.get_max_coordinate(1) != -1
+  IF usim_pos.get_max_coordinate(1) IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.get_max_coordinate(1) should not find data.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -47,7 +48,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '004';
-  IF usim_pos.get_max_coordinate(-1) != -1
+  IF usim_pos.get_max_coordinate(-1) IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.get_max_coordinate(-1) should not find data.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -75,7 +76,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '007';
-  l_usim_id_pos := usim_pos.get_id_pos(0);
+  l_usim_id_pos := usim_pos.get_id_pos(0, 0);
   IF l_usim_id_pos IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.get_id_pos(0) should not find data[' || l_usim_id_pos || '].';
@@ -87,7 +88,7 @@ BEGIN
 
   l_test_section := 'Basic inserts and do commit check';
   l_run_id := '008';
-  l_usim_id_pos := usim_pos.insert_next_position(1, FALSE);
+  l_usim_id_pos := usim_pos.insert_next_position(1, FALSE); -- 0, 0
   IF usim_pos.has_data != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_pos.insert_next_position should insert data.';
@@ -127,11 +128,13 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '012';
-  l_usim_id_pos := usim_pos.insert_next_position(-1);
+  l_usim_id_pos     := usim_pos.insert_next_position(-1);
   l_usim_coordinate := usim_pos.get_coordinate(l_usim_id_pos);
-  IF l_usim_coordinate != 0
+  l_sign            := usim_pos.get_coord_sign(l_usim_id_pos);
+  IF    l_usim_coordinate != 0
+     OR l_sign            != 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': first insert[' || l_usim_coordinate || '] should find coordinate 0 even with sign -1.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': first insert[' || l_usim_coordinate || '] should find coordinate 0 with sign 0.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -152,9 +155,9 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '014';
-  l_usim_id_pos := usim_pos.insert_next_position(1); -- 0
-  l_usim_id_pos := usim_pos.insert_next_position(1); -- 1
-  l_usim_id_pos := usim_pos.insert_next_position(-1); -- -1
+  l_usim_id_pos := usim_pos.insert_next_position(1); -- 0, 0
+  l_usim_id_pos := usim_pos.insert_next_position(1); -- 0, 1
+  l_usim_id_pos := usim_pos.insert_next_position(-1); -- 0, -1
   l_sql_number_result := usim_pos.overflow_reached;
   IF l_sql_number_result != 0
   THEN
@@ -166,11 +169,11 @@ BEGIN
   END IF;
   l_run_id := '015';
   -- mimic half overflow
-  INSERT INTO usim_position (usim_coordinate) VALUES (usim_base.get_abs_max_number);
-  l_sql_number_result := usim_pos.overflow_reached;
-  IF l_sql_number_result != 0
+  INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (usim_base.get_abs_max_number, 1);
+  l_sql_number_result := usim_pos.overflow_reached(1);
+  IF l_sql_number_result = 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow state [' || l_sql_number_result || '] wrong for having max coordinate only as positive number in usim_position.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow state [' || l_sql_number_result || '] wrong for having max coordinate as positive number in usim_position.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -178,11 +181,11 @@ BEGIN
   END IF;
   ROLLBACK;
   l_run_id := '016';
-  INSERT INTO usim_position (usim_coordinate) VALUES (usim_base.get_abs_max_number * -1);
-  l_sql_number_result := usim_pos.overflow_reached;
-  IF l_sql_number_result != 0
+  INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (usim_base.get_abs_max_number * -1, -1);
+  l_sql_number_result := usim_pos.overflow_reached(-1);
+  IF l_sql_number_result = 0
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow state [' || l_sql_number_result || '] wrong for having max coordinate only as negative number in usim_position.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow state [' || l_sql_number_result || '] wrong for having max coordinate as negative number in usim_position.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -190,8 +193,8 @@ BEGIN
   END IF;
   ROLLBACK;
   l_run_id := '017';
-  INSERT INTO usim_position (usim_coordinate) VALUES (usim_base.get_abs_max_number);
-  INSERT INTO usim_position (usim_coordinate) VALUES (usim_base.get_abs_max_number * -1);
+  INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (usim_base.get_abs_max_number, 1);
+  INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (usim_base.get_abs_max_number * -1, -1);
   l_sql_number_result := usim_pos.overflow_reached;
   IF l_sql_number_result != 1
   THEN
@@ -207,13 +210,15 @@ BEGIN
   l_run_id := '018';
   DELETE usim_position;
   COMMIT;
-  l_usim_id_pos := usim_pos.insert_next_position(1); -- 0
-  l_usim_id_pos := usim_pos.insert_next_position(1); -- 1
-  l_usim_id_pos := usim_pos.insert_next_position(-1); -- -1
+  l_usim_id_pos     := usim_pos.insert_next_position(1); -- 0, 0
+  l_usim_id_pos     := usim_pos.insert_next_position(1); -- 0, 1
+  l_usim_id_pos     := usim_pos.insert_next_position(-1); -- 0, -1
   l_usim_coordinate := usim_pos.get_coordinate(l_usim_id_pos);
-  IF l_usim_coordinate != -1
+  l_sign            := usim_pos.get_coord_sign(l_usim_id_pos);
+  IF    l_usim_coordinate != 0
+     OR l_sign            != -1
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': first negative coordinate [' || l_usim_coordinate || '] should be -1.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': first negative coordinate [' || l_usim_coordinate || '] should be 0.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -229,7 +234,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '020';
-  l_sql_char_result := usim_pos.get_id_pos(-2);
+  l_sql_char_result := usim_pos.get_id_pos(-2, 1);
   IF l_sql_char_result IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': coordinate -2 should not exist.';
@@ -239,10 +244,93 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '021';
-  l_sql_char_result := usim_pos.get_id_pos(-1);
+  l_sql_char_result := usim_pos.get_id_pos(0, -1);
   IF l_sql_char_result != l_usim_id_pos
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': coordinate -1 [' || l_sql_char_result || '] should have id [' || l_usim_id_pos || '].';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': coordinate -0 [' || l_sql_char_result || '] should have id [' || l_usim_id_pos || '].';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '022';
+  IF usim_pos.coordinate_exists(0, 0) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': coordinate 0, sign 0, should exist.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '023';
+  IF usim_pos.coordinate_exists(0, 1) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': coordinate 0, sign 1, should exist.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Get sign';
+  l_run_id := '024';
+  IF usim_pos.get_sign(0, 0) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(0, 0) should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '025';
+  IF usim_pos.get_sign(NULL, 0) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(NULL, 0) should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '026';
+  IF usim_pos.get_sign(NULL, NULL) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(NULL, NULL) should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '027';
+  IF usim_pos.get_sign(0, 1) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(0, 1) should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '028';
+  IF usim_pos.get_sign(0, -1) != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(0, -1) should be -1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '029';
+  IF usim_pos.get_sign(1, -1) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(1, -1) should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '030';
+  IF usim_pos.get_sign(-1, 1) != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(-1, 1) should be -1.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE

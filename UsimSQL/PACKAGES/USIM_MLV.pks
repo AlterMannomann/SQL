@@ -69,6 +69,23 @@ IS
   ;
 
   /**
+  * Gets the base sign of a given universe.
+  * @param p_usim_id_mlv The id of the universe to get usim_base_sign from.
+  * @return Returns usim_base_sign if given universe exists, otherwise 0.
+  */
+  FUNCTION get_base_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_base_sign%TYPE
+  ;
+  /**
+  * Gets the mirror sign of a given universe.
+  * @param p_usim_id_mlv The id of the universe to get usim_mirror_sign from.
+  * @return Returns usim_mirror_sign if given universe exists, otherwise 0.
+  */
+  FUNCTION get_mirror_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_mirror_sign%TYPE
+  ;
+
+  /**
   * Updates all planck units by new time and speed unit if usim_planck_stable = 0 for the given universe and the universe exists.
   * @param p_usim_id_mlv The id of the universe, that should update planck units.
   * @param p_usim_planck_time_unit The new planck time unit for the given universe. Will replace existing values with absolute values. If NULL/0 default 1 is used.

@@ -73,6 +73,17 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
+-- USIM_VOLUME (vol) sequence
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../SEQUENCES/USIM_VOL_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_VOL_ID_SEQ still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_VOL_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
 -- USIM_REL_MLV_DIM (rmd) sequence
 SELECT CASE
          WHEN COUNT(*) = 0
@@ -174,6 +185,25 @@ SELECT CASE
 --== base tables end ==--
 
 --== relation tables start ==--
+-- USIM_VOLUME (vol)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_VOLUME_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_VOLUME still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_VOLUME'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- foreign keys
+@@../FK/USIM_VOL_MLV_FK.sql
+@@../FK/USIM_VOL_POS1_FK.sql
+@@../FK/USIM_VOL_POS2_FK.sql
+@@../FK/USIM_VOL_POS3_FK.sql
+@@../FK/USIM_VOL_POS4_FK.sql
+-- views
+-- usim_volume packages
 -- USIM_REL_MLV_DIM (rmd)
 SELECT CASE
          WHEN COUNT(*) = 0

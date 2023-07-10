@@ -166,6 +166,34 @@ IS
   END get_planck_stable
   ;
 
+  FUNCTION get_base_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_base_sign%TYPE
+  IS
+    l_result usim_multiverse.usim_base_sign%TYPE;
+  BEGIN
+    l_result := 0;
+    IF usim_mlv.has_data(p_usim_id_mlv) = 1
+    THEN
+      SELECT usim_base_sign INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+    END IF;
+    RETURN l_result;
+  END get_base_sign
+  ;
+
+  FUNCTION get_mirror_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_mirror_sign%TYPE
+  IS
+    l_result usim_multiverse.usim_mirror_sign%TYPE;
+  BEGIN
+    l_result := 0;
+    IF usim_mlv.has_data(p_usim_id_mlv) = 1
+    THEN
+      SELECT usim_mirror_sign INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+    END IF;
+    RETURN l_result;
+  END get_mirror_sign
+  ;
+
   FUNCTION update_planck_unit_time_speed( p_usim_id_mlv             IN usim_multiverse.usim_id_mlv%TYPE
                                         , p_usim_planck_time_unit   IN usim_multiverse.usim_planck_time_unit%TYPE
                                         , p_usim_planck_speed_unit  IN usim_multiverse.usim_planck_speed_unit%TYPE

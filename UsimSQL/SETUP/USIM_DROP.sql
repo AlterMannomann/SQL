@@ -144,9 +144,74 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../SEQUENCES/DROP/DROP_USIM_VOL_ID_SEQ.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_VOL_ID_SEQ does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_VOL_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
 --== sequences end ==--
 
 --== foreign keys drop for easy delete start ==--
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_VOL_MLV_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_MLV_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_VOLUME'
+   AND constraint_name  = 'USIM_VOL_MLV_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_VOL_POS1_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS1_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_VOLUME'
+   AND constraint_name  = 'USIM_VOL_POS1_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_VOL_POS2_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS2_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_VOLUME'
+   AND constraint_name  = 'USIM_VOL_POS2_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_VOL_POS3_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS3_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_VOLUME'
+   AND constraint_name  = 'USIM_VOL_POS3_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_VOL_POS4_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS4_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_VOLUME'
+   AND constraint_name  = 'USIM_VOL_POS4_FK'
+;
+@@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
          THEN '../FK/DROP/DROP_USIM_RMD_MLV_FK.sql'
@@ -467,6 +532,16 @@ SELECT CASE
 --== base tables end ==--
 
 --== relation tables start ==--
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_VOLUME does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_VOLUME'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
          THEN '../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql'

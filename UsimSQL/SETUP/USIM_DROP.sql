@@ -272,6 +272,27 @@ SELECT CASE
 --== drop views start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_VOL_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_VOL_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_VOL_V'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_VOL_JOIN_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_VOL_JOIN_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_VOL_JOIN_V'
+;
+@@&SCRIPTFILE
+
+SELECT CASE
+         WHEN COUNT(*) > 0
          THEN '../VIEW/DROP/DROP_USIM_RMD_V.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_RMD_V does not exist."'
        END AS SCRIPTFILE
@@ -532,6 +553,26 @@ SELECT CASE
 --== base tables end ==--
 
 --== relation tables start ==--
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_VOL_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_VOL does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_VOL'
+   AND object_type = 'PACKAGE BODY'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_VOL_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_VOL does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_VOL'
+   AND object_type = 'PACKAGE'
+;
+@@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
          THEN '../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql'

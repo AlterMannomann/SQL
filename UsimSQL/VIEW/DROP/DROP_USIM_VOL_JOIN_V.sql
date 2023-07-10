@@ -1,0 +1,1 @@
+DROP VIEW usim_vol_join_v;

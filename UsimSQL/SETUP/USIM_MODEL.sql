@@ -203,7 +203,11 @@ SELECT CASE
 @@../FK/USIM_VOL_POS3_FK.sql
 @@../FK/USIM_VOL_POS4_FK.sql
 -- views
+@@../VIEW/USIM_VOL_V.sql
+@@../VIEW/USIM_VOL_JOIN_V.sql
 -- usim_volume packages
+@@../PACKAGES/USIM_VOL.pks
+@@../PACKAGES/USIM_VOL.pkb
 -- USIM_REL_MLV_DIM (rmd)
 SELECT CASE
          WHEN COUNT(*) = 0

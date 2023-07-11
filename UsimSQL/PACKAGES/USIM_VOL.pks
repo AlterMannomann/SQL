@@ -55,5 +55,52 @@ IS
     RETURN usim_volume.usim_id_vol%TYPE
   ;
 
+  /**
+  * Retrieves the next base from position, a new volumen can start with. Volumes
+  * are connected by the base to side, e.g volume 0, 1 is connected to volume 1, 2.
+  * If given universe exists, sign is derived from universe and value with correct
+  * sign (apart 0) is retrieved.
+  * @param p_usim_id_mlv The universe id for this volume.
+  * @return The coordinate value for next base from volume or NULL, if universe does not exist. The position for the coordinate is not necessarily created yet.
+  */
+  FUNCTION get_next_base_from(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+
+  /**
+  * Retrieves the next mirror from position, a new volumen can start with. Volumes
+  * are connected by the mirror to side, e.g volume 0, -1 is connected to volume -1, -2.
+  * If given universe exists, sign is derived from universe and value with correct
+  * sign (apart 0) is retrieved.
+  * @param p_usim_id_mlv The universe id for this volume.
+  * @return The coordinate value for next mirror from volume or NULL, if universe does not exist. The position for the coordinate is not necessarily created yet.
+  */
+  FUNCTION get_next_mirror_from(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+  /**
+  * Inserts a new volume for the given ids if it does not exist and all
+  * constraints are fulfilled. If the volume exists only returns the id.
+  * Constraints:</b>
+  * FROM < TO, ABS(TO) - ABS(FROM) = 1, base/mirror sign equals universe base/mirror sign.
+  * @param p_usim_id_mlv The universe id for this volume.
+  * @param p_usim_id_pos_base_from The position id for base from.
+  * @param p_usim_id_pos_base_to The position id for base to.
+  * @param p_usim_id_pos_mirror_from The position id for mirror from.
+  * @param p_usim_id_pos_mirror_to The position id for mirror to.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns new/existing usim_id_vol or NULL, if constraints are not fulfilled.
+  */
+  FUNCTION insert_vol( p_usim_id_mlv              IN usim_multiverse.usim_id_mlv%TYPE
+                     , p_usim_id_pos_base_from    IN usim_position.usim_id_pos%TYPE
+                     , p_usim_id_pos_base_to      IN usim_position.usim_id_pos%TYPE
+                     , p_usim_id_pos_mirror_from  IN usim_position.usim_id_pos%TYPE
+                     , p_usim_id_pos_mirror_to    IN usim_position.usim_id_pos%TYPE
+                     , p_do_commit                IN BOOLEAN                            DEFAULT TRUE
+                     )
+    RETURN usim_volume.usim_id_vol%TYPE
+  ;
 
 END usim_vol;

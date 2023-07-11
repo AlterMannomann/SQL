@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-11.07.2023 00:22:25 XEPDB1                         USIM_TEST                      Adi
+11.07.2023 23:53:12 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -36,842 +36,602 @@ Remove all USIM objects if needed.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."
+../PACKAGES/DROP/DROP_USIM_STATIC_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package body USIM_STATIC does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_STATIC gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."
+../PACKAGES/DROP/DROP_USIM_STATIC_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------------
-Nothing to do. Package header USIM_STATIC does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_STATIC gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."
+../PACKAGES/DROP/DROP_USIM_MATHS_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package body USIM_MATHS does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_MATHS gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."
+../PACKAGES/DROP/DROP_USIM_MATHS_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------------
-Nothing to do. Package header USIM_MATHS does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_MATHS gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_DLG_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_MLV_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_MLV_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_MLV_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_PLANCK_TIME_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------------
-Nothing to do. Sequence USIM_PLANCK_TIME_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_PLANCK_TIME_SEQ gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_PLANCK_AEON_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------------
-Nothing to do. Sequence USIM_PLANCK_AEON_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_PLANCK_AEON_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_DIM_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_DIM_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_DIM_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_TSU_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_TSU_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_POS_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_POS_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_POS_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_NOD_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_NOD_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_NOD_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_NOD_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMD_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_RMD_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_RMD_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RRPN_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_RRPN_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------------
-Nothing to do. Sequence USIM_RRPN_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_RRPN_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_VOL_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_VOL_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_VOL_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_VOL_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_MLV_FK does not exist."
+../FK/DROP/DROP_USIM_VOL_MLV_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_VOL_MLV_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS1_FK does not exist."
+../FK/DROP/DROP_USIM_VOL_POS1_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_VOL_POS1_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS2_FK does not exist."
+../FK/DROP/DROP_USIM_VOL_POS2_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_VOL_POS2_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS3_FK does not exist."
+../FK/DROP/DROP_USIM_VOL_POS3_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_VOL_POS3_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_VOL_POS4_FK does not exist."
+../FK/DROP/DROP_USIM_VOL_POS4_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_VOL_POS4_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_VOLUME geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_MLV_FK does not exist."
+../FK/DROP/DROP_USIM_RMD_MLV_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_RMD_MLV_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_MLV_DIM geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_DIM_FK does not exist."
+../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_RMD_DIM_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_MLV_DIM geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_RMD_FK does not exist."
+../FK/DROP/DROP_USIM_RRPN_RMD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_RRPN_RMD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_RMD_POS_NOD geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_POS_FK does not exist."
+../FK/DROP/DROP_USIM_RRPN_POS_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_RRPN_POS_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_RMD_POS_NOD geändert.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RRPN_NOD_FK does not exist."
+../FK/DROP/DROP_USIM_RRPN_NOD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------------
-Nothing to do. Foreign key USIM_RRPN_NOD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_RMD_POS_NOD geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_VOL_V does not exist."
+../VIEW/DROP/DROP_USIM_VOL_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. View USIM_VOL_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_VOL_V gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_VOL_JOIN_V does not exist."
+../VIEW/DROP/DROP_USIM_VOL_JOIN_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. View USIM_VOL_JOIN_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_VOL_JOIN_V gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_RMD_V does not exist."
+../VIEW/DROP/DROP_USIM_RMD_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. View USIM_RMD_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_RMD_V gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_RRPN_V does not exist."
+../VIEW/DROP/DROP_USIM_RRPN_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------
-Nothing to do. View USIM_RRPN_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_RRPN_V gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
+../TABLES/DROP/DROP_USIM_DEBUG_LOG_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_DEBUG_LOG does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_DEBUG_LOG gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_DEBUG does not exist."
+../PACKAGES/DROP/DROP_USIM_DEBUG_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package body USIM_DEBUG does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_DEBUG gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_DEBUG does not exist."
+../PACKAGES/DROP/DROP_USIM_DEBUG_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------------
-Nothing to do. Package header USIM_DEBUG does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_DEBUG gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."
+../TABLES/DROP/DROP_USIM_TEST_SUMMARY_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Table USIM_TEST_SUMMARY does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_TEST_SUMMARY gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."
+../TABLES/DROP/DROP_USIM_TEST_ERRORS_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Table USIM_TEST_ERRORS does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_TEST_ERRORS gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_TEST does not exist."
+../PACKAGES/DROP/DROP_USIM_TEST_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Package body USIM_TEST does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_TEST gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_TEST does not exist."
+../PACKAGES/DROP/DROP_USIM_TEST_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package header USIM_TEST does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_TEST gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_BASE does not exist."
+../PACKAGES/DROP/DROP_USIM_BASE_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Package body USIM_BASE does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_BASE gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_BASE does not exist."
+../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package header USIM_BASE does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_BASE gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_BASEDATA does not exist."
+../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------
-Nothing to do. Table USIM_BASEDATA does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_BASEDATA gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_MLV does not exist."
+../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_MLV does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_MLV gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_MLV does not exist."
+../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_MLV does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_MLV gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_MULTIVERSE does not exist."
+../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Table USIM_MULTIVERSE does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_MULTIVERSE gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_DIM does not exist."
+../PACKAGES/DROP/DROP_USIM_DIM_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_DIM does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_DIM gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_DIM does not exist."
+../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_DIM does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_DIM gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_DIMENSION does not exist."
+../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_DIMENSION does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_DIMENSION gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_POS does not exist."
+../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_POS does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_POS gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_POS does not exist."
+../PACKAGES/DROP/DROP_USIM_POS_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_POS does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_POS gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_POSITION does not exist."
+../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------
-Nothing to do. Table USIM_POSITION does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_POSITION gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."
+../PACKAGES/DROP/DROP_USIM_NOD_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_NOD does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_NOD gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."
+../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_NOD does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_NOD gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_NODE does not exist."
+../TABLES/DROP/DROP_USIM_NODE_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. Table USIM_NODE does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_NODE gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_VOL does not exist."
+../PACKAGES/DROP/DROP_USIM_VOL_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_VOL does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_VOL gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_VOL does not exist."
+../PACKAGES/DROP/DROP_USIM_VOL_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_VOL does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_VOL gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_VOLUME does not exist."
+../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------
-Nothing to do. Table USIM_VOLUME does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_VOLUME gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_RMD does not exist."
+../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_RMD does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_RMD gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_RMD does not exist."
+../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_RMD does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_RMD gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM does not exist."
+../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Table USIM_REL_MLV_DIM does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_MLV_DIM gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_RRPN does not exist."
+../PACKAGES/DROP/DROP_USIM_RRPN_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Package body USIM_RRPN does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_RRPN gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_RRPN does not exist."
+../PACKAGES/DROP/DROP_USIM_RRPN_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package header USIM_RRPN does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_RRPN gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_RMD_POS_NOD does not exist."
+../TABLES/DROP/DROP_USIM_REL_RMD_POS_NOD_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------------
-Nothing to do. Table USIM_REL_RMD_POS_NOD does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_RMD_POS_NOD gelöscht.
 
 
 Recyclebin gelöscht.
@@ -1653,6 +1413,7 @@ PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
 ------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
@@ -1670,12 +1431,13 @@ SUCCESS                 30                 0 USIM_POS
 SUCCESS                  4                 0 USIM_NODE table
 SUCCESS                 36                 0 USIM_NOD
 SUCCESS                 20                 0 USIM_VOLUME table
+SUCCESS                 15                 0 USIM_VOL
 SUCCESS                  7                 0 USIM_REL_MLV_DIM table
 SUCCESS                 15                 0 USIM_RMD
 SUCCESS                 10                 0 USIM_REL_RMD_POS_NOD table
 SUCCESS                 10                 0 USIM_RRPN
 
-18 Zeilen ausgewählt.
+19 Zeilen ausgewählt.
 
 
 0 Zeilen ausgewählt.

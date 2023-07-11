@@ -22,23 +22,7 @@ BEGIN
   l_usim_id_pos2 := usim_pos.insert_next_position(1); -- 1, 1
   l_usim_id_pos3 := usim_pos.insert_next_position(-1); -- 0, -1
   l_usim_id_pos4 := usim_pos.insert_next_position(-1); -- -1, -1
-  INSERT INTO usim_volume
-    ( usim_id_mlv
-    , usim_id_pos_base_from
-    , usim_id_pos_base_to
-    , usim_id_pos_mirror_from
-    , usim_id_pos_mirror_to
-    )
-    VALUES
-    ( l_usim_id_mlv
-    , l_usim_id_pos1
-    , l_usim_id_pos2
-    , l_usim_id_pos3
-    , l_usim_id_pos4
-    )
-    RETURNING usim_id_vol INTO l_usim_id_vol
-  ;
-  COMMIT;
+  l_usim_id_vol := usim_vol.insert_vol(l_usim_id_mlv, l_usim_id_pos1, l_usim_id_pos2, l_usim_id_pos3, l_usim_id_pos4);
   l_usim_id_nod := usim_nod.insert_node;
 /*
   -- base rmd relation

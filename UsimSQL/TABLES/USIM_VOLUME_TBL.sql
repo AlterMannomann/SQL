@@ -9,12 +9,12 @@ CREATE TABLE usim_volume
   )
 ;
 COMMENT ON TABLE usim_volume IS 'This table contains the basic definiion of a volume in either dimension where distance between from-to nodes is equal to 1 within one dimension. From-to describes only the basic direction, not a parent-child relation. Will use the alias vol.';
-COMMENT ON COLUMN usim_volume.usim_id_vol IS 'The unique id of the volume definition. Automatically set, update ignored.';
-COMMENT ON COLUMN usim_volume.usim_id_mlv IS 'The id of the related universe. Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_volume.usim_id_pos_base_from IS 'The id of the first base coordinate (in absolute always the lower one). Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_volume.usim_id_pos_base_to IS 'The id of the second base coordinate (in absolute always the higher one with number space distance 1). Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_volume.usim_id_pos_mirror_from IS 'The id of the first mirror coordinate (in absolute always the lower one, opposite sign of base). Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_volume.usim_id_pos_mirror_to IS 'The id of the second mirror coordinate (in absolute always the higher one with number space distance 1). Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_volume.usim_id_vol IS 'The unique id of the volume definition. Automatically set, update not allowed.';
+COMMENT ON COLUMN usim_volume.usim_id_mlv IS 'The id of the related universe. Must be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_volume.usim_id_pos_base_from IS 'The id of the first base coordinate (in absolute always the lower one). Must be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_volume.usim_id_pos_base_to IS 'The id of the second base coordinate (in absolute always the higher one with number space distance 1). Must be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_volume.usim_id_pos_mirror_from IS 'The id of the first mirror coordinate (in absolute always the lower one, opposite sign of base). Must be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_volume.usim_id_pos_mirror_to IS 'The id of the second mirror coordinate (in absolute always the higher one with number space distance 1). Must be set on insert, update not allowed.';
 
 -- pk
 ALTER TABLE usim_volume
@@ -78,13 +78,10 @@ CREATE OR REPLACE TRIGGER usim_vol_upd_trg
   BEFORE UPDATE ON usim_volume
     FOR EACH ROW
     BEGIN
-      -- ignore updates
-      :NEW.usim_id_vol             := :OLD.usim_id_vol;
-      :NEW.usim_id_mlv             := :OLD.usim_id_mlv;
-      :NEW.usim_id_pos_base_from   := :OLD.usim_id_pos_base_from;
-      :NEW.usim_id_pos_base_to     := :OLD.usim_id_pos_base_to;
-      :NEW.usim_id_pos_mirror_from := :OLD.usim_id_pos_mirror_from;
-      :NEW.usim_id_pos_mirror_to   := :OLD.usim_id_pos_mirror_to;
+      RAISE_APPLICATION_ERROR( num => -20001
+                             , msg => 'Update requirement not fulfilled. No update allowed.'
+                             )
+      ;
     END;
 /
 ALTER TRIGGER usim_vol_upd_trg ENABLE;

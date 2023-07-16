@@ -85,61 +85,24 @@ BEGIN
   BEGIN
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (0, 1) RETURNING usim_id_pos INTO l_usim_id_pos;
     UPDATE usim_position SET usim_id_pos = 'BLA', usim_coordinate = 1, usim_sign = -1 WHERE usim_id_pos = l_usim_id_pos;
-    -- check input value
-    IF TRIM(l_usim_id_pos) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_pos || '] id should not be updateable.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] update should not be possible.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
   EXCEPTION
     WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '005';
-  BEGIN
-    SELECT usim_coordinate INTO l_sql_number_result FROM usim_position WHERE usim_id_pos = l_usim_id_pos;
-    -- check input value
-    IF l_sql_number_result = 0
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_pos || '] coordinate should not be updateable.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '006';
-  BEGIN
-    SELECT usim_sign INTO l_sql_number_result FROM usim_position WHERE usim_id_pos = l_usim_id_pos;
-    -- check input value
-    IF l_sql_number_result = 1
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_pos || '] sign should not be updateable.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
+      IF SQLCODE = -20001
+      THEN
+        l_tests_success := l_tests_success + 1;
+      ELSE
+        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
+        usim_test.log_error(l_test_id, l_fail_message);
+        l_tests_failed := l_tests_failed + 1;
+      END IF;
   END;
   ROLLBACK;
 
   l_test_section := 'Table constraint sign';
-  l_run_id := '007';
+  l_run_id := '005';
   BEGIN
     -- same value twice
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (0, 4);
@@ -159,7 +122,7 @@ BEGIN
       END IF;
   END;
   ROLLBACK;
-  l_run_id := '008';
+  l_run_id := '006';
   BEGIN
     -- same value twice
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (0, -3);
@@ -179,7 +142,7 @@ BEGIN
       END IF;
   END;
   ROLLBACK;
-  l_run_id := '009';
+  l_run_id := '007';
   BEGIN
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (0, 0) RETURNING usim_sign INTO l_sql_number_result;
     -- check input value
@@ -198,7 +161,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '010';
+  l_run_id := '008';
   BEGIN
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (0, 1) RETURNING usim_sign INTO l_sql_number_result;
     -- check input value
@@ -217,7 +180,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '011';
+  l_run_id := '009';
   BEGIN
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (0, -1) RETURNING usim_sign INTO l_sql_number_result;
     -- check input value
@@ -236,7 +199,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '012';
+  l_run_id := '010';
   BEGIN
     INSERT INTO usim_position (usim_coordinate, usim_sign) VALUES (1, 0) RETURNING usim_sign INTO l_sql_number_result;
     -- check input value

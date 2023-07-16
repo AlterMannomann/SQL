@@ -478,6 +478,116 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
 
+  l_test_section := 'get_next_number function';
+  l_run_id := '050';
+  IF usim_static.get_next_number(NULL, NULL) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(NULL, NULL) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '051';
+  IF usim_static.get_next_number(0, NULL) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(0, NULL) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '052';
+  IF usim_static.get_next_number(0, 0) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(0, 0) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '053';
+  IF usim_static.get_next_number(NULL, -1) != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(NULL, -1) NOT -1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '054';
+  IF usim_static.get_next_number(0, -1) != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(0, -1) NOT -1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '055';
+  IF usim_static.get_next_number(0, 1) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(0, 1) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '056';
+  IF usim_static.get_next_number(0, 22) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(0, 22) NOT 1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '057';
+  IF usim_static.get_next_number(0, -22) != -1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(0, -22) NOT -1';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '058';
+  IF usim_static.get_next_number(3, 1) != 4
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(3, 1) NOT 4';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '059';
+  IF usim_static.get_next_number(3, -1) != 4
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(3, -1) NOT 4';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '060';
+  IF usim_static.get_next_number(-3, -1) != -4
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(-3, -1) NOT -4';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '061';
+  IF usim_static.get_next_number(-3, 1) != -4
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_next_number(-3, 1) NOT -4';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
   -- write test results
   usim_test.write_test_results(l_test_id, l_tests_success, l_tests_failed);
 EXCEPTION

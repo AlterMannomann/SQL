@@ -38,6 +38,15 @@ IS
   ;
 
   /**
+  * Checks if usim_volume has reached overflow state (all base and mirror positions filled up to usim_base.get_abs_max_number).
+  * As we expect equally distributed number pairs only base to is checked for overflow.
+  * @return Returns 1 if base data / universe exist and overflow is reached, otherwise 0.
+  */
+  FUNCTION overflow_reached(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Retrieves volume id for the given ids.
   * @param p_usim_id_mlv The universe id for this volume.
   * @param p_usim_id_pos_base_from The position id for base from.
@@ -56,12 +65,21 @@ IS
   ;
 
   /**
+  * Retrieves universe id for a given volume id.
+  * @param p_usim_id_vol The volume id.
+  * @return Returns usim_id_mlv or NULL, if volume does not exist.
+  */
+  FUNCTION get_id_mlv(p_usim_id_vol IN usim_volume.usim_id_vol%TYPE)
+    RETURN usim_multiverse.usim_id_mlv%TYPE
+  ;
+
+  /**
   * Retrieves the next base from position, a new volumen can start with. Volumes
   * are connected by the base to side, e.g volume 0, 1 is connected to volume 1, 2.
   * If given universe exists, sign is derived from universe and value with correct
   * sign (apart 0) is retrieved.
   * @param p_usim_id_mlv The universe id for this volume.
-  * @return The coordinate value for next base from volume or NULL, if universe does not exist. The position for the coordinate is not necessarily created yet.
+  * @return The coordinate value for next base from volume or NULL, if universe does not exist / overflow reached. The position for the coordinate is not necessarily created yet.
   */
   FUNCTION get_next_base_from(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN usim_position.usim_coordinate%TYPE
@@ -74,7 +92,7 @@ IS
   * If given universe exists, sign is derived from universe and value with correct
   * sign (apart 0) is retrieved.
   * @param p_usim_id_mlv The universe id for this volume.
-  * @return The coordinate value for next mirror from volume or NULL, if universe does not exist. The position for the coordinate is not necessarily created yet.
+  * @return The coordinate value for next mirror from volume or NULL, if universe does not exist / overflow reached. The position for the coordinate is not necessarily created yet.
   */
   FUNCTION get_next_mirror_from(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN usim_position.usim_coordinate%TYPE

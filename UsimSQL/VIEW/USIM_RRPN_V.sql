@@ -7,7 +7,6 @@ CREATE OR REPLACE FORCE VIEW usim_rrpn_v AS
        , rrpn.usim_id_pos
        , rrpn.usim_id_nod
        , dim.usim_id_dim
-       , voljv.usim_id_vol
        , dim.usim_n_dimension
        , pos.usim_coordinate
        , pos.usim_sign
@@ -28,7 +27,4 @@ CREATE OR REPLACE FORCE VIEW usim_rrpn_v AS
       ON rrpn.usim_id_pos = pos.usim_id_pos
    INNER JOIN usim_node nod
       ON rrpn.usim_id_nod = nod.usim_id_nod
-    LEFT OUTER JOIN usim_vol_join_v voljv
-      ON rmd.usim_id_mlv = voljv.usim_id_mlv
-     AND rrpn.usim_id_pos = voljv.usim_id_pos
 ;

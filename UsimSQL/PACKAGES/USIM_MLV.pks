@@ -19,6 +19,14 @@ IS
   ;
 
   /**
+  * Checks if a given universe is a base universe.
+  * @return Returns 1 if universe is base, otherwise 0 or NULL, if universe does not exist.
+  */
+  FUNCTION is_base(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Inserts a new universe and sets automatically base universe, if the universe is the first universe inserted.
   * All other universes will not be considered as base universe (usim_is_base_universe).
   * Only provides columns, that have to be set on insert and can't be changed afterwards. Will only insert, if base data exist.

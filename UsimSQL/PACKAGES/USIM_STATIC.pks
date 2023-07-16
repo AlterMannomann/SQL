@@ -247,5 +247,19 @@ IS
   FUNCTION get_big_pk_number(p_primary_key IN VARCHAR2)
     RETURN NUMBER
   ;
+
+  /**
+  * Returns the next number based on given number and sign.
+  * Adds 1 for sign +1 and subtract 1 for sign -1.
+  * @param p_number The number to get the next number for.
+  * @param p_sign The sign for the number to use. Only used if number is 0, otherwise sign is retrieved from given number. Sign 0 is interpreted positive.
+  * @return The next number based on (given) sign of the number.
+  */
+  FUNCTION get_next_number( p_number IN NUMBER
+                          , p_sign   IN NUMBER DEFAULT 1
+                          )
+    RETURN NUMBER
+  ;
+
 END usim_static;
 /

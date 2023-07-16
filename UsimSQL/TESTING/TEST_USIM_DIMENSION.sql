@@ -83,20 +83,19 @@ BEGIN
   BEGIN
     INSERT INTO usim_dimension (usim_n_dimension) VALUES (0) RETURNING usim_id_dim INTO l_usim_id_dim;
     UPDATE usim_dimension SET usim_n_dimension = 1 WHERE usim_id_dim = l_usim_id_dim;
-    SELECT usim_n_dimension INTO l_sql_number_result FROM usim_dimension WHERE usim_id_dim = l_usim_id_dim;
-    IF l_sql_number_result = 0
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update usim_n_dimension should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_dim || '] should not be updateable.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
   EXCEPTION
     WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
+      IF SQLCODE = -20001
+      THEN
+        l_tests_success := l_tests_success + 1;
+      ELSE
+        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
+        usim_test.log_error(l_test_id, l_fail_message);
+        l_tests_failed := l_tests_failed + 1;
+      END IF;
   END;
   ROLLBACK;
   l_run_id := '005';
@@ -107,27 +106,6 @@ BEGIN
       l_tests_success := l_tests_success + 1;
     ELSE
       l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] insert usim_id_dim BLA should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  ROLLBACK;
-
-  l_run_id := '006';
-  BEGIN
-    INSERT INTO usim_dimension (usim_n_dimension) VALUES (0) RETURNING usim_id_dim INTO l_usim_id_dim;
-    UPDATE usim_dimension SET usim_id_dim = 'BLA' WHERE usim_id_dim = l_usim_id_dim;
-    SELECT usim_id_dim INTO l_sql_char_result FROM usim_dimension WHERE usim_id_dim = l_usim_id_dim;
-    IF TRIM(l_sql_char_result) = l_usim_id_dim
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update usim_id_dim should not be possible.';
       usim_test.log_error(l_test_id, l_fail_message);
       l_tests_failed := l_tests_failed + 1;
     END IF;

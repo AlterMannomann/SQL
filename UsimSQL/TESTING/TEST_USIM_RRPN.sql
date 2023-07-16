@@ -31,7 +31,7 @@ BEGIN
   usim_base.init_basedata;
   l_usim_id_mlv := usim_mlv.insert_universe;
   l_usim_id_dim := usim_dim.insert_next_dimension;
-  l_usim_id_pos := usim_pos.insert_next_position(1);
+  l_usim_id_pos := usim_pos.insert_next_position(1, TRUE);
   l_usim_id_nod := usim_nod.insert_node;
   l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
   IF usim_rrpn.has_data = 1

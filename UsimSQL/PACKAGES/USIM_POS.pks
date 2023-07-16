@@ -107,11 +107,30 @@ IS
   * depend on the sign. If no coordinate exists for the given sign, the first coordinate is 0 with the given
   * sign, e.g. +0 (sign 1) and -0 (sign -1).
   * @param p_sign The sign relevant for the coordinate 0 (1, 0, -1). All other cases get calculated.
-  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use). Should be given to avoid signature conflicts.
   * @return Returns the new position id or NULL.
   */
   FUNCTION insert_next_position( p_sign       IN NUMBER   DEFAULT 1
                                , p_do_commit  IN BOOLEAN  DEFAULT TRUE
+                               )
+    RETURN usim_position.usim_id_pos%TYPE
+  ;
+
+  /**
+  * Inserts a coordinate (max +1) for a given sign if the coordinate is the next possible coordinate
+  * or returns the position id of the coordinate.
+  * Won't do anything, if maximum allowed coordinate is exceeded. Special case coordinate 0:</br>
+  * If table is empty the first position inserted is alway 0 (as +-0) with sign 0. The next 0 coordinates
+  * depend on the sign. If no coordinate exists for the given sign, the first coordinate is 0 with the given
+  * sign, e.g. +0 (sign 1) and -0 (sign -1).
+  * @param p_usim_coordinate The sign relevant for the coordinate 0 (1, 0, -1). All other cases get calculated.
+  * @param p_sign The sign relevant for the coordinate 0 (1, 0, -1). All other cases get calculated. Should be given to avoid signature conflicts.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns the new/existing position id or NULL if not a next coordinate.
+  */
+  FUNCTION insert_next_position( p_usim_coordinate  IN usim_position.usim_coordinate%TYPE
+                               , p_sign             IN NUMBER                             DEFAULT 1
+                               , p_do_commit        IN BOOLEAN                            DEFAULT TRUE
                                )
     RETURN usim_position.usim_id_pos%TYPE
   ;

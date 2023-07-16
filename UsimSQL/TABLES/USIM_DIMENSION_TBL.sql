@@ -4,8 +4,8 @@ CREATE TABLE usim_dimension
   )
 ;
 COMMENT ON TABLE usim_dimension IS 'Contains the dimensions available for the multiverse. Will use the alias dim.';
-COMMENT ON COLUMN usim_dimension.usim_id_dim IS 'The unique id for the associated dimension. Update ignored.';
-COMMENT ON COLUMN usim_dimension.usim_n_dimension IS 'The n-sphere supported dimension for space simulation. Must be >= 0 and <= usim_basedata.usim_max_dimension. Must be set on insert. Update ignored.';
+COMMENT ON COLUMN usim_dimension.usim_id_dim IS 'The unique id for the associated dimension. Update not allowed.';
+COMMENT ON COLUMN usim_dimension.usim_n_dimension IS 'The n-sphere supported dimension for space simulation. Must be >= 0 and <= usim_basedata.usim_max_dimension. Must be set on insert. Update not allowed.';
 
 -- pk
 ALTER TABLE usim_dimension
@@ -52,9 +52,10 @@ CREATE OR REPLACE TRIGGER usim_dim_upd_trg
   BEFORE UPDATE ON usim_dimension
     FOR EACH ROW
     BEGIN
-      -- NEW is OLD, no updates
-      :NEW.usim_id_dim      := :OLD.usim_id_dim;
-      :NEW.usim_n_dimension := :OLD.usim_n_dimension;
+      RAISE_APPLICATION_ERROR( num => -20001
+                             , msg => 'Update requirement not fulfilled. No update allowed.'
+                             )
+      ;
     END;
 /
 ALTER TRIGGER usim_dim_upd_trg ENABLE;

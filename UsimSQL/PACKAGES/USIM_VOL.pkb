@@ -43,6 +43,35 @@ IS
   END has_data
   ;
 
+  FUNCTION overflow_reached(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  IS
+    l_base_max    NUMBER;
+  BEGIN
+    IF      usim_base.has_basedata  = 1
+       AND  usim_vol.has_data       = 1
+    THEN
+      SELECT CASE
+               WHEN MAX(usim_base_sign) > 0
+               THEN MAX(usim_coordinate_base_to)
+               ELSE MIN(usim_coordinate_base_to)
+             END
+             INTO l_base_max
+        FROM usim_vol_v
+       WHERE usim_id_mlv = p_usim_id_mlv
+      ;
+      IF ABS(l_base_max) >= usim_base.get_abs_max_number
+      THEN
+        RETURN 1;
+      ELSE
+        RETURN 0;
+      END IF;
+    ELSE
+      RETURN 0;
+    END IF;
+  END overflow_reached
+  ;
+
   FUNCTION get_id_vol( p_usim_id_mlv              IN usim_multiverse.usim_id_mlv%TYPE
                      , p_usim_id_pos_base_from    IN usim_position.usim_id_pos%TYPE
                      , p_usim_id_pos_base_to      IN usim_position.usim_id_pos%TYPE
@@ -70,12 +99,28 @@ IS
   END get_id_vol
   ;
 
+  FUNCTION get_id_mlv(p_usim_id_vol IN usim_volume.usim_id_vol%TYPE)
+    RETURN usim_multiverse.usim_id_mlv%TYPE
+  IS
+    l_result usim_multiverse.usim_id_mlv%TYPE;
+  BEGIN
+    IF usim_vol.has_data(p_usim_id_vol) = 1
+    THEN
+      SELECT usim_id_mlv INTO l_result FROM usim_volume WHERE usim_id_vol = p_usim_id_vol;
+      RETURN l_result;
+    ELSE
+      RETURN NULL;
+    END IF;
+  END get_id_mlv
+  ;
+
   FUNCTION get_next_base_from(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN usim_position.usim_coordinate%TYPE
   IS
     l_result usim_position.usim_coordinate%TYPE;
   BEGIN
-    IF usim_mlv.has_data(p_usim_id_mlv) = 1
+    IF      usim_mlv.has_data(p_usim_id_mlv)          = 1
+       AND  usim_vol.overflow_reached(p_usim_id_mlv)  = 0
     THEN
       SELECT CASE
                WHEN MAX(usim_base_sign) > 0
@@ -98,7 +143,8 @@ IS
   IS
     l_result usim_position.usim_coordinate%TYPE;
   BEGIN
-    IF usim_mlv.has_data(p_usim_id_mlv) = 1
+    IF      usim_mlv.has_data(p_usim_id_mlv)          = 1
+       AND  usim_vol.overflow_reached(p_usim_id_mlv)  = 0
     THEN
       SELECT CASE
                WHEN MAX(usim_mirror_sign) > 0
@@ -137,6 +183,7 @@ IS
          AND  usim_pos.has_data(p_usim_id_pos_base_to)      = 1
          AND  usim_pos.has_data(p_usim_id_pos_mirror_from)  = 1
          AND  usim_pos.has_data(p_usim_id_pos_mirror_to)    = 1
+         AND  usim_vol.overflow_reached(p_usim_id_mlv)      = 0
          AND  (ABS(usim_pos.get_coordinate(p_usim_id_pos_base_to)) - ABS(usim_pos.get_coordinate(p_usim_id_pos_base_from))) = 1
          AND  (ABS(usim_pos.get_coordinate(p_usim_id_pos_mirror_to)) - ABS(usim_pos.get_coordinate(p_usim_id_pos_mirror_from))) = 1
          AND  usim_pos.get_sign(p_usim_id_pos_base_from) = usim_pos.get_sign(p_usim_id_pos_base_to)

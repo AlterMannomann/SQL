@@ -27,11 +27,11 @@ BEGIN
   COMMIT;
   usim_base.init_basedata;
   l_usim_id_mlv := usim_mlv.insert_universe;
-  l_usim_id_pos1 := usim_pos.insert_next_position(1); -- 0, 0
-  l_usim_id_pos1 := usim_pos.insert_next_position(1); -- 0, 1
-  l_usim_id_pos2 := usim_pos.insert_next_position(1); -- 1, 1
-  l_usim_id_pos3 := usim_pos.insert_next_position(-1); -- 0, -1
-  l_usim_id_pos4 := usim_pos.insert_next_position(-1); -- -1, -1
+  l_usim_id_pos1 := usim_pos.insert_next_position(1, TRUE); -- 0, 0
+  l_usim_id_pos1 := usim_pos.insert_next_position(1, TRUE); -- 0, 1
+  l_usim_id_pos2 := usim_pos.insert_next_position(1, TRUE); -- 1, 1
+  l_usim_id_pos3 := usim_pos.insert_next_position(-1, TRUE); -- 0, -1
+  l_usim_id_pos4 := usim_pos.insert_next_position(-1, TRUE); -- -1, -1
 
   BEGIN
     INSERT INTO usim_volume
@@ -551,110 +551,19 @@ BEGIN
       RETURNING usim_id_vol INTO l_usim_id_vol
     ;
     UPDATE usim_volume SET usim_id_vol = 'BLA' WHERE usim_id_vol = l_usim_id_vol RETURNING usim_id_vol INTO l_sql_char_result;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
+     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update should not be possible.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
   EXCEPTION
     WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '016';
-  BEGIN
-    UPDATE usim_volume SET usim_id_mlv = 'BLA' WHERE usim_id_vol = l_usim_id_vol RETURNING usim_id_mlv INTO l_sql_char_result;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update mlv id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '017';
-  BEGIN
-    UPDATE usim_volume SET usim_id_pos_base_from = 'BLA' WHERE usim_id_vol = l_usim_id_vol RETURNING usim_id_pos_base_from INTO l_sql_char_result;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update base from id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '018';
-  BEGIN
-    UPDATE usim_volume SET usim_id_pos_base_to = 'BLA' WHERE usim_id_vol = l_usim_id_vol RETURNING usim_id_pos_base_to INTO l_sql_char_result;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update base to id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '019';
-  BEGIN
-    UPDATE usim_volume SET usim_id_pos_mirror_from = 'BLA' WHERE usim_id_vol = l_usim_id_vol RETURNING usim_id_pos_mirror_from INTO l_sql_char_result;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update mirror from id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  l_run_id := '020';
-  BEGIN
-    UPDATE usim_volume SET usim_id_pos_mirror_to = 'BLA' WHERE usim_id_vol = l_usim_id_vol RETURNING usim_id_pos_mirror_to INTO l_sql_char_result;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] update mirror to id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
+      IF SQLCODE = -20001
+      THEN
+        l_tests_success := l_tests_success + 1;
+      ELSE
+        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
+        usim_test.log_error(l_test_id, l_fail_message);
+        l_tests_failed := l_tests_failed + 1;
+      END IF;
   END;
   ROLLBACK;
 

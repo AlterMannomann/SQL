@@ -32,6 +32,22 @@ IS
   ;
 
   /**
+  * Retrieves the maximum dimension for a given universe.
+  * @return Returns usim_n_dimension or -1 if no dimension for this universe exist.
+  */
+  FUNCTION get_max_dimension(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_dimension.usim_n_dimension%TYPE
+  ;
+
+  /**
+  * Checks if usim_rel_mlv_dim has reached overflow state (all dimensions filled up to usim_base.get_max_dimension).
+  * @return Returns 1 if base data / relation universe/dimensions exist and overflow is reached, otherwise 0.
+  */
+  FUNCTION overflow_reached(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Checks if a dimension for a given universe exists.
   * @param p_usim_id_mlv The universe id of the relation.
   * @param p_usim_n_dimension The dimension of the relation.
@@ -72,7 +88,7 @@ IS
   * @param p_usim_id_mlv The universe id of the relation.
   * @param p_usim_id_dim The dimension id of the relation.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
-  * @return Returns the new/existing usim_id_rmd or NULL if universe/dimension does not exists.
+  * @return Returns the new/existing usim_id_rmd or NULL if universe/dimension does not exists / overflow reached.
   */
   FUNCTION insert_rmd( p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
                      , p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE
@@ -86,7 +102,7 @@ IS
   * @param p_usim_id_mlv The universe id of the relation.
   * @param p_usim_n_dimension The dimension of the relation.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
-  * @return Returns the new/existing usim_id_rmd or NULL if universe/dimension does not exists.
+  * @return Returns the new/existing usim_id_rmd or NULL if universe/dimension does not exists / overflow reached.
   */
   FUNCTION insert_rmd( p_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
                      , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE

@@ -6,9 +6,9 @@ CREATE TABLE usim_position
   )
 ;
 COMMENT ON TABLE usim_position IS 'A table holding the possible coordinates for reuse by different universes. Will use the alias pos.';
-COMMENT ON COLUMN usim_position.usim_id_pos IS 'The unique id of the coordinate. Automatically set, ignored on update';
-COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space. Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_position.usim_sign IS 'The coordinate sign. Mainly needed to distinguish between +-0 (sign 0), +0 (sign 1) and -0 (sign -1). For number != 0 +1 and -1 are allowed. Must be set on insert for 0 otherwise calculated, ignored on update.';
+COMMENT ON COLUMN usim_position.usim_id_pos IS 'The unique id of the coordinate. Automatically set, update not allowed.';
+COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space. Must be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_position.usim_sign IS 'The coordinate sign. Mainly needed to distinguish between +-0 (sign 0), +0 (sign 1) and -0 (sign -1). For number != 0 +1 and -1 are allowed. Must be set on insert for 0 otherwise calculated, update not allowed.';
 
 -- pk
 ALTER TABLE usim_position
@@ -61,10 +61,10 @@ CREATE OR REPLACE TRIGGER usim_pos_upd_trg
   BEFORE UPDATE ON usim_position
     FOR EACH ROW
     BEGIN
-      -- NEW is OLD, no updates
-      :NEW.usim_id_pos      := :OLD.usim_id_pos;
-      :NEW.usim_coordinate  := :OLD.usim_coordinate;
-      :NEW.usim_sign        := :OLD.usim_sign;
+      RAISE_APPLICATION_ERROR( num => -20001
+                             , msg => 'Update requirement not fulfilled. No update allowed.'
+                             )
+      ;
     END;
 /
 ALTER TRIGGER usim_pos_upd_trg ENABLE;

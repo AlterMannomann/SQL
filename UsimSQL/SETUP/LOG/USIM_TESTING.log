@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-12.07.2023 00:34:26 XEPDB1                         USIM_TEST                      Adi
+16.07.2023 23:31:26 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -285,6 +285,26 @@ Table USIM_REL_RMD_POS_NOD geändert.
 
 
 SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RVM_MLV_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_VOL_MLV geändert.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RVM_VOL_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_VOL_MLV geändert.
+
+
+SCRIPTFILE
 -----------------------------------------------------------
 ../VIEW/DROP/DROP_USIM_VOL_V.sql
 
@@ -415,16 +435,6 @@ Package USIM_BASE gelöscht.
 
 
 SCRIPTFILE
----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_BASEDATA gelöscht.
-
-
-SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
 
@@ -442,16 +452,6 @@ SCRIPTFILE
 
 
 Package USIM_MLV gelöscht.
-
-
-SCRIPTFILE
------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_MULTIVERSE gelöscht.
 
 
 SCRIPTFILE
@@ -475,16 +475,6 @@ Package USIM_DIM gelöscht.
 
 
 SCRIPTFILE
-----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_DIMENSION gelöscht.
-
-
-SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
 
@@ -502,16 +492,6 @@ SCRIPTFILE
 
 
 Package USIM_POS gelöscht.
-
-
-SCRIPTFILE
----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_POSITION gelöscht.
 
 
 SCRIPTFILE
@@ -535,16 +515,6 @@ Package USIM_NOD gelöscht.
 
 
 SCRIPTFILE
------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_NODE_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_NODE gelöscht.
-
-
-SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_VOL_PKB.sql
 
@@ -562,16 +532,6 @@ SCRIPTFILE
 
 
 Package USIM_VOL gelöscht.
-
-
-SCRIPTFILE
--------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_VOLUME gelöscht.
 
 
 SCRIPTFILE
@@ -596,16 +556,6 @@ Package USIM_RMD gelöscht.
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
-
-1 Zeile ausgewählt.
-
-
-Table USIM_REL_MLV_DIM gelöscht.
-
-
-SCRIPTFILE
-------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_RRPN_PKB.sql
 
 1 Zeile ausgewählt.
@@ -625,6 +575,116 @@ Package USIM_RRPN gelöscht.
 
 
 SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RVM_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_RVM gelöscht.
+
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RVM_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_RVM gelöscht.
+
+
+SCRIPTFILE
+---------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_CREATOR_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_CREATOR gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_CREATOR_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_CREATOR gelöscht.
+
+
+SCRIPTFILE
+---------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_BASEDATA gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_MULTIVERSE gelöscht.
+
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_DIMENSION gelöscht.
+
+
+SCRIPTFILE
+---------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_POSITION gelöscht.
+
+
+SCRIPTFILE
+-----------------------------------------------------------
+../TABLES/DROP/DROP_USIM_NODE_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_NODE gelöscht.
+
+
+SCRIPTFILE
+-------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_VOLUME gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_MLV_DIM gelöscht.
+
+
+SCRIPTFILE
 ----------------------------------------------------------------------
 ../TABLES/DROP/DROP_USIM_REL_RMD_POS_NOD_TBL.sql
 
@@ -632,6 +692,16 @@ SCRIPTFILE
 
 
 Table USIM_REL_RMD_POS_NOD gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_REL_VOL_MLV_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_VOL_MLV gelöscht.
 
 
 Recyclebin gelöscht.
@@ -1251,6 +1321,61 @@ Package Body USIM_RRPN kompiliert
 
 
 SCRIPTFILE
+-------------------------------------------------------------------------
+../TABLES/USIM_REL_VOL_MLV_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_REL_VOL_MLV erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_REL_VOL_MLV geändert.
+
+
+Table USIM_REL_VOL_MLV geändert.
+
+
+Trigger USIM_RMV_INS_TRG kompiliert
+
+
+Trigger USIM_RMV_INS_TRG geändert.
+
+
+Trigger USIM_RMV_UPD_TRG kompiliert
+
+
+Trigger USIM_RMV_UPD_TRG geändert.
+
+
+Table USIM_REL_VOL_MLV geändert.
+
+
+Table USIM_REL_VOL_MLV geändert.
+
+
+Package USIM_RVM kompiliert
+
+
+Package Body USIM_RVM kompiliert
+
+
+Package USIM_CREATOR kompiliert
+
+
+Package Body USIM_CREATOR kompiliert
+
+
+SCRIPTFILE
 ---------------------------------------------------------------------------
 ../SEQUENCES/USIM_DLG_ID_SEQ.sql
 
@@ -1382,6 +1507,9 @@ SUCCESS All database objects are valid
 0 Zeilen ausgewählt.
 
 
+0 Zeilen ausgewählt.
+
+
 INFO
 ----------------------------
 Execute tests on USIM model.
@@ -1414,30 +1542,34 @@ PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
 ------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
-SUCCESS                 49                 0 USIM_STATIC
+SUCCESS                 61                 0 USIM_STATIC
 SUCCESS                 36                 0 USIM_MATHS
 SUCCESS                  8                 0 USIM_DEBUG
 SUCCESS                 27                 0 USIM_BASE_DATA table
 SUCCESS                 28                 0 USIM_BASE
 SUCCESS                 30                 0 USIM_MULTIVERSE table
-SUCCESS                 66                 0 USIM_MLV
-SUCCESS                  6                 0 USIM_DIMENSION table
+SUCCESS                 69                 0 USIM_MLV
+SUCCESS                  5                 0 USIM_DIMENSION table
 SUCCESS                 18                 0 USIM_DIM
-SUCCESS                 12                 0 USIM_POSITION table
-SUCCESS                 30                 0 USIM_POS
+SUCCESS                 10                 0 USIM_POSITION table
+SUCCESS                 33                 0 USIM_POS
 SUCCESS                  4                 0 USIM_NODE table
 SUCCESS                 36                 0 USIM_NOD
-SUCCESS                 20                 0 USIM_VOLUME table
-SUCCESS                 15                 0 USIM_VOL
+SUCCESS                 15                 0 USIM_VOLUME table
+SUCCESS                 19                 0 USIM_VOL
 SUCCESS                  7                 0 USIM_REL_MLV_DIM table
-SUCCESS                 15                 0 USIM_RMD
+SUCCESS                 17                 0 USIM_RMD
 SUCCESS                 10                 0 USIM_REL_RMD_POS_NOD table
 SUCCESS                 10                 0 USIM_RRPN
+SUCCESS                  6                 0 USIM_REL_VOL_MLV table
+SUCCESS                  7                 0 USIM_RVM
 
-19 Zeilen ausgewählt.
+21 Zeilen ausgewählt.
 
 
 0 Zeilen ausgewählt.

@@ -128,7 +128,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '012';
-  l_usim_id_pos     := usim_pos.insert_next_position(-1);
+  l_usim_id_pos     := usim_pos.insert_next_position(-1, TRUE);
   l_usim_coordinate := usim_pos.get_coordinate(l_usim_id_pos);
   l_sign            := usim_pos.get_coord_sign(l_usim_id_pos);
   IF    l_usim_coordinate != 0
@@ -155,9 +155,9 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '014';
-  l_usim_id_pos := usim_pos.insert_next_position(1); -- 0, 0
-  l_usim_id_pos := usim_pos.insert_next_position(1); -- 0, 1
-  l_usim_id_pos := usim_pos.insert_next_position(-1); -- 0, -1
+  l_usim_id_pos := usim_pos.insert_next_position(1, TRUE); -- 0, 0
+  l_usim_id_pos := usim_pos.insert_next_position(1, TRUE); -- 0, 1
+  l_usim_id_pos := usim_pos.insert_next_position(-1, TRUE); -- 0, -1
   l_sql_number_result := usim_pos.overflow_reached;
   IF l_sql_number_result != 0
   THEN
@@ -210,9 +210,9 @@ BEGIN
   l_run_id := '018';
   DELETE usim_position;
   COMMIT;
-  l_usim_id_pos     := usim_pos.insert_next_position(1); -- 0, 0
-  l_usim_id_pos     := usim_pos.insert_next_position(1); -- 0, 1
-  l_usim_id_pos     := usim_pos.insert_next_position(-1); -- 0, -1
+  l_usim_id_pos     := usim_pos.insert_next_position(1, TRUE); -- 0, 0
+  l_usim_id_pos     := usim_pos.insert_next_position(1, TRUE); -- 0, 1
+  l_usim_id_pos     := usim_pos.insert_next_position(-1, TRUE); -- 0, -1
   l_usim_coordinate := usim_pos.get_coordinate(l_usim_id_pos);
   l_sign            := usim_pos.get_coord_sign(l_usim_id_pos);
   IF    l_usim_coordinate != 0
@@ -331,6 +331,39 @@ BEGIN
   IF usim_pos.get_sign(-1, 1) != -1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_sign(-1, 1) should be -1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Insert given coordinate';
+  l_run_id := '031';
+  l_usim_coordinate := usim_pos.get_max_coordinate(1) + 1;
+  l_usim_id_pos     := usim_pos.insert_next_position(l_usim_coordinate, 1);
+  IF l_usim_id_pos IS NULL
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': inserting next coordinate (max +1) should work.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '032';
+  l_sql_char_result := usim_pos.insert_next_position(l_usim_coordinate, 1);
+  IF l_usim_id_pos != TRIM(l_sql_char_result)
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': inserting existing coordinate should return the correct coodinate.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '033';
+  l_usim_id_pos     := usim_pos.insert_next_position(99, 1);
+  IF l_usim_id_pos IS NOT NULL
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': inserting coordinate bigger than max +1 should not work.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE

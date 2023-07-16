@@ -23,6 +23,18 @@ IS
 
   FUNCTION has_data( p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE
                    , p_usim_id_pos IN usim_position.usim_id_pos%TYPE
+                   )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO l_result FROM usim_rel_rmd_pos_nod WHERE usim_id_rmd = p_usim_id_rmd AND usim_id_pos = p_usim_id_pos;
+    RETURN l_result;
+  END has_data
+  ;
+
+  FUNCTION has_data( p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE
+                   , p_usim_id_pos IN usim_position.usim_id_pos%TYPE
                    , p_usim_id_nod IN usim_node.usim_id_nod%TYPE
                    )
     RETURN NUMBER

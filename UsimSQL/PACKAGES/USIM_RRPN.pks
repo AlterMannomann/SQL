@@ -23,6 +23,18 @@ IS
   * Checks if usim_rel_rmd_pos_nod has already data for given relation ids.
   * @param p_usim_id_rmd The relation id of universe/dimension.
   * @param p_usim_id_pos The id of the position.
+  * @return Returns 1 if data are available, otherwise 0.
+  */
+  FUNCTION has_data( p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE
+                   , p_usim_id_pos IN usim_position.usim_id_pos%TYPE
+                   )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if usim_rel_rmd_pos_nod has already data for given relation ids.
+  * @param p_usim_id_rmd The relation id of universe/dimension.
+  * @param p_usim_id_pos The id of the position.
   * @param p_usim_id_nod The id of the node.
   * @return Returns 1 if data are available, otherwise 0.
   */
@@ -52,6 +64,7 @@ IS
   * @param p_usim_id_rmd The universe/dimension relation id.
   * @param p_usim_id_pos The position id.
   * @param p_usim_id_nod The node id.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
   * @return Returns the new/existing usim_id_rrpn id or NULL if given ids do not exist.
   */
   FUNCTION insert_rrpn( p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE

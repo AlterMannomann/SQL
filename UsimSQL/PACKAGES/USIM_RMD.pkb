@@ -33,6 +33,35 @@ IS
   END has_data
   ;
 
+  FUNCTION get_max_dimension(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_dimension.usim_n_dimension%TYPE
+  IS
+    l_result usim_dimension.usim_n_dimension%TYPE;
+  BEGIN
+      SELECT MAX(usim_n_dimension) INTO l_result FROM usim_rmd_v WHERE usim_id_mlv = p_usim_id_mlv;
+      RETURN NVL(l_result, -1);
+  END get_max_dimension
+  ;
+
+  FUNCTION overflow_reached(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF      usim_base.has_basedata  = 1
+       AND  usim_rmd.has_data       = 1
+    THEN
+      IF usim_rmd.get_max_dimension(p_usim_id_mlv) >= usim_base.get_max_dimension
+      THEN
+        RETURN 1;
+      ELSE
+        RETURN 0;
+      END IF;
+    ELSE
+      RETURN 0;
+    END IF;
+  END overflow_reached
+  ;
+
   FUNCTION dimension_exists( p_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
                            , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
                            )
@@ -91,8 +120,9 @@ IS
     THEN
       RETURN usim_rmd.get_id_rmd(p_usim_id_mlv, p_usim_id_dim);
     ELSE
-      IF     usim_mlv.has_data(p_usim_id_mlv) = 1
-         AND usim_dim.has_data(p_usim_id_dim) = 1
+      IF     usim_mlv.has_data(p_usim_id_mlv)         = 1
+         AND usim_dim.has_data(p_usim_id_dim)         = 1
+         AND usim_rmd.overflow_reached(p_usim_id_mlv) = 0
       THEN
         INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim) VALUES (p_usim_id_mlv, p_usim_id_dim) RETURNING usim_id_rmd INTO l_result;
         IF p_do_commit

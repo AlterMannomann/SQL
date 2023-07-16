@@ -230,5 +230,32 @@ IS
   END get_big_pk_number
   ;
 
+  FUNCTION get_next_number( p_number IN NUMBER
+                          , p_sign   IN NUMBER DEFAULT 1
+                          )
+    RETURN NUMBER
+  IS
+    l_sign    NUMBER;
+    l_result  NUMBER;
+    l_number  NUMBER;
+  BEGIN
+    IF NVL(p_number, 0) = 0
+    THEN
+      l_sign    := SIGN(NVL(p_sign, 0));
+      l_number  := NVL(p_number, 0);
+    ELSE
+      l_sign    := SIGN(p_number);
+      l_number  := p_number;
+    END IF;
+    IF l_sign >= 0
+    THEN
+      l_result := l_number + 1;
+    ELSE
+      l_result := l_number - 1;
+    END IF;
+    RETURN l_result;
+  END get_next_number
+  ;
+
 END usim_static;
 /

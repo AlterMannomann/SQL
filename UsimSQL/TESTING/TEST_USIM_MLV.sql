@@ -709,6 +709,40 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
 
+  l_test_section := 'Check base universe';
+  l_run_id := '067';
+  DELETE usim_basedata;
+  DELETE usim_multiverse;
+  COMMIT;
+  IF usim_mlv.is_base('NOT EXISTS') IS NOT NULL
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': is_base for empty table should be NULL.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '068';
+  l_usim_id_mlv := usim_mlv.insert_universe;
+  IF usim_mlv.is_base(l_usim_id_mlv) != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': is_base for first universe should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '069';
+  l_usim_id_mlv := usim_mlv.insert_universe;
+  IF usim_mlv.is_base(l_usim_id_mlv) != 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': is_base for second universe should be 0.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
   -- cleanup
   DELETE usim_basedata;
   DELETE usim_multiverse;

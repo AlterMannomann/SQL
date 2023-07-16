@@ -21,6 +21,21 @@ IS
   END has_data
   ;
 
+  FUNCTION is_base(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    IF usim_mlv.has_data(p_usim_id_mlv) = 1
+    THEN
+      SELECT usim_is_base_universe INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+      RETURN l_result;
+    ELSE
+      RETURN NULL;
+    END IF;
+  END is_base
+  ;
+
   FUNCTION insert_universe( p_usim_energy_start_value IN usim_multiverse.usim_energy_start_value%TYPE DEFAULT 1
                           , p_usim_planck_time_unit   IN usim_multiverse.usim_planck_time_unit%TYPE   DEFAULT 1
                           , p_usim_planck_length_unit IN usim_multiverse.usim_planck_length_unit%TYPE DEFAULT 1

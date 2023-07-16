@@ -247,5 +247,30 @@ SELECT CASE
 -- usim_rel_rmd_pos_nod package
 @@../PACKAGES/USIM_RRPN.pks
 @@../PACKAGES/USIM_RRPN.pkb
-
+-- USIM_REL_VOL_MLV (rvm)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_REL_VOL_MLV_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_VOL_MLV still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_REL_VOL_MLV'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- foreign keys
+@@../FK/USIM_RVM_MLV_FK.sql
+@@../FK/USIM_RVM_VOL_FK.sql
+-- usim_rel_vol_mlv package
+@@../PACKAGES/USIM_RVM.pks
+@@../PACKAGES/USIM_RVM.pkb
 --== relation tables end ==--
+
+--== log tables start ==--
+--== log tables end ==--
+
+--== processing packages start ==--
+@@../PACKAGES/USIM_CREATOR.pks
+@@../PACKAGES/USIM_CREATOR.pkb
+--== processing packages end ==--
+

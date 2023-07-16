@@ -24,13 +24,13 @@ IS
   FUNCTION overflow_reached
     RETURN NUMBER
   IS
-    l_max_dim   usim_dimension.usim_n_dimension%TYPE;
+    l_max_dim   NUMBER;
   BEGIN
     IF      usim_base.has_basedata  = 1
        AND  usim_dim.has_data       = 1
     THEN
       SELECT MAX(usim_n_dimension) INTO l_max_dim FROM usim_dimension;
-      IF l_max_dim = usim_base.get_max_dimension
+      IF l_max_dim >= usim_base.get_max_dimension
       THEN
         RETURN 1;
       ELSE

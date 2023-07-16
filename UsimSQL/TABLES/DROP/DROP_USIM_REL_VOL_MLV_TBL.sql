@@ -1,0 +1,1 @@
+DROP TABLE usim_rel_vol_mlv PURGE;

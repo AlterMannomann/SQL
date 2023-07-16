@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-11.07.2023 00:22:20 XEPDB1                         USIM_TEST                      Adi
+16.07.2023 16:45:31 XEPDB1                         USIM_TEST                      Adi
 
 INFO
 ----------------------------------
@@ -108,6 +108,14 @@ SCRIPTFILE
 ../FK/DROP/DROP_USIM_RRPN_NOD_FK.sql
 
 SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RVM_MLV_FK.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RVM_VOL_FK.sql
+
+SCRIPTFILE
 -----------------------------------------------------------
 ../VIEW/DROP/DROP_USIM_VOL_V.sql
 
@@ -160,20 +168,12 @@ SCRIPTFILE
 ../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql
 
 SCRIPTFILE
----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
-
-SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
 
 SCRIPTFILE
 -------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql
-
-SCRIPTFILE
------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------
@@ -184,20 +184,12 @@ SCRIPTFILE
 ../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql
 
 SCRIPTFILE
-----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
-
-SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
 
 SCRIPTFILE
 -------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_POS_PKS.sql
-
-SCRIPTFILE
----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------
@@ -208,20 +200,12 @@ SCRIPTFILE
 ../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql
 
 SCRIPTFILE
------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_NODE_TBL.sql
-
-SCRIPTFILE
 -----------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_VOL_PKB.sql
 
 SCRIPTFILE
 -------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_VOL_PKS.sql
-
-SCRIPTFILE
--------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------
@@ -233,10 +217,6 @@ SCRIPTFILE
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
-
-SCRIPTFILE
-------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_RRPN_PKB.sql
 
 SCRIPTFILE
@@ -244,8 +224,56 @@ SCRIPTFILE
 ../PACKAGES/DROP/DROP_USIM_RRPN_PKS.sql
 
 SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RVM_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_RVM_PKS.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_CREATOR_PKB.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_CREATOR_PKS.sql
+
+SCRIPTFILE
+---------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
+
+SCRIPTFILE
+---------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------
+../TABLES/DROP/DROP_USIM_NODE_TBL.sql
+
+SCRIPTFILE
+-------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
+
+SCRIPTFILE
 ----------------------------------------------------------------------
 ../TABLES/DROP/DROP_USIM_REL_RMD_POS_NOD_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_REL_VOL_MLV_TBL.sql
 
 OBJECTS_AFTER_CLEANUP
 ---------------------

@@ -172,6 +172,41 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
 
+  l_test_section := 'Overflow function';
+  l_run_id := '016';
+  -- setup for overflow
+  DELETE usim_basedata;
+  DELETE usim_multiverse;
+  DELETE usim_dimension;
+  DELETE usim_rel_mlv_dim;
+  COMMIT;
+  usim_base.init_basedata(p_max_dimension => 2);
+  l_usim_id_mlv := usim_mlv.insert_universe;
+  l_usim_id_dim := usim_dim.insert_next_dimension; -- 0
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_usim_id_dim := usim_dim.insert_next_dimension; -- 1
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  IF usim_rmd.overflow_reached(l_usim_id_mlv) = 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not reach overflow below max.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '017';
+  l_usim_id_dim := usim_dim.insert_next_dimension; -- 2
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  IF usim_rmd.overflow_reached(l_usim_id_mlv) = 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should reach overflow on max.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+
   -- cleanup
   DELETE usim_basedata;
   DELETE usim_multiverse;

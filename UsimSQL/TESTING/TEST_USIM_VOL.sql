@@ -28,11 +28,11 @@ BEGIN
   COMMIT;
   usim_base.init_basedata;
   l_usim_id_mlv  := usim_mlv.insert_universe;
-  l_usim_id_pos  := usim_pos.insert_next_position(1); -- 0, 0
-  l_usim_id_pos1 := usim_pos.insert_next_position(1); -- 0, 1
-  l_usim_id_pos2 := usim_pos.insert_next_position(1); -- 1, 1
-  l_usim_id_pos3 := usim_pos.insert_next_position(-1); -- 0, -1
-  l_usim_id_pos4 := usim_pos.insert_next_position(-1); -- -1, -1
+  l_usim_id_pos  := usim_pos.insert_next_position(1, TRUE); -- 0, 0
+  l_usim_id_pos1 := usim_pos.insert_next_position(1, TRUE); -- 0, 1
+  l_usim_id_pos2 := usim_pos.insert_next_position(1, TRUE); -- 1, 1
+  l_usim_id_pos3 := usim_pos.insert_next_position(-1, TRUE); -- 0, -1
+  l_usim_id_pos4 := usim_pos.insert_next_position(-1, TRUE); -- -1, -1
 
   IF usim_vol.has_data = 1
   THEN
@@ -177,6 +177,63 @@ BEGIN
   IF usim_vol.has_data(l_usim_id_vol) != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data should report data for id after insert commit rollback.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Overflow function';
+  l_run_id := '016';
+  -- setup overflow
+  DELETE usim_basedata;
+  DELETE usim_multiverse;
+  DELETE usim_position;
+  DELETE usim_volume;
+  COMMIT;
+  usim_base.init_basedata(p_usim_abs_max_number => 2);
+  l_usim_id_mlv  := usim_mlv.insert_universe;
+  l_usim_id_pos  := usim_pos.insert_next_position(1, TRUE); -- 0, 0
+  l_usim_id_pos1 := usim_pos.insert_next_position(1, TRUE); -- 0, 1
+  l_usim_id_pos2 := usim_pos.insert_next_position(1, TRUE); -- 1, 1
+  l_usim_id_pos3 := usim_pos.insert_next_position(-1, TRUE); -- 0, -1
+  l_usim_id_pos4 := usim_pos.insert_next_position(-1, TRUE); -- -1, -1
+  l_usim_id_vol := usim_vol.insert_vol(l_usim_id_mlv, l_usim_id_pos1, l_usim_id_pos2, l_usim_id_pos3, l_usim_id_pos4);
+  IF usim_vol.overflow_reached(l_usim_id_mlv) = 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not reach overflow on coordinate not max.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '017';
+  l_usim_id_pos1 := usim_pos.insert_next_position(1, TRUE); -- 2, 1
+  l_usim_id_pos3 := usim_pos.insert_next_position(-1, TRUE); -- -2, -1
+  l_usim_id_vol := usim_vol.insert_vol(l_usim_id_mlv, l_usim_id_pos2, l_usim_id_pos1, l_usim_id_pos4, l_usim_id_pos3);
+  IF usim_vol.overflow_reached(l_usim_id_mlv) = 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should reach overflow on coordinate max.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Get universe id function';
+  l_run_id := '018';
+  IF usim_vol.get_id_mlv('NOT EXISTS') IS NOT NULL
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_mlv should be NULL for not existing id.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '019';
+  IF usim_vol.get_id_mlv(l_usim_id_vol) IS NULL
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_mlv should not be NULL for existing id.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE

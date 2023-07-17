@@ -131,4 +131,6 @@ Long story short, it is an attempt. Nothing more, nothing less. Results will pro
 ## Processing volumes
 Example of processing volumes with 3 dimensions. *Had to integrate a bigger GIF with less quality as the better and smaller VolumeProcessing.mp4 file seems not to work on Github README.md.*
 
+**Currently not implemented correctly.** I have to step back and assign volumes also a dimension axis. And then adjust creator to fill dimensions axis and volumes evenly.
+
 ![Volume processing example](VolumeProcessing.gif)

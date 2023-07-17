@@ -131,4 +131,4 @@ Long story short, it is an attempt. Nothing more, nothing less. Results will pro
 ## Processing volumes
 Example of processing volumes. *Had to integrate a bigger GIF with less quality as the better and smaller VolumeProcessing.mp4 file seems not to work on Github README.MD.*
 
-<video src="https://github.com/AlterMannomann/SQL/blob/main/VolumeProcessing.mp4" controls title="Volume processing example"></video>
+<video src="./VolumeProcessing.mp4" controls title="Volume processing example"></video>

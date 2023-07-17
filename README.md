@@ -130,5 +130,6 @@ Another reason for saving space, as a side effect, is, to see things as they are
 Long story short, it is an attempt. Nothing more, nothing less. Results will proof it.
 
 ## Processing
-<video src="VolumeProcessing.mp4" controls="controls" style="max-width: 730px;">
-</video>
+![Volume Processing example](VolumeProcessing.gif)
+
+<video src="VolumeProcessing.mp4" controls title="Volume Processing"></video>

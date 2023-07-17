@@ -81,6 +81,7 @@ IS
     IS
       SELECT usim_n_dimension
            , usim_id_rmd
+           , usim_static.missing_nodes_per_dimension(usim_n_dimension) AS missing_nodes
         FROM usim_rmd_v
        WHERE usim_id_mlv      = cp_usim_id_mlv
          AND usim_n_dimension > 0
@@ -90,14 +91,14 @@ IS
     IF      usim_mlv.has_data(p_usim_id_mlv)          = 1
        AND  usim_vol.overflow_reached(p_usim_id_mlv)  = 0
     THEN
-      -- check dimension n = 1
-      IF usim_rmd.dimension_exists(p_usim_id_mlv, 1) = 0
+      -- check dimension n = 0/1
+      IF usim_rmd.dimension_exists(p_usim_id_mlv, 0) = 0
       THEN
-        IF usim_dim.dimension_exists(1) = 0
+        IF usim_dim.dimension_exists(0) = 0
         THEN
           l_usim_id_dim := usim_dim.insert_next_dimension(p_do_commit);
         ELSE
-          l_usim_id_dim := usim_dim.get_id_dim(1);
+          l_usim_id_dim := usim_dim.get_id_dim(0);
         END IF;
         l_usim_id_rmd   := usim_rmd.insert_rmd(p_usim_id_mlv, l_usim_id_dim, p_do_commit);
       END IF;
@@ -181,5 +182,5 @@ IS
   END create_next_dimension
   ;
 
-
 END usim_creator;
+/

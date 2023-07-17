@@ -43,3 +43,4 @@ IS
     RETURN usim_volume.usim_id_vol%TYPE
   ;
 END usim_rvm;
+/

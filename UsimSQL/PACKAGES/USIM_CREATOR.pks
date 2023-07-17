@@ -30,7 +30,7 @@ IS
 
   /**
   * Creates the next volume for a given universe. Will create also the needed positions and nodes and spread them
-  * over all existing dimensions for the given universe. If no dimension > 0 exists, will also create a dimension n = 1.
+  * over all existing dimensions for the given universe. If no dimension >= 0 exists, will also create a dimension n = 0 and n = 1.
   * Will do nothing if overflow state for volume is reached.
   * @param p_usim_id_mlv The id of the universe to create the volume for.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
@@ -54,3 +54,4 @@ IS
   ;
 
 END usim_creator;
+/

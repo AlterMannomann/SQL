@@ -7,10 +7,10 @@ CREATE TABLE usim_rel_rmd_pos_nod
   )
 ;
 COMMENT ON TABLE usim_rel_rmd_pos_nod IS 'A table describing the relation between universe, dimension, position and node. Will use the alias rrnp.';
-COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_rrpn IS 'The id for the relation between universe, dimension, position and node. Automatically set, ignored on update.';
-COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_rmd IS 'The id for the universe / dimension relation. Must exist and be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_pos IS 'The id for the position relation. Must exist and be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_nod IS 'The id for the node relation. Must exist and be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_rrpn IS 'The id for the relation between universe, dimension, position and node. Automatically set, update not allowed.';
+COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_rmd IS 'The id for the universe / dimension relation. Must exist and be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_pos IS 'The id for the position relation. Must exist and be set on insert, update not allowed.';
+COMMENT ON COLUMN usim_rel_rmd_pos_nod.usim_id_nod IS 'The id for the node relation. Must exist and be set on insert, update not allowed.';
 
 -- pk
 ALTER TABLE usim_rel_rmd_pos_nod
@@ -19,10 +19,10 @@ ALTER TABLE usim_rel_rmd_pos_nod
   ENABLE
 ;
 
--- uk universe/dim/position is unique
+-- uk universe/dim/position/node is unique
 ALTER TABLE usim_rel_rmd_pos_nod
   ADD CONSTRAINT usim_rrpn_uk
-  UNIQUE (usim_id_rmd, usim_id_pos)
+  UNIQUE (usim_id_rmd, usim_id_pos, usim_id_nod)
   ENABLE
 ;
 
@@ -49,11 +49,10 @@ CREATE OR REPLACE TRIGGER usim_rrpn_upd_trg
   BEFORE UPDATE ON usim_rel_rmd_pos_nod
     FOR EACH ROW
     BEGIN
-      -- ignore input on update OLD is NEW
-      :NEW.usim_id_rrpn := :OLD.usim_id_rrpn;
-      :NEW.usim_id_rmd  := :OLD.usim_id_rmd;
-      :NEW.usim_id_pos  := :OLD.usim_id_pos;
-      :NEW.usim_id_nod  := :OLD.usim_id_nod;
+      RAISE_APPLICATION_ERROR( num => -20001
+                             , msg => 'Update requirement not fulfilled. No update allowed.'
+                             )
+      ;
     END;
 /
 ALTER TRIGGER usim_rrpn_upd_trg ENABLE;

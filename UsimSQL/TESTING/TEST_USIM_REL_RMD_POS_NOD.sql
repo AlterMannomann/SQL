@@ -133,7 +133,6 @@ BEGIN
       , l_usim_id_nod
       )
     ;
-    l_sql_char_result := usim_nod.insert_node(FALSE);
     INSERT INTO usim_rel_rmd_pos_nod
       ( usim_id_rmd
       , usim_id_pos
@@ -142,11 +141,11 @@ BEGIN
       VALUES
       ( l_usim_id_rmd
       , l_usim_id_pos
-      , l_sql_char_result
+      , l_usim_id_nod
       )
     ;
     -- input should be prevented by constraint
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': duplicate insert of rmd/pos ids should not possible.';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': duplicate insert of rmd/pos/nod ids should not possible.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   EXCEPTION
@@ -215,22 +214,21 @@ BEGIN
          , usim_id_pos  = 'BLA'
          , usim_id_nod  = 'BLA'
      WHERE usim_id_rrpn = l_usim_id_rrpn
-    RETURNING usim_id_rrpn INTO l_sql_char_result
     ;
-    -- check input value
-    IF TRIM(l_sql_char_result) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_char_result || '] rrpn id should not be BLA on update.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
+    -- input should be prevented by trigger
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] update is not allowed and should not be possible.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
   EXCEPTION
     WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
+      IF SQLCODE = -20001
+      THEN
+        l_tests_success := l_tests_success + 1;
+      ELSE
+        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
+        usim_test.log_error(l_test_id, l_fail_message);
+        l_tests_failed := l_tests_failed + 1;
+      END IF;
   END;
   l_run_id := '007';
   BEGIN

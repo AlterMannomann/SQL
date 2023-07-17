@@ -23,6 +23,7 @@ BEGIN
   l_usim_id_vol := usim_creator.create_next_volume(l_usim_id_mlv);
   l_usim_id_vol := usim_creator.create_next_volume(l_usim_id_mlv);
   l_usim_id_rmd := usim_creator.create_next_dimension(l_usim_id_mlv);
+  l_usim_id_rmd := usim_creator.create_next_dimension(l_usim_id_mlv);
 END;
 /
 

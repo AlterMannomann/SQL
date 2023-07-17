@@ -257,5 +257,46 @@ IS
   END get_next_number
   ;
 
+  FUNCTION nodes_per_dimension(p_dimension IN NUMBER)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+    l_dimension NUMBER;
+  BEGIN
+    IF p_dimension < 0
+    THEN
+      l_dimension := 0;
+    ELSE
+      l_dimension := p_dimension;
+    END IF;
+    RETURN POWER(2, l_dimension);
+  END nodes_per_dimension
+  ;
+
+  FUNCTION missing_nodes_per_dimension(p_dimension IN NUMBER)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+    l_dimension NUMBER;
+    l_result    NUMBER;
+  BEGIN
+    IF p_dimension < 0
+    THEN
+      l_dimension := 0;
+    ELSE
+      l_dimension := p_dimension;
+    END IF;
+    IF l_dimension <= 1
+    THEN
+      l_result := CASE WHEN l_dimension = 0 THEN 1 ELSE 2 END;
+    ELSE
+      l_result := usim_static.nodes_per_dimension(l_dimension) - usim_static.nodes_per_dimension(l_dimension - 1);
+    END IF;
+    RETURN l_result;
+  END missing_nodes_per_dimension
+  ;
+
 END usim_static;
 /

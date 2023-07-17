@@ -13,7 +13,12 @@ CREATE OR REPLACE FORCE VIEW usim_rrpn_v AS
        , nod.usim_energy
        , mlv.usim_universe_status
        , mlv.usim_is_base_universe
-       , mlv.usim_energy_start_value
+       , CASE
+           WHEN pos.usim_coordinate = 0
+            AND pos.usim_sign       = 0
+           THEN mlv.usim_energy_start_value
+           ELSE NULL
+         END AS usim_energy_start_value
        , mlv.usim_base_sign
        , mlv.usim_mirror_sign
     FROM usim_rel_rmd_pos_nod rrpn

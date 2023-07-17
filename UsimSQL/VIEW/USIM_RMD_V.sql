@@ -7,7 +7,11 @@ CREATE OR REPLACE FORCE VIEW usim_rmd_v AS
        , dim.usim_n_dimension
        , mlv.usim_universe_status
        , mlv.usim_is_base_universe
-       , mlv.usim_energy_start_value
+       , CASE
+           WHEN dim.usim_n_dimension = 0
+           THEN mlv.usim_energy_start_value
+           ELSE NULL
+         END AS usim_energy_start_value
        , mlv.usim_base_sign
        , mlv.usim_mirror_sign
     FROM usim_rel_mlv_dim rmd

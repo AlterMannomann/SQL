@@ -233,8 +233,11 @@ IS
       IF l_sign > 0
       THEN
         l_next_coordinate := NVL(usim_pos.get_max_coordinate(l_sign), -1) + 1;
-      ELSE
+      ELSIF l_sign < 0
+      THEN
         l_next_coordinate := NVL(usim_pos.get_max_coordinate(l_sign), 1) - 1;
+      ELSE
+        l_next_coordinate := 0;
       END IF;
       IF     p_usim_coordinate         = l_next_coordinate
          AND usim_pos.overflow_reached = 0

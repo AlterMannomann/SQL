@@ -261,5 +261,29 @@ IS
     RETURN NUMBER
   ;
 
+  /**
+  * Calculates the nodes defining a volume by dimension.
+  * Uses 2<sup>dimension</sup>.
+  * @param p_dimension The dimension to calculate the amount of nodes. Must be >= 0, values < 0 are interpreted as 0.
+  * @return The amount of nodes that define a volume for a given dimension.
+  */
+  FUNCTION nodes_per_dimension(p_dimension IN NUMBER)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Calculates the nodes missing for a given dimension, supposing that former dimensions and nodes already exist.
+  * Uses nodes_per_dimension(dimension) - nodes_per_dimension(dimension - 1) with special case dimension 0 and 1.
+  * @param p_dimension The dimension to calculate the amount of missing nodes. Must be >= 0, values < 0 are interpreted as 0.
+  * @return The amount of missing nodes for a volume and a given dimension.
+  */
+  FUNCTION missing_nodes_per_dimension(p_dimension IN NUMBER)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
 END usim_static;
 /

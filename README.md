@@ -131,5 +131,3 @@ Long story short, it is an attempt. Nothing more, nothing less. Results will pro
 
 ## Processing
 ![Volume Processing example](VolumeProcessing.gif)
-
-<video src="VolumeProcessing.mp4" controls title="Volume Processing"></video>

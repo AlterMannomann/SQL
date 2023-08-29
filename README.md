@@ -133,7 +133,9 @@ Example of processing volumes with 3 dimensions. *Had to integrate a bigger GIF 
 
 **Currently not implemented correctly.** I have to step back and rework the concept. See *VolumeParentChildConnections.mp4* where I tried to visualize what is happening in the system building up a space by parent-child connections. Volumes stay a meta concepts and may not be complete at a given point in time. Using parent-child instead of dimension index like x,y,z (we should be able to deal with any amount of dimensions) causes too much overhead on constructing a complete volume. It is enough to construct new nodes that spread in every dimension on overflow, where they may find already a child from another parent to connect. Moreover I have to take in account, that the coordinate system changes with every dimension opening more spaces, so a mirror concept makes only sense in dimension 1. It is a 2<sup>n</sup> function describing the possible +/- axis combinations, where n = dimension.
 
+https://github.com/AlterMannomann/SQL/assets/100498474/8c27127c-f247-4222-bff0-1a001fcc047e
+
+
 Interesting point at dimension n = 2 was the attempt to visualize two variations of the return rule. If the return rule would be to return as soon as a node reaches a border even with partners left to react, a highly chaotic system will send return waves (one wave moves out, many waves return to the source at different times where the source may already emit new energy). With the rule to return if no child can have a partner to react, it is a stable wave structure without chaotic behavior (one wave moves out, one wave returns to the source at the same time). Currently I prefer the stable version, but would be probably worth, to be able to switch return rules.
 
-
-![Volume processing example](VolumeProcessing.gif)
+https://github.com/AlterMannomann/SQL/assets/100498474/62054827-ee07-45a0-ba57-c46fe67a9bba

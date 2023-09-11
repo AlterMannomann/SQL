@@ -162,7 +162,7 @@ Nodes per volume for a dimension x: 2<sup>x</sup>
 
 Parent range: {0, x} and {1, x} for x > 0
 
-Child range: {0, 2 * x}
+Child range: {0, 2x}
 
 Childs for special positions 0: always 2, both dimension axis
 

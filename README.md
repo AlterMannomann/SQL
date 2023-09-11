@@ -157,10 +157,15 @@ Space nodes are processed one by one. The possible reactions of a space node are
 The meta-structure of volumes is only important for displaying the space creation. With complete volumes for at least three dimensions it gets a 3d tetris like form, not considering lower dimension volumes, which are space volume cubes with planck length 1. Volumes get important to define the action-reaction between volume energy in the meta-model of the space creation effects. Volumes translated to our universe define a single point, e.g. x=3 and y=200. In volume and node terminology for creating space they would be just nodes of a volume with x, x+/-1, y, y+/-1 that defines the space of such a point.
 ## Parents and childs
 Parents and childs have a m:n relationsship, limited by dimension x. m <= n <= x. x >= 0, integer. p0 is defined as the amount of 0 positions in the complete coordinates with all dimensions.
+
 Nodes per volume for a dimension x: 2<sup>x</sup>
+
 Parent range: {0, x} and {1, x} for x > 0
+
 Child range: {0, 2 * x}
+
 Childs for special positions 0: always 2, both dimension axis
+
 Childs for position > 0: 2x - (x - p0). Formula would be true for position 0 if unique.
 
 **Currently not implemented correctly.** I have to step back and rework the concept. See *VolumeParentChildConnections.mp4* where I tried to visualize what is happening in the system building up a space by parent-child connections. Volumes stay a meta concepts and may not be complete at a given point in time. Using parent-child instead of dimension index like x,y,z (we should be able to deal with any amount of dimensions) causes too much overhead on constructing a complete volume. It is enough to construct new nodes that spread in every dimension on overflow, where they may find already a child from another parent to connect. Moreover I have to take in account, that the coordinate system changes with every dimension opening more spaces, so a mirror concept makes only sense in dimension 1. It is a 2<sup>n</sup> function describing the meta volume nodes, where n = dimension. Possible axis nodes are defined by 2n. But I use a zero representation in every dimension to ensure that every dimension has the same number space. Moreover there is a zero node for every axis of every dimension. In sense of geometry they have all the same position, whereas every node with a position != 0 is unique. In sense of space and energy they decouple the positive and negative energy flow of space creation, leading to a zero energy result in the node in dimension 0 as long as the universe is equilibrated. This is only valid for space creation. Energies on a meta level may react all with each other independend of their space dimension position.

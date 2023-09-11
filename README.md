@@ -132,19 +132,19 @@ Another reason for saving space, as a side effect, is, to see things as they are
 Long story short, it is an attempt. Nothing more, nothing less. Results will proof it.
 
 ## Dimensions
-Handling of dimensions is not trivial. Every new dimension updates the coordinate system and available space areas. New dimensions can only be created from position 0 and dimension 0. Any attempt to create a dimension axis should consider the fact, that the dimension axis already exists.
+Handling of dimensions is not trivial. Every new dimension updates the coordinate system and available space areas. New dimensions n can only be created from position 0 with dimension n-1. Any attempt to create a dimension axis should consider the fact, that the dimension axis already exists.
 ### Dimension n=0
 This is a very special dimension, able to hold only one space node. The space node with mandatory position 0 is only able to connect to space nodes with position +/-1 in any active dimension axis where n > 0. There is only one dimension axis for dimension n=0 and it has the sign 0.
 ### Dimension n>0
-Every dimension has two axis with a different sign (+/-), e.g. x and -x.
+Every dimension has two axis with a different sign (+/-), e.g. x and -x. Every dimension has its own position 0 on every axis. This is used to decouple positive and negative energy flows. Position 0 is in sense of space and energy not unique if n > 0.
 ## Positions
 Positions are generic and reusable. Any attempt to create a position should consider the fact, that the position already exists.
 ## Space nodes
-Space nodes define the border of volumes with planck length 1 that define the space in the universe. Nodes may exist, that may not yet be part of a complete volume (e.g. a cube in 3d) over all dimensions. At least dimension n=1 is guaranteed, a line. With all parallel shifts of dimension n=1.
+Space nodes define the border of volumes with planck length 1 that define the space (a single point) in the universe. Nodes may exist, that may not yet be part of a complete volume (e.g. a cube in 3d) over all dimensions. At least dimension n=1 is guaranteed, a line. With all parallel shifts of dimension n=1.
 
 Nodes on a specific dimension axis are identified by parents with position 0 in every lower dimension.
 
-If a space node is extended, not only one node is created. The new nodes to create must spread over all available dimensions.
+If a space node is extended, not only one node is created. The new nodes to create must spread over all available dimensions and positions within distance planck length 1.
 ## Dimension axis position node relation
 Apart from relating a space node with universe, dimension axis, relative position and the node containing the energy, those space nodes have another more complicated relation to resolve the absolute coordinates. As only parent-child relations are maintained, not absolute coordinates, we do not move simply on x, then y, then z. We move with steps on one of the dimensions, sometimes in direction of the higher dimension axis, sometimes in the direction of one of the lower or current dimension axis. And we could be miles away, in terms of parents, from the node directly on the related dimension axis, e.g. x=3, y=5000.
 
@@ -154,9 +154,16 @@ Every child must inherit the position from the base node at its base dimension a
 ## Processing nodes
 Space nodes are processed one by one. The possible reactions of a space node are limited to the reaction with childs or, on overflow, causing the creation of dimensions or childs. They must not be synchronized with any nodes in "mirror" areas. The mirror effect is expected to appear by itself.
 ## Processing volumes
-The meta-structure of volumes is only important for displaying the space creation. With complete volumes for at least three dimensions it gets a 3d tetris like form, not considering lower dimension volumes, which are space volume cubes with planck length 1. Volumes get important to define the action-reaction between volume energy in the meta-model of the space creation effects.
+The meta-structure of volumes is only important for displaying the space creation. With complete volumes for at least three dimensions it gets a 3d tetris like form, not considering lower dimension volumes, which are space volume cubes with planck length 1. Volumes get important to define the action-reaction between volume energy in the meta-model of the space creation effects. Volumes translated to our universe define a single point, e.g. x=3 and y=200. In volume and node terminology for creating space they would be just nodes of a volume with x, x+/-1, y, y+/-1 that defines the space of such a point.
+## Parents and childs
+Parents and childs have a m:n relationsship, limited by dimension x. m <= n <= x. x >= 0, integer. p0 is defined as the amount of 0 positions in the complete coordinates with all dimensions.
+Nodes per volume for a dimension x: 2<sup>x</sup>
+Parent range: {0, x} and {1, x} for x > 0
+Child range: {0, 2 * x}
+Childs for special positions 0: always 2, both dimension axis
+Childs for position > 0: 2x - (x - p0). Formula would be true for position 0 if unique.
 
-**Currently not implemented correctly.** I have to step back and rework the concept. See *VolumeParentChildConnections.mp4* where I tried to visualize what is happening in the system building up a space by parent-child connections. Volumes stay a meta concepts and may not be complete at a given point in time. Using parent-child instead of dimension index like x,y,z (we should be able to deal with any amount of dimensions) causes too much overhead on constructing a complete volume. It is enough to construct new nodes that spread in every dimension on overflow, where they may find already a child from another parent to connect. Moreover I have to take in account, that the coordinate system changes with every dimension opening more spaces, so a mirror concept makes only sense in dimension 1. It is a 2<sup>n</sup> function describing the possible +/- axis combinations, where n = dimension.
+**Currently not implemented correctly.** I have to step back and rework the concept. See *VolumeParentChildConnections.mp4* where I tried to visualize what is happening in the system building up a space by parent-child connections. Volumes stay a meta concepts and may not be complete at a given point in time. Using parent-child instead of dimension index like x,y,z (we should be able to deal with any amount of dimensions) causes too much overhead on constructing a complete volume. It is enough to construct new nodes that spread in every dimension on overflow, where they may find already a child from another parent to connect. Moreover I have to take in account, that the coordinate system changes with every dimension opening more spaces, so a mirror concept makes only sense in dimension 1. It is a 2<sup>n</sup> function describing the meta volume nodes, where n = dimension. Possible axis nodes are defined by 2n. But I use a zero representation in every dimension to ensure that every dimension has the same number space. Moreover there is a zero node for every axis of every dimension. In sense of geometry they have all the same position, whereas every node with a position != 0 is unique. In sense of space and energy they decouple the positive and negative energy flow of space creation, leading to a zero energy result in the node in dimension 0 as long as the universe is equilibrated. This is only valid for space creation. Energies on a meta level may react all with each other independend of their space dimension position.
 
 https://github.com/AlterMannomann/SQL/assets/100498474/8c27127c-f247-4222-bff0-1a001fcc047e
 

@@ -103,7 +103,7 @@ Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
 
 ### Visualisation
 Now included is the very beginning of a small JS visualisation using P5.js. USIM_CREATOR can create JSON logs in the appropriate directory. Old JSON logs are saved in the history directory. The DBA setup now includes the creation of the directories and the necessary rights for the schema owners.
-To put it to work, the JS directory has to be made the root of a local web server and the necessary grants for web server and Oracle groups on the operation system.
+To put it to work, the JS directory has to be made the root of a local web server and the necessary grants for web server and Oracle groups/roles on the operation system.
 The included example is very small as I'm still working hard on dimension and position extension.
 
 ## Table packages

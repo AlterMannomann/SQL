@@ -40,7 +40,7 @@ IS
   * a new log is written to have unique names in the history log directory.
   * @param p_planck_aeon The planck time aeon for of the log. If NULL, p_from_planck_time is ignored and log starts from beginning of USIM_SPC_PROCESS.
   * @param p_from_planck_time The planck time tick for start of log. Ignored if p_from_planck_aeon is NULL.
-  * @param p_to_planck_time The planck time tick for end of log. if NULL, log contains every record after of USIM_SPC_PROCESS after log start.
+  * @param p_to_planck_time The planck time tick for end of log. if NULL, log contains every record of USIM_SPC_PROCESS after log start.
   * @return Return 1 if operation was successful otherwise 0.
   */
   FUNCTION create_space_log( p_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE

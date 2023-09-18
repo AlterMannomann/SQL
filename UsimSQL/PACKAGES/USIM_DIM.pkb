@@ -72,11 +72,12 @@ IS
   IS
     l_usim_id_dim   usim_dimension.usim_id_dim%TYPE;
   BEGIN
-    IF usim_dim.has_data(p_usim_n_dimension) = 1
+    IF usim_dim.dimension_exists(p_usim_n_dimension) = 1
     THEN
       SELECT usim_id_dim INTO l_usim_id_dim FROM usim_dimension WHERE usim_n_dimension = p_usim_n_dimension;
       RETURN l_usim_id_dim;
     ELSE
+      usim_erl.log_error('usim_dim.get_id_dim', 'Used with not existing dimension [' || p_usim_n_dimension || '].');
       RETURN NULL;
     END IF;
   END get_id_dim
@@ -118,6 +119,7 @@ IS
       END IF;
       RETURN l_result;
     ELSE
+      usim_erl.log_error('usim_dim.insert_next_dimension', 'Used with active overflow state.');
       RETURN NULL;
     END IF;
   END insert_next_dimension

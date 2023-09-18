@@ -1,0 +1,1 @@
+ALTER TABLE usim_spc_child DROP CONSTRAINT usim_chi_child_fk;

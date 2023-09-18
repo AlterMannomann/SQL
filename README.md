@@ -1,5 +1,5 @@
 **Under Construction - heavy redesign currently**
-Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL and how to make it better than I do.
+Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL and how to make it better than I do. Current state is dimension 1 first points but enhancement on overflow still missing.
 # Intention
 This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).
 ## Expectations
@@ -42,7 +42,7 @@ To make it a little bit more complicated, I also can define the rules, how this 
 And of course I have limitations. The available number space is a side effect related to our current possiblities, but in any case, I have to ensure, in whatever dimension or universe I am, the sum of the energy, I put into dimension n > 0 has to be zero. Otherwise I would build something, that is, assumed, impossible, as it changes the environment, the something in the nothing it is in.
 
 
-### Overflow algorithms
+### Overflow algorithms - under construction
 To overcome limitations in the number space (we can't calculate with infinity), I implement an overflow behavior, that gets active, whenever a overflow would occure (coordinates, calculations). The generic overflow behavior is, that the energy, that would have caused an overflow, is used to create new coordinates in the available dimensions, escape to other dimensions or even build a new universe if all limits are reached.
 
 We have different situations. The seed energy has an overflow, a node between dimensions has an overflow, a node at the dimension frontier has an overflow and the whole universe has an overflow (no more coordinates, dimensions, energy values possible).
@@ -50,7 +50,7 @@ We have different situations. The seed energy has an overflow, a node between di
 And we are still within the limitations of dimension n = 0. Means we may add +1/-1 and that's it. Other concepts are not available within dimension n = 0.
 
 Infinity is the currency for creation of objects like new nodes, new dimensions and new universes. To make things a little bit more interesting, it could be helpful to define the maximum one below infinity of the used system. In that way we could discover a value between 0-1 if we subtract max from our virtual infinity. If we get a value less or equal to 1, then this is the start value of the new object otherwise the start value is 1.
-#### Overflow rules
+#### Overflow rules - under construction
 - **Generic overflow behavior**
   - Add the negative amount of energy (e * -1), that would have caused an overflow, to the node energy of the impacted node that has an overflow.
   - Set energy to 1 with sign of node as default for the new created node / base node. If Infinity - max results in a absolute value > 0 && < 1 use this value.
@@ -100,6 +100,11 @@ Execute the setup script **../SETUP/USIM_TEST_SETUP.sql** with user USIM_TEST.
 
 ### Application
 Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
+
+### Visualisation
+Now included is the very beginning of a small JS visualisation using P5.js. USIM_CREATOR can create JSON logs in the appropriate directory. Old JSON logs are saved in the history directory. The DBA setup now includes the creation of the directories and the necessary rights for the schema owners.
+To put it to work, the JS directory has to be made the root of a local web server and the necessary grants for web server and Oracle groups on the operation system.
+The included example is very small as I'm still working hard on dimension and position extension.
 
 ## Table packages
 - package names

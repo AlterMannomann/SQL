@@ -31,6 +31,7 @@ IS
       SELECT usim_is_base_universe INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
       RETURN l_result;
     ELSE
+      usim_erl.log_error('usim_mlv.is_base', 'Used with not existing universe id [' || p_usim_id_mlv || '].');
       RETURN NULL;
     END IF;
   END is_base
@@ -41,7 +42,7 @@ IS
                           , p_usim_planck_length_unit IN usim_multiverse.usim_planck_length_unit%TYPE DEFAULT 1
                           , p_usim_planck_speed_unit  IN usim_multiverse.usim_planck_speed_unit%TYPE  DEFAULT 1
                           , p_usim_planck_stable      IN usim_multiverse.usim_planck_stable%TYPE      DEFAULT 1
-                          , p_usim_base_sign          IN usim_multiverse.usim_base_sign%TYPE          DEFAULT 1
+                          , p_usim_ultimate_border    IN usim_multiverse.usim_ultimate_border%TYPE    DEFAULT 1
                           , p_do_commit               IN BOOLEAN                                      DEFAULT TRUE
                           )
     RETURN usim_multiverse.usim_id_mlv%TYPE
@@ -51,8 +52,7 @@ IS
     l_usim_planck_length_unit usim_multiverse.usim_planck_length_unit%TYPE;
     l_usim_planck_speed_unit  usim_multiverse.usim_planck_speed_unit%TYPE;
     l_usim_planck_stable      usim_multiverse.usim_planck_stable%TYPE;
-    l_usim_base_sign          usim_multiverse.usim_base_sign%TYPE;
-    l_usim_mirror_sign        usim_multiverse.usim_mirror_sign%TYPE;
+    l_usim_ultimate_border    usim_multiverse.usim_ultimate_border%TYPE;
     l_usim_is_base_universe   usim_multiverse.usim_is_base_universe%TYPE;
     l_usim_id_mlv             usim_multiverse.usim_id_mlv%TYPE;
   BEGIN
@@ -66,13 +66,11 @@ IS
       ELSE
         l_usim_is_base_universe := 1;
       END IF;
-      IF NVL(p_usim_base_sign, 0) = 0
+      IF p_usim_ultimate_border IN (0, 1)
       THEN
-        l_usim_base_sign    := 1;
-        l_usim_mirror_sign  := -1;
+        l_usim_ultimate_border := p_usim_ultimate_border;
       ELSE
-        l_usim_base_sign    := SIGN(p_usim_base_sign);
-        l_usim_mirror_sign  := l_usim_base_sign * -1;
+        l_usim_ultimate_border := 1;
       END IF;
       IF p_usim_planck_stable IN (0, 1)
       THEN
@@ -113,8 +111,7 @@ IS
         , usim_planck_length_unit
         , usim_planck_speed_unit
         , usim_planck_stable
-        , usim_base_sign
-        , usim_mirror_sign
+        , usim_ultimate_border
         )
         VALUES
         ( l_usim_is_base_universe
@@ -123,8 +120,7 @@ IS
         , l_usim_planck_length_unit
         , l_usim_planck_speed_unit
         , l_usim_planck_stable
-        , l_usim_base_sign
-        , l_usim_mirror_sign
+        , l_usim_ultimate_border
         )
         RETURNING usim_id_mlv INTO l_usim_id_mlv
       ;
@@ -176,37 +172,27 @@ IS
     IF usim_mlv.has_data(p_usim_id_mlv) = 1
     THEN
       SELECT usim_planck_stable INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+    ELSE
+      usim_erl.log_error('usim_mlv.get_planck_stable', 'Used with not existing universe id [' || p_usim_id_mlv || '].');
     END IF;
     RETURN l_result;
   END get_planck_stable
   ;
 
-  FUNCTION get_base_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN usim_multiverse.usim_base_sign%TYPE
+  FUNCTION get_ultimate_border(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_ultimate_border%TYPE
   IS
-    l_result usim_multiverse.usim_base_sign%TYPE;
+    l_result usim_multiverse.usim_ultimate_border%TYPE;
   BEGIN
-    l_result := 0;
+    l_result := -1;
     IF usim_mlv.has_data(p_usim_id_mlv) = 1
     THEN
-      SELECT usim_base_sign INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+      SELECT usim_ultimate_border INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+    ELSE
+      usim_erl.log_error('usim_mlv.get_ultimate_border', 'Used with not existing universe id [' || p_usim_id_mlv || '].');
     END IF;
     RETURN l_result;
-  END get_base_sign
-  ;
-
-  FUNCTION get_mirror_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN usim_multiverse.usim_mirror_sign%TYPE
-  IS
-    l_result usim_multiverse.usim_mirror_sign%TYPE;
-  BEGIN
-    l_result := 0;
-    IF usim_mlv.has_data(p_usim_id_mlv) = 1
-    THEN
-      SELECT usim_mirror_sign INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
-    END IF;
-    RETURN l_result;
-  END get_mirror_sign
+  END get_ultimate_border
   ;
 
   FUNCTION update_planck_unit_time_speed( p_usim_id_mlv             IN usim_multiverse.usim_id_mlv%TYPE

@@ -44,7 +44,7 @@ IS
                           , p_usim_planck_length_unit IN usim_multiverse.usim_planck_length_unit%TYPE DEFAULT 1
                           , p_usim_planck_speed_unit  IN usim_multiverse.usim_planck_speed_unit%TYPE  DEFAULT 1
                           , p_usim_planck_stable      IN usim_multiverse.usim_planck_stable%TYPE      DEFAULT 1
-                          , p_usim_base_sign          IN usim_multiverse.usim_base_sign%TYPE          DEFAULT 1
+                          , p_usim_ultimate_border    IN usim_multiverse.usim_ultimate_border%TYPE    DEFAULT 1
                           , p_do_commit               IN BOOLEAN                                      DEFAULT TRUE
                           )
     RETURN usim_multiverse.usim_id_mlv%TYPE
@@ -77,20 +77,12 @@ IS
   ;
 
   /**
-  * Gets the base sign of a given universe.
-  * @param p_usim_id_mlv The id of the universe to get usim_base_sign from.
-  * @return Returns usim_base_sign if given universe exists, otherwise 0.
+  * Gets the rule for ultimate or any border for a given universe.
+  * @param p_usim_id_mlv The id of the universe to get usim_ultimate_border from.
+  * @return Returns 1, rule for ultimate border or 0, rule for any border if given universe exists, otherwise -1.
   */
-  FUNCTION get_base_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN usim_multiverse.usim_base_sign%TYPE
-  ;
-  /**
-  * Gets the mirror sign of a given universe.
-  * @param p_usim_id_mlv The id of the universe to get usim_mirror_sign from.
-  * @return Returns usim_mirror_sign if given universe exists, otherwise 0.
-  */
-  FUNCTION get_mirror_sign(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN usim_multiverse.usim_mirror_sign%TYPE
+  FUNCTION get_ultimate_border(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_ultimate_border%TYPE
   ;
 
   /**

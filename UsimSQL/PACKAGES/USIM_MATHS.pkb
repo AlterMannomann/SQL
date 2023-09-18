@@ -62,6 +62,28 @@ IS
   END apply_planck
   ;
 
+  FUNCTION calc_dim_G(p_dimension IN NUMBER)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := 1 / usim_static.nodes_per_dimension(NVL(ABS(FLOOR(p_dimension)), 0));
+    RETURN l_result;
+  END calc_dim_G
+  ;
+
+  FUNCTION calc_planck_a2( p_m1 IN NUMBER
+                         , p_r  IN NUMBER
+                         , p_G  IN NUMBER
+                         )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := NVL(p_G, 1) * (NVL(p_m1, 0) / POWER(NVL(p_r, 1), 2));
+    RETURN l_result;
+  END calc_planck_a2
+  ;
 
 END usim_maths;
 /

@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-16.07.2023 16:45:31 XEPDB1                         USIM_TEST                      Adi
+31.08.2023 13:18:14 XEPDB1                         USIM_TEST                      Adi
 
 INFO
 ----------------------------------
@@ -26,6 +26,10 @@ SCRIPTFILE
 SCRIPTFILE
 --------------------------------------------------------------------
 ../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../SEQUENCES/DROP/DROP_USIM_ERL_TICK_SEQ.sql
 
 SCRIPTFILE
 --------------------------------------------------------------------
@@ -60,32 +64,8 @@ SCRIPTFILE
 ../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql
 
 SCRIPTFILE
----------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_RRPN_ID_SEQ.sql
-
-SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_VOL_ID_SEQ.sql
-
-SCRIPTFILE
------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_VOL_MLV_FK.sql
-
-SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_VOL_POS1_FK.sql
-
-SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_VOL_POS2_FK.sql
-
-SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_VOL_POS3_FK.sql
-
-SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_VOL_POS4_FK.sql
+../SEQUENCES/DROP/DROP_USIM_SPC_ID_SEQ.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------------
@@ -96,40 +76,52 @@ SCRIPTFILE
 ../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
 
 SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RRPN_RMD_FK.sql
-
-SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RRPN_POS_FK.sql
-
-SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RRPN_NOD_FK.sql
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_SPC_POS_FK.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RVM_MLV_FK.sql
+../FK/DROP/DROP_USIM_SPC_NOD_FK.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RVM_VOL_FK.sql
+../FK/DROP/DROP_USIM_SPC_RMD_FK.sql
 
 SCRIPTFILE
------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_VOL_V.sql
+--------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_CHI_PARENT_FK.sql
 
 SCRIPTFILE
-----------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_VOL_JOIN_V.sql
+-------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_CHI_CHILD_FK.sql
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_MIR_BASE_FK.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_MIR_MIRROR_FK.sql
 
 SCRIPTFILE
 -----------------------------------------------------------
 ../VIEW/DROP/DROP_USIM_RMD_V.sql
 
 SCRIPTFILE
-------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_RRPN_V.sql
+---------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPC_CHI_V.sql
+
+SCRIPTFILE
+-----------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPC_V.sql
+
+SCRIPTFILE
+-----------------------------------------------------------
+../VIEW/DROP/DROP_USIM_CHI_V.sql
+
+SCRIPTFILE
+-----------------------------------------------------------
+../VIEW/DROP/DROP_USIM_MIR_V.sql
 
 SCRIPTFILE
 ----------------------------------------------------------------
@@ -158,6 +150,14 @@ SCRIPTFILE
 SCRIPTFILE
 --------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_TEST_PKS.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_ERL_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_ERL_PKS.sql
 
 SCRIPTFILE
 ------------------------------------------------------------------
@@ -201,14 +201,6 @@ SCRIPTFILE
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_VOL_PKB.sql
-
-SCRIPTFILE
--------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_VOL_PKS.sql
-
-SCRIPTFILE
------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
 
 SCRIPTFILE
@@ -216,20 +208,28 @@ SCRIPTFILE
 ../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql
 
 SCRIPTFILE
-------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RRPN_PKB.sql
-
-SCRIPTFILE
---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RRPN_PKS.sql
-
-SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RVM_PKB.sql
+../PACKAGES/DROP/DROP_USIM_SPC_PKB.sql
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RVM_PKS.sql
+../PACKAGES/DROP/DROP_USIM_SPC_PKS.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_CHI_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_CHI_PKS.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_MIR_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_MIR_PKS.sql
 
 SCRIPTFILE
 ---------------------------------------------------------------------
@@ -242,6 +242,10 @@ SCRIPTFILE
 SCRIPTFILE
 ---------------------------------------------------------------
 ../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_ERROR_LOG_TBL.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------
@@ -260,20 +264,20 @@ SCRIPTFILE
 ../TABLES/DROP/DROP_USIM_NODE_TBL.sql
 
 SCRIPTFILE
--------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_VOLUME_TBL.sql
-
-SCRIPTFILE
 ------------------------------------------------------------------
 ../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
 
 SCRIPTFILE
-----------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_REL_RMD_POS_NOD_TBL.sql
+------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_SPACE_TBL.sql
 
 SCRIPTFILE
-------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_REL_VOL_MLV_TBL.sql
+----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_SPC_CHILD_TBL.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_SPC_MIRROR_TBL.sql
 
 OBJECTS_AFTER_CLEANUP
 ---------------------

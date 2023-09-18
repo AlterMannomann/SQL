@@ -1,47 +1,36 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-25.06.2023 14:26:44 XEPDB1                         SYS                            Adi
-
+16.09.2023 19:42:44 XEPDB1                         SYS                            Adi
 
 INFO
 ---------------
 DROP USIM Users
 
-
 SCRIPTFILE
 ----------------------------------------------------------
 USIM_DROP_TESTUSER.sql
-
-
-User USIM_TEST gelöscht.
-
 
 SCRIPTFILE
 -----------------------------------------------------
 USIM_DROP_USER.sql
 
-
-User USIM gelöscht.
-
-
 INFO
 ---------------------
 DROP USIM Tablespaces
-
 
 SCRIPTFILE
 ----------------------------------------------------------------
 USIM_DROP_TEST_TBL_SPC.sql
 
-
-TABLESPACE USIM_TEST gelöscht.
-
-
 SCRIPTFILE
 ----------------------------------------------------------------
 USIM_DROP_TBL_SPC.sql
 
+SCRIPTFILE
+---------------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR and USIM_HIST_DIR do not exists."
 
-TABLESPACE USIM_LIVE gelöscht.
-
+INFO
+--------------------------------------------------------------------
+Nothing to do. Directories USIM_DIR and USIM_HIST_DIR do not exists.

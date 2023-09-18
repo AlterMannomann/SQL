@@ -1,1 +1,0 @@
-DROP PACKAGE BODY usim_rvm;

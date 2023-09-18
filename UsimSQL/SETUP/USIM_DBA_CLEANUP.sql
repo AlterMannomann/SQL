@@ -52,4 +52,15 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 
+-- DROP DIRECTORIES
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN 'USIM_DROP_DIRECTORIES.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR and USIM_HIST_DIR do not exists."'
+       END AS SCRIPTFILE
+  FROM dba_directories
+ WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR')
+;
+@@&SCRIPTFILE
+
 SPOOL OFF

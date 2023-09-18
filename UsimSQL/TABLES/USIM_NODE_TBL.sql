@@ -20,7 +20,7 @@ CREATE OR REPLACE TRIGGER usim_node_ins_trg
   BEFORE INSERT ON usim_node
     FOR EACH ROW
     BEGIN
-      -- ignore input on pk
+      -- ignore input on pk and energy
       :NEW.usim_id_nod := usim_static.get_big_pk(usim_nod_id_seq.NEXTVAL);
       :NEW.usim_energy := NULL;
     END;

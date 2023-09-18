@@ -83,7 +83,7 @@ BEGIN
 
   l_test_section := 'Insert functions do commit';
   l_run_id := '007';
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, FALSE);
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 0, NULL, FALSE);
   IF usim_rmd.has_data(l_usim_id_rmd) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have existing relation id data.';
@@ -105,7 +105,7 @@ BEGIN
 
   l_test_section := 'Functions with data';
   l_run_id := '009';
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 0, NULL);
   IF usim_rmd.has_data(l_usim_id_rmd) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have existing relation id data.';
@@ -133,7 +133,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '012';
-  IF usim_rmd.dimension_exists(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim)) = 0
+  IF usim_rmd.dimension_exists(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for dimension.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -142,7 +142,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '013';
-  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, l_usim_id_dim, 0);
   IF TRIM(l_sql_char_result) != l_usim_id_rmd
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for universe and dimension id.';
@@ -152,7 +152,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '014';
-  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim));
+  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0);
   IF TRIM(l_sql_char_result) != l_usim_id_rmd
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for universe id and dimension.';
@@ -162,7 +162,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '015';
-  l_sql_char_result := usim_rmd.insert_rmd(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim));
+  l_sql_char_result := usim_rmd.insert_rmd(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0, NULL);
   IF TRIM(l_sql_char_result) != l_usim_id_rmd
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should return existing id for universe id and dimension.';
@@ -183,9 +183,9 @@ BEGIN
   usim_base.init_basedata(p_max_dimension => 2);
   l_usim_id_mlv := usim_mlv.insert_universe;
   l_usim_id_dim := usim_dim.insert_next_dimension; -- 0
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 0, NULL);
   l_usim_id_dim := usim_dim.insert_next_dimension; -- 1
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 1, NULL);
   IF usim_rmd.overflow_reached(l_usim_id_mlv) = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not reach overflow below max.';
@@ -196,7 +196,7 @@ BEGIN
   END IF;
   l_run_id := '017';
   l_usim_id_dim := usim_dim.insert_next_dimension; -- 2
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 1, 1);
   IF usim_rmd.overflow_reached(l_usim_id_mlv) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should reach overflow on max.';
@@ -205,7 +205,6 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-
 
   -- cleanup
   DELETE usim_basedata;

@@ -31,6 +31,7 @@ IS
       SELECT usim_energy INTO l_result FROM usim_node WHERE usim_id_nod = p_usim_id_nod;
       RETURN l_result;
     ELSE
+      usim_erl.log_error('usim_nod.get_energy', 'Used with not existing node id [' || p_usim_id_nod || '].');
       RETURN NULL;
     END IF;
   END get_energy
@@ -40,8 +41,8 @@ IS
     RETURN NUMBER
   IS
   BEGIN
-    IF      usim_base.has_basedata                   = 1
-       AND  ABS(usim_nod.get_energy(p_usim_id_nod)) >= usim_base.get_abs_max_number
+    IF      usim_base.has_basedata                                         = 1
+       AND  usim_base.num_has_overflow(usim_nod.get_energy(p_usim_id_nod)) = 1
     THEN
       RETURN 1;
     ELSE
@@ -56,8 +57,8 @@ IS
     RETURN NUMBER
   IS
   BEGIN
-    IF      usim_base.has_basedata                                                  = 1
-       AND  ABS(NVL(usim_nod.get_energy(p_usim_id_nod), 0) + NVL(p_usim_energy, 0)) > usim_base.get_abs_max_number
+    IF      usim_base.has_basedata                                                                         = 1
+       AND  usim_base.num_has_overflow(NVL(usim_nod.get_energy(p_usim_id_nod), 0) + NVL(p_usim_energy, 0)) = 1
     THEN
       RETURN 1;
     ELSE
@@ -88,8 +89,8 @@ IS
   IS
     l_result usim_node.usim_energy%TYPE;
   BEGIN
-    IF     usim_nod.has_data(p_usim_id_nod)  = 1
-       AND ABS(NVL(p_usim_energy, 0))       <= usim_base.get_abs_max_number
+    IF     usim_nod.has_data(p_usim_id_nod)                  = 1
+       AND usim_base.num_has_overflow(NVL(p_usim_energy, 0)) = 0
     THEN
       UPDATE usim_node SET usim_energy = p_usim_energy WHERE usim_id_nod = p_usim_id_nod RETURNING usim_energy INTO l_result;
       IF p_do_commit

@@ -1,4 +1,32 @@
 SELECT 'Create or recreate USIM objects.' AS info FROM dual;
+--== error logging start ==--
+-- USIM_ERL_TICK_SEQ
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../SEQUENCES/USIM_ERL_TICK_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_ERL_TICK_SEQ still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_ERL_TICK_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
+-- USIM_ERROR_LOG (erl)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_ERROR_LOG_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_ERROR_LOG still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_ERROR_LOG'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- error logging package
+@@../PACKAGES/USIM_ERL.pks
+@@../PACKAGES/USIM_ERL.pkb
+--== error logging end ==--
+
 --== basic packages start ==--
 @@../PACKAGES/USIM_STATIC.pks
 @@../PACKAGES/USIM_STATIC.pkb
@@ -73,17 +101,6 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
--- USIM_VOLUME (vol) sequence
-SELECT CASE
-         WHEN COUNT(*) = 0
-         THEN '../SEQUENCES/USIM_VOL_ID_SEQ.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_VOL_ID_SEQ still exists."'
-       END AS SCRIPTFILE
-  FROM user_objects
- WHERE object_name = 'USIM_VOL_ID_SEQ'
-   AND object_type = 'SEQUENCE'
-;
-@@&SCRIPTFILE
 -- USIM_REL_MLV_DIM (rmd) sequence
 SELECT CASE
          WHEN COUNT(*) = 0
@@ -95,14 +112,14 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
--- USIM_REL_RMD_POS_NOD (rrpn)
+-- USIM_SPACE (spc)
 SELECT CASE
          WHEN COUNT(*) = 0
-         THEN '../SEQUENCES/USIM_RRPN_ID_SEQ.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_RRPN_ID_SEQ still exists."'
+         THEN '../SEQUENCES/USIM_SPC_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_SPC_ID_SEQ still exists."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_RRPN_ID_SEQ'
+ WHERE object_name = 'USIM_SPC_ID_SEQ'
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
@@ -185,29 +202,6 @@ SELECT CASE
 --== base tables end ==--
 
 --== relation tables start ==--
--- USIM_VOLUME (vol)
-SELECT CASE
-         WHEN COUNT(*) = 0
-         THEN '../TABLES/USIM_VOLUME_TBL.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_VOLUME still exists."'
-       END AS SCRIPTFILE
-  FROM user_objects
- WHERE object_name = 'USIM_VOLUME'
-   AND object_type = 'TABLE'
-;
-@@&SCRIPTFILE
--- foreign keys
-@@../FK/USIM_VOL_MLV_FK.sql
-@@../FK/USIM_VOL_POS1_FK.sql
-@@../FK/USIM_VOL_POS2_FK.sql
-@@../FK/USIM_VOL_POS3_FK.sql
-@@../FK/USIM_VOL_POS4_FK.sql
--- views
-@@../VIEW/USIM_VOL_V.sql
-@@../VIEW/USIM_VOL_JOIN_V.sql
--- usim_volume packages
-@@../PACKAGES/USIM_VOL.pks
-@@../PACKAGES/USIM_VOL.pkb
 -- USIM_REL_MLV_DIM (rmd)
 SELECT CASE
          WHEN COUNT(*) = 0
@@ -227,43 +221,83 @@ SELECT CASE
 -- usim_rel_mlv_dim package
 @@../PACKAGES/USIM_RMD.pks
 @@../PACKAGES/USIM_RMD.pkb
--- USIM_REL_RMD_POS_NOD (rrpn)
+-- USIM_SPACE (spc)
 SELECT CASE
          WHEN COUNT(*) = 0
-         THEN '../TABLES/USIM_REL_RMD_POS_NOD_TBL.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_RMD_POS_NOD still exists."'
+         THEN '../TABLES/USIM_SPACE_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPACE still exists."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_REL_RMD_POS_NOD'
+ WHERE object_name = 'USIM_SPACE'
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE
 -- foreign keys
-@@../FK/USIM_RRPN_RMD_FK.sql
-@@../FK/USIM_RRPN_POS_FK.sql
-@@../FK/USIM_RRPN_NOD_FK.sql
+@@../FK/USIM_SPC_RMD_FK.sql
+@@../FK/USIM_SPC_POS_FK.sql
+@@../FK/USIM_SPC_NOD_FK.sql
+--@@../FK/USIM_SPC_VOL_FK.sql
 -- views
-@@../VIEW/USIM_RRPN_V.sql
--- usim_rel_rmd_pos_nod package
-@@../PACKAGES/USIM_RRPN.pks
-@@../PACKAGES/USIM_RRPN.pkb
--- USIM_REL_VOL_MLV (rvm)
+@@../VIEW/USIM_SPC_V.sql
+-- usim_space package
+@@../PACKAGES/USIM_SPC.pks
+@@../PACKAGES/USIM_SPC.pkb
+-- USIM_SPC_CHILD (chi)
 SELECT CASE
          WHEN COUNT(*) = 0
-         THEN '../TABLES/USIM_REL_VOL_MLV_TBL.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_VOL_MLV still exists."'
+         THEN '../TABLES/USIM_SPC_CHILD_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPC_CHILD still exists."'
        END AS SCRIPTFILE
   FROM user_objects
- WHERE object_name = 'USIM_REL_VOL_MLV'
+ WHERE object_name = 'USIM_SPC_CHILD'
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE
 -- foreign keys
-@@../FK/USIM_RVM_MLV_FK.sql
-@@../FK/USIM_RVM_VOL_FK.sql
--- usim_rel_vol_mlv package
-@@../PACKAGES/USIM_RVM.pks
-@@../PACKAGES/USIM_RVM.pkb
+@@../FK/USIM_CHI_PARENT_FK.sql
+@@../FK/USIM_CHI_CHILD_FK.sql
+-- views
+@@../VIEW/USIM_CHI_V.sql
+@@../VIEW/USIM_SPC_CHI_V.sql
+-- usim_spc_child package
+@@../PACKAGES/USIM_CHI.pks
+@@../PACKAGES/USIM_CHI.pkb
+-- USIM_SPC_POS (spo)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_SPC_POS_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPC_POS still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_SPC_POS'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- foreign keys
+@@../FK/USIM_SPO_SPC_FK.sql
+@@../FK/USIM_SPO_RMD_FK.sql
+@@../FK/USIM_SPO_POS_FK.sql
+-- views
+@@../VIEW/USIM_SPO_V.sql
+-- usim_spc_pos package
+@@../PACKAGES/USIM_SPO.pks
+@@../PACKAGES/USIM_SPO.pkb
+-- package depend view
+@@../VIEW/USIM_SPO_XYZ_V.sql
+-- USIM_SPC_PROCESS (SPR)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_SPC_PROCESS_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPC_PROCESS still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_SPC_PROCESS'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- foreign keys
+@@../FK/USIM_SPR_SRC_FK.sql
+@@../FK/USIM_SPR_TGT_FK.sql
 --== relation tables end ==--
 
 --== log tables start ==--
@@ -272,5 +306,7 @@ SELECT CASE
 --== processing packages start ==--
 @@../PACKAGES/USIM_CREATOR.pks
 @@../PACKAGES/USIM_CREATOR.pkb
+@@../PACKAGES/USIM_PROCESS.pks
+@@../PACKAGES/USIM_PROCESS.pkb
 --== processing packages end ==--
 

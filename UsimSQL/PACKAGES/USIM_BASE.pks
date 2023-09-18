@@ -41,6 +41,40 @@ IS
   ;
 
   /**
+  * Retrieves the current minimum number allowed.
+  * @return The current value from column usim_abs_max_number * -1 or NULL if not initialized.
+  */
+  FUNCTION get_min_number
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the current positive number for underflow situation (too close to zero).
+  * @return The current positive underflow value derived from usim_abs_max_number or NULL if not initialized.
+  */
+  FUNCTION get_max_underflow
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the current negative number for underflow situation (too close to zero).
+  * @return The current negative underflow value derived from usim_abs_max_number or NULL if not initialized.
+  */
+  FUNCTION get_min_underflow
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if given number if it has an overflow or underflow situation based on the maximum absolute number defined in base.
+  * Infinity is always an overflow situation.
+  * @param p_check_number The number to verify.
+  * @return Returns 1 if overflow, 0 if not or NULL if base data not initialized.
+  */
+  FUNCTION num_has_overflow(p_check_number IN NUMBER)
+    RETURN NUMBER
+  ;
+
+  /**
   * Retrieves the current setting for overflow behavior.
   * @return The current value from column usim_overflow_node_seed or NULL if not initialized.
   */

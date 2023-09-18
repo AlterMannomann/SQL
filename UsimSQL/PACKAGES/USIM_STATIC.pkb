@@ -81,6 +81,36 @@ IS
   END get_not_available
   ;
 
+  FUNCTION get_side_from
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.usim_side_from;
+  END get_side_from
+  ;
+
+  FUNCTION get_side_to
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.usim_side_to;
+  END get_side_to
+  ;
+
+  FUNCTION get_side_both
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    RETURN usim_static.usim_side_both;
+  END get_side_both
+  ;
+
   FUNCTION get_debug_success
     RETURN NUMBER
     DETERMINISTIC
@@ -296,6 +326,36 @@ IS
     END IF;
     RETURN l_result;
   END missing_nodes_per_dimension
+  ;
+
+  FUNCTION is_allowed_side(p_side IN VARCHAR2)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    IF p_side IN (usim_static.usim_side_from, usim_static.usim_side_to, usim_side_both)
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  END is_allowed_side
+  ;
+
+  FUNCTION is_allowed_fromto_side(p_side IN VARCHAR2)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  IS
+  BEGIN
+    IF p_side IN (usim_static.usim_side_from, usim_static.usim_side_to)
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  END is_allowed_fromto_side
   ;
 
 END usim_static;

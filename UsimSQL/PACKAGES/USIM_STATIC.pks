@@ -9,6 +9,9 @@ IS
   * <b>usim_planck_time_seq_name</b> - a constant for the sequence name responsible for planck time ticks.
   * <b>usim_planck_aeon_seq_name</b> - a constant for the sequence name responsible for planck aeons.
   * <b>usim_not_available</b> - a constant name for filled char fields which are not Null, but have no usable content.
+  * <b>usim_side_from</b> - a constant name for the from side of a volume in space.
+  * <b>usim_side_to</b> - a constant name for the to side of a volume in space.
+  * <b>usim_side_both</b> - a constant name for basic space universe nodes in dimension 0, position 0 and sign 0 which are parents to base and mirror at the same time.
   * <b>usim_status_success</b> - a constant for debug success.
   * <b>usim_status_error</b> - a constant for debug error.
   * <b>usim_status_warning</b> - a constant for debug warning.
@@ -25,6 +28,9 @@ IS
   usim_planck_time_seq_name       CONSTANT CHAR(20)     := 'USIM_PLANCK_TIME_SEQ';
   usim_planck_aeon_seq_name       CONSTANT CHAR(20)     := 'USIM_PLANCK_AEON_SEQ';
   usim_not_available              CONSTANT CHAR(3)      := 'N/A';
+  usim_side_from                  CONSTANT CHAR(1)      := 'F';
+  usim_side_to                    CONSTANT CHAR(1)      := 'T';
+  usim_side_both                  CONSTANT CHAR(1)      := 'B';
   usim_status_success             CONSTANT NUMBER       := 1;
   usim_status_error               CONSTANT NUMBER       := -1;
   usim_status_warning             CONSTANT NUMBER       := 0;
@@ -111,6 +117,36 @@ IS
   * @return USIM_STATIC.USIM_NOT_AVAILABLE
   */
   FUNCTION get_not_available
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Get the static name for volume side from.
+  * @return USIM_STATIC.USIM_SIDE_FROM
+  */
+  FUNCTION get_side_from
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Get the static name for volume side to.
+  * @return USIM_STATIC.USIM_SIDE_TO
+  */
+  FUNCTION get_side_to
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Get the static name for volume side both.
+  * @return USIM_STATIC.USIM_SIDE_BOTH
+  */
+  FUNCTION get_side_both
     RETURN VARCHAR2
     DETERMINISTIC
     PARALLEL_ENABLE
@@ -280,6 +316,28 @@ IS
   * @return The amount of missing nodes for a volume and a given dimension.
   */
   FUNCTION missing_nodes_per_dimension(p_dimension IN NUMBER)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Checks if a given side is an allowed side.
+  * @param p_side The side symbol to check.
+  * @return Returns 1 if side symbol equals usim_side_from, usim_side_to or usim_side_both, otherwise 0.
+  */
+  FUNCTION is_allowed_side(p_side IN VARCHAR2)
+    RETURN NUMBER
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Checks if a given side is an allowed from or to side.
+  * @param p_side The side symbol to check.
+  * @return Returns 1 if side symbol equals usim_side_from or usim_side_to, otherwise 0.
+  */
+  FUNCTION is_allowed_fromto_side(p_side IN VARCHAR2)
     RETURN NUMBER
     DETERMINISTIC
     PARALLEL_ENABLE

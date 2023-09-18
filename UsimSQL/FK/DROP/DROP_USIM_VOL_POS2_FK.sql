@@ -1,1 +1,0 @@
-ALTER TABLE usim_volume DROP CONSTRAINT usim_vol_pos2_fk;

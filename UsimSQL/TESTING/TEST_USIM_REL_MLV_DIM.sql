@@ -26,8 +26,8 @@ BEGIN
   l_usim_id_mlv := usim_mlv.insert_universe;
   l_usim_id_dim := usim_dim.insert_next_dimension;
   BEGIN
-    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim) VALUES (l_usim_id_mlv, l_usim_id_dim);
-    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim) VALUES (l_usim_id_mlv, l_usim_id_dim);
+    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim, usim_sign) VALUES (l_usim_id_mlv, l_usim_id_dim, 0);
+    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim, usim_sign) VALUES (l_usim_id_mlv, l_usim_id_dim, 0);
     -- input should be prevented by constraint
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': duplicates insert should not be possible';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -46,7 +46,7 @@ BEGIN
   ROLLBACK;
   l_run_id := '002';
   BEGIN
-    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim) VALUES ('BLA', l_usim_id_dim);
+    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim, usim_sign) VALUES ('BLA', l_usim_id_dim, 0);
     -- input should be prevented by constraint
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': not existing universe insert should not be possible';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -65,7 +65,7 @@ BEGIN
   ROLLBACK;
   l_run_id := '003';
   BEGIN
-    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim) VALUES (l_usim_id_mlv, 'BLA');
+    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim, usim_sign) VALUES (l_usim_id_mlv, 'BLA', 1);
     -- input should be prevented by constraint
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': not existing dimension insert should not be possible';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -86,7 +86,7 @@ BEGIN
   l_test_section := 'Table insert trigger';
   l_run_id := '004';
   BEGIN
-    INSERT INTO usim_rel_mlv_dim (usim_id_rmd, usim_id_mlv, usim_id_dim) VALUES ('BLA', l_usim_id_mlv, l_usim_id_dim) RETURNING usim_id_rmd INTO l_usim_id_rmd;
+    INSERT INTO usim_rel_mlv_dim (usim_id_rmd, usim_id_mlv, usim_id_dim, usim_sign) VALUES ('BLA', l_usim_id_mlv, l_usim_id_dim, 0) RETURNING usim_id_rmd INTO l_usim_id_rmd;
     -- check input value
     IF TRIM(l_usim_id_rmd) != 'BLA'
     THEN
@@ -107,27 +107,26 @@ BEGIN
   l_test_section := 'Table update trigger';
   l_run_id := '005';
   BEGIN
-    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim) VALUES (l_usim_id_mlv, l_usim_id_dim) RETURNING usim_id_rmd INTO l_usim_id_rmd;
+    INSERT INTO usim_rel_mlv_dim (usim_id_mlv, usim_id_dim, usim_sign) VALUES (l_usim_id_mlv, l_usim_id_dim, 0) RETURNING usim_id_rmd INTO l_usim_id_rmd;
     UPDATE usim_rel_mlv_dim
        SET usim_id_rmd = 'BLA'
          , usim_id_mlv = 'BLA'
          , usim_id_dim = 'BLA'
      WHERE usim_id_rmd = l_usim_id_rmd
     ;
-    -- check input value
-    IF TRIM(l_usim_id_rmd) != 'BLA'
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_rmd || '] update of a rmd id should not be possible.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_rmd || '] update of a rmd id should not be possible.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
   EXCEPTION
     WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
+      IF SQLCODE = -20001
+      THEN
+        l_tests_success := l_tests_success + 1;
+      ELSE
+        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
+        usim_test.log_error(l_test_id, l_fail_message);
+        l_tests_failed := l_tests_failed + 1;
+      END IF;
   END;
   l_run_id := '006';
   BEGIN

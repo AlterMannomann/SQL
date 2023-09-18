@@ -28,6 +28,17 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 
+-- CREATE DIRECTORY
+SELECT CASE
+         WHEN COUNT(*) < 2
+         THEN 'USIM_CREATE_DIRECTORIES.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Directory USIM_DIR already exists."'
+       END AS SCRIPTFILE
+  FROM dba_directories
+ WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR')
+;
+@@&SCRIPTFILE
+
 -- CREATE USERS
 SELECT 'CREATE USIM users' AS info FROM dual;
 -- USIM

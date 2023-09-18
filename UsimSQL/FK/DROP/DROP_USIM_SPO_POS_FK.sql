@@ -1,0 +1,1 @@
+ALTER TABLE usim_spc_pos DROP CONSTRAINT usim_spo_pos_fk;

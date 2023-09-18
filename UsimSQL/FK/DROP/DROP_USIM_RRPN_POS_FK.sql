@@ -1,1 +1,0 @@
-ALTER TABLE usim_rel_rmd_pos_nod  DROP CONSTRAINT usim_rrpn_pos_fk;

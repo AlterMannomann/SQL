@@ -60,6 +60,8 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT usim_max_dimension INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_max_dimension', 'Used without initializing base data');
     END IF;
     RETURN l_result;
   END get_max_dimension
@@ -73,9 +75,94 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT usim_abs_max_number INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_abs_max_number', 'Used without initializing base data');
     END IF;
     RETURN l_result;
   END get_abs_max_number
+  ;
+
+  FUNCTION get_min_number
+    RETURN NUMBER
+  IS
+  BEGIN
+    RETURN usim_base.get_abs_max_number * -1;
+  END get_min_number
+  ;
+
+  FUNCTION get_max_underflow
+    RETURN NUMBER
+  IS
+    l_result    NUMBER;
+    l_decimals  INTEGER;
+  BEGIN
+    IF usim_base.has_basedata = 1
+    THEN
+      -- build number by number of digits
+      l_decimals := LENGTH(TRIM(TO_CHAR(usim_base.get_abs_max_number)));
+      l_result := TO_NUMBER(RPAD('0.', 1 + l_decimals, '0') || '1');
+      RETURN l_result;
+    ELSE
+      usim_erl.log_error('usim_base.get_max_underflow', 'Used without initializing base data');
+      RETURN NULL;
+    END IF;
+  END get_max_underflow
+  ;
+
+  FUNCTION get_min_underflow
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    RETURN usim_base.get_max_underflow * -1;
+  END get_min_underflow
+  ;
+
+  FUNCTION num_has_overflow(p_check_number IN NUMBER)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_base.has_basedata = 0
+    THEN
+      usim_erl.log_error('usim_base.num_has_overflow', 'Used without initializing base data');
+      RETURN NULL;
+    END IF;
+    IF p_check_number IS INFINITE
+    THEN
+      RETURN 0;
+    END IF;
+    IF ABS(p_check_number) >= 1
+    THEN
+      -- overflow
+      IF ABS(p_check_number) > usim_base.get_abs_max_number
+      THEN
+        RETURN 1;
+      ELSE
+        RETURN 0;
+      END IF;
+    ELSE
+      -- underflow
+      IF p_check_number > 0
+      THEN
+        IF p_check_number < usim_base.get_max_underflow
+        THEN
+          RETURN 1;
+        ELSE
+          RETURN 0;
+        END IF;
+      ELSIF p_check_number < 0
+      THEN
+        IF p_check_number > usim_base.get_min_underflow
+        THEN
+          RETURN 1;
+        ELSE
+          RETURN 0;
+        END IF;
+      ELSE
+        RETURN 0;
+      END IF;
+    END IF;
+  END num_has_overflow
   ;
 
   FUNCTION get_overflow_node_seed
@@ -86,6 +173,8 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT usim_overflow_node_seed INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_overflow_node_seed', 'Used without initializing base data');
     END IF;
     RETURN l_result;
   END get_overflow_node_seed
@@ -113,6 +202,8 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT usim_planck_time_seq_curr INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_planck_time_current', 'Used without initializing base data');
     END IF;
     RETURN l_result;
   END get_planck_time_current
@@ -126,6 +217,8 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT usim_planck_time_seq_last INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_planck_time_last', 'Used without initializing base data');
     END IF;
     RETURN l_result;
   END get_planck_time_last
@@ -155,6 +248,7 @@ IS
       -- return new current value
       RETURN usim_base.get_planck_time_current;
     ELSE
+      usim_erl.log_error('usim_base.get_planck_time_next', 'Used without initializing base data or planck time sequence does not exist.');
       RETURN NULL;
     END IF;
   END get_planck_time_next
@@ -182,6 +276,8 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT TRIM(usim_planck_aeon_seq_curr) INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_planck_aeon_seq_current', 'Used without initializing base data.');
     END IF;
     RETURN l_result;
   END get_planck_aeon_seq_current
@@ -195,6 +291,8 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       SELECT TRIM(usim_planck_aeon_seq_last) INTO l_result FROM usim_basedata WHERE usim_id_bda = 1;
+    ELSE
+      usim_erl.log_error('usim_base.get_planck_aeon_seq_last', 'Used without initializing base data.');
     END IF;
     RETURN l_result;
   END get_planck_aeon_seq_last
@@ -226,6 +324,7 @@ IS
       -- return new current value
       RETURN usim_base.get_planck_aeon_seq_current;
     ELSE
+      usim_erl.log_error('usim_base.get_planck_aeon_seq_next', 'Used without initializing base data or planck aeon sequence does not exist.');
       RETURN NULL;
     END IF;
   END get_planck_aeon_seq_next

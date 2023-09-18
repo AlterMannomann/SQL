@@ -152,7 +152,6 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '014';
-  l_usim_id_dim := usim_dim.overflow_reached;
   IF usim_dim.overflow_reached != 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow should be reached for dimension 2.';
@@ -172,10 +171,10 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '016';
-  l_sql_char_result := usim_dim.get_id_dim(usim_base.get_max_dimension);
-  IF TRIM(l_sql_char_result) != l_usim_id_dim
+  l_usim_id_dim := usim_dim.get_id_dim(usim_base.get_max_dimension);
+  IF l_usim_id_dim IS NULL
   THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_dim [' || l_sql_char_result || '] wrong for max dimension[' || l_usim_id_dim || '].';
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_dim wrong for max dimension[' || l_usim_id_dim || '].';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE
@@ -202,6 +201,52 @@ BEGIN
   IF l_sql_number_result != -1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': dimension [' || l_sql_number_result || '] should not exist after rollback.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+
+  l_test_section := 'Get ID';
+  l_run_id := '019';
+  DELETE usim_dimension;
+  COMMIT;
+  l_usim_id_dim := usim_dim.insert_next_dimension;
+  l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
+  IF l_sql_number_result != 0
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': first dimension [' || l_sql_number_result || '] should be 0.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '020';
+  l_sql_char_result := usim_dim.get_id_dim(0);
+  IF TRIM(l_sql_char_result) != l_usim_id_dim
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_dim(0) [' || l_sql_char_result || '] should return [' || l_usim_id_dim || '].';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '021';
+  l_usim_id_dim := usim_dim.insert_next_dimension;
+  l_sql_number_result := usim_dim.get_dimension(l_usim_id_dim);
+  IF l_sql_number_result != 1
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': second dimension [' || l_sql_number_result || '] should be 1.';
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+  ELSE
+    l_tests_success := l_tests_success + 1;
+  END IF;
+  l_run_id := '022';
+  l_sql_char_result := usim_dim.get_id_dim(1);
+  IF TRIM(l_sql_char_result) != l_usim_id_dim
+  THEN
+    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': get_id_dim(1) [' || l_sql_char_result || '] should return [' || l_usim_id_dim || '].';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE

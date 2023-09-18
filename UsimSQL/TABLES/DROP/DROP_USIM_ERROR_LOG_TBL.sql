@@ -1,0 +1,1 @@
+DROP TABLE usim_error_log PURGE;

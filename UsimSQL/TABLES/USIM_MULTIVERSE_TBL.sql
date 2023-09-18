@@ -12,8 +12,7 @@ CREATE TABLE usim_multiverse
   , usim_planck_length_unit NUMBER        DEFAULT 1   NOT NULL ENABLE
   , usim_planck_speed_unit  NUMBER        DEFAULT 1   NOT NULL ENABLE
   , usim_planck_stable      NUMBER(1, 0)  DEFAULT 1   NOT NULL ENABLE
-  , usim_base_sign          NUMBER(1, 0)  DEFAULT 1   NOT NULL ENABLE
-  , usim_mirror_sign        NUMBER(1, 0)  DEFAULT -1  NOT NULL ENABLE
+  , usim_ultimate_border    NUMBER(1, 0)  DEFAULT 1   NOT NULL ENABLE
   )
 ;
 COMMENT ON TABLE usim_multiverse IS 'A table to manage existing universes. Will use the alias mlv.';
@@ -29,8 +28,7 @@ COMMENT ON COLUMN usim_multiverse.usim_planck_time_unit IS 'The relative time un
 COMMENT ON COLUMN usim_multiverse.usim_planck_length_unit IS 'The relative length unit of planck length for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allowed if usim_planck_stable = 0.';
 COMMENT ON COLUMN usim_multiverse.usim_planck_speed_unit IS 'The relative speed (c) unit of planck speed for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allowed if usim_planck_stable = 0.';
 COMMENT ON COLUMN usim_multiverse.usim_planck_stable IS 'The indicator if planck values may change over time (0) or are constant (1). Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_multiverse.usim_base_sign IS 'The sign for coordinates and energy of this universe structures. Must be set on insert, ignored on update.';
-COMMENT ON COLUMN usim_multiverse.usim_mirror_sign IS 'The sign for coordinates and energy of this mirror universe structures. Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_multiverse.usim_ultimate_border IS 'The indicator if energy flow is returned on any dimension border (0) or at the ultimate border, where no child connections are available (1). Must be set on insert, ignored on update.';
 
 -- pk
 ALTER TABLE usim_multiverse
@@ -55,8 +53,8 @@ ALTER TABLE usim_multiverse
 
 -- check sign setting
 ALTER TABLE usim_multiverse
-  ADD CONSTRAINT usim_sign_mlv_chk
-  CHECK (usim_base_sign IN (-1, 1) AND usim_mirror_sign IN (-1, 1))
+  ADD CONSTRAINT usim_border_mlv_chk
+  CHECK (usim_ultimate_border IN (0, 1))
   ENABLE
 ;
 
@@ -91,6 +89,10 @@ CREATE OR REPLACE TRIGGER usim_mlv_ins_trg
       THEN
         :NEW.usim_planck_stable := 1;
       END IF;
+      IF :NEW.usim_ultimate_border IS NULL
+      THEN
+        :NEW.usim_ultimate_border := 1;
+      END IF;
     END;
 /
 ALTER TRIGGER usim_mlv_ins_trg ENABLE;
@@ -115,13 +117,9 @@ CREATE OR REPLACE TRIGGER usim_mlv_upd_trg
       THEN
         :NEW.usim_is_base_universe := :OLD.usim_is_base_universe;
       END IF;
-      IF :NEW.usim_base_sign IS NOT NULL
+      IF :NEW.usim_ultimate_border IS NOT NULL
       THEN
-        :NEW.usim_base_sign := :OLD.usim_base_sign;
-      END IF;
-      IF :NEW.usim_mirror_sign IS NOT NULL
-      THEN
-        :NEW.usim_mirror_sign := :OLD.usim_mirror_sign;
+        :NEW.usim_ultimate_border := :OLD.usim_ultimate_border;
       END IF;
       IF :NEW.usim_planck_stable IS NOT NULL
       THEN

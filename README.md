@@ -115,7 +115,17 @@ The included example is very small as I'm still working hard on dimension and po
   - get_id_... - retrieves the pk of the table by ids or attributes.
   - insert_... - inserts an record into the table by given parameters and returns the new id.
 
-  ### Risky attempts
+  ### Package organization
+  Packages are divided in three levels. THe overall dependencies are used types.
+  #### Low level packages
+  Those packages have only dependencies to package USIM_STATIC, the associated table and views, if they exist for the package, e.g. USIM_SPC relates to USIM_SPC and USIM_SPC_V. Views can be seen as an additional interfaces that create dependencies.
+  #### Interface packages
+  Those packages have dependencies to all low level objects and define the access interface on this objects, e.g. USIM_DBIF. Simulation rules and
+  constraints are forced by those packages through wrappers for the low level packages. Functions and procedures are designed to identify exceptions and errors. Severe errors lead to crashed multiverse.
+  #### High level packages
+  Those packages depend on interface packages. The manage complex creation of objects and simulation processing, e.g. USIM_PROCESS, USIM_CREATOR. Actions are depending on state of universes and initialized base data.
+
+  ### Risky attempts.
   In the packages I reduce sometimes complexity, in form of a very hard "normalization" to 1 or 0, even if a count delivers more than one record. This implies loss of information. Of course. But it also implies rules, valid for this system. In other situations I rely on constraints and triggers, not expecting a result > 1, which still may happen. But isn't handled. Most likely, this will crash at a certain point in time the application.
 
   Intention: Feed Schrödingers cat and Heisenbergs uncertainty principle.

@@ -46,24 +46,6 @@ IS
   END has_data
   ;
 
-  FUNCTION has_free_dimension(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*)
-      INTO l_result
-      FROM usim_rmd_v rmdv
-      LEFT OUTER JOIN usim_space spc
-        ON rmdv.usim_id_rmd  = spc.usim_id_rmd
-     WHERE rmdv.usim_id_mlv      = p_usim_id_mlv
-       AND rmdv.usim_n_dimension > 0
-       AND spc.usim_id_rmd      IS NULL
-    ;
-    RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
-  END has_free_dimension
-  ;
-
   FUNCTION has_base_universe
     RETURN NUMBER
   IS
@@ -82,132 +64,6 @@ IS
     SELECT COUNT(*) INTO l_result FROM usim_spc_v WHERE usim_id_spc = p_usim_id_spc AND usim_n_dimension = 0 AND usim_coordinate = 0;
     RETURN l_result;
   END is_universe_base
-  ;
-
-  FUNCTION is_from_type(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_space WHERE usim_id_spc = p_usim_id_spc;
-    RETURN l_result;
-  END is_from_type
-  ;
-
-  FUNCTION is_zero_from_type(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_spc_v WHERE usim_id_spc = p_usim_id_spc AND usim_n_dimension = 1 AND usim_coordinate = 0;
-    RETURN l_result;
-  END is_zero_from_type
-  ;
-
-  FUNCTION overflow_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_result      NUMBER;
-    l_max         NUMBER;
-    l_usim_id_rmd usim_rel_mlv_dim.usim_id_rmd%TYPE;
-  BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
-    THEN
-      -- fetch value before to avoid self join
-      l_usim_id_rmd := usim_spc.get_id_rmd(p_usim_id_spc);
-      SELECT MAX(ABS(usim_coordinate))
-        INTO l_max
-        FROM usim_spc_v
-       WHERE usim_id_rmd = l_usim_id_rmd
-      ;
-      IF l_max >= usim_base.get_abs_max_number
-      THEN
-        RETURN 1;
-      ELSE
-        RETURN 0;
-      END IF;
-    ELSE
-      RETURN 0;
-    END IF;
-  END overflow_pos
-  ;
-
-  FUNCTION overflow_mlv_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_result      NUMBER;
-    l_max         NUMBER;
-    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
-  BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
-    THEN
-      -- fetch value before to avoid self join
-      l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
-      SELECT MAX(ABS(usim_coordinate))
-        INTO l_max
-        FROM usim_spc_v
-       WHERE usim_id_mlv = l_usim_id_mlv
-      ;
-      IF l_max >= usim_base.get_abs_max_number
-      THEN
-        RETURN 1;
-      ELSE
-        RETURN 0;
-      END IF;
-    ELSE
-      RETURN 0;
-    END IF;
-  END overflow_mlv_pos
-  ;
-
-  FUNCTION overflow_mlv_dim(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_result      NUMBER;
-    l_max         NUMBER;
-    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
-  BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
-    THEN
-      -- fetch value before to avoid self join
-      l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
-      SELECT MAX(usim_n_dimension)
-        INTO l_max
-        FROM usim_spc_v
-       WHERE usim_id_mlv = l_usim_id_mlv
-      ;
-      IF l_max >= usim_base.get_max_dimension
-      THEN
-        RETURN 1;
-      ELSE
-        RETURN 0;
-      END IF;
-    ELSE
-      RETURN 0;
-    END IF;
-  END overflow_mlv_dim
-  ;
-
-  FUNCTION get_max_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN usim_dimension.usim_n_dimension%TYPE
-  IS
-    l_result      usim_dimension.usim_n_dimension%TYPE;
-    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
-  BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
-    THEN
-      l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
-      SELECT NVL(MAX(usim_n_dimension), -1)
-        INTO l_result
-        FROM usim_rmd_v
-       WHERE usim_id_mlv = l_usim_id_mlv
-      ;
-      RETURN l_result;
-    ELSE
-      usim_erl.log_error('usim_spc.get_max_dimension', 'Used not existing id [' || p_usim_id_spc || '].');
-      RETURN NULL;
-    END IF;
-  END get_max_dimension
   ;
 
   FUNCTION get_cur_max_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -230,6 +86,31 @@ IS
       RETURN NULL;
     END IF;
   END get_cur_max_dimension
+  ;
+
+  FUNCTION get_cur_max_dim_n1(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_dimension.usim_n_dimension%TYPE
+  IS
+    l_result      usim_dimension.usim_n_dimension%TYPE;
+    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
+    l_n1_sign     usim_rel_mlv_dim.usim_n1_sign%TYPE;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
+      l_n1_sign     := usim_spc.get_dim_n1_sign(p_usim_id_spc);
+      SELECT NVL(MAX(usim_n_dimension), -1)
+        INTO l_result
+        FROM usim_spc_v
+       WHERE usim_id_mlv = l_usim_id_mlv
+         AND dim_n1_sign = l_n1_sign
+      ;
+      RETURN l_result;
+    ELSE
+      usim_erl.log_error('usim_spc.get_cur_max_dim_n1', 'Used not existing id [' || p_usim_id_spc || '].');
+      RETURN NULL;
+    END IF;
+  END get_cur_max_dim_n1
   ;
 
   FUNCTION get_id_rmd(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -298,18 +179,17 @@ IS
 
   FUNCTION get_id_spc( p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE
                      , p_usim_id_pos IN usim_position.usim_id_pos%TYPE
-                     , p_usim_id_nod IN usim_node.usim_id_nod%TYPE
                      )
     RETURN usim_space.usim_id_spc%TYPE
   IS
     l_result usim_space.usim_id_spc%TYPE;
   BEGIN
-    IF usim_spc.has_data(p_usim_id_rmd, p_usim_id_pos, p_usim_id_nod) = 1
+    IF usim_spc.has_data(p_usim_id_rmd, p_usim_id_pos) = 1
     THEN
-      SELECT usim_id_spc INTO l_result FROM usim_space WHERE usim_id_rmd = p_usim_id_rmd AND usim_id_pos = p_usim_id_pos ANd usim_id_nod = p_usim_id_nod;
+      SELECT usim_id_spc INTO l_result FROM usim_space WHERE usim_id_rmd = p_usim_id_rmd AND usim_id_pos = p_usim_id_pos;
       RETURN l_result;
     ELSE
-      usim_erl.log_error('usim_spc.get_id_spc', 'Used with not existing rmd id [' || p_usim_id_rmd || '], pos id [' || p_usim_id_pos || '] or node id [' || p_usim_id_nod || '].');
+      usim_erl.log_error('usim_spc.get_id_spc', 'Used with not existing rmd id [' || p_usim_id_rmd || '] or pos id [' || p_usim_id_pos || '].');
       RETURN NULL;
     END IF;
   END get_id_spc
@@ -346,10 +226,31 @@ IS
       RETURN l_result;
     ELSE
       -- no space node available
-      usim_erl.log_error('usim_spc.get_sign', 'Not existing space id [' || p_usim_id_spc || '].');
+      usim_erl.log_error('usim_spc.get_dim_sign', 'Not existing space id [' || p_usim_id_spc || '].');
       RETURN NULL;
     END IF;
   END get_dim_sign
+  ;
+
+  FUNCTION get_dim_n1_sign(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_rel_mlv_dim.usim_sign%TYPE
+  IS
+    l_result usim_rel_mlv_dim.usim_sign%TYPE;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      SELECT dim_n1_sign
+        INTO l_result
+        FROM usim_spc_v
+       WHERE usim_id_spc = p_usim_id_spc
+      ;
+      RETURN l_result;
+    ELSE
+      -- no space node available
+      usim_erl.log_error('usim_spc.get_dim_n1_sign', 'Not existing space id [' || p_usim_id_spc || '].');
+      RETURN NULL;
+    END IF;
+  END get_dim_n1_sign
   ;
 
   FUNCTION get_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -394,27 +295,6 @@ IS
   END get_coordinate
   ;
 
-  FUNCTION get_max_id_rmd(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN usim_rel_mlv_dim.usim_id_rmd%TYPE
-  IS
-    l_result      usim_rel_mlv_dim.usim_id_rmd%TYPE;
-    l_dim_max     usim_dimension.usim_n_dimension%TYPE;
-    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
-  BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
-    THEN
-      l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
-      l_dim_max     := usim_rmd.get_max_dimension(l_usim_id_mlv);
-      l_result      := usim_rmd.get_id_rmd(l_usim_id_mlv, l_dim_max);
-      RETURN l_result;
-    ELSE
-      -- no space node available
-      usim_erl.log_error('usim_spc.get_max_id_rmd', 'Not existing space id [' || p_usim_id_spc || '].');
-      RETURN NULL;
-    END IF;
-  END get_max_id_rmd
-  ;
-
   FUNCTION get_process_spin(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_space.usim_process_spin%TYPE
   IS
@@ -436,53 +316,128 @@ IS
   END get_process_spin
   ;
 
-  FUNCTION insert_spc( p_usim_id_rmd    IN usim_rel_mlv_dim.usim_id_rmd%TYPE
-                     , p_usim_id_pos    IN usim_position.usim_id_pos%TYPE
-                     , p_usim_id_nod    IN usim_node.usim_id_nod%TYPE
-                     , p_do_commit      IN BOOLEAN                            DEFAULT TRUE
+  FUNCTION get_spc_details( p_usim_id_spc  IN  usim_space.usim_id_spc%TYPE
+                          , p_usim_id_rmd  OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
+                          , p_usim_id_pos  OUT usim_position.usim_id_pos%TYPE
+                          , p_usim_id_nod  OUT usim_node.usim_id_nod%TYPE
+                          , p_process_spin OUT usim_space.usim_process_spin%TYPE
+                          )
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      SELECT usim_id_rmd
+           , usim_id_pos
+           , usim_id_nod
+           , usim_process_spin
+        INTO p_usim_id_rmd
+           , p_usim_id_pos
+           , p_usim_id_nod
+           , p_process_spin
+        FROM usim_space
+       WHERE usim_id_spc = p_usim_id_spc
+      ;
+      RETURN 1;
+    ELSE
+      -- no space node available
+      usim_erl.log_error('usim_spc.get_spc_details', 'Not existing space id [' || p_usim_id_spc || '].');
+      RETURN 0;
+    END IF;
+  END get_spc_details
+  ;
+
+  FUNCTION get_spc_details( p_usim_id_spc  IN  usim_space.usim_id_spc%TYPE
+                          , p_usim_id_rmd  OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
+                          , p_usim_id_pos  OUT usim_position.usim_id_pos%TYPE
+                          , p_usim_id_nod  OUT usim_node.usim_id_nod%TYPE
+                          , p_process_spin OUT usim_space.usim_process_spin%TYPE
+                          , p_usim_id_mlv  OUT usim_multiverse.usim_id_mlv%TYPE
+                          , p_n_dimension  OUT usim_dimension.usim_n_dimension%TYPE
+                          , p_dim_sign     OUT usim_rel_mlv_dim.usim_sign%TYPE
+                          , p_dim_n1_sign  OUT usim_rel_mlv_dim.usim_n1_sign%TYPE
+                          , p_coordinate   OUT usim_position.usim_coordinate%TYPE
+                          , p_is_base      OUT usim_multiverse.usim_is_base_universe%TYPE
+                          , p_energy       OUT usim_node.usim_energy%TYPE
+                          )
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      SELECT usim_id_rmd
+           , usim_id_pos
+           , usim_id_nod
+           , usim_process_spin
+           , usim_id_mlv
+           , usim_n_dimension
+           , dim_sign
+           , dim_n1_sign
+           , usim_coordinate
+           , usim_is_base_universe
+           , usim_energy
+        INTO p_usim_id_rmd
+           , p_usim_id_pos
+           , p_usim_id_nod
+           , p_process_spin
+           , p_usim_id_mlv
+           , p_n_dimension
+           , p_dim_sign
+           , p_dim_n1_sign
+           , p_coordinate
+           , p_is_base
+           , p_energy
+        FROM usim_spc_v
+       WHERE usim_id_spc = p_usim_id_spc
+      ;
+      RETURN 1;
+    ELSE
+      -- no space node available
+      usim_erl.log_error('usim_spc.get_spc_details', 'Not existing space id [' || p_usim_id_spc || '].');
+      RETURN 0;
+    END IF;
+  END get_spc_details
+  ;
+
+  FUNCTION insert_spc( p_usim_id_rmd       IN usim_rel_mlv_dim.usim_id_rmd%TYPE
+                     , p_usim_id_pos       IN usim_position.usim_id_pos%TYPE
+                     , p_usim_id_nod       IN usim_node.usim_id_nod%TYPE
+                     , p_usim_process_spin IN usim_space.usim_process_spin%TYPE
+                     , p_do_commit         IN BOOLEAN                           DEFAULT TRUE
                      )
     RETURN usim_space.usim_id_spc%TYPE
   IS
     l_result usim_space.usim_id_spc%TYPE;
-    l_spin   NUMBER;
   BEGIN
-    IF      usim_rmd.has_data(p_usim_id_rmd)             = 1
-       AND  usim_pos.has_data(p_usim_id_pos)             = 1
-       AND  usim_nod.has_data(p_usim_id_nod)             = 1
+    IF usim_spc.has_data(p_usim_id_rmd, p_usim_id_pos) = 1
     THEN
-      IF usim_spc.has_data(p_usim_id_rmd, p_usim_id_pos, p_usim_id_nod) = 1
+      RETURN usim_spc.get_id_spc(p_usim_id_rmd, p_usim_id_pos);
+    ELSIF     p_usim_id_rmd IS NOT NULL
+          AND p_usim_id_pos IS NOT NULL
+          AND p_usim_id_nod IS NOT NULL
+          AND p_usim_process_spin IN (1, -1)
+    THEN
+      INSERT INTO usim_space
+        ( usim_id_rmd
+        , usim_id_pos
+        , usim_id_nod
+        , usim_process_spin
+        )
+        VALUES
+        ( p_usim_id_rmd
+        , p_usim_id_pos
+        , p_usim_id_nod
+        , p_usim_process_spin
+        )
+        RETURNING usim_id_spc INTO l_result
+      ;
+      IF p_do_commit
       THEN
-        RETURN usim_spc.get_id_spc(p_usim_id_rmd, p_usim_id_pos, p_usim_id_nod);
-      ELSE
-        IF     usim_rmd.get_dimension(p_usim_id_rmd)  = 0
-           AND usim_pos.get_coordinate(p_usim_id_pos) = 0
-        THEN
-          l_spin := 1;
-        ELSE
-          l_spin := -1;
-        END IF;
-        INSERT INTO usim_space
-          ( usim_id_rmd
-          , usim_id_pos
-          , usim_id_nod
-          , usim_process_spin
-          )
-          VALUES
-          ( p_usim_id_rmd
-          , p_usim_id_pos
-          , p_usim_id_nod
-          , l_spin
-          )
-          RETURNING usim_id_spc INTO l_result
-        ;
-        IF p_do_commit
-        THEN
-          COMMIT;
-        END IF;
-        RETURN l_result;
+        COMMIT;
       END IF;
+      RETURN l_result;
     ELSE
-      usim_erl.log_error('usim_spc.insert_spc', 'Used with not existing rmd id [' || p_usim_id_rmd || '], pos id [' || p_usim_id_pos || '] or node id [' || p_usim_id_nod || '].');
+      usim_erl.log_error('usim_spc.insert_spc', 'Used with invalid rmd id [' || p_usim_id_rmd || '], pos id [' || p_usim_id_pos || '], node id [' || p_usim_id_nod || '] or process spin [' || p_usim_process_spin || '].');
       RETURN NULL;
     END IF;
   END insert_spc

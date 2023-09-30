@@ -37,36 +37,6 @@ IS
   END get_energy
   ;
 
-  FUNCTION overflow_reached(p_usim_id_nod IN usim_node.usim_id_nod%TYPE)
-    RETURN NUMBER
-  IS
-  BEGIN
-    IF      usim_base.has_basedata                                         = 1
-       AND  usim_base.num_has_overflow(usim_nod.get_energy(p_usim_id_nod)) = 1
-    THEN
-      RETURN 1;
-    ELSE
-      RETURN 0;
-    END IF;
-  END overflow_reached
-  ;
-
-  FUNCTION overflow_reached( p_usim_id_nod IN usim_node.usim_id_nod%TYPE
-                           , p_usim_energy IN NUMBER
-                           )
-    RETURN NUMBER
-  IS
-  BEGIN
-    IF      usim_base.has_basedata                                                                         = 1
-       AND  usim_base.num_has_overflow(NVL(usim_nod.get_energy(p_usim_id_nod), 0) + NVL(p_usim_energy, 0)) = 1
-    THEN
-      RETURN 1;
-    ELSE
-      RETURN 0;
-    END IF;
-  END overflow_reached
-  ;
-
   FUNCTION insert_node(p_do_commit  IN BOOLEAN  DEFAULT TRUE)
     RETURN usim_node.usim_id_nod%TYPE
   IS
@@ -81,7 +51,7 @@ IS
   END insert_node
   ;
 
-  FUNCTION update_energy( p_usim_energy  IN NUMBER
+  FUNCTION update_energy( p_usim_energy  IN usim_node.usim_energy%TYPE
                         , p_usim_id_nod  IN usim_node.usim_id_nod%TYPE
                         , p_do_commit    IN BOOLEAN                    DEFAULT TRUE
                         )
@@ -89,8 +59,7 @@ IS
   IS
     l_result usim_node.usim_energy%TYPE;
   BEGIN
-    IF     usim_nod.has_data(p_usim_id_nod)                  = 1
-       AND usim_base.num_has_overflow(NVL(p_usim_energy, 0)) = 0
+    IF usim_nod.has_data(p_usim_id_nod) = 1
     THEN
       UPDATE usim_node SET usim_energy = p_usim_energy WHERE usim_id_nod = p_usim_id_nod RETURNING usim_energy INTO l_result;
       IF p_do_commit
@@ -99,7 +68,8 @@ IS
       END IF;
       RETURN l_result;
     ELSE
-      RETURN usim_nod.get_energy(p_usim_id_nod);
+      usim_erl.log_error('usim_nod.update_energy', 'Used with not existing node id [' || p_usim_id_nod || '].');
+      RETURN NULL;
     END IF;
   END update_energy
   ;
@@ -110,8 +80,10 @@ IS
                      )
     RETURN usim_node.usim_energy%TYPE
   IS
+    l_energy NUMBER;
   BEGIN
-    RETURN usim_nod.update_energy((NVL(p_usim_energy, 0) + NVL(usim_nod.get_energy(p_usim_id_nod), 0)), p_usim_id_nod, p_do_commit);
+    l_energy := NVL(p_usim_energy, 0) + NVL(usim_nod.get_energy(p_usim_id_nod), 0);
+    RETURN usim_nod.update_energy(l_energy, p_usim_id_nod, p_do_commit);
   END add_energy
   ;
 

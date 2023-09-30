@@ -677,6 +677,28 @@ SELECT CASE
    AND object_type = 'PACKAGE'
 ;
 @@&SCRIPTFILE
+
+
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_DBIF_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_DBIF does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_DBIF'
+   AND object_type = 'PACKAGE BODY'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_DBIF_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_DBIF does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_DBIF'
+   AND object_type = 'PACKAGE'
+;
+@@&SCRIPTFILE
 --== packages depending on tables end ==--
 
 --== base data start ==--

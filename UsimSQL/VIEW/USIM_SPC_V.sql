@@ -10,6 +10,7 @@ CREATE OR REPLACE FORCE VIEW usim_spc_v AS
        , dim.usim_id_dim
        , dim.usim_n_dimension
        , rmd.usim_sign AS dim_sign
+       , rmd.usim_n1_sign AS dim_n1_sign
        , pos.usim_coordinate
        , nod.usim_energy
        , mlv.usim_universe_status

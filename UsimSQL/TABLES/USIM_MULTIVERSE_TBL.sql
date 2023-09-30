@@ -4,8 +4,6 @@ CREATE TABLE usim_multiverse
   , usim_universe_status    NUMBER(1, 0)  DEFAULT 0   NOT NULL ENABLE
   , usim_is_base_universe   NUMBER(1, 0)  DEFAULT 0   NOT NULL ENABLE
   , usim_energy_start_value NUMBER
-  , usim_energy_positive    NUMBER
-  , usim_energy_negative    NUMBER
   , usim_planck_aeon        CHAR(55)
   , usim_planck_time        NUMBER
   , usim_planck_time_unit   NUMBER        DEFAULT 1   NOT NULL ENABLE
@@ -20,8 +18,6 @@ COMMENT ON COLUMN usim_multiverse.usim_id_mlv IS 'The unique id for a universe i
 COMMENT ON COLUMN usim_multiverse.usim_universe_status IS 'The current state of the associated universe at usim_planck_time. Either INACTIVE, ACTIVE, DEAD, CRASHED or UNKNOWN. Calculated, set to INACTIVE on insert, update ignored.';
 COMMENT ON COLUMN usim_multiverse.usim_is_base_universe IS 'Defines if the universe the base universe for the multiverse. 1 means base universe, 0 depending universe. Only one base allowed by application. Must be set on insert, update ignored';
 COMMENT ON COLUMN usim_multiverse.usim_energy_start_value IS 'The energy start value for the associated universe. Must be set on insert, update ignored.';
-COMMENT ON COLUMN usim_multiverse.usim_energy_positive IS 'The total positive energy for the associated universe at usim_planck_time.';
-COMMENT ON COLUMN usim_multiverse.usim_energy_negative IS 'The total negative energy for the associated universe at usim_planck_time.';
 COMMENT ON COLUMN usim_multiverse.usim_planck_aeon IS 'The planck aeon big id at insert or update of energy and universe state. Automatically set, insert and update ignored.';
 COMMENT ON COLUMN usim_multiverse.usim_planck_time IS 'The planck time tick at insert or update of energy and universe state. Automatically set, insert and update ignored.';
 COMMENT ON COLUMN usim_multiverse.usim_planck_time_unit IS 'The relative time unit of planck time for this universe. Inside always 1, but from outside it may have different values. Value 0 ignored. Update only allowed if usim_planck_stable = 0.';
@@ -77,9 +73,6 @@ CREATE OR REPLACE TRIGGER usim_mlv_ins_trg
       :NEW.usim_planck_aeon := usim_base.get_planck_aeon_seq_current;
       -- set default status INACTIVE on insert
       :NEW.usim_universe_status := usim_static.usim_multiverse_status_inactive;
-      -- set default energy states on insert
-      :NEW.usim_energy_positive := NULL;
-      :NEW.usim_energy_negative := NULL;
       -- if not given, set to 1 as default
       IF :NEW.usim_energy_start_value IS NULL
       THEN
@@ -103,64 +96,41 @@ CREATE OR REPLACE TRIGGER usim_mlv_upd_trg
     FOR EACH ROW
     BEGIN
       -- handle values that should not be updated
-      IF :NEW.usim_id_mlv IS NOT NULL
+      IF :NEW.usim_id_mlv != :OLD.usim_id_mlv
       THEN
         :NEW.usim_id_mlv := :OLD.usim_id_mlv;
       END IF;
       -- not allowed, must be set on insert
-      IF :NEW.usim_energy_start_value IS NOT NULL
+      IF :NEW.usim_energy_start_value != :OLD.usim_energy_start_value
       THEN
         :NEW.usim_energy_start_value := :OLD.usim_energy_start_value;
       END IF;
       -- not allowed, must be set on insert
-      IF :NEW.usim_is_base_universe IS NOT NULL
+      IF :NEW.usim_is_base_universe != :OLD.usim_is_base_universe
       THEN
         :NEW.usim_is_base_universe := :OLD.usim_is_base_universe;
       END IF;
-      IF :NEW.usim_ultimate_border IS NOT NULL
+      IF :NEW.usim_ultimate_border != :OLD.usim_ultimate_border
       THEN
         :NEW.usim_ultimate_border := :OLD.usim_ultimate_border;
       END IF;
-      IF :NEW.usim_planck_stable IS NOT NULL
+      IF :NEW.usim_planck_stable != :OLD.usim_planck_stable
       THEN
         :NEW.usim_planck_stable := :OLD.usim_planck_stable;
       END IF;
       -- ignore input for planck time
       :NEW.usim_planck_time := usim_base.get_planck_time_current;
       :NEW.usim_planck_aeon := usim_base.get_planck_aeon_seq_current;
-
-      -- positive and negative energy have to be updated together
-      IF    (     :NEW.usim_energy_positive IS NULL
-             AND  :NEW.usim_energy_negative IS NOT NULL
-            )
-         OR
-            (     :NEW.usim_energy_positive IS NOT NULL
-             AND  :NEW.usim_energy_negative IS NULL
-            )
+      -- avoid set status if invalid
+      IF :NEW.usim_universe_status != :OLD.usim_universe_status
       THEN
-        RAISE_APPLICATION_ERROR( num => -20001
-                               , msg => 'Update requirement not fulfilled. The columns usim_energy_positive and usim_energy_negative must be updated together.'
-                               )
-        ;
-      END IF;
-      -- set status based on energy values
-      IF :NEW.usim_energy_positive IS NOT NULL
-      THEN
-        IF      :NEW.usim_energy_positive = 0
-           AND  :NEW.usim_energy_negative = 0
+        IF :NEW.usim_universe_status NOT IN (usim_static.usim_multiverse_status_dead
+                                            , usim_static.usim_multiverse_status_crashed
+                                            , usim_static.usim_multiverse_status_active
+                                            , usim_static.usim_multiverse_status_inactive
+                                            )
         THEN
-          :NEW.usim_universe_status := usim_static.usim_multiverse_status_dead;
-        ELSIF (:NEW.usim_energy_positive + :NEW.usim_energy_negative) != 0
-        THEN
-          :NEW.usim_universe_status := usim_static.usim_multiverse_status_crashed;
-        ELSE
-          :NEW.usim_universe_status := usim_static.usim_multiverse_status_active;
-        END IF;
-      ELSE
-        IF     :OLD.usim_energy_positive IS NULL
-           AND :OLD.usim_energy_negative IS NULL
-        THEN
-          :NEW.usim_universe_status := usim_static.usim_multiverse_status_inactive;
+          :NEW.usim_universe_status := :OLD.usim_universe_status;
         END IF;
       END IF;
       -- set planck values only, if they differ from 0 and usim_planck_stable = 0

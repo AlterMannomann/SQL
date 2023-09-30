@@ -1,19 +1,11 @@
 CREATE OR REPLACE PACKAGE usim_pos
 IS
-  /**A package for actions on table usim_position.*/
-
-  /**
-  * Checks a given number for the sign and retrieves +1 or -1 for any number.
-  * Special case coordinate 0 with sign 0 for dimension 0 not handled.
-  * @param p_number Any number to determine a sign != 0.
-  * @param p_sign_default Handles the default sign for 0 values, as Oracle cannot distinguish between -0 and +1. If not +1/-1 defaults to +1.
-  * @return Either +1 or -1 as the sign for any number.
+  /**A low level package for actions on table usim_position and its associated
+  * views. Views can be seen as interfaces and dependency. No other package dependencies
+  * apart from USIM_STATIC. ATTENTION Package may throw exceptions
+  * from constraints, triggers and foreign keys. Caller is responsible to handle
+  * possible exceptions.
   */
-  FUNCTION get_sign( p_number       IN NUMBER
-                   , p_sign_default IN NUMBER DEFAULT 1
-                   )
-    RETURN NUMBER
-  ;
 
   /**
   * Checks if usim_position has already data.
@@ -29,6 +21,15 @@ IS
   * @return Returns 1 if position id exists, otherwise 0.
   */
   FUNCTION has_data(p_usim_id_pos IN usim_position.usim_id_pos%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if usim_position has the given position.
+  * @param p_usim_coordinate The position coordinate to verify.
+  * @return Returns 1 if position exists, otherwise 0.
+  */
+  FUNCTION has_data(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
     RETURN NUMBER
   ;
 
@@ -55,35 +56,9 @@ IS
   ;
 
   /**
-  * Checks if usim_position has the given coordinate.
-  * @param p_usim_coordinate The coordinate to verify.
-  * @return Returns 1 if coordinate with sign exists, otherwise 0.
-  */
-  FUNCTION coordinate_exists(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
-    RETURN NUMBER
-  ;
-
-  /**
-  * Checks if usim_position has reached overflow state for positive and negative coordinates.
-  * @return Returns 1 if base data exist and overflow is reached, otherwise 0.
-  */
-  FUNCTION overflow_reached
-    RETURN NUMBER
-  ;
-
-  /**
-  * Checks if usim_position has reached overflow state for positive or negative coordinates.
-  * @param p_sign The sign of the coordinate. Any value different from -1 is interpreted as 1.
-  * @return Returns 1 if base data exist and overflow is reached for given sign, otherwise 0.
-  */
-  FUNCTION overflow_reached(p_sign IN NUMBER)
-    RETURN NUMBER
-  ;
-
-  /**
   * Gets the maximum coordinate for a given sign.
-  * @param p_sign The sign of the coordinate. 0 is always included in both number spaces and if given interpreted as 1.
-  * @return Returns max usim_coordinate for given sign or NULL if no coordinate exists for this sign.
+  * @param p_sign The sign of the max coordinate (1, -1). Position 0 is always included in both number spaces.
+  * @return Returns max usim_coordinate for given sign or NULL if no coordinates exists or wrong sign.
   */
   FUNCTION get_max_coordinate(p_sign IN NUMBER DEFAULT 1)
     RETURN usim_position.usim_coordinate%TYPE
@@ -140,55 +115,27 @@ IS
   ;
 
   /**
-  * Inserts a new coordinate (max +1) in positive or negative number space.
-  * Won't do anything, if maximum allowed coordinate is exceeded. Special case coordinate 0:</br>
-  * If table is empty the first position inserted is always 0 with sign 0.
-  * @param p_sign The sign relevant for the number space to use. Must be 1 or -1.
+  * Inserts a new coordinate if it does not exist.
+  * @param p_usim_coordinate The coordinate to insert.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use). Should be given to avoid signature conflicts.
-  * @return Returns the new position id for the coordinate with the positive sign or NULL.
+  * @return Returns the new/existing position id for the coordinate or NULL if insert fails.
   */
-  FUNCTION insert_next_position( p_sign       IN NUMBER   DEFAULT 1
-                               , p_do_commit  IN BOOLEAN  DEFAULT TRUE
-                               )
+  FUNCTION insert_position( p_usim_coordinate IN usim_position.usim_coordinate%TYPE
+                          , p_do_commit       IN BOOLEAN                            DEFAULT TRUE
+                          )
     RETURN usim_position.usim_id_pos%TYPE
   ;
 
   /**
-  * Inserts a coordinate (max +1) if the coordinate is the next possible coordinate in positive or negative
-  * number space or returns the position id of the coordinate.
-  * Won't do anything, if maximum allowed coordinate is exceeded. Special case coordinate 0:</br>
-  * If table is empty the first position inserted is always 0 with sign 0.
-  * @param p_usim_coordinate The coordinate. All other cases get calculated.
+  * Creates all coordinates including given max coordinate. Inserts positive and negative coordinates.
+  * Can be used to initialize the available positions for a multiverse.
+  * @param p_max_coordinate The maximum coordinate to insert. Valid for positive and negative numbers.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
-  * @return Returns the new/existing position id or NULL if not a next coordinate.
+  * @return Returns 1 one success 0 on errors.
   */
-  FUNCTION insert_next_coord( p_usim_coordinate  IN usim_position.usim_coordinate%TYPE
-                            , p_do_commit        IN BOOLEAN                            DEFAULT TRUE
-                            )
-    RETURN usim_position.usim_id_pos%TYPE
-  ;
-
-  /**
-  * Verifies and if necessary inserts coordinates for a dimension axis with distance 1 in positive
-  * and negative number space based on given coordinate.
-  * @param p_usim_coordinate The from coordinate. All other cases get calculated.
-  * @return Returns 1 if sucessfully inserted or verified, otherwise 0.
-  */
-  FUNCTION insert_dim_pair( p_usim_coordinate  IN usim_position.usim_coordinate%TYPE
-                          , p_do_commit        IN BOOLEAN                            DEFAULT TRUE
-                          )
-    RETURN NUMBER
-  ;
-
-  /**
-  * Verifies and if necessary inserts coordinates for a dimension axis with distance 1 in positive
-  * and negative number space based on given position id.
-  * @param p_usim_id_pos The absolute from coordinate id. All other cases get calculated.
-  * @return Returns 1 if sucessfully inserted or verified, otherwise 0.
-  */
-  FUNCTION insert_dim_pair( p_usim_id_pos IN usim_position.usim_id_pos%TYPE
-                          , p_do_commit   IN BOOLEAN                        DEFAULT TRUE
-                          )
+  FUNCTION init_positions( p_max_coordinate IN usim_position.usim_coordinate%TYPE
+                         , p_do_commit      IN BOOLEAN                            DEFAULT TRUE
+                         )
     RETURN NUMBER
   ;
 

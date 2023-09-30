@@ -5,6 +5,7 @@ CREATE OR REPLACE FORCE VIEW usim_rmd_v AS
        , rmd.usim_id_mlv
        , rmd.usim_id_dim
        , rmd.usim_sign
+       , rmd.usim_n1_sign
        , dim.usim_n_dimension
        , mlv.usim_universe_status
        , mlv.usim_is_base_universe

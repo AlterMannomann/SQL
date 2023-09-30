@@ -1,6 +1,7 @@
 CREATE OR REPLACE PACKAGE BODY usim_rmd
 IS
   -- see header for documentation
+
   FUNCTION has_data
     RETURN NUMBER
   IS
@@ -16,33 +17,54 @@ IS
   IS
     l_result NUMBER;
   BEGIN
+    -- we expect one axis or nothing
     SELECT COUNT(*) INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_rmd = p_usim_id_rmd;
-    RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
+    RETURN l_result;
   END has_data
   ;
 
-  FUNCTION has_data( p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
-                   , p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE
-                   )
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_mlv = p_usim_id_mlv AND usim_id_dim = p_usim_id_dim;
-    RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
-  END has_data
-  ;
-
-  FUNCTION has_data( p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
-                   , p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE
-                   , p_usim_sign   IN usim_rel_mlv_dim.usim_sign%TYPE
+  FUNCTION has_data( p_usim_id_mlv  IN usim_multiverse.usim_id_mlv%TYPE
+                   , p_usim_id_dim  IN usim_dimension.usim_id_dim%TYPE
+                   , p_usim_sign    IN usim_rel_mlv_dim.usim_sign%TYPE
+                   , p_usim_n1_sign IN usim_rel_mlv_dim.usim_n1_sign%TYPE
                    )
     RETURN NUMBER
   IS
     l_result NUMBER;
   BEGIN
     -- we expect one axis or nothing
-    SELECT COUNT(*) INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_mlv = p_usim_id_mlv AND usim_id_dim = p_usim_id_dim AND usim_sign = p_usim_sign;
+    SELECT COUNT(*)
+      INTO l_result
+      FROM usim_rel_mlv_dim
+     WHERE usim_id_mlv          = p_usim_id_mlv
+       AND usim_id_dim          = p_usim_id_dim
+       AND usim_sign            = p_usim_sign
+           -- deal with 0 dimension
+       AND NVL(usim_n1_sign, 0) = NVL(p_usim_n1_sign, 0)
+    ;
+    RETURN l_result;
+  END has_data
+  ;
+
+  FUNCTION has_data( p_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
+                   , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                   , p_usim_sign        IN usim_rel_mlv_dim.usim_sign%TYPE
+                   , p_usim_n1_sign     IN usim_rel_mlv_dim.usim_n1_sign%TYPE
+                   )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    -- we expect one axis or nothing
+    SELECT COUNT(*)
+      INTO l_result
+      FROM usim_rmd_v
+     WHERE usim_id_mlv          = p_usim_id_mlv
+       AND usim_n_dimension     = p_usim_n_dimension
+       AND usim_sign            = p_usim_sign
+           -- deal with 0 dimension
+       AND NVL(usim_n1_sign, 0) = NVL(p_usim_n1_sign, 0)
+    ;
     RETURN l_result;
   END has_data
   ;
@@ -55,50 +77,6 @@ IS
       SELECT MAX(usim_n_dimension) INTO l_result FROM usim_rmd_v WHERE usim_id_mlv = p_usim_id_mlv;
       RETURN NVL(l_result, -1);
   END get_max_dimension
-  ;
-
-  FUNCTION overflow_reached(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    RETURN NUMBER
-  IS
-  BEGIN
-    IF      usim_base.has_basedata  = 1
-       AND  usim_rmd.has_data       = 1
-    THEN
-      IF usim_rmd.get_max_dimension(p_usim_id_mlv) >= usim_base.get_max_dimension
-      THEN
-        RETURN 1;
-      ELSE
-        RETURN 0;
-      END IF;
-    ELSE
-      RETURN 0;
-    END IF;
-  END overflow_reached
-  ;
-
-  FUNCTION dimension_exists( p_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
-                           , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
-                           )
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_rmd_v WHERE usim_id_mlv = p_usim_id_mlv AND usim_n_dimension = p_usim_n_dimension;
-    RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
-  END dimension_exists
-  ;
-
-  FUNCTION dimension_exists( p_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
-                           , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
-                           , p_usim_sign        IN usim_rel_mlv_dim.usim_sign%TYPE
-                           )
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    SELECT COUNT(*) INTO l_result FROM usim_rmd_v WHERE usim_id_mlv = p_usim_id_mlv AND usim_n_dimension = p_usim_n_dimension AND usim_sign = p_usim_sign;
-    RETURN l_result;
-  END dimension_exists
   ;
 
   FUNCTION get_dimension(p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE)
@@ -117,6 +95,154 @@ IS
   END get_dimension
   ;
 
+  FUNCTION get_dim_sign(p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE)
+    RETURN usim_rel_mlv_dim.usim_sign%TYPE
+  IS
+    l_result usim_rel_mlv_dim.usim_sign%TYPE;
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_sign INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_rmd = p_usim_id_rmd;
+      RETURN l_result;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_dim_sign', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN NULL;
+    END IF;
+  END get_dim_sign
+  ;
+
+  FUNCTION get_dim_n1_sign(p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE)
+    RETURN usim_rel_mlv_dim.usim_n1_sign%TYPE
+  IS
+    l_result usim_rel_mlv_dim.usim_n1_sign%TYPE;
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_n1_sign INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_rmd = p_usim_id_rmd;
+      RETURN l_result;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_dim_n1_sign', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN NULL;
+    END IF;
+  END get_dim_n1_sign
+  ;
+
+  FUNCTION get_id_mlv(p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE)
+    RETURN usim_multiverse.usim_id_mlv%TYPE
+  IS
+    l_result usim_multiverse.usim_id_mlv%TYPE;
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_id_mlv INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_rmd = p_usim_id_rmd;
+      RETURN l_result;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_id_mlv', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN NULL;
+    END IF;
+  END get_id_mlv
+  ;
+
+  FUNCTION get_id_dim(p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE)
+    RETURN usim_dimension.usim_id_dim%TYPE
+  IS
+    l_result usim_dimension.usim_id_dim%TYPE;
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_id_dim INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_rmd = p_usim_id_rmd;
+      RETURN l_result;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_id_dim', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN NULL;
+    END IF;
+  END get_id_dim
+  ;
+
+  FUNCTION get_rmd_details( p_usim_id_rmd  IN  usim_rel_mlv_dim.usim_id_rmd%TYPE
+                          , p_usim_id_dim  OUT usim_dimension.usim_id_dim%TYPE
+                          , p_usim_sign    OUT usim_rel_mlv_dim.usim_sign%TYPE
+                          , p_usim_n1_sign OUT usim_rel_mlv_dim.usim_n1_sign%TYPE
+                          )
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_id_dim
+           , usim_sign
+           , usim_n1_sign
+        INTO p_usim_id_dim
+           , p_usim_sign
+           , p_usim_n1_sign
+        FROM usim_rel_mlv_dim
+       WHERE usim_id_rmd = p_usim_id_rmd
+      ;
+      RETURN 1;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_rmd_details', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN 0;
+    END IF;
+  END get_rmd_details
+  ;
+
+  FUNCTION get_rmd_details( p_usim_id_rmd       IN  usim_rel_mlv_dim.usim_id_rmd%TYPE
+                          , p_usim_n_dimension  OUT usim_dimension.usim_n_dimension%TYPE
+                          , p_usim_sign         OUT usim_rel_mlv_dim.usim_sign%TYPE
+                          , p_usim_n1_sign      OUT usim_rel_mlv_dim.usim_n1_sign%TYPE
+                          )
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_n_dimension
+           , usim_sign
+           , usim_n1_sign
+        INTO p_usim_n_dimension
+           , p_usim_sign
+           , p_usim_n1_sign
+        FROM usim_rmd_v
+       WHERE usim_id_rmd = p_usim_id_rmd
+      ;
+      RETURN 1;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_rmd_details', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN 0;
+    END IF;
+  END get_rmd_details
+  ;
+
+  FUNCTION get_rmd_details( p_usim_id_rmd  IN  usim_rel_mlv_dim.usim_id_rmd%TYPE
+                          , p_usim_id_mlv  OUT usim_multiverse.usim_id_mlv%TYPE
+                          , p_usim_id_dim  OUT usim_dimension.usim_id_dim%TYPE
+                          , p_usim_sign    OUT usim_rel_mlv_dim.usim_sign%TYPE
+                          , p_usim_n1_sign OUT usim_rel_mlv_dim.usim_n1_sign%TYPE
+                          )
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_rmd.has_data(p_usim_id_rmd) = 1
+    THEN
+      SELECT usim_id_mlv
+           , usim_id_dim
+           , usim_sign
+           , usim_n1_sign
+        INTO p_usim_id_mlv
+           , p_usim_id_dim
+           , p_usim_sign
+           , p_usim_n1_sign
+        FROM usim_rel_mlv_dim
+       WHERE usim_id_rmd = p_usim_id_rmd
+      ;
+      RETURN 1;
+    ELSE
+      usim_erl.log_error('usim_rmd.get_rmd_details', 'Used with not existing id [' || p_usim_id_rmd || '].');
+      RETURN 0;
+    END IF;
+  END get_rmd_details
+  ;
+
   FUNCTION get_ultimate_border(p_usim_id_rmd IN usim_rel_mlv_dim.usim_id_rmd%TYPE)
     RETURN usim_multiverse.usim_ultimate_border%TYPE
   IS
@@ -133,17 +259,26 @@ IS
   END get_ultimate_border
   ;
 
-  FUNCTION get_id_rmd( p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
-                     , p_usim_id_dim IN usim_dimension.usim_id_dim%TYPE
-                     , p_usim_sign   IN usim_rel_mlv_dim.usim_sign%TYPE   DEFAULT 1
+  FUNCTION get_id_rmd( p_usim_id_mlv  IN usim_multiverse.usim_id_mlv%TYPE
+                     , p_usim_id_dim  IN usim_dimension.usim_id_dim%TYPE
+                     , p_usim_sign    IN usim_rel_mlv_dim.usim_sign%TYPE   DEFAULT 1
+                     , p_usim_n1_sign IN usim_rel_mlv_dim.usim_n1_sign%TYPE
                      )
     RETURN usim_rel_mlv_dim.usim_id_rmd%TYPE
   IS
     l_result usim_rel_mlv_dim.usim_id_rmd%TYPE;
   BEGIN
-    IF usim_rmd.has_data(p_usim_id_mlv, p_usim_id_dim, p_usim_sign) = 1
+    IF usim_rmd.has_data(p_usim_id_mlv, p_usim_id_dim, p_usim_sign, p_usim_n1_sign) = 1
     THEN
-      SELECT usim_id_rmd INTO l_result FROM usim_rel_mlv_dim WHERE usim_id_mlv = p_usim_id_mlv AND usim_id_dim = p_usim_id_dim AND usim_sign = p_usim_sign;
+      SELECT usim_id_rmd
+        INTO l_result
+        FROM usim_rel_mlv_dim
+       WHERE usim_id_mlv          = p_usim_id_mlv
+         AND usim_id_dim          = p_usim_id_dim
+         AND usim_sign            = p_usim_sign
+             -- deal with 0 dimension
+         AND NVL(usim_n1_sign, 0) = NVL(p_usim_n1_sign, 0)
+      ;
       RETURN l_result;
     ELSE
       usim_erl.log_error('usim_rmd.get_id_rmd', 'Used with not existing universe id [' || p_usim_id_mlv || '] and dimension id [' || p_usim_id_dim || '].');
@@ -155,17 +290,19 @@ IS
   FUNCTION get_id_rmd( p_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
                      , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
                      , p_usim_sign        IN usim_rel_mlv_dim.usim_sign%TYPE      DEFAULT 1
+                     , p_usim_n1_sign     IN usim_rel_mlv_dim.usim_n1_sign%TYPE
                      )
     RETURN usim_rel_mlv_dim.usim_id_rmd%TYPE
   IS
     l_result usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_id_dim usim_dimension.usim_id_dim%TYPE;
   BEGIN
-    IF usim_rmd.dimension_exists(p_usim_id_mlv, p_usim_n_dimension, p_usim_sign) = 1
+    IF usim_dim.has_data(p_usim_n_dimension) = 1
     THEN
-      SELECT usim_id_rmd INTO l_result FROM usim_rmd_v WHERE usim_id_mlv = p_usim_id_mlv AND usim_n_dimension = p_usim_n_dimension AND usim_sign = p_usim_sign;
-      RETURN l_result;
+      l_id_dim := usim_dim.get_id_dim(p_usim_n_dimension);
+      RETURN usim_rmd.get_id_rmd(p_usim_id_mlv, l_id_dim, p_usim_sign, p_usim_n1_sign);
     ELSE
-      usim_erl.log_error('usim_rmd.get_id_rmd', 'Used with not existing universe id [' || p_usim_id_mlv || '] and dimension [' || p_usim_n_dimension || '].');
+      usim_erl.log_error('usim_rmd.get_id_rmd', 'Used with not existing dimension [' || p_usim_n_dimension || '].');
       RETURN NULL;
     END IF;
   END get_id_rmd
@@ -179,7 +316,8 @@ IS
                      )
     RETURN usim_rel_mlv_dim.usim_id_rmd%TYPE
   IS
-    l_result usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_result  usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_n1_sign usim_rel_mlv_dim.usim_n1_sign%TYPE;
   BEGIN
     IF     usim_dim.get_dimension(p_usim_id_dim) = 0
        AND p_usim_sign                          != 0
@@ -187,23 +325,28 @@ IS
       usim_erl.log_error('usim_rmd.insert_rmd', 'Used with wrong dimension id [' || p_usim_id_dim || '] for sign [' || p_usim_sign || '].');
       RETURN NULL;
     END IF;
-    IF (    usim_dim.get_dimension(p_usim_id_dim) > 1
+    IF (    usim_dim.get_dimension(p_usim_id_dim) > 0
         AND p_usim_n1_sign                   NOT IN (1, -1)
        ) OR
-       (    usim_dim.get_dimension(p_usim_id_dim) <= 1
+       (    usim_dim.get_dimension(p_usim_id_dim) = 0
         AND p_usim_n1_sign                        IS NOT NULL
        )
     THEN
       usim_erl.log_error('usim_rmd.insert_rmd', 'Used with wrong dimension id [' || p_usim_id_dim || '] for ancestor sign n = 1 [' || p_usim_n1_sign || '].');
       RETURN NULL;
     END IF;
-    IF usim_rmd.has_data(p_usim_id_mlv, p_usim_id_dim, p_usim_sign) = 1
+    IF usim_dim.get_dimension(p_usim_id_dim) = 1
     THEN
-      RETURN usim_rmd.get_id_rmd(p_usim_id_mlv, p_usim_id_dim);
+      l_n1_sign := p_usim_sign;
+    ELSE
+      l_n1_sign := p_usim_n1_sign;
+    END IF;
+    IF usim_rmd.has_data(p_usim_id_mlv, p_usim_id_dim, p_usim_sign, l_n1_sign) = 1
+    THEN
+      RETURN usim_rmd.get_id_rmd(p_usim_id_mlv, p_usim_id_dim, p_usim_sign, l_n1_sign);
     ELSE
       IF     usim_mlv.has_data(p_usim_id_mlv)         = 1
          AND usim_dim.has_data(p_usim_id_dim)         = 1
-         AND usim_rmd.overflow_reached(p_usim_id_mlv) = 0
          AND p_usim_sign                             IN (0, 1, -1)
       THEN
         INSERT INTO usim_rel_mlv_dim
@@ -216,7 +359,7 @@ IS
           ( p_usim_id_mlv
           , p_usim_id_dim
           , p_usim_sign
-          , p_usim_n1_sign
+          , l_n1_sign
           )
           RETURNING usim_id_rmd INTO l_result
         ;
@@ -250,22 +393,22 @@ IS
       usim_erl.log_error('usim_rmd.insert_rmd', 'Used with wrong dimension [' || p_usim_n_dimension || '] for sign [' || p_usim_sign || '].');
       RETURN NULL;
     END IF;
-    IF (    p_usim_n_dimension  > 1
+    IF (    p_usim_n_dimension > 0
         AND p_usim_n1_sign NOT IN (1, -1)
        ) OR
-       (    p_usim_n_dimension <= 1
+       (    p_usim_n_dimension = 0
         AND p_usim_n1_sign IS NOT NULL
        )
     THEN
       usim_erl.log_error('usim_rmd.insert_rmd', 'Used with wrong dimension [' || p_usim_n_dimension || '] for ancestor sign n = 1 [' || p_usim_n1_sign || '].');
       RETURN NULL;
     END IF;
-    IF usim_rmd.dimension_exists(p_usim_id_mlv, p_usim_n_dimension, p_usim_sign) = 1
+    IF usim_rmd.has_data(p_usim_id_mlv, p_usim_n_dimension, p_usim_sign, p_usim_n1_sign) = 1
     THEN
-      RETURN usim_rmd.get_id_rmd(p_usim_id_mlv, p_usim_n_dimension, p_usim_sign);
+      RETURN usim_rmd.get_id_rmd(p_usim_id_mlv, p_usim_n_dimension, p_usim_sign, p_usim_n1_sign);
     ELSE
       IF     usim_mlv.has_data(p_usim_id_mlv)              = 1
-         AND usim_dim.dimension_exists(p_usim_n_dimension) = 1
+         AND usim_dim.has_data(p_usim_n_dimension)         = 1
          AND p_usim_sign                                  IN (0, 1, -1)
       THEN
         l_usim_id_dim := usim_dim.get_id_dim(p_usim_n_dimension);

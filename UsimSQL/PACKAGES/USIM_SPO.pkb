@@ -33,32 +33,6 @@ IS
   END has_data
   ;
 
-  FUNCTION is_dim_axis(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_result NUMBER;
-  BEGIN
-    IF usim_spo.has_data(p_usim_id_spc) = 1
-    THEN
-      IF usim_pos.get_coordinate(usim_spc.get_id_pos(p_usim_id_spc)) = 0
-      THEN
-        RETURN 1;
-      ELSE
-        SELECT COUNT(*)
-          INTO l_result
-          FROM usim_spo_v
-         WHERE usim_id_spc = p_usim_id_spc
-           AND usim_coordinate != 0
-        ;
-        RETURN (CASE WHEN l_result = 1 THEN l_result ELSE 0 END);
-      END IF;
-    ELSE
-      usim_erl.log_error('usim_spo.is_dim_axis', 'Used with space id [' || p_usim_id_spc || '] not in USIM_SPC_POS.');
-      RETURN 0;
-    END IF;
-  END is_dim_axis
-  ;
-
   FUNCTION get_xyz(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN VARCHAR2
   IS
@@ -66,24 +40,7 @@ IS
   BEGIN
     IF usim_spo.has_data(p_usim_id_spc) = 1
     THEN
-        WITH xyz AS
-             (SELECT LEVEL AS usim_n_dimension
-                FROM dual
-              CONNECT BY LEVEL <= 3
-             )
-           , coords AS
-             (SELECT usim_n_dimension
-                   , usim_coordinate
-                FROM usim_spo_v
-               WHERE usim_id_spc = p_usim_id_spc
-             )
-      SELECT LISTAGG(NVL(coords.usim_coordinate, 0), ',')
-        INTO l_result
-        FROM xyz
-        LEFT OUTER JOIN coords
-          ON xyz.usim_n_dimension = coords.usim_n_dimension
-       ORDER BY xyz.usim_n_dimension
-      ;
+      l_result := '' || usim_spo.get_dim_coord(p_usim_id_spc, 1) || ',' || usim_spo.get_dim_coord(p_usim_id_spc, 2) || ',' || usim_spo.get_dim_coord(p_usim_id_spc, 3);
       RETURN TRIM(l_result);
     ELSE
       usim_erl.log_error('usim_spo.get_xyz', 'Used with space id [' || p_usim_id_spc || '] not in USIM_SPC_POS.');
@@ -129,6 +86,8 @@ IS
                          )
     RETURN NUMBER
   IS
+    l_dim usim_dimension.usim_n_dimension%TYPE;
+
     CURSOR cur_dims( cp_usim_id_spc        IN usim_space.usim_id_spc%TYPE
                    , cp_usim_id_spc_parent IN usim_space.usim_id_spc%TYPE
                    )
@@ -184,12 +143,15 @@ IS
       END LOOP;
     ELSE
       -- if parent is NULL and dimension is 0, everything okay, only one entry otherwise error
-      IF    p_usim_id_spc_parent                  IS NOT NULL
-         OR usim_spc.get_dimension(p_usim_id_spc) != 0
+      IF p_usim_id_spc_parent IS NOT NULL
       THEN
-        ROLLBACK;
-        usim_erl.log_error('usim_spo.insert_spc_pos', 'Used with invalid parent space id [' || p_usim_id_spc_parent || '] or wrong dimension > 0.');
-        RETURN 0;
+        SELECT usim_n_dimension INTO l_dim FROM usim_spc_v WHERE usim_id_spc = p_usim_id_spc;
+        IF l_dim != 0
+        THEN
+          ROLLBACK;
+          usim_erl.log_error('usim_spo.insert_spc_pos', 'Used with invalid parent space id [' || p_usim_id_spc_parent || '] or wrong dimension > 0.');
+          RETURN 0;
+        END IF;
       END IF;
     END IF;
     -- everything done, do commit if needed
@@ -198,11 +160,6 @@ IS
       COMMIT;
     END IF;
     RETURN 1;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK;
-      usim_erl.log_error('usim_spo.insert_spc_pos', 'Error executing function: ' || SQLERRM);
-      RETURN 0;
   END insert_spc_pos
   ;
 

@@ -4,6 +4,7 @@ CREATE OR REPLACE FORCE VIEW usim_spo_v AS
        , spo.usim_id_rmd
        , spo.usim_id_pos
        , rmdv.usim_sign AS dim_sign
+       , rmdv.usim_n1_sign AS dim_n1_sign
        , rmdv.usim_n_dimension
        , pos.usim_coordinate
        , rmdv.usim_id_mlv

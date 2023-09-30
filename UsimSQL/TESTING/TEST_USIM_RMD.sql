@@ -24,7 +24,7 @@ BEGIN
   COMMIT;
   usim_base.init_basedata;
   l_usim_id_mlv := usim_mlv.insert_universe;
-  l_usim_id_dim := usim_dim.insert_next_dimension;
+  l_usim_id_dim := usim_dim.insert_dimension(0);
   IF usim_rmd.has_data = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not have data with empty table.';
@@ -43,7 +43,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '003';
-  IF usim_rmd.has_data(l_usim_id_mlv, l_usim_id_dim) = 1
+  IF usim_rmd.has_data(l_usim_id_mlv, l_usim_id_dim, 0, NULL) = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not have universe/dimension data with empty table.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -52,7 +52,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '004';
-  IF usim_rmd.dimension_exists(l_usim_id_mlv, 0) = 1
+  IF usim_rmd.has_data(l_usim_id_mlv, 0, 0, NULL) = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not have universe/n dimension data with empty table.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -61,7 +61,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '005';
-  l_usim_id_rmd := usim_rmd.get_id_rmd(l_usim_id_mlv, l_usim_id_dim);
+  l_usim_id_rmd := usim_rmd.get_id_rmd(l_usim_id_mlv, l_usim_id_dim, 0, NULL);
   IF l_usim_id_rmd IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_rmd || '] should not get id for universe/dimension with empty table.';
@@ -71,7 +71,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '006';
-  l_usim_id_rmd := usim_rmd.get_id_rmd(l_usim_id_mlv, 0);
+  l_usim_id_rmd := usim_rmd.get_id_rmd(l_usim_id_mlv, 0, 0, NULL);
   IF l_usim_id_rmd IS NOT NULL
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_usim_id_rmd || '] should not get id for universe/n dimension with empty table.';
@@ -115,7 +115,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '010';
-  IF usim_rmd.has_data(l_usim_id_mlv, l_usim_id_dim) = 0
+  IF usim_rmd.has_data(l_usim_id_mlv, l_usim_id_dim, 0, NULL) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for universe and dimension id.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -133,7 +133,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '012';
-  IF usim_rmd.dimension_exists(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0) = 0
+  IF usim_rmd.has_data(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0, NULL) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for dimension.';
     usim_test.log_error(l_test_id, l_fail_message);
@@ -142,7 +142,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '013';
-  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, l_usim_id_dim, 0);
+  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, l_usim_id_dim, 0, NULL);
   IF TRIM(l_sql_char_result) != l_usim_id_rmd
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for universe and dimension id.';
@@ -152,7 +152,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   l_run_id := '014';
-  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0);
+  l_sql_char_result := usim_rmd.get_id_rmd(l_usim_id_mlv, usim_dim.get_dimension(l_usim_id_dim), 0, NULL);
   IF TRIM(l_sql_char_result) != l_usim_id_rmd
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should have data for universe id and dimension.';
@@ -166,40 +166,6 @@ BEGIN
   IF TRIM(l_sql_char_result) != l_usim_id_rmd
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should return existing id for universe id and dimension.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-
-  l_test_section := 'Overflow function';
-  l_run_id := '016';
-  -- setup for overflow
-  DELETE usim_basedata;
-  DELETE usim_multiverse;
-  DELETE usim_dimension;
-  DELETE usim_rel_mlv_dim;
-  COMMIT;
-  usim_base.init_basedata(p_max_dimension => 2);
-  l_usim_id_mlv := usim_mlv.insert_universe;
-  l_usim_id_dim := usim_dim.insert_next_dimension; -- 0
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 0, NULL);
-  l_usim_id_dim := usim_dim.insert_next_dimension; -- 1
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 1, NULL);
-  IF usim_rmd.overflow_reached(l_usim_id_mlv) = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should not reach overflow below max.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '017';
-  l_usim_id_dim := usim_dim.insert_next_dimension; -- 2
-  l_usim_id_rmd := usim_rmd.insert_rmd(l_usim_id_mlv, l_usim_id_dim, 1, 1);
-  IF usim_rmd.overflow_reached(l_usim_id_mlv) = 0
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': should reach overflow on max.';
     usim_test.log_error(l_test_id, l_fail_message);
     l_tests_failed := l_tests_failed + 1;
   ELSE

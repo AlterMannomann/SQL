@@ -21,6 +21,16 @@ IS
   END has_data
   ;
 
+  FUNCTION has_base
+    RETURN NUMBER
+  IS
+    l_result  NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO l_result FROM usim_multiverse WHERE usim_is_base_universe = 1;
+    RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
+  END has_base
+  ;
+
   FUNCTION is_base(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN NUMBER
   IS
@@ -37,130 +47,20 @@ IS
   END is_base
   ;
 
-  FUNCTION insert_universe( p_usim_energy_start_value IN usim_multiverse.usim_energy_start_value%TYPE DEFAULT 1
-                          , p_usim_planck_time_unit   IN usim_multiverse.usim_planck_time_unit%TYPE   DEFAULT 1
-                          , p_usim_planck_length_unit IN usim_multiverse.usim_planck_length_unit%TYPE DEFAULT 1
-                          , p_usim_planck_speed_unit  IN usim_multiverse.usim_planck_speed_unit%TYPE  DEFAULT 1
-                          , p_usim_planck_stable      IN usim_multiverse.usim_planck_stable%TYPE      DEFAULT 1
-                          , p_usim_ultimate_border    IN usim_multiverse.usim_ultimate_border%TYPE    DEFAULT 1
-                          , p_do_commit               IN BOOLEAN                                      DEFAULT TRUE
-                          )
-    RETURN usim_multiverse.usim_id_mlv%TYPE
+  FUNCTION get_state(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN usim_multiverse.usim_universe_status%TYPE
   IS
-    l_usim_energy_start_value usim_multiverse.usim_energy_start_value%TYPE;
-    l_usim_planck_time_unit   usim_multiverse.usim_planck_time_unit%TYPE;
-    l_usim_planck_length_unit usim_multiverse.usim_planck_length_unit%TYPE;
-    l_usim_planck_speed_unit  usim_multiverse.usim_planck_speed_unit%TYPE;
-    l_usim_planck_stable      usim_multiverse.usim_planck_stable%TYPE;
-    l_usim_ultimate_border    usim_multiverse.usim_ultimate_border%TYPE;
-    l_usim_is_base_universe   usim_multiverse.usim_is_base_universe%TYPE;
-    l_usim_id_mlv             usim_multiverse.usim_id_mlv%TYPE;
-  BEGIN
-    l_usim_id_mlv := NULL;
-    IF usim_base.has_basedata = 1
-    THEN
-      -- check value constraints and set defaults
-      IF usim_mlv.has_data = 1
-      THEN
-        l_usim_is_base_universe := 0;
-      ELSE
-        l_usim_is_base_universe := 1;
-      END IF;
-      IF p_usim_ultimate_border IN (0, 1)
-      THEN
-        l_usim_ultimate_border := p_usim_ultimate_border;
-      ELSE
-        l_usim_ultimate_border := 1;
-      END IF;
-      IF p_usim_planck_stable IN (0, 1)
-      THEN
-        l_usim_planck_stable := p_usim_planck_stable;
-      ELSE
-        l_usim_planck_stable := 1;
-      END IF;
-      IF NVL(p_usim_planck_time_unit, 0) = 0
-      THEN
-        l_usim_planck_time_unit := 1;
-      ELSE
-        l_usim_planck_time_unit := ABS(p_usim_planck_time_unit);
-      END IF;
-      IF NVL(p_usim_planck_length_unit, 0) = 0
-      THEN
-        l_usim_planck_length_unit := 1;
-      ELSE
-        l_usim_planck_length_unit := ABS(p_usim_planck_length_unit);
-      END IF;
-      IF NVL(p_usim_planck_speed_unit, 0) = 0
-      THEN
-        l_usim_planck_speed_unit := 1;
-      ELSE
-        l_usim_planck_speed_unit := ABS(p_usim_planck_speed_unit);
-      END IF;
-      IF NVL(p_usim_energy_start_value, 0) = 0
-      THEN
-        l_usim_energy_start_value := 1;
-      ELSE
-        l_usim_energy_start_value := ABS(p_usim_energy_start_value);
-      END IF;
-
-      -- insert the found values
-      INSERT INTO usim_multiverse
-        ( usim_is_base_universe
-        , usim_energy_start_value
-        , usim_planck_time_unit
-        , usim_planck_length_unit
-        , usim_planck_speed_unit
-        , usim_planck_stable
-        , usim_ultimate_border
-        )
-        VALUES
-        ( l_usim_is_base_universe
-        , l_usim_energy_start_value
-        , l_usim_planck_time_unit
-        , l_usim_planck_length_unit
-        , l_usim_planck_speed_unit
-        , l_usim_planck_stable
-        , l_usim_ultimate_border
-        )
-        RETURNING usim_id_mlv INTO l_usim_id_mlv
-      ;
-      IF p_do_commit
-      THEN
-        COMMIT;
-      END IF;
-    END IF;
-    RETURN l_usim_id_mlv;
-  END insert_universe
-  ;
-
-  FUNCTION update_energy( p_usim_id_mlv          IN usim_multiverse.usim_id_mlv%TYPE
-                        , p_usim_energy_positive IN usim_multiverse.usim_energy_positive%TYPE
-                        , p_usim_energy_negative IN usim_multiverse.usim_energy_negative%TYPE
-                        , p_do_commit            IN BOOLEAN                                    DEFAULT TRUE
-                        )
-    RETURN NUMBER
-  IS
-    l_usim_energy_positive usim_multiverse.usim_energy_positive%TYPE;
-    l_usim_energy_negative usim_multiverse.usim_energy_negative%TYPE;
+    l_result usim_multiverse.usim_universe_status%TYPE;
   BEGIN
     IF usim_mlv.has_data(p_usim_id_mlv) = 1
     THEN
-      l_usim_energy_positive := NVL(p_usim_energy_positive, 0);
-      l_usim_energy_negative := NVL(p_usim_energy_negative, 0);
-      UPDATE usim_multiverse
-         SET usim_energy_positive = l_usim_energy_positive
-           , usim_energy_negative = l_usim_energy_negative
-       WHERE usim_id_mlv = p_usim_id_mlv
-      ;
-      IF p_do_commit
-      THEN
-        COMMIT;
-      END IF;
-      RETURN 1;
+      SELECT usim_universe_status INTO l_result FROM usim_multiverse WHERE usim_id_mlv = p_usim_id_mlv;
+      RETURN l_result;
     ELSE
-      RETURN 0;
+      usim_erl.log_error('usim_mlv.get_state', 'Used with not existing universe id [' || p_usim_id_mlv || '].');
+      RETURN NULL;
     END IF;
-  END update_energy
+  END get_state
   ;
 
   FUNCTION get_planck_stable(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
@@ -193,6 +93,128 @@ IS
     END IF;
     RETURN l_result;
   END get_ultimate_border
+  ;
+
+  FUNCTION insert_universe( p_usim_energy_start_value IN usim_multiverse.usim_energy_start_value%TYPE DEFAULT 1
+                          , p_usim_planck_time_unit   IN usim_multiverse.usim_planck_time_unit%TYPE   DEFAULT 1
+                          , p_usim_planck_length_unit IN usim_multiverse.usim_planck_length_unit%TYPE DEFAULT 1
+                          , p_usim_planck_speed_unit  IN usim_multiverse.usim_planck_speed_unit%TYPE  DEFAULT 1
+                          , p_usim_planck_stable      IN usim_multiverse.usim_planck_stable%TYPE      DEFAULT 1
+                          , p_usim_ultimate_border    IN usim_multiverse.usim_ultimate_border%TYPE    DEFAULT 1
+                          , p_do_commit               IN BOOLEAN                                      DEFAULT TRUE
+                          )
+    RETURN usim_multiverse.usim_id_mlv%TYPE
+  IS
+    l_usim_energy_start_value usim_multiverse.usim_energy_start_value%TYPE;
+    l_usim_planck_time_unit   usim_multiverse.usim_planck_time_unit%TYPE;
+    l_usim_planck_length_unit usim_multiverse.usim_planck_length_unit%TYPE;
+    l_usim_planck_speed_unit  usim_multiverse.usim_planck_speed_unit%TYPE;
+    l_usim_planck_stable      usim_multiverse.usim_planck_stable%TYPE;
+    l_usim_ultimate_border    usim_multiverse.usim_ultimate_border%TYPE;
+    l_usim_is_base_universe   usim_multiverse.usim_is_base_universe%TYPE;
+    l_usim_id_mlv             usim_multiverse.usim_id_mlv%TYPE;
+  BEGIN
+    l_usim_id_mlv := NULL;
+    -- check value constraints and set defaults
+    IF usim_mlv.has_base = 1
+    THEN
+      l_usim_is_base_universe := 0;
+    ELSE
+      l_usim_is_base_universe := 1;
+    END IF;
+    IF p_usim_ultimate_border IN (0, 1)
+    THEN
+      l_usim_ultimate_border := p_usim_ultimate_border;
+    ELSE
+      l_usim_ultimate_border := 1;
+    END IF;
+    IF p_usim_planck_stable IN (0, 1)
+    THEN
+      l_usim_planck_stable := p_usim_planck_stable;
+    ELSE
+      l_usim_planck_stable := 1;
+    END IF;
+    IF NVL(p_usim_planck_time_unit, 0) = 0
+    THEN
+      l_usim_planck_time_unit := 1;
+    ELSE
+      l_usim_planck_time_unit := ABS(p_usim_planck_time_unit);
+    END IF;
+    IF NVL(p_usim_planck_length_unit, 0) = 0
+    THEN
+      l_usim_planck_length_unit := 1;
+    ELSE
+      l_usim_planck_length_unit := ABS(p_usim_planck_length_unit);
+    END IF;
+    IF NVL(p_usim_planck_speed_unit, 0) = 0
+    THEN
+      l_usim_planck_speed_unit := 1;
+    ELSE
+      l_usim_planck_speed_unit := ABS(p_usim_planck_speed_unit);
+    END IF;
+    IF NVL(p_usim_energy_start_value, 0) = 0
+    THEN
+      l_usim_energy_start_value := 1;
+    ELSE
+      l_usim_energy_start_value := ABS(p_usim_energy_start_value);
+    END IF;
+    -- insert the found values
+    INSERT INTO usim_multiverse
+      ( usim_is_base_universe
+      , usim_energy_start_value
+      , usim_planck_time_unit
+      , usim_planck_length_unit
+      , usim_planck_speed_unit
+      , usim_planck_stable
+      , usim_ultimate_border
+      )
+      VALUES
+      ( l_usim_is_base_universe
+      , l_usim_energy_start_value
+      , l_usim_planck_time_unit
+      , l_usim_planck_length_unit
+      , l_usim_planck_speed_unit
+      , l_usim_planck_stable
+      , l_usim_ultimate_border
+      )
+      RETURNING usim_id_mlv INTO l_usim_id_mlv
+    ;
+    IF p_do_commit
+    THEN
+      COMMIT;
+    END IF;
+    RETURN l_usim_id_mlv;
+  END insert_universe
+  ;
+
+  FUNCTION update_state( p_usim_id_mlv          IN usim_multiverse.usim_id_mlv%TYPE
+                       , p_usim_universe_status IN usim_multiverse.usim_universe_status%TYPE
+                       , p_do_commit            IN BOOLEAN                                   DEFAULT TRUE
+                       )
+    RETURN usim_multiverse.usim_universe_status%TYPE
+  IS
+  BEGIN
+    IF     usim_mlv.has_data(p_usim_id_mlv)  = 1
+       AND p_usim_universe_status           IN ( usim_static.usim_multiverse_status_dead
+                                               , usim_static.usim_multiverse_status_crashed
+                                               , usim_static.usim_multiverse_status_active
+                                               , usim_static.usim_multiverse_status_inactive
+                                               )
+    THEN
+      UPDATE usim_multiverse
+         SET usim_universe_status = p_usim_universe_status
+       WHERE usim_id_mlv = p_usim_id_mlv
+      ;
+      IF p_do_commit
+      THEN
+        COMMIT;
+      END IF;
+      RETURN p_usim_universe_status;
+    ELSE
+      usim_erl.log_error('usim_mlv.update_state', 'Used with not existing universe id [' || p_usim_id_mlv || '] or wrong state [' || p_usim_universe_status || '].');
+      RETURN NULL;
+    END IF;
+  END update_state
   ;
 
   FUNCTION update_planck_unit_time_speed( p_usim_id_mlv             IN usim_multiverse.usim_id_mlv%TYPE
@@ -234,6 +256,7 @@ IS
       END IF;
       RETURN 1;
     ELSE
+      usim_erl.log_error('usim_mlv.update_planck_unit_time_speed', 'Used with not existing universe id [' || p_usim_id_mlv || '] or planck stable is set.');
       RETURN 0;
     END IF;
   END update_planck_unit_time_speed
@@ -278,6 +301,7 @@ IS
       END IF;
       RETURN 1;
     ELSE
+      usim_erl.log_error('usim_mlv.update_planck_unit_time_length', 'Used with not existing universe id [' || p_usim_id_mlv || '] or planck stable is set.');
       RETURN 0;
     END IF;
   END update_planck_unit_time_length
@@ -322,6 +346,7 @@ IS
       END IF;
       RETURN 1;
     ELSE
+      usim_erl.log_error('usim_mlv.update_planck_unit_speed_length', 'Used with not existing universe id [' || p_usim_id_mlv || '] or planck stable is set.');
       RETURN 0;
     END IF;
   END update_planck_unit_speed_length

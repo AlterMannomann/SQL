@@ -3,12 +3,15 @@ IS
   /**A package providing creator function on objects needed */
 
   /**
-  * Writes a given CLOB with JSON data to usim_space_log.json in directory USIM_DIR. Copies existing files
-  * to the directory USIM_HIST_DIR and renames them to usim_space_log_YYYYMMDDHH24MISS.json.
-  * @param p_json_clob The JSON formatted CLOB to write to usim_space_log.json.
+  * Writes a given CLOB with JSON data to the given filename with extension .json in directory USIM_DIR. Copies existing files
+  * to the directory USIM_HIST_DIR and renames them to [filename]_YYYYMMDDHH24MISS.json.
+  * @param p_json_clob The JSON formatted CLOB to write to [p_filename].json.
+  * @param p_filename The filename for the JSON file to write. Do not use special chars and spaces. Lenght limited to 100.
   * @return Return 1 if file was written, 0 on errors.
   */
-  FUNCTION write_json_log(p_json_clob IN CLOB)
+  FUNCTION write_json_log( p_json_clob IN CLOB
+                         , p_filename  IN VARCHAR2 DEFAULT 'usim_space_log'
+                         )
     RETURN NUMBER
   ;
 
@@ -31,6 +34,18 @@ IS
   ;
 
   /**
+  * Builds a JSON representation of the USIM_SPACE content in means of coordinates and child relations.
+  * No limitation in size, may lead to load problems in case of big files.
+  * @param p_usim_id_mlv The universe id to get a JSON coordinate structure for.
+  * @return Return 1 if structure was completely delivered or -1 on errors.
+  */
+  FUNCTION get_json_struct( p_usim_id_mlv IN  usim_multiverse.usim_id_mlv%TYPE
+                          , p_json_struct OUT CLOB
+                          )
+    RETURN NUMBER
+  ;
+
+  /**
   * Writes a space log file in JSON format with maximum size of roughly 5 MB. The name of the file
   * is fixed to usim_space_log.json. The file is written to the directory USIM_DIR. If a file already
   * exists, it is copied before to the directory USIM_HIST_DIR and renamed to a unique file name by
@@ -47,6 +62,21 @@ IS
                            , p_from_planck_time IN usim_spc_process.usim_planck_time%TYPE
                            , p_to_planck_time   IN usim_spc_process.usim_planck_time%TYPE
                            )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Writes a space structure file in JSON format. The name of the file is fixed to usim_space_struct.json.
+  * The file is written to the directory USIM_DIR. If a file already exists, it is copied before to the directory
+  * USIM_HIST_DIR and renamed to a unique file name by current date extension.
+  * @param p_usim_id_mlv The universe id to get a JSON coordinate structure for.
+  * @return Return 1 if operation was successful otherwise 0.
+  */
+  FUNCTION create_json_struct(p_usim_id_mlv IN  usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  FUNCTION create_next_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   ;
 

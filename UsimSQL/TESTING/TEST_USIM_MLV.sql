@@ -337,52 +337,10 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
 
-  l_test_section := 'Fifth universe update energy and check state';
+  l_test_section := 'Fifth universe check state';
   l_run_id := '032';
-  l_usim_id_mlv := usim_mlv.insert_universe(p_do_commit => FALSE);
-  ROLLBACK;
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, 0, 10);
-  IF l_sql_number_result != 0
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': update [' || l_sql_number_result || '] energy on not existing universe [' || l_usim_id_mlv || '] NOT 0.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '033';
   l_usim_id_mlv := usim_mlv.insert_universe;
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, 10, -10);
-  IF l_sql_number_result != 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': update [' || l_sql_number_result || '] energy fails on existing universe [' || l_usim_id_mlv || '] NOT 0.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  -- check values and state
-  l_run_id := '034';
-  SELECT usim_energy_positive INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != 10
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy_positive [' || l_sql_number_result || '] after update NOT 10.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '035';
-  SELECT usim_energy_negative INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != -10
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy_negative [' || l_sql_number_result || '] after update NOT -10.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '036';
+  l_sql_number_result := usim_mlv.update_state(l_usim_id_mlv, usim_static.usim_multiverse_status_active);
   SELECT usim_universe_status INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != usim_static.usim_multiverse_status_active
   THEN
@@ -392,8 +350,8 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '037';
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, NULL, NULL);
+  l_run_id := '033';
+  l_sql_number_result := usim_mlv.update_state(l_usim_id_mlv, usim_static.usim_multiverse_status_dead);
   SELECT usim_universe_status INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != usim_static.usim_multiverse_status_dead
   THEN
@@ -403,19 +361,8 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '038';
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, 0, 0);
-  SELECT usim_universe_status INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != usim_static.usim_multiverse_status_dead
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_universe_status [' || l_sql_number_result || '] after update 0 NOT dead [' || usim_static.usim_multiverse_status_dead || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '039';
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, 10, NULL);
+  l_run_id := '034';
+  l_sql_number_result := usim_mlv.update_state(l_usim_id_mlv, usim_static.usim_multiverse_status_crashed);
   SELECT usim_universe_status INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != usim_static.usim_multiverse_status_crashed
   THEN
@@ -425,56 +372,9 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '040';
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, NULL, -10);
-  SELECT usim_universe_status INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != usim_static.usim_multiverse_status_crashed
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_universe_status [' || l_sql_number_result || '] after update only negative energy NOT crashed [' || usim_static.usim_multiverse_status_crashed || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '041';
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, -10, -10);
-  SELECT usim_universe_status INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != usim_static.usim_multiverse_status_crashed
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_universe_status [' || l_sql_number_result || '] after update of not equilibrated energy NOT crashed [' || usim_static.usim_multiverse_status_crashed || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-
-  l_test_section := 'Fifth universe update check do commit';
-  l_run_id := '042';
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, 10, -10);
-  l_sql_number_result := usim_mlv.update_energy(l_usim_id_mlv, 20, -20, FALSE);
-  ROLLBACK;
-  SELECT usim_energy_positive INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != 10
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy_positive [' || l_sql_number_result || '] after update rollback NOT 10.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '043';
-  SELECT usim_energy_negative INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
-  IF l_sql_number_result != -10
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy_negative [' || l_sql_number_result || '] after update rollback NOT -10.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
 
   l_test_section := 'Planck units update and planck stable 1';
-  l_run_id := '044';
+  l_run_id := '035';
   l_usim_id_mlv := usim_mlv.insert_universe(p_usim_planck_stable => 1);
   SELECT usim_mlv.get_planck_stable(l_usim_id_mlv) INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 1
@@ -485,7 +385,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '045';
+  l_run_id := '036';
   SELECT usim_mlv.get_planck_stable('NO_VALID_ID') INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != -1
   THEN
@@ -495,7 +395,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '046';
+  l_run_id := '037';
   l_sql_number_result := usim_mlv.update_planck_unit_time_speed(l_usim_id_mlv, 1, 1);
   IF l_sql_number_result != 0
   THEN
@@ -505,7 +405,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '047';
+  l_run_id := '038';
   l_sql_number_result := usim_mlv.update_planck_unit_time_length(l_usim_id_mlv, 1, 1);
   IF l_sql_number_result != 0
   THEN
@@ -515,7 +415,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '048';
+  l_run_id := '039';
   l_sql_number_result := usim_mlv.update_planck_unit_speed_length(l_usim_id_mlv, 1, 1);
   IF l_sql_number_result != 0
   THEN
@@ -527,7 +427,7 @@ BEGIN
   END IF;
 
   l_test_section := 'Planck units update and planck stable 0';
-  l_run_id := '049';
+  l_run_id := '040';
   l_usim_id_mlv := usim_mlv.insert_universe(p_usim_planck_stable => 0);
   SELECT usim_mlv.get_planck_stable(l_usim_id_mlv) INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 0
@@ -538,7 +438,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '050';
+  l_run_id := '041';
   l_sql_number_result := usim_mlv.update_planck_unit_time_speed(l_usim_id_mlv, 2, 2);
   IF l_sql_number_result != 1
   THEN
@@ -548,7 +448,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '051';
+  l_run_id := '042';
   SELECT usim_planck_time_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 2
   THEN
@@ -558,7 +458,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '052';
+  l_run_id := '043';
   SELECT usim_planck_speed_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 2
   THEN
@@ -568,7 +468,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '053';
+  l_run_id := '044';
   SELECT usim_planck_length_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 4
   THEN
@@ -578,7 +478,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '054';
+  l_run_id := '045';
   l_sql_number_result := usim_mlv.update_planck_unit_time_length(l_usim_id_mlv, 3, 9);
   SELECT usim_planck_time_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 3
@@ -589,7 +489,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '055';
+  l_run_id := '046';
   SELECT usim_planck_length_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 9
   THEN
@@ -599,7 +499,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '056';
+  l_run_id := '047';
   SELECT usim_planck_speed_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 3
   THEN
@@ -609,7 +509,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '057';
+  l_run_id := '048';
   l_sql_number_result := usim_mlv.update_planck_unit_speed_length(l_usim_id_mlv, 2, 4);
   SELECT usim_planck_speed_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 2
@@ -620,7 +520,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '058';
+  l_run_id := '049';
   SELECT usim_planck_length_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 4
   THEN
@@ -630,7 +530,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '059';
+  l_run_id := '050';
   SELECT usim_planck_time_unit INTO l_sql_number_result FROM usim_multiverse WHERE usim_id_mlv = l_usim_id_mlv;
   IF l_sql_number_result != 2
   THEN
@@ -642,8 +542,7 @@ BEGIN
   END IF;
 
   l_test_section := 'Check base universe';
-  l_run_id := '060';
-  DELETE usim_basedata;
+  l_run_id := '051';
   DELETE usim_multiverse;
   COMMIT;
   IF usim_mlv.is_base('NOT EXISTS') IS NOT NULL
@@ -654,7 +553,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '061';
+  l_run_id := '052';
   l_usim_id_mlv := usim_mlv.insert_universe;
   IF usim_mlv.is_base(l_usim_id_mlv) != 1
   THEN
@@ -664,7 +563,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '062';
+  l_run_id := '053';
   l_usim_id_mlv := usim_mlv.insert_universe;
   IF usim_mlv.is_base(l_usim_id_mlv) != 0
   THEN

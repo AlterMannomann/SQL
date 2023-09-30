@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-16.09.2023 19:46:45 XEPDB1                         USIM_TEST                      Adi
+30.09.2023 15:40:47 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -36,870 +36,622 @@ Remove all USIM objects if needed.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."
+../PACKAGES/DROP/DROP_USIM_STATIC_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package body USIM_STATIC does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_STATIC gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."
+../PACKAGES/DROP/DROP_USIM_STATIC_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------------
-Nothing to do. Package header USIM_STATIC does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_STATIC gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."
+../PACKAGES/DROP/DROP_USIM_MATHS_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package body USIM_MATHS does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_MATHS gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."
+../PACKAGES/DROP/DROP_USIM_MATHS_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------------
-Nothing to do. Package header USIM_MATHS does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_MATHS gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_DLG_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_ERL_TICK_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_ERL_TICK_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------------
-Nothing to do. Sequence USIM_ERL_TICK_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_ERL_TICK_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_MLV_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_MLV_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_MLV_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_PLANCK_TIME_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------------
-Nothing to do. Sequence USIM_PLANCK_TIME_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_PLANCK_TIME_SEQ gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_PLANCK_AEON_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------------
-Nothing to do. Sequence USIM_PLANCK_AEON_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_PLANCK_AEON_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_DIM_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_DIM_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_DIM_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_TSU_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_TSU_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_POS_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_POS_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_POS_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_NOD_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_NOD_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_NOD_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_NOD_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMD_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_RMD_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_RMD_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Sequence USIM_SPC_ID_SEQ does not exist."
+../SEQUENCES/DROP/DROP_USIM_SPC_ID_SEQ.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Sequence USIM_SPC_ID_SEQ does not exist.
-
-1 Zeile ausgewählt.
+Sequence USIM_SPC_ID_SEQ gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_MLV_FK does not exist."
+../FK/DROP/DROP_USIM_RMD_MLV_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_RMD_MLV_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_MLV_DIM geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_DIM_FK does not exist."
+../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_RMD_DIM_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_MLV_DIM geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_POS_FK does not exist."
+../FK/DROP/DROP_USIM_SPC_POS_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPC_POS_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPACE geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_NOD_FK does not exist."
+../FK/DROP/DROP_USIM_SPC_NOD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPC_NOD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPACE geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_RMD_FK does not exist."
+../FK/DROP/DROP_USIM_SPC_RMD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPC_RMD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPACE geändert.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_CHI_PARENT_FK does not exist."
+../FK/DROP/DROP_USIM_CHI_PARENT_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------------
-Nothing to do. Foreign key USIM_CHI_PARENT_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_CHILD geändert.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_CHI_CHILD_FK does not exist."
+../FK/DROP/DROP_USIM_CHI_CHILD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------------
-Nothing to do. Foreign key USIM_CHI_CHILD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_CHILD geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_SPC_FK does not exist."
+../FK/DROP/DROP_USIM_SPO_SPC_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPO_SPC_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_POS geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_RMD_FK does not exist."
+../FK/DROP/DROP_USIM_SPO_RMD_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPO_RMD_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_POS geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_POS_FK does not exist."
+../FK/DROP/DROP_USIM_SPO_POS_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPO_POS_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_POS geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPR_SRC_FK does not exist."
+../FK/DROP/DROP_USIM_SPR_SRC_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPR_SRC_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_PROCESS geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPR_TGT_FK does not exist."
+../FK/DROP/DROP_USIM_SPR_TGT_FK.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Foreign key USIM_SPR_TGT_FK does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_PROCESS geändert.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_RMD_V does not exist."
+../VIEW/DROP/DROP_USIM_RMD_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. View USIM_RMD_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_RMD_V gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_SPC_CHI_V does not exist."
+../VIEW/DROP/DROP_USIM_SPC_CHI_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------
-Nothing to do. View USIM_SPC_CHI_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_SPC_CHI_V gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_SPC_V does not exist."
+../VIEW/DROP/DROP_USIM_SPC_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. View USIM_SPC_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_SPC_V gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_CHI_V does not exist."
+../VIEW/DROP/DROP_USIM_CHI_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. View USIM_CHI_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_CHI_V gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_V does not exist."
+../VIEW/DROP/DROP_USIM_SPO_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. View USIM_SPO_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_SPO_V gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_XYZ_V does not exist."
+../VIEW/DROP/DROP_USIM_SPO_XYZ_V.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------
-Nothing to do. View USIM_SPO_XYZ_V does not exist.
-
-1 Zeile ausgewählt.
+View USIM_SPO_XYZ_V gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
+../TABLES/DROP/DROP_USIM_DEBUG_LOG_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_DEBUG_LOG does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_DEBUG_LOG gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_DEBUG does not exist."
+../PACKAGES/DROP/DROP_USIM_DEBUG_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package body USIM_DEBUG does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_DEBUG gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_DEBUG does not exist."
+../PACKAGES/DROP/DROP_USIM_DEBUG_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------------
-Nothing to do. Package header USIM_DEBUG does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_DEBUG gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."
+../TABLES/DROP/DROP_USIM_TEST_SUMMARY_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Table USIM_TEST_SUMMARY does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_TEST_SUMMARY gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."
+../TABLES/DROP/DROP_USIM_TEST_ERRORS_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Table USIM_TEST_ERRORS does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_TEST_ERRORS gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_TEST does not exist."
+../PACKAGES/DROP/DROP_USIM_TEST_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Package body USIM_TEST does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_TEST gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_TEST does not exist."
+../PACKAGES/DROP/DROP_USIM_TEST_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package header USIM_TEST does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_TEST gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_ERL does not exist."
+../PACKAGES/DROP/DROP_USIM_ERL_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_ERL does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_ERL gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_ERL does not exist."
+../PACKAGES/DROP/DROP_USIM_ERL_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_ERL does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_ERL gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_BASE does not exist."
+../PACKAGES/DROP/DROP_USIM_BASE_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Package body USIM_BASE does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_BASE gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_BASE does not exist."
+../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------------
-Nothing to do. Package header USIM_BASE does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_BASE gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_MLV does not exist."
+../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_MLV does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_MLV gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_MLV does not exist."
+../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_MLV does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_MLV gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_DIM does not exist."
+../PACKAGES/DROP/DROP_USIM_DIM_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_DIM does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_DIM gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_DIM does not exist."
+../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_DIM does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_DIM gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_POS does not exist."
+../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_POS does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_POS gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_POS does not exist."
+../PACKAGES/DROP/DROP_USIM_POS_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_POS does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_POS gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."
+../PACKAGES/DROP/DROP_USIM_NOD_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_NOD does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_NOD gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."
+../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_NOD does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_NOD gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_RMD does not exist."
+../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_RMD does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_RMD gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_RMD does not exist."
+../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_RMD does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_RMD gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPC does not exist."
+../PACKAGES/DROP/DROP_USIM_SPC_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_SPC does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_SPC gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPC does not exist."
+../PACKAGES/DROP/DROP_USIM_SPC_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_SPC does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_SPC gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_CHI does not exist."
+../PACKAGES/DROP/DROP_USIM_CHI_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_CHI does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_CHI gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_CHI does not exist."
+../PACKAGES/DROP/DROP_USIM_CHI_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_CHI does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_CHI gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPO does not exist."
+../PACKAGES/DROP/DROP_USIM_SPO_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Package body USIM_SPO does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_SPO gelöscht.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPO does not exist."
+../PACKAGES/DROP/DROP_USIM_SPO_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-------------------------------------------------------
-Nothing to do. Package header USIM_SPO does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_SPO gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package body USIM_CREATOR does not exist."
+../PACKAGES/DROP/DROP_USIM_CREATOR_PKB.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------------
-Nothing to do. Package body USIM_CREATOR does not exist.
-
-1 Zeile ausgewählt.
+Package body USIM_CREATOR gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Package header USIM_CREATOR does not exist."
+../PACKAGES/DROP/DROP_USIM_CREATOR_PKS.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------------
-Nothing to do. Package header USIM_CREATOR does not exist.
-
-1 Zeile ausgewählt.
+Package USIM_CREATOR gelöscht.
 
 
 SCRIPTFILE
@@ -931,157 +683,133 @@ Nothing to do. Package header USIM_PROCESS does not exist.
 
 
 SCRIPTFILE
+------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_DBIF_PKB.sql
+
+1 Zeile ausgewählt.
+
+
+Package body USIM_DBIF gelöscht.
+
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_DBIF_PKS.sql
+
+1 Zeile ausgewählt.
+
+
+Package USIM_DBIF gelöscht.
+
+
+SCRIPTFILE
 ---------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_BASEDATA does not exist."
+../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------
-Nothing to do. Table USIM_BASEDATA does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_BASEDATA gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_ERROR_LOG does not exist."
+../TABLES/DROP/DROP_USIM_ERROR_LOG_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_ERROR_LOG does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_ERROR_LOG gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_MULTIVERSE does not exist."
+../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------------
-Nothing to do. Table USIM_MULTIVERSE does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_MULTIVERSE gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_DIMENSION does not exist."
+../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_DIMENSION does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_DIMENSION gelöscht.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_POSITION does not exist."
+../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
---------------------------------------------------
-Nothing to do. Table USIM_POSITION does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_POSITION gelöscht.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_NODE does not exist."
+../TABLES/DROP/DROP_USIM_NODE_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
-----------------------------------------------
-Nothing to do. Table USIM_NODE does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_NODE gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM does not exist."
+../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Table USIM_REL_MLV_DIM does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_REL_MLV_DIM gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_SPACE does not exist."
+../TABLES/DROP/DROP_USIM_SPACE_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------
-Nothing to do. Table USIM_SPACE does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPACE gelöscht.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_CHILD does not exist."
+../TABLES/DROP/DROP_USIM_SPC_CHILD_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
----------------------------------------------------
-Nothing to do. Table USIM_SPC_CHILD does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_CHILD gelöscht.
 
 
 SCRIPTFILE
 --------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_POS does not exist."
+../TABLES/DROP/DROP_USIM_SPC_POS_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
--------------------------------------------------
-Nothing to do. Table USIM_SPC_POS does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_POS gelöscht.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_PROCESS does not exist."
+../TABLES/DROP/DROP_USIM_SPC_PROCESS_TBL.sql
 
 1 Zeile ausgewählt.
 
 
-INFO
------------------------------------------------------
-Nothing to do. Table USIM_SPC_PROCESS does not exist.
-
-1 Zeile ausgewählt.
+Table USIM_SPC_PROCESS gelöscht.
 
 
 Recyclebin gelöscht.
@@ -1330,12 +1058,6 @@ SCRIPTFILE
 
 
 Table USIM_MULTIVERSE erstellt.
-
-
-Comment erstellt.
-
-
-Comment erstellt.
 
 
 Comment erstellt.
@@ -1830,16 +1552,16 @@ Table USIM_SPC_PROCESS geändert.
 Table USIM_SPC_PROCESS geändert.
 
 
+Package USIM_DBIF kompiliert
+
+
+Package Body USIM_DBIF kompiliert
+
+
 Package USIM_CREATOR kompiliert
 
 
 Package Body USIM_CREATOR kompiliert
-
-
-Package USIM_PROCESS kompiliert
-
-
-Package Body USIM_PROCESS kompiliert
 
 
 SCRIPTFILE
@@ -1965,46 +1687,9 @@ INFO
 --------------------------------------
 SUCCESS All database objects are valid
 
-1 Zeile ausgewählt.
-
-
-0 Zeilen ausgewählt.
-
-
-0 Zeilen ausgewählt.
-
-
-0 Zeilen ausgewählt.
-
-
 INFO
 ----------------------------
 Execute tests on USIM model.
-
-1 Zeile ausgewählt.
-
-
-0 Zeilen gelöscht.
-
-
-0 Zeilen gelöscht.
-
-Commit abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
-PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 STATUS  USIM_TESTS_SUCCESS USIM_TESTS_FAILED USIM_TEST_OBJECT
 ------- ------------------ ----------------- --------------------------------------------------------------------------------------------------------------------------------
@@ -2013,286 +1698,23 @@ SUCCESS                 36                 0 USIM_MATHS
 SUCCESS                  8                 0 USIM_DEBUG
 SUCCESS                 27                 0 USIM_BASE_DATA table
 SUCCESS                 28                 0 USIM_BASE
-SUCCESS                 28                 0 USIM_MULTIVERSE table
-SUCCESS                 62                 0 USIM_MLV
+SUCCESS                 22                 0 USIM_MULTIVERSE table
+SUCCESS                 53                 0 USIM_MLV
 SUCCESS                  5                 0 USIM_DIMENSION table
-SUCCESS                 22                 0 USIM_DIM
-SUCCESS                  4                 0 USIM_POSITION table
-SUCCESS                 29                 0 USIM_POS
+SUCCESS                 18                 0 USIM_DIM
+SUCCESS                  3                 0 USIM_POSITION table
+SUCCESS                 23                 0 USIM_POS
 SUCCESS                  4                 0 USIM_NODE table
-SUCCESS                 36                 0 USIM_NOD
+SUCCESS                 23                 0 USIM_NOD
 SUCCESS                  7                 0 USIM_REL_MLV_DIM table
-SUCCESS                 17                 0 USIM_RMD
-
-15 Zeilen ausgewählt.
-
-
-0 Zeilen ausgewählt.
-
+SUCCESS                 15                 0 USIM_RMD
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 USIM_TIMESTAMP              USIM_ERR_OBJECT                                    USIM_ERR_INFO
 --------------------------- -------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-16.09.23 19:46:58.603000000 basic_test_data_setup                              Init base data with max dimension 3 and max number 2.
-16.09.23 19:46:58.603000000 basic_test_data_setup                              Init planck aeon [2023091619465860300000000000000000000000000000000000001].
-16.09.23 19:46:58.603000000 basic_test_data_setup                              Init planck tick [1].
-16.09.23 19:46:58.697000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.697000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [1] and source energy [].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [-1] and source energy [].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [1].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [2].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [1].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [-1].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [1].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [-1].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [1].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000004] with energy [.5] and source energy [].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.5] and source energy [].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [2].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [3].
-16.09.23 19:46:58.712000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000004] old process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000004] new process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000005] old process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000005] new process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [2].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [.25] and source energy [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.25] and source energy [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [3].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [4].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [3].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465861800000000000000000000000000000000000001] with energy [0] and source energy [].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [4].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [5].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465861800000000000000000000000000000000000001] old process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465861800000000000000000000000000000000000001] new process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [4].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [0] and source energy [1.25].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [0] and source energy [-1.25].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [5].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [6].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [5].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000004] with energy [.625] and source energy [.5].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.625] and source energy [-.5].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [6].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [7].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000004] old process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000004] new process spin [1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000005] old process spin [-1].
-16.09.23 19:46:58.728000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000005] new process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [6].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.25].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.25].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [7].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [8].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [-1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [-1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [7].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465861800000000000000000000000000000000000001] with energy [0] and source energy [0].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [8].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [9].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465861800000000000000000000000000000000000001] old process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465861800000000000000000000000000000000000001] new process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [8].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [0] and source energy [1.8125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [0] and source energy [-1.8125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [9].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [10].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [-1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [-1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [9].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000004] with energy [.90625] and source energy [1.125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000004] with energy [.90625] and source energy [1.125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.90625] and source energy [-1.125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.90625] and source energy [-1.125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [10].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [11].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000004] old process spin [-1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000004] new process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000005] old process spin [-1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000005] new process spin [1].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [10].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.8125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.8125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.8125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.8125].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [11].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [12].
-16.09.23 19:46:58.743000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [11].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465861800000000000000000000000000000000000001] with energy [0] and source energy [0].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [12].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [13].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465861800000000000000000000000000000000000001] old process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465861800000000000000000000000000000000000001] new process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [12].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [0] and source energy [1.8125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [0] and source energy [-1.8125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [13].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [14].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [13].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000004] with energy [.90625] and source energy [1.125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000004] with energy [.90625] and source energy [1.125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.90625] and source energy [-1.125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.90625] and source energy [-1.125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [14].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [15].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000004] old process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000004] new process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000005] old process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000005] new process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [14].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.8125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.8125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.8125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.8125].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [15].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [16].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [-1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [1].
-16.09.23 19:46:58.759000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [15].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465861800000000000000000000000000000000000001] with energy [0] and source energy [0].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [16].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [17].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465861800000000000000000000000000000000000001] old process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465861800000000000000000000000000000000000001] new process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [16].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [0] and source energy [1.8125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [0] and source energy [-1.8125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [17].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [18].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [17].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000004] with energy [.90625] and source energy [1.125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000004] with energy [.90625] and source energy [1.125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.90625] and source energy [-1.125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000005] with energy [-.90625] and source energy [-1.125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [18].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [19].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000004] old process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000004] new process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000005] old process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000005] new process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [18].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.8125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000002] with energy [.5625] and source energy [1.8125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.8125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Overflow for target space id [2023091619465863400000000000000000000000000000000000003] with energy [-.5625] and source energy [-1.8125].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [19].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [20].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000002] old process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000002] new process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465863400000000000000000000000000000000000003] old process spin [-1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Processed target space id [2023091619465863400000000000000000000000000000000000003] new process spin [1].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [19].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after update [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Update target space id [2023091619465861800000000000000000000000000000000000001] with energy [0] and source energy [0].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Check target count after first processing [2] targets.
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Before update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [20].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         After update planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [21].
-16.09.23 19:46:58.775000000 usim_process.process_queue                         Process target space id [2023091619465861800000000000000000000000000000000000001] old process spin [1].
-16.09.23 19:46:58.790000000 usim_process.process_queue                         Processed target space id [2023091619465861800000000000000000000000000000000000001] new process spin [1].
-16.09.23 19:46:58.790000000 usim_process.process_queue                         Check target count before update [4] targets.
-16.09.23 19:46:58.790000000 usim_process.process_queue                         Set old targets processed with planck aeon [2023091619465860300000000000000000000000000000000000001] planck time [20].
-16.09.23 19:46:58.790000000 usim_process.process_queue                         Check target count after update [2] targets.
+30.09.23 15:40:50.723000000 basic_test_data_setup                              Init base data with max dimension 3 and max number 10.
+30.09.23 15:40:50.725000000 basic_test_data_setup                              Init planck aeon [2023093015405072400000000000000000000000000000000000001].
+30.09.23 15:40:50.727000000 basic_test_data_setup                              Init planck tick [1].
 
-260 Zeilen ausgewählt.
+3 Zeilen ausgewählt.
 

@@ -10,6 +10,8 @@ CREATE OR REPLACE FORCE VIEW usim_chi_v AS
        , chi.usim_id_spc_child
        , r_parent.usim_id_rmd AS parent_id_rmd
        , r_child.usim_id_rmd AS child_id_rmd
+       , r_parent.usim_id_mlv AS parent_id_mlv
+       , r_child.usim_id_mlv AS child_id_mlv
     FROM usim_spc_child chi
     LEFT OUTER JOIN usim_spc_v r_parent
       ON chi.usim_id_spc = r_parent.usim_id_spc

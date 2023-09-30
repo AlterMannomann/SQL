@@ -62,9 +62,9 @@ BEGIN
       l_tests_success := l_tests_success + 1;
     ELSE
       l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] update 2 for usim_universe_status NOT 0.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
+    usim_test.log_error(l_test_id, l_fail_message);
+    l_tests_failed := l_tests_failed + 1;
+END IF;
   EXCEPTION
     WHEN OTHERS THEN
       l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
@@ -108,45 +108,9 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '006';
-  BEGIN
-    INSERT INTO usim_multiverse (usim_energy_positive) VALUES (2) RETURNING usim_energy_positive INTO l_sql_number_result;
-    IF l_sql_number_result IS NULL
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] insert 2 for usim_energy_positive NOT NULL.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  ROLLBACK;
-  l_run_id := '007';
-  BEGIN
-    INSERT INTO usim_multiverse (usim_energy_negative) VALUES (2) RETURNING usim_energy_negative INTO l_sql_number_result;
-    IF l_sql_number_result IS NULL
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] insert 2 for usim_energy_negative NOT NULL.';
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  ROLLBACK;
 
   l_test_section := 'Table constraints';
-  l_run_id := '008';
+  l_run_id := '006';
   BEGIN
     INSERT INTO usim_multiverse (usim_planck_stable) VALUES (2) RETURNING usim_planck_stable INTO l_sql_number_result;
     -- input should be prevented by constraint
@@ -165,7 +129,7 @@ BEGIN
       END IF;
   END;
   ROLLBACK;
-  l_run_id := '009';
+  l_run_id := '007';
   BEGIN
     INSERT INTO usim_multiverse (usim_is_base_universe) VALUES (2) RETURNING usim_is_base_universe INTO l_sql_number_result;
     -- input should be prevented by constraint
@@ -184,7 +148,7 @@ BEGIN
       END IF;
   END;
   ROLLBACK;
-  l_run_id := '010';
+  l_run_id := '008';
   BEGIN
     INSERT INTO usim_multiverse (usim_ultimate_border) VALUES (2) RETURNING usim_ultimate_border INTO l_sql_number_result;
     -- input should be prevented by constraint
@@ -205,7 +169,7 @@ BEGIN
   ROLLBACK;
 
   l_test_section := 'Table update trigger';
-  l_run_id := '011';
+  l_run_id := '009';
   -- setup
   INSERT INTO usim_multiverse (usim_planck_stable) VALUES (1);
   COMMIT;
@@ -226,7 +190,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '012';
+  l_run_id := '010';
   BEGIN
     UPDATE usim_multiverse SET usim_is_base_universe = 1 RETURNING usim_is_base_universe INTO l_sql_number_result;
     IF l_sql_number_result = 0
@@ -243,7 +207,7 @@ BEGIN
       usim_test.log_error(l_test_id, l_fail_message);
       l_tests_failed := l_tests_failed + 1;
   END;
-  l_run_id := '013';
+  l_run_id := '011';
   BEGIN
     UPDATE usim_multiverse SET usim_ultimate_border = 0 RETURNING usim_ultimate_border INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -261,7 +225,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '014';
+  l_run_id := '012';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_stable = 0 RETURNING usim_planck_stable INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -280,101 +244,15 @@ BEGIN
   END;
   ROLLBACK;
 
-  l_test_section := 'Table energy updates and universe state';
-  l_run_id := '015';
+  l_test_section := 'Table planck stable update';
+  l_run_id := '013';
   BEGIN
-    UPDATE usim_multiverse SET usim_energy_positive = 0 RETURNING usim_energy_positive INTO l_sql_number_result;
-    -- input should be impossible without usim_energy_negative
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] update of usim_energy_positive alone should not work.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  EXCEPTION
-    WHEN OTHERS THEN
-      IF SQLCODE = -20001
-      THEN
-        l_tests_success := l_tests_success + 1;
-      ELSE
-        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-        usim_test.log_error(l_test_id, l_fail_message);
-        l_tests_failed := l_tests_failed + 1;
-      END IF;
-  END;
-  ROLLBACK;
-  l_run_id := '016';
-  BEGIN
-    UPDATE usim_multiverse SET usim_energy_negative = 0 RETURNING usim_energy_negative INTO l_sql_number_result;
-    -- input should be impossible without usim_energy_positive
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] update of usim_energy_negative alone should not work.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  EXCEPTION
-    WHEN OTHERS THEN
-      IF SQLCODE = -20001
-      THEN
-        l_tests_success := l_tests_success + 1;
-      ELSE
-        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-        usim_test.log_error(l_test_id, l_fail_message);
-        l_tests_failed := l_tests_failed + 1;
-      END IF;
-  END;
-  ROLLBACK;
-  l_run_id := '017';
-  BEGIN
-    UPDATE usim_multiverse
-       SET usim_energy_positive = 0
-         , usim_energy_negative = 0
-       RETURNING usim_universe_status INTO l_sql_number_result
-    ;
-    IF l_sql_number_result = usim_static.usim_multiverse_status_dead
+    UPDATE usim_multiverse SET usim_planck_stable = 0 RETURNING usim_planck_stable INTO l_sql_number_result;
+    IF l_sql_number_result = 1
     THEN
       l_tests_success := l_tests_success + 1;
     ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] total energy 0 and universe status NOT ' || usim_static.usim_multiverse_status_dead;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  ROLLBACK;
-  l_run_id := '018';
-  BEGIN
-    UPDATE usim_multiverse
-       SET usim_energy_positive = 10
-         , usim_energy_negative = -2
-       RETURNING usim_universe_status INTO l_sql_number_result
-    ;
-    IF l_sql_number_result = usim_static.usim_multiverse_status_crashed
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] total energy sum not 0 and universe status NOT ' || usim_static.usim_multiverse_status_crashed;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-      usim_test.log_error(l_test_id, l_fail_message);
-      l_tests_failed := l_tests_failed + 1;
-  END;
-  ROLLBACK;
-  l_run_id := '019';
-  BEGIN
-    UPDATE usim_multiverse
-       SET usim_energy_positive = 10
-         , usim_energy_negative = -10
-       RETURNING usim_universe_status INTO l_sql_number_result
-    ;
-    IF l_sql_number_result = usim_static.usim_multiverse_status_active
-    THEN
-      l_tests_success := l_tests_success + 1;
-    ELSE
-      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] total energy sum 0 and universe status NOT ' || usim_static.usim_multiverse_status_active;
+      l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] update of usim_planck_time_unit should not work.';
       usim_test.log_error(l_test_id, l_fail_message);
       l_tests_failed := l_tests_failed + 1;
     END IF;
@@ -387,7 +265,7 @@ BEGIN
   ROLLBACK;
 
   l_test_section := 'Table update trigger planck stable';
-  l_run_id := '020';
+  l_run_id := '014';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_time_unit = 0 RETURNING usim_planck_time_unit INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -405,7 +283,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '021';
+  l_run_id := '015';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_speed_unit = 0 RETURNING usim_planck_speed_unit INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -423,7 +301,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '022';
+  l_run_id := '016';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_length_unit = 0 RETURNING usim_planck_length_unit INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -441,7 +319,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '023';
+  l_run_id := '017';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_time_unit = 2 RETURNING usim_planck_time_unit INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -459,7 +337,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '024';
+  l_run_id := '018';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_speed_unit = 2 RETURNING usim_planck_speed_unit INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -477,7 +355,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '025';
+  l_run_id := '019';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_length_unit = 2 RETURNING usim_planck_length_unit INTO l_sql_number_result;
     IF l_sql_number_result = 1
@@ -496,7 +374,7 @@ BEGIN
   END;
   ROLLBACK;
 
-  l_run_id := '026';
+  l_run_id := '020';
   -- setup planck stable 0
   DELETE usim_multiverse;
   INSERT INTO usim_multiverse (usim_planck_stable) VALUES (0);
@@ -518,7 +396,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '027';
+  l_run_id := '021';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_speed_unit = 2 RETURNING usim_planck_speed_unit INTO l_sql_number_result;
     IF l_sql_number_result = 2
@@ -536,7 +414,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '028';
+  l_run_id := '022';
   BEGIN
     UPDATE usim_multiverse SET usim_planck_length_unit = 2 RETURNING usim_planck_length_unit INTO l_sql_number_result;
     IF l_sql_number_result = 2

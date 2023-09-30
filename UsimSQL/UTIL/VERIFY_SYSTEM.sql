@@ -1,4 +1,5 @@
 -- check state of database
+SET FEEDBACK OFF
 SELECT CASE
         WHEN COUNT(*) > 0
         THEN 'ERROR Database has invalid objects'
@@ -28,3 +29,4 @@ SELECT trigger_name AS not_enabled_trigger
   FROM user_triggers
  WHERE status != 'ENABLED'
 ;
+SET FEEDBACK ON

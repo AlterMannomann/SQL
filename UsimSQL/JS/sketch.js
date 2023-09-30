@@ -211,9 +211,9 @@ function usimUpdateTicks() {
 
 }
 
-function usimDrawPoint(usim_spc_node) {
+function usimDrawPoint(usim_spc_node, usim_clr_code) {
   push();
-    usimColor(1);
+    usimColor(usim_clr_code);
     strokeWeight(1);
     point(usim_spc_node);
   pop();
@@ -229,7 +229,9 @@ function usimProcess() {
     // adjust vectors in size
     usim_vec_from.mult(usim_magnifier);
     usim_vec_to.mult(usim_magnifier);
+    usimDrawPoint(usim_vec_from, usim_details[i].to.dim_sign);
     usimNodeConnect(usim_vec_from, usim_vec_to);
+    usimDrawPoint(usim_vec_to, usim_details[i].to.dim_sign);
     usimColor(usim_details[i].to.dim_sign);
     usimEnergySphere(usim_details[i].output_energy);
     usimMoveEnergy(usim_vec_from, usim_vec_to, usim_details[i].output_energy);
@@ -242,13 +244,13 @@ function usimStructure() {
   for (var i = 0; i < usim_details.length; i++) {
     let usim_spc = createVector(usim_details[i].xyz[0], usim_details[i].xyz[1], usim_details[i].xyz[2]);
     usim_spc.mult(usim_magnifier);
-    usimDrawPoint(usim_spc);
+    usimDrawPoint(usim_spc, 1);
     let usim_childs = usim_details[i].childs;
     for (var i2 = 0; i2 < usim_childs.length; i2++) {
       let usim_chi = createVector(usim_childs[i2].xyz[0], usim_childs[i2].xyz[1], usim_childs[i2].xyz[2]);
       usim_chi.mult(usim_magnifier);
       usimNodeConnect(usim_spc, usim_chi);
-      usimDrawPoint(usim_chi);
+      usimDrawPoint(usim_chi, 1);
   }
   }
 }

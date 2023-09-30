@@ -1,3 +1,4 @@
+SET FEEDBACK OFF
 SELECT 'Execute tests on USIM model.' AS info FROM dual;
 -- do not keep old results
 DELETE usim_test_errors;
@@ -18,4 +19,4 @@ COMMIT;
 @@TEST_USIM_NOD.sql
 @@TEST_USIM_REL_MLV_DIM.sql
 @@TEST_USIM_RMD.sql
-
+SET FEEDBACK ON

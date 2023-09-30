@@ -1,3 +1,4 @@
+SET FEEDBACK OFF
 SELECT CASE
          WHEN usim_tests_failed = 0
          THEN 'SUCCESS'
@@ -17,3 +18,4 @@ SELECT ter.usim_timestamp
     ON ter.usim_id_tsu = tsu.usim_id_tsu
  ORDER BY ter.usim_timestamp
 ;
+SET FEEDBACK ON

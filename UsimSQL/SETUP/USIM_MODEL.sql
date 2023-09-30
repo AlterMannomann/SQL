@@ -300,13 +300,17 @@ SELECT CASE
 @@../FK/USIM_SPR_TGT_FK.sql
 --== relation tables end ==--
 
---== log tables start ==--
---== log tables end ==--
+--== interface package start ==--
+@@../PACKAGES/USIM_DBIF.pks
+@@../PACKAGES/USIM_DBIF.pkb
+--== interface package end ==--
 
 --== processing packages start ==--
 @@../PACKAGES/USIM_CREATOR.pks
 @@../PACKAGES/USIM_CREATOR.pkb
+/*
 @@../PACKAGES/USIM_PROCESS.pks
 @@../PACKAGES/USIM_PROCESS.pkb
+*/
 --== processing packages end ==--
 

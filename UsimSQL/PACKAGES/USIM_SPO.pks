@@ -1,6 +1,11 @@
 CREATE OR REPLACE PACKAGE usim_spo
 IS
-  /**A package for actions on table usim_spc_pos.*/
+  /**A low level package for actions on table usim_spc_pos and its associated
+  * views. Views can be seen as interfaces and dependency. No other package dependencies
+  * apart from USIM_STATIC. ATTENTION Package may throw exceptions
+  * from constraints, triggers and foreign keys. Caller is responsible to handle
+  * possible exceptions.
+  */
 
   /**
   * Checks if usim_spc_pos has already data.
@@ -28,16 +33,6 @@ IS
   FUNCTION has_data( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
                    , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
                    )
-    RETURN NUMBER
-  ;
-
-  /**
-  * Checks if the given space node is on a dimension axis, means only one position != 0 for all dimensions. Position 0
-  * is always on the dimension axis.
-  * @param p_usim_id_spc The space id to check for dimension axis.
-  * @return Returns 1 if the space node is on a dimension axis, otherwise 0.
-  */
-  FUNCTION is_dim_axis(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   ;
 

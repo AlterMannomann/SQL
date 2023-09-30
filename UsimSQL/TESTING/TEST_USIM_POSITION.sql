@@ -60,28 +60,8 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '003';
-  BEGIN
-    -- value over  limits
-    INSERT INTO usim_position (usim_coordinate) VALUES (-3);
-    -- input should be prevented by constraint
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': [' || l_sql_number_result || '] inserting position over absolute max should not be possible.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  EXCEPTION
-    WHEN OTHERS THEN
-      IF SQLCODE = -20000
-      THEN
-        l_tests_success := l_tests_success + 1;
-      ELSE
-        l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': unexpected error ' || SQLCODE || ': ' || SQLERRM;
-        usim_test.log_error(l_test_id, l_fail_message);
-        l_tests_failed := l_tests_failed + 1;
-      END IF;
-  END;
-  ROLLBACK;
   l_test_section := 'Table update trigger';
-  l_run_id := '004';
+  l_run_id := '003';
   BEGIN
     INSERT INTO usim_position (usim_coordinate) VALUES (0) RETURNING usim_id_pos INTO l_usim_id_pos;
     UPDATE usim_position SET usim_id_pos = 'BLA', usim_coordinate = 1 WHERE usim_id_pos = l_usim_id_pos;

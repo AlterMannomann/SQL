@@ -46,27 +46,9 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '004';
-  IF usim_nod.overflow_reached('BLA') = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached should not report overflow on empty table for not existing id BLA.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '005';
-  IF usim_nod.overflow_reached('BLA', 1000) = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached with energy should not report overflow on empty table for not existing id BLA.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
 
   l_test_section := 'Functions insert do commit FALSE';
-  l_run_id := '006';
+  l_run_id := '004';
   l_usim_id_nod := usim_nod.insert_node(FALSE);
   IF l_usim_id_nod IS NULL
   THEN
@@ -76,7 +58,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '007';
+  l_run_id := '005';
   l_sql_number_result := usim_nod.get_energy(l_usim_id_nod);
   IF l_sql_number_result IS NOT NULL
   THEN
@@ -86,7 +68,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '008';
+  l_run_id := '006';
   IF usim_nod.has_data = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data should report data after insert.';
@@ -95,7 +77,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '009';
+  l_run_id := '007';
   IF usim_nod.has_data(l_usim_id_nod) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data[' || l_usim_id_nod || '] should report data for id after insert.';
@@ -104,44 +86,8 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '010';
-  IF usim_nod.overflow_reached(l_usim_id_nod) = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached[' || l_usim_id_nod || '] should not report overflow for energy after insert.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '011';
-  IF usim_nod.overflow_reached(l_usim_id_nod, 10) = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached[' || l_usim_id_nod || '] should not report overflow for energy 10 after insert.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '012';
-  IF usim_nod.overflow_reached(l_usim_id_nod, usim_base.get_abs_max_number) = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached[' || l_usim_id_nod || '] should not report overflow for energy max after insert.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '013';
-  IF usim_nod.overflow_reached(l_usim_id_nod, usim_base.get_abs_max_number + 10) = 0
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached[' || l_usim_id_nod || '] should report overflow for energy max + 10 after insert.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '008';
   ROLLBACK;
-  l_run_id := '014';
   IF usim_nod.has_data = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data should not report data after rollback.';
@@ -150,7 +96,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '015';
+  l_run_id := '009';
   IF usim_nod.has_data(l_usim_id_nod) = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data[' || l_usim_id_nod || '] should not report data for id after rollback.';
@@ -161,7 +107,7 @@ BEGIN
   END IF;
 
   l_test_section := 'Functions update do commit FALSE';
-  l_run_id := '016';
+  l_run_id := '010';
   l_usim_id_nod := usim_nod.insert_node(FALSE);
   l_sql_number_result := usim_nod.update_energy(10, l_usim_id_nod, FALSE);
   IF l_sql_number_result != 10
@@ -172,35 +118,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '017';
-  IF usim_nod.overflow_reached(l_usim_id_nod) = 1
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached[' || l_usim_id_nod || '] should not report overflow for energy after update with 10.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '018';
-  IF usim_nod.overflow_reached(l_usim_id_nod, usim_base.get_abs_max_number) = 0
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': overflow_reached[' || l_usim_id_nod || '] should report overflow for energy after update with 10 and adding max.';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '019';
-  l_sql_number_result := usim_nod.update_energy(usim_base.get_abs_max_number + 10, l_usim_id_nod, FALSE);
-  IF l_sql_number_result != 10
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should be 10 after overflow update for [' || l_usim_id_nod || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '020';
+  l_run_id := '011';
   l_sql_number_result := usim_nod.update_energy(usim_base.get_abs_max_number, l_usim_id_nod, FALSE);
   IF l_sql_number_result != usim_base.get_abs_max_number
   THEN
@@ -213,7 +131,7 @@ BEGIN
   ROLLBACK;
 
   l_test_section := 'Functions add do commit FALSE';
-  l_run_id := '021';
+  l_run_id := '011';
   l_usim_id_nod := usim_nod.insert_node(FALSE);
   l_sql_number_result := usim_nod.add_energy(10, l_usim_id_nod, FALSE);
   IF l_sql_number_result != 10
@@ -224,30 +142,10 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '022';
-  l_sql_number_result := usim_nod.add_energy(usim_base.get_abs_max_number - 10, l_usim_id_nod, FALSE);
-  IF l_sql_number_result != usim_base.get_abs_max_number
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should be max after add max -10 for [' || l_usim_id_nod || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '023';
-  l_sql_number_result := usim_nod.add_energy(1, l_usim_id_nod, FALSE);
-  IF l_sql_number_result != usim_base.get_abs_max_number
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should be still max after add 1 to max for [' || l_usim_id_nod || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
   ROLLBACK;
 
   l_test_section := 'Functions add negative energy do commit FALSE';
-  l_run_id := '024';
+  l_run_id := '012';
   l_usim_id_nod := usim_nod.insert_node(FALSE);
   l_sql_number_result := usim_nod.add_energy(-10, l_usim_id_nod, FALSE);
   IF l_sql_number_result != -10
@@ -258,28 +156,8 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '025';
-  l_sql_number_result := usim_nod.add_energy((usim_base.get_abs_max_number - 10) * -1, l_usim_id_nod, FALSE);
-  IF ABS(l_sql_number_result) != usim_base.get_abs_max_number
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should be -max after add negative max-10 for [' || l_usim_id_nod || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
-  l_run_id := '026';
-  l_sql_number_result := usim_nod.add_energy(-1, l_usim_id_nod, FALSE);
-  IF ABS(l_sql_number_result) != usim_base.get_abs_max_number
-  THEN
-    l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should be still -max after add -1 for [' || l_usim_id_nod || '].';
-    usim_test.log_error(l_test_id, l_fail_message);
-    l_tests_failed := l_tests_failed + 1;
-  ELSE
-    l_tests_success := l_tests_success + 1;
-  END IF;
+  l_run_id := '013';
   ROLLBACK;
-  l_run_id := '027';
   IF usim_nod.has_data = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data should not report data after rollback.';
@@ -288,7 +166,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '028';
+  l_run_id := '014';
   IF usim_nod.has_data(l_usim_id_nod) = 1
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data[' || l_usim_id_nod || '] should not report data for id after rollback.';
@@ -299,7 +177,7 @@ BEGIN
   END IF;
 
   l_test_section := 'Functions insert, update, add do commit TRUE';
-  l_run_id := '029';
+  l_run_id := '015';
   l_usim_id_nod := usim_nod.insert_node;
   IF usim_nod.has_data = 0
   THEN
@@ -309,7 +187,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '030';
+  l_run_id := '016';
   IF usim_nod.has_data(l_usim_id_nod) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data[' || l_usim_id_nod || '] should have data for id after insert.';
@@ -319,7 +197,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   ROLLBACK;
-  l_run_id := '031';
+  l_run_id := '017';
   IF usim_nod.has_data = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data should have data after insert with commit and rollback.';
@@ -328,7 +206,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '032';
+  l_run_id := '018';
   IF usim_nod.has_data(l_usim_id_nod) = 0
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': has_data[' || l_usim_id_nod || '] should have data for id after insert with commit and rollback.';
@@ -337,7 +215,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '033';
+  l_run_id := '019';
   l_sql_number_result := usim_nod.add_energy(10, l_usim_id_nod);
   IF l_sql_number_result != 10
   THEN
@@ -348,7 +226,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   ROLLBACK;
-  l_run_id := '034';
+  l_run_id := '020';
   IF l_sql_number_result != 10
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should be still 10 after rollback of add with commit for [' || l_usim_id_nod || '].';
@@ -357,7 +235,7 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-  l_run_id := '035';
+  l_run_id := '021';
   l_sql_number_result := usim_nod.update_energy(20, l_usim_id_nod);
   IF l_sql_number_result != 20
   THEN
@@ -368,7 +246,7 @@ BEGIN
     l_tests_success := l_tests_success + 1;
   END IF;
   ROLLBACK;
-  l_run_id := '036';
+  l_run_id := '022';
   IF l_sql_number_result != 20
   THEN
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': usim_energy [' || l_sql_number_result || '] should still be 20 after update with commit for [' || l_usim_id_nod || '].';
@@ -377,7 +255,6 @@ BEGIN
   ELSE
     l_tests_success := l_tests_success + 1;
   END IF;
-
 
   -- cleanup
   DELETE usim_basedata;

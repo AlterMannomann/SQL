@@ -22,7 +22,14 @@ let usim_btn_show;
 let usim_btn_show_label;
 let usim_txt_info;
 let usim_sli_frames;
-let usim_txt_frames;
+let usim_sli_frames_label;
+let usim_show_coords;
+let usim_btn_show_coords;
+let usim_btn_show_coords_label;
+let usim_btn_zero_struct;
+let usim_btn_zero_label;
+let usim_show_zero_struct;
+let usim_sensivity;
 
 function preload() {
   usim_font = loadFont('Inconsolata.otf');
@@ -56,6 +63,16 @@ function usimSetup() {
   usim_win_width  = 960;
   // frame count per second
   usim_frames = 6;
+  // show coordinates on the simulation or structure, default -1 = off, 1 = on
+  usim_show_coords = -1;
+  // default label for the show/hide coordinate button
+  usim_btn_show_coords_label = 'Display coordinates';
+  // default label for zero structure display
+  usim_btn_zero_label = 'Switch to zero details';
+  // default do not show zero details
+  usim_show_zero_struct = -1;
+  // default sensivity for orbit control
+  usim_sensivity = 100;
 }
 
 function usimChgRunState() {
@@ -83,6 +100,17 @@ function usimChgShowState() {
 
 }
 
+function usimChgShowCoords() {
+  usim_show_coords = usim_show_coords * -1;
+  if (usim_show_coords > 0) {
+    usim_btn_show_coords_label = 'Hide coordinates';
+  } else {
+    usim_btn_show_coords_label = 'Show coordinates';
+  }
+  usim_btn_show_coords.elt.innerText = usim_btn_show_coords_label;
+  usim_btn_show_coords.elt.innerHTML = usim_btn_show_coords_label;
+}
+
 function usimUpdateText() {
   if (usim_show_state > 0) {
     usim_info = 'aeon: ' + usim_log.planck_aeon + ' tick: ' + usim_log.planck_ticks[usim_current_tick].planck_time;
@@ -96,9 +124,20 @@ function usimUpdateText() {
 function usimUpdateFrames() {
   usim_frames = usim_sli_frames.value();
   // update text
-  usim_txt_frames.elt.innerHTML = 'Frames: ' + usim_frames;
-  usim_txt_frames.elt.innerText = 'Frames: ' + usim_frames;
+  usim_sli_frames_label.elt.innerHTML = 'Frames: ' + usim_frames;
+  usim_sli_frames_label.elt.innerText = 'Frames: ' + usim_frames;
   frameRate(usim_frames);
+}
+
+function usimChgZeroDisplay() {
+  usim_show_zero_struct = usim_show_zero_struct * -1;
+  if (usim_show_zero_struct > 0) {
+    usim_btn_zero_label = 'Switch to normal display';
+  } else {
+    usim_btn_zero_label = 'Switch to zero details';
+  }
+  usim_btn_zero_struct.elt.innerHTML = usim_btn_zero_label;
+  usim_btn_zero_struct.elt.innerText = usim_btn_zero_label;
 }
 
 function usimGUI() {
@@ -108,14 +147,29 @@ function usimGUI() {
   usim_btn_show = createButton(usim_btn_show_label);
   usim_btn_show.position(usim_frame_size + 10, 40);
   usim_btn_show.mousePressed(usimChgShowState);
-  usim_txt_frames = createP('Frames: ' + usim_frames);
-  usim_txt_frames.style('color', 'white');
-  usim_txt_frames.position(usim_frame_size + 10, 60);
+  usim_btn_show_coords = createButton(usim_btn_show_coords_label);
+  usim_btn_show_coords.position(usim_frame_size + 10, 70);
+  usim_btn_show_coords.mousePressed(usimChgShowCoords);
+  usim_btn_zero_struct = createButton(usim_btn_zero_label);
+  usim_btn_zero_struct.position(usim_frame_size + 10, 100);
+  usim_btn_zero_struct.mousePressed(usimChgZeroDisplay);
+  usim_sli_frames_label = createP('Frames: ' + usim_frames);
+  usim_sli_frames_label.style('color', 'white');
+  usim_sli_frames_label.position(usim_frame_size + 10, 120);
   usim_sli_frames = createSlider(1, 60, usim_frames);
-  usim_sli_frames.position(usim_frame_size + 10, 100);
+  usim_sli_frames.position(usim_frame_size + 10, 160);
   usim_txt_info = createP('aeon:');
   usim_txt_info.style('color', 'white');
-  usim_txt_info.position(usim_frame_size + 10, 120);
+  usim_txt_info.position(usim_frame_size + 10, 180);
+}
+
+function usimSensivity() {
+  // calculate sensivity of orbit control by frame rate
+  if (usim_frames <= 20) {
+    usim_sensivity = map(usim_frames, 5, 20, 100, 10);
+  } else {
+    usim_sensivity = map(usim_frames, 20, 60, 10, 5);
+  }
 }
 
 function setup() {
@@ -146,6 +200,10 @@ function usimColor(usim_dim_sign) {
   } else {
     stroke(usim_clr_negative);
   }
+}
+
+function usimXYZ(usim_vector) {
+  return ('' + usim_vector.x + ',' + usim_vector.y + ',' + usim_vector.z);
 }
 
 function usimEnergySphere(usim_output) {
@@ -211,12 +269,65 @@ function usimUpdateTicks() {
 
 }
 
-function usimDrawPoint(usim_spc_node, usim_clr_code) {
+function usimDrawPoint(usim_spc_node, usim_clr_code, usim_txt_xyz) {
   push();
     usimColor(usim_clr_code);
     strokeWeight(1);
     point(usim_spc_node);
+    if (usim_show_coords > 0) {
+      text(usim_txt_xyz, usim_spc_node.x + 10, usim_spc_node.y - 10);
+    }
   pop();
+}
+
+function usimDimToPos(n_dim, n_sign, n1_sign){
+  // includes displacement
+  let usim_xyz = createVector(0, 0, 0);
+  let displace = n_sign * (usim_magnifier/2);
+  let displaceBase = n1_sign * (usim_magnifier/2)
+  if (n_dim == 1) {
+    usim_xyz.x = displace;
+  } else if (n_dim == 2) {
+    usim_xyz.x = displaceBase;
+    usim_xyz.y = displace;
+  } else if (n_dim == 3) {
+    usim_xyz.x = displaceBase;
+    usim_xyz.z = displace;
+  }
+  return usim_xyz.copy();
+}
+
+function usimDimStr(n_dim, n_sign, n1_sign) {
+  let dimstr = (n1_sign > 0) ? '+n' : '-n';
+  if (n_dim == 0) {
+    return 'n0';
+  } else {
+    return dimstr + (n_dim * n_sign);
+  }
+}
+
+function usimZeroStructure() {
+  let usim_details = usim_struct.zero_nodes;
+  for (var i = 0; i < usim_details.length; i++) {
+    let usim_parent = usim_details[i];
+    let usim_base = usimDimToPos(usim_parent.dimension, usim_parent.dim_sign, usim_parent.dim_n1_sign);
+    usimDrawPoint(usim_base, usim_parent.dim_n1_sign);
+    if (usim_parent.dimension > 0) {
+      usimDrawPoint(usim_base, usim_parent.dim_n1_sign);
+      let usim_base_to = usim_base.copy();
+      if (usim_parent.dimension == 1) {
+        usim_base_to.x = usim_parent.dim_sign * (usim_magnifier + usim_magnifier/2);
+      } else if (usim_parent.dimension == 2) {
+        usim_base_to.y = usim_parent.dim_sign * (usim_magnifier + usim_magnifier/2);
+      } else if (usim_parent.dimension == 3) {
+        usim_base_to.z = usim_parent.dim_sign * (usim_magnifier + usim_magnifier/2);
+      }
+      usimNodeConnect(usim_base, usim_base_to);
+      usimDrawPoint(usim_base_to, usim_parent.dim_n1_sign, usimDimStr(usim_parent.dimension, usim_parent.dim_sign, usim_parent.dim_n1_sign));
+    } else {
+      usimDrawPoint(usim_base, usim_parent.dim_n1_sign, usimDimStr(usim_parent.dimension, usim_parent.dim_sign, usim_parent.dim_n1_sign));
+    }
+  }
 }
 
 function usimProcess() {
@@ -227,11 +338,13 @@ function usimProcess() {
     let usim_vec_from = createVector(usim_details[i].from.x, usim_details[i].from.y, usim_details[i].from.z);
     let usim_vec_to = createVector(usim_details[i].to.x, usim_details[i].to.y, usim_details[i].to.z);
     // adjust vectors in size
+    let usim_xyz_from = usimXYZ(usim_vec_from);
+    let usim_xyz_to = usimXYZ(usim_vec_to);
     usim_vec_from.mult(usim_magnifier);
     usim_vec_to.mult(usim_magnifier);
-    usimDrawPoint(usim_vec_from, usim_details[i].to.dim_sign);
+    usimDrawPoint(usim_vec_from, usim_details[i].to.dim_sign, usim_xyz_from);
     usimNodeConnect(usim_vec_from, usim_vec_to);
-    usimDrawPoint(usim_vec_to, usim_details[i].to.dim_sign);
+    usimDrawPoint(usim_vec_to, usim_details[i].to.dim_sign, usim_xyz_to);
     usimColor(usim_details[i].to.dim_sign);
     usimEnergySphere(usim_details[i].output_energy);
     usimMoveEnergy(usim_vec_from, usim_vec_to, usim_details[i].output_energy);
@@ -243,8 +356,16 @@ function usimStructure() {
   let usim_details = usim_struct.nodes;
   for (var i = 0; i < usim_details.length; i++) {
     let usim_spc = createVector(usim_details[i].xyz[0], usim_details[i].xyz[1], usim_details[i].xyz[2]);
+    let usim_xyz = '' + usim_spc.x + ',' + usim_spc.y + ',' + usim_spc.z;
+    let usim_clr = 0;
+    if (usim_spc.mag() > 0 && usim_spc.heading() >= 0 && usim_spc.heading() != PI) {
+      usim_clr = 1;
+    }
+    if (usim_spc.mag() > 0 && (usim_spc.heading() < 0 || usim_spc.heading() == PI)) {
+      usim_clr = -1;
+    }
     usim_spc.mult(usim_magnifier);
-    usimDrawPoint(usim_spc, 1);
+    usimDrawPoint(usim_spc, usim_clr, usim_xyz);
     let usim_childs = usim_details[i].childs;
     for (var i2 = 0; i2 < usim_childs.length; i2++) {
       let usim_chi = createVector(usim_childs[i2].xyz[0], usim_childs[i2].xyz[1], usim_childs[i2].xyz[2]);
@@ -257,10 +378,16 @@ function usimStructure() {
 
 function draw() {
   // put drawing code here
+  usimSensivity();
+  orbitControl(usim_sensivity, usim_sensivity);
   usimStartScreen();
   if (usim_show_state > 0) {
     usimProcess();
   } else {
-    usimStructure();
+    if (usim_show_zero_struct > 0) {
+      usimZeroStructure();
+    } else {
+      usimStructure();
+    }
   }
 }

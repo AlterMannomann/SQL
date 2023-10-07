@@ -245,7 +245,7 @@ IS
   * @param p_usim_id_nod The node id.
   * @param p_usim_process_spin The process spin (1, -1).
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
-  * @return Returns the new/existing usim_id_spc id or NULL on errors.
+  * @return Returns the new usim_id_spc id or NULL on errors.
   */
   FUNCTION insert_spc( p_usim_id_rmd       IN usim_rel_mlv_dim.usim_id_rmd%TYPE
                      , p_usim_id_pos       IN usim_position.usim_id_pos%TYPE

@@ -43,6 +43,12 @@ IS
   PI_QUARTER                      CONSTANT NUMBER       := ACOS(-1) / 4;
 
   /**
+  * Types
+  */
+  SUBTYPE usim_id IS CHAR(55);
+  TYPE usim_ids_type IS TABLE OF usim_id INDEX BY PLS_INTEGER;
+
+  /**
   * Get the maximum of childs a node within a dimension can have.
   * @return USIM_STATIC.USIM_MAX_CHILDS_PER_DIMENSION
   */

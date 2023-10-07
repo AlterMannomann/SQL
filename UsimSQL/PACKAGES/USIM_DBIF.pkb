@@ -318,34 +318,6 @@ IS
   END is_overflow_pos_mlv
   ;
 
-  FUNCTION is_overflow_pos_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  IS
-    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
-  BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
-    THEN
-      l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
-      IF l_usim_id_mlv IS NULL
-      THEN
-        RETURN 0;
-      END IF;
-      RETURN usim_dbif.is_overflow_pos_mlv(l_usim_id_mlv);
-    ELSE
-      -- no universe no overflow
-      RETURN 0;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      -- write error might still work
-      usim_erl.log_error('usim_dbif.is_overflow_pos_spc', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
-      -- try to set all to crashed
-      usim_dbif.set_crashed;
-      -- raise in any case
-      RAISE;
-  END is_overflow_pos_spc
-  ;
-
   FUNCTION is_overflow_dim(p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE)
     RETURN NUMBER
   IS
@@ -415,17 +387,41 @@ IS
     RETURN NUMBER
   IS
     l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
+    l_max_dim     NUMBER;
   BEGIN
     IF usim_spc.has_data(p_usim_id_spc) = 1
     THEN
       l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
       IF l_usim_id_mlv IS NULL
       THEN
+        -- no overflow for not existing mlv
         RETURN 0;
       END IF;
-      RETURN usim_dbif.is_overflow_dim_mlv(l_usim_id_mlv);
+      -- check if is base at dimension 0 and has two childs = overflow
+      IF     usim_spc.is_universe_base(p_usim_id_spc) = 1
+         AND usim_chi.child_count(p_usim_id_spc)      = 2
+      THEN
+        RETURN 1;
+      ELSIF usim_spc.is_universe_base(p_usim_id_spc) = 1
+      THEN
+        RETURN 0;
+      ELSE
+        -- check if is not base and childs have all dimensions = overflow
+        SELECT MAX(usim_n_dimension)
+          INTO l_max_dim
+          FROM usim_spo_v
+         WHERE usim_id_spc = p_usim_id_spc
+           AND usim_id_mlv = l_usim_id_mlv
+        ;
+        IF l_max_dim >= usim_base.get_max_dimension
+        THEN
+          RETURN 1;
+        ELSE
+          RETURN 0;
+        END IF;
+      END IF;
     ELSE
-      -- no universe no overflow
+      -- no overflow for not existing space id
       RETURN 0;
     END IF;
   EXCEPTION
@@ -437,6 +433,40 @@ IS
       -- raise in any case
       RAISE;
   END is_overflow_dim_spc
+  ;
+
+  FUNCTION is_overflow_pos_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      -- no position free on base
+      IF usim_spc.is_universe_base(p_usim_id_spc) = 1
+      THEN
+        -- base node has no position free
+        RETURN 1;
+      END IF;
+      -- if child in same dimension we are in overflow
+      IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+      THEN
+        RETURN 1;
+      ELSE
+        RETURN 0;
+      END IF;
+    ELSE
+      -- no overflow if space id does not exist
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_overflow_dim_spc', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_overflow_pos_spc
   ;
 
   FUNCTION is_overflow_energy(p_energy IN NUMBER)
@@ -666,10 +696,10 @@ IS
   END create_dim_axis
   ;
 
-  FUNCTION create_space_node( p_usim_id_rmd        IN usim_rel_mlv_dim.usim_id_rmd%TYPE
-                            , p_usim_id_pos        IN usim_position.usim_id_pos%TYPE
-                            , p_usim_id_spc_parent IN usim_space.usim_id_spc%TYPE
-                            , p_do_commit          IN BOOLEAN                           DEFAULT TRUE
+  FUNCTION create_space_node( p_usim_id_rmd  IN usim_rel_mlv_dim.usim_id_rmd%TYPE
+                            , p_usim_id_pos  IN usim_position.usim_id_pos%TYPE
+                            , p_usim_parents IN usim_static.usim_ids_type
+                            , p_do_commit    IN BOOLEAN                           DEFAULT TRUE
                             )
     RETURN usim_space.usim_id_spc%TYPE
   IS
@@ -684,32 +714,30 @@ IS
     IF     usim_rmd.has_data(p_usim_id_rmd) = 1
        AND usim_pos.has_data(p_usim_id_pos) = 1
     THEN
-      -- exist, nothing to do
-      IF usim_spc.has_data(p_usim_id_rmd, p_usim_id_pos) = 1
-      THEN
-        RETURN usim_spc.get_id_spc(p_usim_id_rmd, p_usim_id_pos);
-      END IF;
+      -- pos and rmd not unique, inbetween nodes
       -- check situation
       l_usim_id_mlv     := usim_rmd.get_id_mlv(p_usim_id_rmd);
       IF l_usim_id_mlv IS NULL
       THEN
         usim_erl.log_error('usim_dbif.create_space_node', 'Could not get universe for rmd [' || p_usim_id_rmd || '].');
+        usim_dbif.set_crashed;
         RETURN NULL;
       END IF;
       l_usim_coordinate := usim_pos.get_coordinate(p_usim_id_pos);
       IF l_usim_coordinate IS NULL
       THEN
         usim_erl.log_error('usim_dbif.create_space_node', 'Could not get coordinate for pos [' || p_usim_id_pos || '].');
+        usim_dbif.set_crashed;
         RETURN NULL;
       END IF;
       IF     usim_mlv.is_base(l_usim_id_mlv) = 0
          AND l_usim_coordinate              != 0
-         AND p_usim_id_spc_parent           IS NULL
+         AND p_usim_parents.COUNT            = 0
       THEN
         usim_erl.log_error('usim_dbif.create_space_node', 'Missing parent for not base universe and position not 0.');
         RETURN NULL;
       END IF;
-      IF p_usim_id_spc_parent IS NULL
+      IF p_usim_parents.COUNT = 0
       THEN
         -- check if not already set
         SELECT COUNT(*)
@@ -740,24 +768,39 @@ IS
       THEN
         ROLLBACK;
         usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node for rmd [' || p_usim_id_rmd || '] and position [' || p_usim_id_pos || '] .');
+        usim_dbif.set_crashed;
         RETURN NULL;
       END IF;
-      -- update position
-      l_return := usim_spo.insert_spc_pos(l_usim_id_spc, p_usim_id_spc_parent, FALSE);
-      IF l_return = 0
+      -- update position for parents
+      IF p_usim_parents.COUNT > 0
       THEN
-        ROLLBACK;
-        usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node position for spc [' || l_usim_id_spc || '] and parent [' || p_usim_id_spc_parent || '] .');
-        RETURN NULL;
-      END IF;
-      -- define relationship if parent is set
-      IF p_usim_id_spc_parent IS NOT NULL
-      THEN
-        l_return := usim_chi.insert_chi(p_usim_id_spc_parent, l_usim_id_spc, FALSE);
+        FOR i IN p_usim_parents.FIRST..p_usim_parents.LAST
+        LOOP
+          l_return := usim_spo.insert_spc_pos(l_usim_id_spc, p_usim_parents(i), FALSE);
+          IF l_return = 0
+          THEN
+            ROLLBACK;
+            usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node position for spc [' || l_usim_id_spc || '] and parent [' || p_usim_parents(i) || '] .');
+            usim_dbif.set_crashed;
+            RETURN NULL;
+          END IF;
+          -- define relationship if parent is set
+          l_return := usim_chi.insert_chi(p_usim_parents(i), l_usim_id_spc, FALSE);
+          IF l_return = 0
+          THEN
+            ROLLBACK;
+            usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node relation for spc [' || l_usim_id_spc || '] and parent [' || p_usim_parents(i) || '] .');
+            usim_dbif.set_crashed;
+            RETURN NULL;
+          END IF;
+        END LOOP;
+      ELSE
+        l_return := usim_spo.insert_spc_pos(l_usim_id_spc, NULL, FALSE);
         IF l_return = 0
         THEN
           ROLLBACK;
-          usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node relation for spc [' || l_usim_id_spc || '] and parent [' || p_usim_id_spc_parent || '] .');
+          usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node position for spc [' || l_usim_id_spc || '] and parent NULL.');
+          usim_dbif.set_crashed;
           RETURN NULL;
         END IF;
       END IF;
@@ -934,6 +977,30 @@ IS
       RAISE;
   END get_dim_sign
   ;
+
+  FUNCTION get_dim_n1_sign(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_rel_mlv_dim.usim_n1_sign%TYPE
+  IS
+    l_result usim_rel_mlv_dim.usim_n1_sign%TYPE;
+  BEGIN
+    l_result := usim_spc.get_dim_n1_sign(p_usim_id_spc);
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_dim_n1_sign', 'Invalid space id [' || p_usim_id_spc || '].');
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_dim_n1_sign', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_dim_n1_sign
+  ;
+
 
   FUNCTION get_xyz(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN VARCHAR2
@@ -1216,8 +1283,22 @@ IS
   FUNCTION classify_escape(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   IS
+    l_parent_classification NUMBER;
   BEGIN
-    RETURN -1;
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      l_parent_classification := usim_dbif.classify_parent(p_usim_id_spc);
+      -- check overflow, otherwise parent classification should be fine
+      IF    usim_dbif.is_overflow_dim_spc(p_usim_id_spc) = 1
+         OR usim_dbif.is_overflow_pos_spc(p_usim_id_spc) = 1
+      THEN
+        -- only universe escape
+        RETURN 0;
+      END IF;
+      RETURN usim_dbif.classify_parent(p_usim_id_spc);
+    ELSE
+      RETURN -1;
+    END IF;
   EXCEPTION
     WHEN OTHERS THEN
       -- write error might still work

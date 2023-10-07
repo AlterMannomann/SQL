@@ -1,6 +1,6 @@
 CREATE TABLE usim_dimension
-  ( usim_id_dim       CHAR(55)      NOT NULL ENABLE
-  , usim_n_dimension  NUMBER(38, 0) NOT NULL ENABLE
+  ( usim_id_dim       CHAR(55)     NOT NULL ENABLE
+  , usim_n_dimension  NUMBER(2, 0) NOT NULL ENABLE
   )
 ;
 COMMENT ON TABLE usim_dimension IS 'Contains the dimensions available for the multiverse. Will use the alias dim.';

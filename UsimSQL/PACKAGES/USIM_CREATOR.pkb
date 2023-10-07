@@ -172,12 +172,14 @@ IS
         l_from_xyz.put('energy', rec.usim_energy_source);
         l_from_xyz.put('dimension', usim_dbif.get_dimension(rec.usim_id_spc_source));
         l_from_xyz.put('dim_sign', usim_dbif.get_dim_sign(rec.usim_id_spc_source));
+        l_from_xyz.put('dim_n1_sign', usim_dbif.get_dim_n1_sign(rec.usim_id_spc_source));
         l_to_xyz.put('x', usim_dbif.get_dim_coord(rec.usim_id_spc_target, 1));
         l_to_xyz.put('y', usim_dbif.get_dim_coord(rec.usim_id_spc_target, 2));
         l_to_xyz.put('z', usim_dbif.get_dim_coord(rec.usim_id_spc_target, 3));
         l_to_xyz.put('energy', NVL(rec.usim_energy_target, 0));
         l_to_xyz.put('dimension', usim_dbif.get_dimension(rec.usim_id_spc_target));
         l_to_xyz.put('dim_sign', usim_dbif.get_dim_sign(rec.usim_id_spc_target));
+        l_to_xyz.put('dim_n1_sign', usim_dbif.get_dim_n1_sign(rec.usim_id_spc_target));
         l_planck_time_details.put('output_energy', rec.usim_energy_output);
         l_planck_time_details.put('from', l_from_xyz);
         l_planck_time_details.put('to', l_to_xyz);
@@ -202,13 +204,17 @@ IS
                           )
     RETURN NUMBER
   IS
-    l_has_data      NUMBER;
-    l_main_object   JSON_OBJECT_T;
-    l_node_array    JSON_ARRAY_T;
-    l_child_array   JSON_ARRAY_T;
-    l_coord_array   JSON_ARRAY_T;
-    l_node          JSON_OBJECT_T;
-    l_child         JSON_OBJECT_T;
+    l_has_data         NUMBER;
+    l_main_object      JSON_OBJECT_T;
+    l_node_array       JSON_ARRAY_T;
+    l_child_array      JSON_ARRAY_T;
+    l_coord_array      JSON_ARRAY_T;
+    l_zero_array       JSON_ARRAY_T;
+    l_zero_child_array JSON_ARRAY_T;
+    l_zero_child       JSON_OBJECT_T;
+    l_zero_parent      JSON_OBJECT_T;
+    l_node             JSON_OBJECT_T;
+    l_child            JSON_OBJECT_T;
 
     CURSOR cur_has_xyz(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     IS
@@ -263,6 +269,21 @@ IS
        GROUP BY coords.xyz_coord
        ORDER BY coords.xyz_coord
     ;
+    CURSOR cur_zero_struct(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    IS
+      SELECT usim_id_spc
+           , usim_n_dimension
+           , dim_sign
+           , NVL(dim_n1_sign, 0) AS dim_n1_sign
+        FROM usim_spo_xyz_v
+       WHERE usim_n_dimension < 4
+         AND xyz_coord        = '0,0,0'
+         AND usim_id_mlv      = cp_usim_id_mlv
+       ORDER BY usim_n_dimension
+              , dim_n1_sign
+              , dim_sign
+    ;
+
   BEGIN
     OPEN cur_has_xyz(p_usim_id_mlv);
     FETCH cur_has_xyz INTO l_has_data;
@@ -274,7 +295,19 @@ IS
     END IF;
     l_main_object := new JSON_OBJECT_T;
     l_node_array  := new JSON_ARRAY_T;
+    l_zero_array  := new JSON_ARRAY_T;
     l_main_object.put('universe_id', p_usim_id_mlv);
+    -- zero structure
+    FOR mainrec IN cur_zero_struct(p_usim_id_mlv)
+    LOOP
+      l_zero_parent := new JSON_OBJECT_T;
+      l_zero_parent.put('dimension', mainrec.usim_n_dimension);
+      l_zero_parent.put('dim_sign', mainrec.dim_sign);
+      l_zero_parent.put('dim_n1_sign', mainrec.dim_n1_sign);
+      l_zero_array.append(l_zero_parent);
+    END LOOP;
+    l_main_object.put('zero_nodes', l_zero_array);
+    -- xyz relations
     FOR mainrec IN cur_coordinates(p_usim_id_mlv)
     LOOP
       -- build main node

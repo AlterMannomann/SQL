@@ -1,7 +1,7 @@
 -- USIM_BASEDATA (bda)
 CREATE TABLE usim_basedata
   ( usim_id_bda                 NUMBER(1)       DEFAULT 1                                       NOT NULL ENABLE
-  , usim_max_dimension          NUMBER(38, 0)   DEFAULT 42                                      NOT NULL ENABLE
+  , usim_max_dimension          NUMBER(2, 0)    DEFAULT 42                                      NOT NULL ENABLE
   , usim_abs_max_number         NUMBER(38, 0)   DEFAULT 99999999999999999999999999999999999999  NOT NULL ENABLE
   , usim_overflow_node_seed     NUMBER(1, 0)    DEFAULT 0                                       NOT NULL ENABLE
   , usim_planck_time_seq_last   NUMBER          DEFAULT -1                                      NOT NULL ENABLE

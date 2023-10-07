@@ -409,13 +409,10 @@ IS
   IS
     l_result usim_space.usim_id_spc%TYPE;
   BEGIN
-    IF usim_spc.has_data(p_usim_id_rmd, p_usim_id_pos) = 1
-    THEN
-      RETURN usim_spc.get_id_spc(p_usim_id_rmd, p_usim_id_pos);
-    ELSIF     p_usim_id_rmd IS NOT NULL
-          AND p_usim_id_pos IS NOT NULL
-          AND p_usim_id_nod IS NOT NULL
-          AND p_usim_process_spin IN (1, -1)
+    IF     p_usim_id_rmd       IS NOT NULL
+       AND p_usim_id_pos       IS NOT NULL
+       AND p_usim_id_nod       IS NOT NULL
+       AND p_usim_process_spin IN (1, -1)
     THEN
       INSERT INTO usim_space
         ( usim_id_rmd

@@ -43,7 +43,18 @@ DECLARE
   l_id_spc2n_n1p_2n usim_space.usim_id_spc%TYPE;
   l_id_spc2p_n1n_2p usim_space.usim_id_spc%TYPE;
   l_id_spc2n_n1n_2n usim_space.usim_id_spc%TYPE;
-  l_seq_aeon        CHAR(55);
+  -- inbetween nodes
+  -- 1,1 in dim 1,2
+  l_id_spc1p1p_n1p_1p2p usim_space.usim_id_spc%TYPE;
+  -- -1,1 in dim -1,2
+  l_id_spc1n1p_n1n_1n2p usim_space.usim_id_spc%TYPE;
+  -- 1, -1
+  l_id_spc1p1n_n1p_1p2n usim_space.usim_id_spc%TYPE;
+  -- -1, -1
+  l_id_spc1n1n_n1n_1n2n usim_space.usim_id_spc%TYPE;
+
+  l_seq_aeon        usim_static.usim_id;
+  l_parents         usim_static.usim_ids_type;
   l_seq             NUMBER;
   l_return          NUMBER;
 BEGIN
@@ -67,42 +78,84 @@ BEGIN
   l_id_pos2n  := usim_dbif.get_id_pos(-2);
   -- dim axis 0
   l_return  := usim_dbif.create_dim_axis(l_id_mlv1, 0, NULL, l_id_rmd0, l_id_rmd_n1p_1p);
-  l_id_spc0 := usim_dbif.create_space_node(l_id_rmd0, l_id_pos0, NULL);
+  l_id_spc0 := usim_dbif.create_space_node(l_id_rmd0, l_id_pos0, l_parents);
   -- dim axis 1 (+/-)
   l_return := usim_dbif.create_dim_axis(l_id_mlv1, 1, l_id_rmd0, l_id_rmd_n1p_1p, l_id_rmd_n1n_1n);
-  -- 0 +
-  l_id_spc0_n1p_1p  := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos0, l_id_spc0);
-  -- 0 -
-  l_id_spc0_n1n_1n  := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos0, l_id_spc0);
-  -- 1 + n1 +
-  l_id_spc1p_n1p_1p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_id_spc0_n1p_1p);
-  -- 1 - n1 -
-  l_id_spc1n_n1n_1n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_id_spc0_n1n_1n);
-  -- 2 + n1 +
-  l_id_spc2p_n1p_1p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos2p, l_id_spc1p_n1p_1p);
-  -- 2 - n1 -
-  l_id_spc2n_n1n_1n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos2n, l_id_spc1n_n1n_1n);
+  l_parents(1) := l_id_spc0;
+  -- +0,0,0
+  l_id_spc0_n1p_1p  := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos0, l_parents);
+  -- -0,0,0
+  l_id_spc0_n1n_1n  := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos0, l_parents);
+  l_parents(1) := l_id_spc0_n1p_1p;
+  -- 1,0,0
+  l_id_spc1p_n1p_1p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
+  l_parents(1) := l_id_spc0_n1n_1n;
+  -- -1,0,0
+  l_id_spc1n_n1n_1n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
+  l_parents(1) := l_id_spc1p_n1p_1p;
+  -- 2,0,0
+  l_id_spc2p_n1p_1p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos2p, l_parents);
+  l_parents(1) := l_id_spc1n_n1n_1n;
+  -- -2,0,0
+  l_id_spc2n_n1n_1n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos2n, l_parents);
 
   -- dim axis 2 n1 + (+/-)
   l_return := usim_dbif.create_dim_axis(l_id_mlv1, 2, l_id_rmd_n1p_1p, l_id_rmd_n1p_2p, l_id_rmd_n1p_2n);
   -- dim axis 2 n1 - (+/-)
   l_return := usim_dbif.create_dim_axis(l_id_mlv1, 2, l_id_rmd_n1n_1n, l_id_rmd_n1n_2p, l_id_rmd_n1n_2n);
-  -- 0 + n1 +
-  l_id_spc0p_n1p_2p := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos0, l_id_spc0_n1p_1p);
-  -- 0 - n1 +
-  l_id_spc0n_n1p_2n := usim_dbif.create_space_node(l_id_rmd_n1p_2n, l_id_pos0, l_id_spc0_n1p_1p);
-  -- 0 + n1 -
-  l_id_spc0p_n1n_2p := usim_dbif.create_space_node(l_id_rmd_n1n_2p, l_id_pos0, l_id_spc0_n1n_1n);
-  -- 0 - n1 -
-  l_id_spc0n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos0, l_id_spc0_n1n_1n);
-  -- 1 + n1 +
-  l_id_spc1p_n1p_2p := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos1p, l_id_spc0p_n1p_2p);
-  -- 1 - n1 +
-  l_id_spc1n_n1p_2n := usim_dbif.create_space_node(l_id_rmd_n1p_2n, l_id_pos1n, l_id_spc0n_n1p_2n);
-  -- 1 + n1 -
-  l_id_spc1p_n1n_2p := usim_dbif.create_space_node(l_id_rmd_n1n_2p, l_id_pos1p, l_id_spc0p_n1n_2p);
-  -- 1 - n1 -
-  l_id_spc1n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos1n, l_id_spc0n_n1n_2n);
+  l_parents(1) := l_id_spc0_n1p_1p;
+  -- +0,+0,0 + n1 +
+  l_id_spc0p_n1p_2p := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos0, l_parents);
+  -- +0,-0,0 - n1 +
+  l_id_spc0n_n1p_2n := usim_dbif.create_space_node(l_id_rmd_n1p_2n, l_id_pos0, l_parents);
+  l_parents(1) := l_id_spc0_n1n_1n;
+  -- -0,+0,0 + n1 -
+  l_id_spc0p_n1n_2p := usim_dbif.create_space_node(l_id_rmd_n1n_2p, l_id_pos0, l_parents);
+  -- -0,-0,0 - n1 -
+  l_id_spc0n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos0, l_parents);
+  l_parents(1) := l_id_spc0p_n1p_2p;
+  -- 1 + n1 + +0,1,0
+  l_id_spc1p_n1p_2p := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos1p, l_parents);
+  l_parents(1) := l_id_spc0p_n1n_2p;
+  -- 1 + n1 - -0,1,0
+  l_id_spc1p_n1n_2p := usim_dbif.create_space_node(l_id_rmd_n1n_2p, l_id_pos1p, l_parents);
+  l_parents(1) := l_id_spc0n_n1p_2n;
+  -- 1 - n1 + +0,-1,0
+  l_id_spc1n_n1p_2n := usim_dbif.create_space_node(l_id_rmd_n1p_2n, l_id_pos1n, l_parents);
+  l_parents(1) := l_id_spc0n_n1n_2n;
+  -- 1 - n1 - -0,-1,0
+  l_id_spc1n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos1n, l_parents);
+  l_parents(1) := l_id_spc1p_n1p_2p;
+  -- 2 + n1 +
+  l_id_spc2p_n1p_2p := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos2p, l_parents);
+  l_parents(1) := l_id_spc1n_n1p_2n;
+  -- 2 - n1 +
+  l_id_spc2n_n1p_2n := usim_dbif.create_space_node(l_id_rmd_n1p_2n, l_id_pos2n, l_parents);
+  l_parents(1) := l_id_spc1p_n1n_2p;
+  -- 2 + n1 -
+  l_id_spc2p_n1n_2p := usim_dbif.create_space_node(l_id_rmd_n1n_2p, l_id_pos2p, l_parents);
+  l_parents(1) := l_id_spc1n_n1n_2n;
+  -- 2 - n1 -
+  l_id_spc2n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos2n, l_parents);
+
+  -- inbetween nodes two ways to construct, higher dimension with related value or lower dimension with related value
+  -- 1,1,0
+  l_parents(1) := l_id_spc1p_n1p_1p;
+  l_parents(2) := l_id_spc1p_n1p_2p;
+  l_id_spc1p1p_n1p_1p2p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
+  -- -1,1,0
+  l_parents(1) := l_id_spc1n_n1n_1n;
+  l_id_spc1n1p_n1n_1n2p := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
+  -- 1,-1,0 try axis change
+  l_parents(1) := l_id_spc1p_n1p_1p;
+  l_parents(2) := l_id_spc1n_n1p_2n;
+  l_id_spc1p1n_n1p_1p2n := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
+  -- -1,-1,0
+  l_parents(1) := l_id_spc1n_n1n_1n;
+  l_parents(2) := l_id_spc1n_n1n_2n;
+  l_id_spc1n1n_n1n_1n2n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
+
+  l_return := usim_creator.create_json_struct(l_id_mlv1);
 
 /*
   l_return := usim_process.place_start_node(l_usim_id_spc);

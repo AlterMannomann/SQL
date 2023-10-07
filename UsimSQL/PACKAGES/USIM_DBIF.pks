@@ -116,16 +116,6 @@ IS
   ;
 
   /**
-  * Checks if the universe of a given space id is in position overflow. Depends on base data. Overflow is detected by highest
-  * available space coordinates for every sign and compared against the maximum possible number.
-  * @param p_usim_id_spc The space id to check the universe it belongs against position overflow.
-  * @return Returns 1 if the universe for the given space id is counted as position overflow otherwise 0.
-  */
-  FUNCTION is_overflow_pos_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
-    RETURN NUMBER
-  ;
-
-  /**
   * Checks if a given dimension is in overflow. Depends on init_dimensions. Overflow is simply detected
   * by a dimension that does not exist.
   * @param p_usim_coordinate The dimension to check against overflow.
@@ -146,12 +136,22 @@ IS
   ;
 
   /**
-  * Checks if the universe of a given space id is in dimension overflow. Depends on base data. Overflow is detected by highest
+  * Checks if the universe for a given space id is in dimension overflow. Depends on base data. Overflow is detected by highest
   * available space dimension for every n1 sign and compared against the maximum possible dimension.
   * @param p_usim_id_spc The space id to check the universe it belongs against dimension overflow.
   * @return Returns 1 if the universe for the given space id is counted as dimension overflow otherwise 0.
   */
   FUNCTION is_overflow_dim_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if the universe for a given space id is in position overflow. Means that for this specific space
+  * id no position is free. Positions itself may not be in overflow.
+  * @param p_usim_id_spc The space id to check the universe it belongs against position overflow.
+  * @return Returns 1 if the universe for the given space id is counted as position overflow otherwise 0.
+  */
+  FUNCTION is_overflow_pos_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   ;
 
@@ -235,18 +235,18 @@ IS
 
   /**
   * Wrapper for usim_spc.insert_spc.
-  * Inserts a new space node for the given ids in usim_space if it does not exist yet. Updates childs
-  * and space position. Node is created if space node does not exist.
+  * Inserts a new space node for the given ids in usim_space. Updates childs
+  * and space position. Node is created for the space node.
   * @param p_usim_id_rmd The universe/dimension relation id.
   * @param p_usim_id_pos The position id.
-  * @param p_usim_id_spc_parent The parent of this space node. NULL only allowed if universe of rmd is base universe and no entry at dimension 0, position 0, sign 0, n1 sign NULL does not exist.
+  * @param p_usim_parents An array of position parent ids for this space node. EMPTY only allowed if universe of rmd is base universe and no entry at dimension 0, position 0, sign 0, n1 sign NULL does not exist.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
-  * @return Returns the new/existing usim_id_spc id or NULL on errors.
+  * @return Returns the new usim_id_spc id or NULL on errors.
   */
-  FUNCTION create_space_node( p_usim_id_rmd        IN usim_rel_mlv_dim.usim_id_rmd%TYPE
-                            , p_usim_id_pos        IN usim_position.usim_id_pos%TYPE
-                            , p_usim_id_spc_parent IN usim_space.usim_id_spc%TYPE
-                            , p_do_commit          IN BOOLEAN                           DEFAULT TRUE
+  FUNCTION create_space_node( p_usim_id_rmd  IN usim_rel_mlv_dim.usim_id_rmd%TYPE
+                            , p_usim_id_pos  IN usim_position.usim_id_pos%TYPE
+                            , p_usim_parents IN usim_static.usim_ids_type
+                            , p_do_commit    IN BOOLEAN                           DEFAULT TRUE
                             )
     RETURN usim_space.usim_id_spc%TYPE
   ;
@@ -309,6 +309,15 @@ IS
   */
   FUNCTION get_dim_sign(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_rel_mlv_dim.usim_sign%TYPE
+  ;
+
+  /**
+  * Retrieves the dimension n=1 sign of a given space node.
+  * @param p_usim_id_spc The space id.
+  * @return The dimension n1 sign of the space id or NULL, if space id does not exist.
+  */
+  FUNCTION get_dim_n1_sign(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_rel_mlv_dim.usim_n1_sign%TYPE
   ;
 
   /**

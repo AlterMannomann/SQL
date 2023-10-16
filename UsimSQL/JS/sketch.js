@@ -113,7 +113,7 @@ function usimChgShowCoords() {
 
 function usimUpdateText() {
   if (usim_show_state > 0) {
-    usim_info = 'aeon: ' + usim_log.planck_aeon + ' tick: ' + usim_log.planck_ticks[usim_current_tick].planck_time;
+    usim_info = 'aeon: ' + usim_log.planck_aeon + ' tick: ' + usim_log.planck_ticks[usim_current_tick].planck_time + ' move: ' + usim_move_tick;
   } else {
     usim_info = 'mlv id: ' + usim_struct.universe_id;
   }
@@ -331,8 +331,26 @@ function usimZeroStructure() {
 }
 
 function usimProcess() {
+  let usim_details;
+  // redraw structure 0 up to current tick
+  for (var ix = 0; ix < usim_current_tick; ix++ ) {
+    usim_details = usim_log.planck_ticks[ix].details;
+    for (var i = 0; i < usim_details.length; i++) {
+      // get output
+      let usim_vec_from = createVector(usim_details[i].from.x, usim_details[i].from.y, usim_details[i].from.z);
+      let usim_vec_to = createVector(usim_details[i].to.x, usim_details[i].to.y, usim_details[i].to.z);
+      // adjust vectors in size
+      let usim_xyz_from = usimXYZ(usim_vec_from);
+      let usim_xyz_to = usimXYZ(usim_vec_to);
+      usim_vec_from.mult(usim_magnifier);
+      usim_vec_to.mult(usim_magnifier);
+      usimDrawPoint(usim_vec_from, usim_details[i].to.dim_sign, usim_xyz_from);
+      usimNodeConnect(usim_vec_from, usim_vec_to);
+      usimDrawPoint(usim_vec_to, usim_details[i].to.dim_sign, usim_xyz_to);
+    }
+  }
   // get details for current tick
-  let usim_details = usim_log.planck_ticks[usim_current_tick].details;
+  usim_details = usim_log.planck_ticks[usim_current_tick].details;
   for (var i = 0; i < usim_details.length; i++) {
     // get output
     let usim_vec_from = createVector(usim_details[i].from.x, usim_details[i].from.y, usim_details[i].from.z);
@@ -348,8 +366,8 @@ function usimProcess() {
     usimColor(usim_details[i].to.dim_sign);
     usimEnergySphere(usim_details[i].output_energy);
     usimMoveEnergy(usim_vec_from, usim_vec_to, usim_details[i].output_energy);
-    usimUpdateTicks();
   }
+  usimUpdateTicks();
 }
 
 function usimStructure() {

@@ -229,12 +229,39 @@ IS
   IS
     PRAGMA AUTONOMOUS_TRANSACTION;
     l_result      VARCHAR2(55);
-    l_statement   VARCHAR2(1000);
-    l_seq_number  NUMBER;
+    l_statement     VARCHAR2(1000);
+    l_seq_number    NUMBER;
+    l_max_value     NUMBER;
+    l_current_tick  NUMBER;
+    l_current_aeon  CHAR(55);
+    l_update_aeon   BOOLEAN;
   BEGIN
     IF     usim_base.planck_time_seq_exists
        AND usim_base.has_basedata = 1
     THEN
+      -- if aeon and time initialized
+      l_current_aeon := usim_base.get_planck_aeon_seq_current;
+      IF l_current_aeon = usim_static.usim_not_available
+      THEN
+        -- initialize aeon by update
+        l_update_aeon := TRUE;
+      END IF;
+      l_current_tick := usim_base.get_planck_time_current;
+      IF l_current_tick IS NOT NULL
+      THEN
+        -- check tick overflow
+        SELECT max_value
+          INTO l_max_value
+          FROM user_sequences
+         WHERE sequence_name = usim_static.get_planck_time_seq_name
+        ;
+        IF l_current_tick = l_max_value
+        THEN
+          l_update_aeon := TRUE;
+        END IF;
+      ELSE
+        l_update_aeon := FALSE;
+      END IF;
       -- get sequence
       l_statement := 'SELECT ' || usim_static.get_planck_time_seq_name || '.NEXTVAL FROM dual';
       EXECUTE IMMEDIATE l_statement INTO l_seq_number;
@@ -245,6 +272,10 @@ IS
        WHERE usim_id_bda = 1
       ;
       COMMIT;
+      IF l_update_aeon
+      THEN
+        l_current_aeon := usim_base.get_planck_aeon_seq_next;
+      END IF;
       -- return new current value
       RETURN usim_base.get_planck_time_current;
     ELSE

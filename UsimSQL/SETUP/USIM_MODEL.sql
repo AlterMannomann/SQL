@@ -123,6 +123,17 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
+-- USIM_SPC_PROCESS (spr)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../SEQUENCES/USIM_SPR_ID_SEQ.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_SPR_ID_SEQ still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_SPR_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
 --== sequences end ==--
 
 --== base data start ==--
@@ -298,6 +309,11 @@ SELECT CASE
 -- foreign keys
 @@../FK/USIM_SPR_SRC_FK.sql
 @@../FK/USIM_SPR_TGT_FK.sql
+-- views
+@@../VIEW/USIM_SPR_V.sql
+-- usim_spc_process package
+@@../PACKAGES/USIM_SPR.pks
+@@../PACKAGES/USIM_SPR.pkb
 --== relation tables end ==--
 
 --== interface package start ==--
@@ -308,9 +324,7 @@ SELECT CASE
 --== processing packages start ==--
 @@../PACKAGES/USIM_CREATOR.pks
 @@../PACKAGES/USIM_CREATOR.pkb
-/*
 @@../PACKAGES/USIM_PROCESS.pks
 @@../PACKAGES/USIM_PROCESS.pkb
-*/
 --== processing packages end ==--
 

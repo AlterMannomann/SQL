@@ -154,6 +154,16 @@ SELECT CASE
    AND object_type = 'SEQUENCE'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../SEQUENCES/DROP/DROP_USIM_SPR_ID_SEQ.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Sequence USIM_SPR_ID_SEQ does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_SPR_ID_SEQ'
+   AND object_type = 'SEQUENCE'
+;
+@@&SCRIPTFILE
 --== sequences end ==--
 
 --== foreign keys drop for easy delete start ==--
@@ -350,6 +360,16 @@ SELECT CASE
   FROM user_objects
  WHERE object_type = 'VIEW'
    AND object_name = 'USIM_SPO_XYZ_V'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_SPR_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_SPR_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_SPR_V'
 ;
 @@&SCRIPTFILE
 --== drop views end ==--
@@ -634,6 +654,26 @@ SELECT CASE
        END AS SCRIPTFILE
   FROM user_objects
  WHERE object_name = 'USIM_SPO'
+   AND object_type = 'PACKAGE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_SPR_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPR does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_SPR'
+   AND object_type = 'PACKAGE BODY'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_SPR_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPR does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_SPR'
    AND object_type = 'PACKAGE'
 ;
 @@&SCRIPTFILE

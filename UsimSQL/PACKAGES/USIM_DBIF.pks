@@ -87,11 +87,65 @@ IS
   ;
 
   /**
+  * Checks if usim_space has already data for a given space id.
+  * @param p_usim_id_spc The relation id of universe/dimension/position/node.
+  * @return Returns 1 if data are available, otherwise 0.
+  */
+  FUNCTION has_data_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if usim_spc_process has already data.
+  * @return Returns 1 if data are available, otherwise 0.
+  */
+  FUNCTION has_data_spr
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if usim_spc_process has already data for a given process id.
+  * @param p_usim_id_spr The process id to check.
+  * @return Returns 1 if data are available for this id, otherwise 0.
+  */
+  FUNCTION has_data_spr(p_usim_id_spr IN usim_spc_process.usim_id_spr%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Wrapper for usim_spr.has_unprocessed.
+  * Checks if usim_spc_process has unprocessed data.
+  * @return Returns 1 if unprocessed data are available, otherwise 0.
+  */
+  FUNCTION has_unprocessed
+    RETURN NUMBER
+  ;
+
+  /**
   * Checks if a given usim_multiverse id exists.
   * @param p_usim_id_mlv The id of the universe to check.
   * @return Returns 1 if universe exists, otherwise 0.
   */
   FUNCTION has_data_mlv(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if the universe is active the given space node is in.
+  * @param p_usim_id_spc The id of the space node to check universe state.
+  * @return Returns 1 if universe is active, otherwise 0 for dead, crashed or inactive.
+  */
+  FUNCTION is_universe_active(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if the given space node is a base universe, not necessarily the base universe seed. Must have position 0
+  * at dimension 0. Parents are not considered.
+  * @param p_usim_id_spc The id of the space node to check universe base state.
+  * @return Returns 1 if universe is a base type universe otherwise 0.
+  */
+  FUNCTION is_universe_base_type(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   ;
 
@@ -252,6 +306,69 @@ IS
   ;
 
   /**
+  * Wrapper for usim_spr.insert_spr.
+  * Inserts a new process record with status IS_PROCESSED = 0 and current real time, planck aeon
+  * and planck tick.
+  * @param p_usim_id_spc_source The space id of the process that emits energy. Must exist.
+  * @param p_usim_id_spc_target The space id of the process that receives energy. Must exist.
+  * @param p_usim_energy_source The energy of the source before processing. NULL not allowed.
+  * @param p_usim_energy_target The energy of the target before processing.
+  * @param p_usim_energy_output The energy output of the source before processing. NULL not allowed.
+  * @return Returns the process id, otherwise NULL if constraints are not fulfilled.
+  */
+  FUNCTION create_process( p_usim_id_spc_source IN usim_space.usim_id_spc%TYPE
+                         , p_usim_id_spc_target IN usim_space.usim_id_spc%TYPE
+                         , p_usim_energy_source IN usim_spc_process.usim_energy_source%TYPE
+                         , p_usim_energy_target IN usim_spc_process.usim_energy_target%TYPE
+                         , p_usim_energy_output IN usim_spc_process.usim_energy_output%TYPE
+                         , p_do_commit          IN BOOLEAN                                  DEFAULT TRUE
+                         )
+    RETURN usim_spc_process.usim_id_spr%TYPE
+  ;
+
+  /**
+  * Checks border situation for a given space node and flips, depending on the border rule,
+  * the process spin to the correct direction.
+  * @param p_usim_id_spc The space node to check. Mandatory.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Return 1 if all was successfully processed otherwise 0.
+  */
+  FUNCTION check_border( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                       , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                       )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Wrapper for usim_spc.flip_process_spin.
+  * Updates usim_process_spin by flipping the existing value (1 to -1 and vice versa)
+  * if the given space node is not in dimension 0 with position 0. Otherwise does nothing.
+  * @param p_usim_id_spc The space id to get the max dimension.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns 1 if no errors or 0 if space id does not exist.
+  */
+  FUNCTION flip_process_spin( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                            , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                            )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Wrapper for usim_spr.set_processed.
+  * Sets the given process step to processed.
+  * @param p_usim_id_spr The process id of the process that should be set to processed. Must exist.
+  * @param p_process_state The process state to set. 1=processed, 2=universe not active, not processed. Default is 1.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns 1 if processed state could be set otherwise 0.
+  */
+  FUNCTION set_processed( p_usim_id_spr   IN usim_spc_process.usim_id_spr%TYPE
+                        , p_process_state IN usim_spc_process.is_processed%TYPE DEFAULT 1
+                        , p_do_commit     IN BOOLEAN                            DEFAULT TRUE
+                        )
+    RETURN NUMBER
+  ;
+
+  /**
   * Wrapper for usim_pos.get_id_pos.
   * Retrieve the position id for a given coordinate.
   * @param p_usim_coordinate The coordinate to get the position id for.
@@ -269,6 +386,25 @@ IS
   */
   FUNCTION get_id_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_position.usim_id_pos%TYPE
+  ;
+
+  /**
+  * Wrapper for usim_spc.get_id_nod.
+  * Retrieves the node id for a given space id if it exists in usim_space.
+  * @param p_usim_id_spc The space id.
+  * @return Returns usim_id_nod if space id exists, otherwise NULL.
+  */
+  FUNCTION get_id_nod(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_node.usim_id_nod%TYPE
+  ;
+
+  /**
+  * Wrapper for usim_spc.get_id_spc_base_universe.
+  * Retrieve the space id of the universe base seed at position 0 and dimension 0 without any parents.
+  * @return Returns the usim_id_spc if a base universe seed exists or NULL.
+  */
+  FUNCTION get_id_spc_base_universe
+    RETURN usim_space.usim_id_spc%TYPE
   ;
 
   /**
@@ -314,19 +450,67 @@ IS
   /**
   * Retrieves the dimension n=1 sign of a given space node.
   * @param p_usim_id_spc The space id.
-  * @return The dimension n1 sign of the space id or NULL, if space id does not exist.
+  * @return The dimension n1 sign of the space id, 0 for base universe nodes or NULL, if space id does not exist.
   */
   FUNCTION get_dim_n1_sign(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_rel_mlv_dim.usim_n1_sign%TYPE
   ;
 
   /**
+  * Wrapper for usim_spo.get_xyz.
   * Retrieves the x,y,z coordinates of a given space node, if it exists in USIM_SPC_POS.
   * @param p_usim_id_spc The space id to get the coordinates for.
   * @return Returns on success a comma separated string, format x,y,z, otherwise NULL.
   */
   FUNCTION get_xyz(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN VARCHAR2
+  ;
+
+  /**
+  * Wrapper for usim_spc.get_process_spin.
+  * Retrieves the process direction of a given space node.
+  * @param p_usim_id_spc The space id to get the process direction.
+  * @return Returns the process directions or NULL if space node does not exist.
+  */
+  FUNCTION get_process_spin(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_process_spin%TYPE
+  ;
+
+  /**
+  * Retrieves the text expression of the universe state of the given space node.
+  * @param p_usim_id_spc The space id to get the universe state description for.
+  * @return Returns ACTIVE, INACTIVE, CRASHED, DEAD or UNKNOWN if universe does not exist.
+  */
+  FUNCTION get_universe_state_desc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Wrapper for usim_base.get_planck_time_current
+  * Retrieves the current planck time tick.
+  * @return The current value from column usim_planck_time_seq_curr or NULL if not initialized.
+  */
+  FUNCTION get_planck_time_current
+    RETURN NUMBER
+  ;
+
+  /**
+  * Wrapper for usim_base.get_planck_aeon_seq_current.
+  * Retrieves the current planck aeon sequence big id.
+  * @return The current value from column usim_planck_aeon_seq_curr or usim_static.usim_not_available if not initialized.
+  */
+  FUNCTION get_planck_aeon_seq_current
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Wrapper for usim_base.get_planck_time_next.
+  * Retrieves the next planck time tick. Will update current and last planck time as well as planck
+  * aeon if planck time sequence will cycle. If planck aeon is not set, it will be initialized.
+  * @return The next planck time tick number or NULL if not initialized/sequence does not exist.
+  */
+  FUNCTION get_planck_time_next
+    RETURN NUMBER
   ;
 
   /**
@@ -413,6 +597,48 @@ IS
   * @return Returns the classification of the space node for escapes.
   */
   FUNCTION classify_escape(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the dimensional gravitational constant for a given space node and its dimension.
+  * A wrapper for usim_maths.calc_dim_G.
+  * @param p_usim_id_spc The space node to get G for. Mandatory.
+  * @param p_node_G The dimensional gravitational constant for the space node as OUT parameter.
+  * @return Returns 1 if G could be calculated, 0 if an overflow happened or -1 on not supported errors or missing space id.
+  */
+  FUNCTION get_dim_G( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
+                    , p_node_G      OUT NUMBER
+                    )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the outer radius for a given space node. Radius r is the distance from one node to another node.
+  * @param p_usim_id_spc The space node to get G for. Mandatory.
+  * @param p_outer_planck_r The outer planck radius, the distance between space nodes, as OUT parameter.
+  * @return Returns 1 if radius could be calculated, 0 if an overflow happened or -1 on not supported errors or missing space id.
+  */
+  FUNCTION get_outer_planck_r( p_usim_id_spc    IN  usim_space.usim_id_spc%TYPE
+                             , p_outer_planck_r OUT NUMBER
+                             )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the energy as acceleration to add to the target node.
+  * A wrapper for usim_maths.calc_planck_a2.
+  * @param p_energy The energy of the source space node that accelerates its energy to the position of the target space node.
+  * @param p_radius The outer distance between neighbor space nodes.
+  * @param p_G The dimensional gravitational constant G for the source space node and its dimension.
+  * @param p_target_energy The energy to add to the target energy as OUT parameter.
+  * @return Returns 1 if target energy could be calculated, 0 on overflow or -1 on not supported errors or missing space id.
+  */
+  FUNCTION get_acceleration( p_energy         IN  NUMBER
+                           , p_radius         IN  NUMBER
+                           , p_G              IN  NUMBER
+                           , p_target_energy  OUT NUMBER
+                           )
     RETURN NUMBER
   ;
 

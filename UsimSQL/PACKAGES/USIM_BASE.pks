@@ -107,7 +107,8 @@ IS
   ;
 
   /**
-  * Retrieves the next planck time tick. Will update current and last planck time.
+  * Retrieves the next planck time tick. Will update current and last planck time as well as planck
+  * aeon if planck time sequence will cycle. If planck aeon is not set, it will be initialized.
   * @return The next planck time tick number or NULL if not initialized/sequence does not exist.
   */
   FUNCTION get_planck_time_next
@@ -124,7 +125,7 @@ IS
 
   /**
   * Retrieves the current planck aeon sequence big id.
-  * @return The current value from column usim_planck_aeon_seq_curr or NULL if not initialized.
+  * @return The current value from column usim_planck_aeon_seq_curr or usim_static.usim_not_available if not initialized.
   */
   FUNCTION get_planck_aeon_seq_current
     RETURN VARCHAR2
@@ -132,7 +133,7 @@ IS
 
   /**
   * Retrieves the last planck aeon sequence big id before current.
-  * @return The current value from column usim_planck_aeon_seq_last or NULL if not initialized.
+  * @return The current value from column usim_planck_aeon_seq_last or usim_static.usim_not_available if not initialized.
   */
   FUNCTION get_planck_aeon_seq_last
     RETURN VARCHAR2

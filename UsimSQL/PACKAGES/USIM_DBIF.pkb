@@ -122,6 +122,7 @@ IS
                         )
     RETURN NUMBER
   IS
+    l_result NUMBER;
   BEGIN
     IF usim_base.has_basedata = 0
     THEN
@@ -131,7 +132,8 @@ IS
     THEN
       usim_erl.log_error('usim_dbif.init_basedata', 'Could not initialize base data for max dim [' || p_max_dimension || '] max num [' || p_usim_abs_max_number || '] and overflow seed [' || p_usim_overflow_node_seed || '].');
     END IF;
-    RETURN usim_base.has_basedata;
+    l_result := usim_base.has_basedata;
+    RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
       -- write error might still work
@@ -182,10 +184,13 @@ IS
   FUNCTION has_data_spc
     RETURN NUMBER
   IS
+    l_result NUMBER;
   BEGIN
-    RETURN usim_spc.has_data;
+    l_result := usim_spc.has_data;
+    RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
+      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.has_data_spc', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -195,11 +200,86 @@ IS
   END has_data_spc
   ;
 
+  FUNCTION has_data_spc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spc.has_data(p_usim_id_spc);
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_data_spc', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_data_spc
+  ;
+
+  FUNCTION has_data_spr
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spr.has_data;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_data_spr', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_data_spr
+  ;
+
+  FUNCTION has_data_spr(p_usim_id_spr IN usim_spc_process.usim_id_spr%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spr.has_data(p_usim_id_spr);
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_data_spr', 'Unexpected error for id [' || p_usim_id_spr || '], SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_data_spr
+  ;
+
+  FUNCTION has_unprocessed
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spr.has_unprocessed;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_unprocessed', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_unprocessed
+  ;
+
   FUNCTION has_data_mlv(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN NUMBER
   IS
+    l_result NUMBER;
   BEGIN
-    RETURN usim_mlv.has_data(p_usim_id_mlv);
+    l_result := usim_mlv.has_data(p_usim_id_mlv);
+    RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
       -- write error might still work
@@ -209,6 +289,54 @@ IS
       -- raise in any case
       RAISE;
   END has_data_mlv
+  ;
+
+  FUNCTION is_universe_active(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_mlv_id    usim_multiverse.usim_id_mlv%TYPE;
+    l_state     usim_multiverse.usim_universe_status%TYPE;
+  BEGIN
+    -- get universe
+    l_mlv_id := usim_spc.get_id_mlv(p_usim_id_spc);
+    IF l_mlv_id IS NULL
+    THEN
+      RETURN 0;
+    END IF;
+    l_state  := usim_mlv.get_state(l_mlv_id);
+    IF l_state = usim_static.usim_multiverse_status_active
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_universe_active', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_universe_active
+  ;
+
+  FUNCTION is_universe_base_type(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_return NUMBER;
+  BEGIN
+    l_return := usim_spc.is_universe_base(p_usim_id_spc);
+    RETURN l_return;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_universe_base', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_universe_base_type
   ;
 
   FUNCTION init_positions(p_do_commit IN BOOLEAN DEFAULT TRUE)
@@ -238,6 +366,7 @@ IS
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
+      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.init_positions', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -754,13 +883,12 @@ IS
           usim_erl.log_error('usim_dbif.create_space_node', 'Base universe node at position 0, dimension 0 already exists.');
           RETURN NULL;
         END IF;
-        -- define process spin, new childs normally are at the end of the row, so direction -1 (parent)
-        -- whereas a node without parent is in direction 1 (childs). If parent direction is -1 it has to
-        -- change to child with a new child.
-        l_spin := 1;
-      ELSE
-        l_spin := -1;
       END IF;
+      -- define process spin, new childs normally are at the end of the row, so direction would be -1 (parent)
+      -- whereas a node without parent is always in direction 1 (childs). The sign is initially direction child. As soon as
+      -- processing begins, it will be flipped by processing to the correct direction, whenever the process encounters
+      -- a border space node as defined by border rule.
+      l_spin := 1;
       -- all checks passed, create node, do not commit until all is done
       l_usim_id_nod := usim_nod.insert_node(FALSE);
       l_usim_id_spc := usim_spc.insert_spc(p_usim_id_rmd, p_usim_id_pos, l_usim_id_nod, l_spin, FALSE);
@@ -826,6 +954,178 @@ IS
   END create_space_node
   ;
 
+  FUNCTION create_process( p_usim_id_spc_source IN usim_space.usim_id_spc%TYPE
+                         , p_usim_id_spc_target IN usim_space.usim_id_spc%TYPE
+                         , p_usim_energy_source IN usim_spc_process.usim_energy_source%TYPE
+                         , p_usim_energy_target IN usim_spc_process.usim_energy_target%TYPE
+                         , p_usim_energy_output IN usim_spc_process.usim_energy_output%TYPE
+                         , p_do_commit          IN BOOLEAN                                  DEFAULT TRUE
+                         )
+    RETURN usim_spc_process.usim_id_spr%TYPE
+  IS
+    l_result usim_spc_process.usim_id_spr%TYPE;
+  BEGIN
+    l_result := usim_spr.insert_spr(p_usim_id_spc_source, p_usim_id_spc_target, p_usim_energy_source, p_usim_energy_target, p_usim_energy_output, FALSE);
+    IF l_result IS NOT NULL
+    THEN
+      IF p_do_commit
+      THEN
+        COMMIT;
+      END IF;
+    ELSE
+      usim_erl.log_error('usim_dbif.create_process', 'Failed to insert process record.');
+      ROLLBACK;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.create_process', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END create_process
+  ;
+
+  FUNCTION flip_process_spin( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                            , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                            )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spc.flip_process_spin(p_usim_id_spc, FALSE);
+    IF l_result = 0
+    THEN
+      ROLLBACK;
+      usim_erl.log_error('usim_dbif.flip_process_spin', 'Failed to flip process spin for space id [' || p_usim_id_spc || '].');
+    ELSE
+      IF p_do_commit
+      THEN
+        COMMIT;
+      END IF;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.flip_process_spin', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END flip_process_spin
+  ;
+
+  FUNCTION set_processed( p_usim_id_spr   IN usim_spc_process.usim_id_spr%TYPE
+                        , p_process_state IN usim_spc_process.is_processed%TYPE DEFAULT 1
+                        , p_do_commit     IN BOOLEAN                            DEFAULT TRUE
+                        )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spr.set_processed(p_usim_id_spr, p_process_state, FALSE);
+    IF l_result = 0
+    THEN
+      ROLLBACK;
+      usim_erl.log_error('usim_dbif.set_processed', 'Failed to set processed state for id [' || p_usim_id_spr || '] and state [' || p_process_state || '].');
+    ELSE
+      IF p_do_commit
+      THEN
+        COMMIT;
+      END IF;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.set_processed', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END set_processed
+  ;
+
+  FUNCTION check_border( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                       , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                       )
+    RETURN NUMBER
+  IS
+    l_usim_id_mlv   usim_multiverse.usim_id_mlv%TYPE;
+    l_border_rule   usim_multiverse.usim_ultimate_border%TYPE;
+    l_process_spin  usim_space.usim_process_spin%TYPE;
+    l_result        INTEGER;
+  BEGIN
+    l_usim_id_mlv  := usim_spc.get_id_mlv(p_usim_id_spc);
+    l_border_rule  := usim_mlv.get_ultimate_border(l_usim_id_mlv);
+    l_process_spin := usim_spc.get_process_spin(p_usim_id_spc);
+    IF l_border_rule = 1
+    THEN
+      -- if no child and direction is child flip to parent
+      IF     usim_chi.child_count(p_usim_id_spc) = 0
+         AND l_process_spin                      = 1
+      THEN
+        l_result := usim_spc.flip_process_spin(p_usim_id_spc, FALSE);
+        -- check fail
+        IF l_result = 1
+        THEN
+          IF p_do_commit
+          THEN
+            COMMIT;
+          END IF;
+          RETURN 1;
+        ELSE
+          usim_erl.log_error('usim_dbif.check_border', 'Could not flip process spin on space id [' || p_usim_id_spc || '].');
+          -- set all to crashed
+          usim_dbif.set_crashed;
+          ROLLBACK;
+          RETURN 0;
+        END IF;
+      ELSE
+        RETURN 1;
+      END IF;
+    ELSE
+      -- if no child in dimension and direction is child flip to parent
+      IF     usim_chi.has_child_same_dim(p_usim_id_spc) = 0
+         AND l_process_spin                             = 1
+      THEN
+        l_result := usim_spc.flip_process_spin(p_usim_id_spc, FALSE);
+        -- check fail
+        IF l_result = 1
+        THEN
+          IF p_do_commit
+          THEN
+            COMMIT;
+          END IF;
+          RETURN 1;
+        ELSE
+          usim_erl.log_error('usim_dbif.check_border', 'Could not flip process spin on space id [' || p_usim_id_spc || '].');
+          -- set all to crashed
+          usim_dbif.set_crashed;
+          ROLLBACK;
+          RETURN 0;
+        END IF;
+      END IF;
+    END IF;
+    RETURN 1;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.check_border', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END check_border
+  ;
+
   FUNCTION get_id_pos(p_usim_coordinate IN usim_position.usim_coordinate%TYPE)
     RETURN usim_position.usim_id_pos%TYPE
   IS
@@ -845,7 +1145,6 @@ IS
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_id_pos', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -874,7 +1173,6 @@ IS
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_id_pos', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -882,6 +1180,47 @@ IS
       -- raise in any case
       RAISE;
   END get_id_pos
+  ;
+
+  FUNCTION get_id_nod(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_node.usim_id_nod%TYPE
+  IS
+    l_result usim_node.usim_id_nod%TYPE;
+  BEGIN
+    l_result := usim_spc.get_id_nod(p_usim_id_spc);
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_id_nod', 'Invalid space id [' || p_usim_id_spc || '] or no node found.');
+      usim_dbif.set_crashed;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_id_nod', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_id_nod
+  ;
+
+  FUNCTION get_id_spc_base_universe
+    RETURN usim_space.usim_id_spc%TYPE
+  IS
+    l_result usim_space.usim_id_spc%TYPE;
+  BEGIN
+    l_result := usim_spc.get_id_spc_base_universe;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_id_spc_base_universe', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_id_spc_base_universe
   ;
 
   FUNCTION get_abs_max_number
@@ -897,7 +1236,6 @@ IS
     RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_abs_max_number', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -922,7 +1260,6 @@ IS
     RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_dim_coord', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -945,7 +1282,6 @@ IS
     RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_dimension', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -968,7 +1304,6 @@ IS
     RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_dim_sign', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -991,7 +1326,6 @@ IS
     RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_dim_n1_sign', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -1000,7 +1334,6 @@ IS
       RAISE;
   END get_dim_n1_sign
   ;
-
 
   FUNCTION get_xyz(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN VARCHAR2
@@ -1015,7 +1348,6 @@ IS
     RETURN l_result;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.get_xyz', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
@@ -1023,6 +1355,124 @@ IS
       -- raise in any case
       RAISE;
   END get_xyz
+  ;
+
+  FUNCTION get_process_spin(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_process_spin%TYPE
+  IS
+    l_result usim_space.usim_process_spin%TYPE;
+  BEGIN
+    l_result := usim_spc.get_process_spin(p_usim_id_spc);
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_process_spin', 'Used with invalid space id [' || p_usim_id_spc || '].');
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_process_spin', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_process_spin
+  ;
+
+  FUNCTION get_universe_state_desc(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN VARCHAR2
+  IS
+    l_mlv_id    usim_multiverse.usim_id_mlv%TYPE;
+    l_state     usim_multiverse.usim_universe_status%TYPE;
+    l_result    VARCHAR2(8);
+  BEGIN
+    -- get universe
+    l_mlv_id := usim_spc.get_id_mlv(p_usim_id_spc);
+    IF l_mlv_id IS NULL
+    THEN
+      RETURN 'UNKNOWN';
+    END IF;
+    l_state  := usim_mlv.get_state(l_mlv_id);
+    l_result := usim_static.get_multiverse_status(l_state);
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_universe_state_desc', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_universe_state_desc
+  ;
+
+  FUNCTION get_planck_time_current
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_base.get_planck_time_current;
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_planck_time_current', 'Planck time not initialized.');
+      usim_dbif.set_crashed;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_planck_time_current', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_planck_time_current
+  ;
+
+  FUNCTION get_planck_aeon_seq_current
+    RETURN VARCHAR2
+  IS
+    l_result CHAR(55);
+  BEGIN
+    l_result := usim_base.get_planck_aeon_seq_current;
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_planck_aeon_seq_current', 'Planck aeon not initialized.');
+      usim_dbif.set_crashed;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_planck_aeon_seq_current', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_planck_aeon_seq_current
+  ;
+
+  FUNCTION get_planck_time_next
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_base.get_planck_time_next;
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_planck_time_next', 'Planck time initialization error.');
+      usim_dbif.set_crashed;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_planck_time_next', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_planck_time_next
   ;
 
   FUNCTION overflow_rating(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -1295,7 +1745,7 @@ IS
         -- only universe escape
         RETURN 0;
       END IF;
-      RETURN usim_dbif.classify_parent(p_usim_id_spc);
+      RETURN l_parent_classification;
     ELSE
       RETURN -1;
     END IF;
@@ -1308,6 +1758,135 @@ IS
       -- raise in any case
       RAISE;
   END classify_escape
+  ;
+  FUNCTION get_dim_G( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
+                    , p_node_G      OUT NUMBER
+                    )
+    RETURN NUMBER
+  IS
+    l_dimension   usim_dimension.usim_n_dimension%TYPE;
+    l_G           NUMBER;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 0
+    THEN
+      usim_erl.log_error('usim_process.get_dim_G', 'Used with invalid space id [' || p_usim_id_spc || '].');
+      RETURN -1;
+    END IF;
+    l_dimension := usim_spc.get_dimension(p_usim_id_spc);
+    IF l_dimension = -1
+    THEN
+      usim_erl.log_error('usim_process.get_dim_G', 'Failed to get_dimension for space id [' || p_usim_id_spc || '].');
+      RETURN -1;
+    END IF;
+    l_G := usim_maths.calc_dim_G(l_dimension);
+    IF usim_base.num_has_overflow(l_G) = 1
+    THEN
+      usim_erl.log_error('usim_dbif.get_dim_G', 'Numerical overflow for l_G[' || l_G || '] overflow [' || usim_base.get_abs_max_number || ',-' || usim_base.get_abs_max_number || '] underflow[' || usim_base.get_max_underflow || ',' || usim_base.get_min_underflow || '].');
+      RETURN 0;
+    ELSE
+      -- only set out value if valid value
+      p_node_G := l_G;
+      RETURN 1;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      IF SQLCODE IN (-6502, -1426, -1428, -1476, -1487)
+      THEN
+        -- -6502 numeric value error POWER etc. or -1426 overflow or -1428 value range, -1476 zero divide, -1401: inserted value too large for column
+        -- -1487: packed decimal number too large
+        usim_erl.log_error('usim_dbif.get_dim_G', 'Numerical error on G calculate [' || SQLCODE || '] error message: ' || SQLERRM);
+        RETURN 0;
+      ELSE
+        usim_erl.log_error('usim_dbif.get_dim_G', 'Unknown error [' || SQLCODE || '] error message: ' || SQLERRM);
+        -- try to set all to crashed
+        usim_dbif.set_crashed;
+        -- return -1 handling is up to caller
+        RETURN -1;
+      END IF;
+  END get_dim_G
+  ;
+
+  FUNCTION get_outer_planck_r( p_usim_id_spc    IN  usim_space.usim_id_spc%TYPE
+                             , p_outer_planck_r OUT NUMBER
+                             )
+    RETURN NUMBER
+  IS
+    l_planck_length NUMBER;
+    l_radius        NUMBER;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 0
+    THEN
+      usim_erl.log_error('usim_process.get_dim_G', 'Used with invalid space id [' || p_usim_id_spc || '].');
+      RETURN -1;
+    END IF;
+    SELECT usim_planck_length_unit
+      INTO l_planck_length
+      FROM usim_spc_v
+     WHERE usim_id_spc = p_usim_id_spc
+    ;
+    l_radius := usim_maths.apply_planck(1, l_planck_length);
+    IF usim_base.num_has_overflow(l_radius) = 1
+    THEN
+      usim_erl.log_error('usim_dbif.get_outer_planck_r', 'Numerical overflow for l_radius[' || l_radius || '] overflow [' || usim_base.get_abs_max_number || ',-' || usim_base.get_abs_max_number || '] underflow[' || usim_base.get_max_underflow || ',' || usim_base.get_min_underflow || '].');
+      RETURN 0;
+    ELSE
+      -- only set out value if valid value
+      p_outer_planck_r := l_radius;
+      RETURN 1;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      IF SQLCODE IN (-6502, -1426, -1428, -1476, -1487)
+      THEN
+        -- -6502 numeric value error POWER etc. or -1426 overflow or -1428 value range, -1476 zero divide, -1401: inserted value too large for column
+        -- -1487: packed decimal number too large
+        usim_erl.log_error('usim_dbif.get_outer_planck_r', 'Numerical error on outer planck r calculation [' || SQLCODE || '] error message: ' || SQLERRM);
+        RETURN 0;
+      ELSE
+        usim_erl.log_error('usim_process.get_outer_planck_r', 'Unknown error [' || SQLCODE || '] error message: ' || SQLERRM);
+        -- try to set all to crashed
+        usim_dbif.set_crashed;
+        -- return -1 handling is up to caller
+        RETURN -1;
+      END IF;
+  END get_outer_planck_r
+  ;
+
+  FUNCTION get_acceleration( p_energy         IN  NUMBER
+                           , p_radius         IN  NUMBER
+                           , p_G              IN  NUMBER
+                           , p_target_energy  OUT NUMBER
+                           )
+    RETURN NUMBER
+  IS
+    l_energy NUMBER;
+  BEGIN
+    l_energy := usim_maths.calc_planck_a2(p_energy, p_radius, p_G);
+    IF usim_base.num_has_overflow(l_energy) = 1
+    THEN
+      usim_erl.log_error('usim_dbif.get_acceleration', 'Numerical overflow for l_energy[' || l_energy || '] overflow [' || usim_base.get_abs_max_number || ',-' || usim_base.get_abs_max_number || '] underflow[' || usim_base.get_max_underflow || ',' || usim_base.get_min_underflow || '].');
+      RETURN 0;
+    ELSE
+      -- only set out value if valid value
+      p_target_energy := l_energy;
+      RETURN 1;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      IF SQLCODE IN (-6502, -1426, -1428, -1476, -1487)
+      THEN
+        -- -6502 numeric value error POWER etc. or -1426 overflow or -1428 value range, -1476 zero divide, -1401: inserted value too large for column
+        -- -1487: packed decimal number too large
+        usim_erl.log_error('usim_dbif.get_acceleration', 'Numerical error on acceleration calculation [' || SQLCODE || '] error message: ' || SQLERRM);
+        RETURN 0;
+      ELSE
+        usim_erl.log_error('usim_process.get_acceleration', 'Unknown error [' || SQLCODE || '] error message: ' || SQLERRM);
+        -- try to set all to crashed
+        usim_dbif.set_crashed;
+        -- return -1 handling is up to caller
+        RETURN -1;
+      END IF;
+  END get_acceleration
   ;
 
 END usim_dbif;

@@ -155,7 +155,7 @@ IS
   /**
   * Retrieves the dimension n=1 sign of a given space node.
   * @param p_usim_id_spc The space id.
-  * @return The dimension n=1 sign of the space id or NULL, if space id does not exist.
+  * @return The dimension n=1 sign of the space id, base universe nodes will return 0. NULL, if space id does not exist.
   */
   FUNCTION get_dim_n1_sign(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_rel_mlv_dim.usim_sign%TYPE

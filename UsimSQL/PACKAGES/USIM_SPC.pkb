@@ -239,7 +239,7 @@ IS
   BEGIN
     IF usim_spc.has_data(p_usim_id_spc) = 1
     THEN
-      SELECT dim_n1_sign
+      SELECT NVL(dim_n1_sign, 0)
         INTO l_result
         FROM usim_spc_v
        WHERE usim_id_spc = p_usim_id_spc

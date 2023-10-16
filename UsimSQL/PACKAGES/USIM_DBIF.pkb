@@ -912,12 +912,23 @@ IS
             usim_dbif.set_crashed;
             RETURN NULL;
           END IF;
-          -- define relationship if parent is set
-          l_return := usim_chi.insert_chi(p_usim_parents(i), l_usim_id_spc, FALSE);
-          IF l_return = 0
+          -- check parent child relation only same n1 sign apart from base universe nodes
+          IF    usim_spc.get_dim_n1_sign(p_usim_parents(i))  = usim_spc.get_dim_n1_sign(l_usim_id_spc)
+             OR usim_spc.is_universe_base(p_usim_parents(i)) = 1
+             OR usim_spc.is_universe_base(l_usim_id_spc)     = 1
           THEN
+            -- define relationship if parent is set
+            l_return := usim_chi.insert_chi(p_usim_parents(i), l_usim_id_spc, FALSE);
+            IF l_return = 0
+            THEN
+              ROLLBACK;
+              usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node relation for spc [' || l_usim_id_spc || '] and parent [' || p_usim_parents(i) || '] .');
+              usim_dbif.set_crashed;
+              RETURN NULL;
+            END IF;
+          ELSE
             ROLLBACK;
-            usim_erl.log_error('usim_dbif.create_space_node', 'Could not create space node relation for spc [' || l_usim_id_spc || '] and parent [' || p_usim_parents(i) || '] .');
+            usim_erl.log_error('usim_dbif.create_space_node', 'Space node relation not allowed due to different n1 sign for spc [' || l_usim_id_spc || '] and parent [' || p_usim_parents(i) || '] not base node.');
             usim_dbif.set_crashed;
             RETURN NULL;
           END IF;

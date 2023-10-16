@@ -30,6 +30,9 @@ let usim_btn_zero_struct;
 let usim_btn_zero_label;
 let usim_show_zero_struct;
 let usim_sensivity;
+let usim_btn_debug;
+let usim_btn_debug_label;
+let usim_show_debug;
 
 function preload() {
   usim_font = loadFont('Inconsolata.otf');
@@ -73,6 +76,9 @@ function usimSetup() {
   usim_show_zero_struct = -1;
   // default sensivity for orbit control
   usim_sensivity = 100;
+  // turn console log on or off, default is off
+  usim_show_debug = -1;
+  usim_btn_debug_label = 'Debug on';
 }
 
 function usimChgRunState() {
@@ -140,6 +146,17 @@ function usimChgZeroDisplay() {
   usim_btn_zero_struct.elt.innerText = usim_btn_zero_label;
 }
 
+function usimChgDebug() {
+  usim_show_debug = usim_show_debug * -1;
+  if (usim_show_debug > 0) {
+    usim_btn_debug_label = 'Debug off';
+  } else {
+    usim_btn_debug_label = 'Debug on';
+  }
+  usim_btn_debug.elt.innerHTML = usim_btn_debug_label;
+  usim_btn_debug.elt.innerText = usim_btn_debug_label;
+}
+
 function usimGUI() {
   usim_btn_run = createButton(usim_btn_run_label);
   usim_btn_run.position(usim_frame_size + 10, 10);
@@ -153,14 +170,17 @@ function usimGUI() {
   usim_btn_zero_struct = createButton(usim_btn_zero_label);
   usim_btn_zero_struct.position(usim_frame_size + 10, 100);
   usim_btn_zero_struct.mousePressed(usimChgZeroDisplay);
+  usim_btn_debug = createButton(usim_btn_debug_label);
+  usim_btn_debug.position(usim_frame_size + 10, 130);
+  usim_btn_debug.mousePressed(usimChgDebug);
   usim_sli_frames_label = createP('Frames: ' + usim_frames);
   usim_sli_frames_label.style('color', 'white');
-  usim_sli_frames_label.position(usim_frame_size + 10, 120);
+  usim_sli_frames_label.position(usim_frame_size + 10, 140);
   usim_sli_frames = createSlider(1, 60, usim_frames);
-  usim_sli_frames.position(usim_frame_size + 10, 160);
+  usim_sli_frames.position(usim_frame_size + 10, 180);
   usim_txt_info = createP('aeon:');
   usim_txt_info.style('color', 'white');
-  usim_txt_info.position(usim_frame_size + 10, 180);
+  usim_txt_info.position(usim_frame_size + 10, 200);
 }
 
 function usimSensivity() {
@@ -355,6 +375,9 @@ function usimProcess() {
     // get output
     let usim_vec_from = createVector(usim_details[i].from.x, usim_details[i].from.y, usim_details[i].from.z);
     let usim_vec_to = createVector(usim_details[i].to.x, usim_details[i].to.y, usim_details[i].to.z);
+    if (usim_move_tick == 1 && usim_show_debug > 0) {
+      console.log('' + usim_log.planck_ticks[usim_current_tick].planck_time + ':' + usim_vec_from.x + ',' + usim_vec_from.y + ',' + usim_vec_from.z + ' -> ' + usim_vec_to.x + ',' + usim_vec_to.y + ',' + usim_vec_to.z + '(e=' + usim_details[i].output_energy + ') n' + usim_details[i].from.dimension + '(' + usim_details[i].from.dim_sign + '.' + usim_details[i].from.dim_n1_sign + '):n' + usim_details[i].to.dimension + '(' + usim_details[i].to.dim_sign + '.' + usim_details[i].to.dim_n1_sign + ')');
+    }
     // adjust vectors in size
     let usim_xyz_from = usimXYZ(usim_vec_from);
     let usim_xyz_to = usimXYZ(usim_vec_to);

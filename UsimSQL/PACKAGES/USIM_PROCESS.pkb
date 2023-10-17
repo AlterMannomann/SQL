@@ -347,6 +347,14 @@ IS
       usim_dbif.set_crashed;
       RETURN 0;
     END IF;
+
+    -- count of unprocessed must be dividable by 2 for symmetry
+    -- TODO CHECK
+    -- base universe seed energy must be set to 0 after emitting energy
+    -- TODO set zero on universe seed
+    -- after processing base universe seed, check if 0 otherwise crashed
+    -- TODO check base universe seed
+
     -- update current targets within current planck time tick
     FOR recmain IN cur_targets
     LOOP

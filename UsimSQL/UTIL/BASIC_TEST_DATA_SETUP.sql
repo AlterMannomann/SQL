@@ -145,6 +145,7 @@ BEGIN
 
   -- do axis n1n_n2n
   -- -0,-0,0 n1n_n2n
+  l_parents(1) := l_id_spc0_n1n_1n;
   l_id_spc0n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos0, l_parents);
   -- -0,-1,0 n1n_n2n
   l_parents(1) := l_id_spc0n_n1n_2n;
@@ -154,89 +155,35 @@ BEGIN
   l_id_spc2n_n1n_2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos2n, l_parents);
 
   -- inbetween nodes two ways to construct, higher dimension with related value or lower dimension with related value
-  -- 1,1,0
+  -- 1,1,0 n1p
   l_parents(1) := l_id_spc1p_n1p_1p;
   l_parents(2) := l_id_spc1p_n1p_2p;
   l_id_spc1p1p_n1p_1p2p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
-  -- -1,1,0
-  l_parents(1) := l_id_spc1n_n1n_1n;
-  l_parents(2) := l_id_spc1n_n1n_2n;
-  l_id_spc1n1p_n1n_1n2p := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
-
-  -- 1,-1,0 try axis change
+  -- 1,-1,0 n1p
   l_parents(1) := l_id_spc1p_n1p_1p;
   l_parents(2) := l_id_spc1n_n1p_2n;
   l_id_spc1p1n_n1p_1p2n := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
-  -- -1,-1,0
+  -- -1,1,0 n1n
+  l_parents(1) := l_id_spc1n_n1n_1n;
+  l_parents(2) := l_id_spc1n_n1n_2n;
+  l_id_spc1n1p_n1n_1n2p := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
+  -- -1,-1,0 n1n
   l_parents(1) := l_id_spc1n_n1n_1n;
   l_parents(2) := l_id_spc1p_n1n_2p;
   l_id_spc1n1n_n1n_1n2n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
 
   l_universe_state := usim_dbif.set_universe_state(l_id_mlv1, usim_static.usim_multiverse_status_active);
-
-
+  -- test processing
   l_return := usim_process.place_start_node;
   FOR i IN 1..10
   LOOP
     l_return := usim_process.process_queue;
   END LOOP;
-
+  -- provide json output, if website is running, will throw errors on file open
   l_return := usim_creator.create_json_struct(l_id_mlv1);
   l_return := usim_creator.create_space_log(l_seq_aeon, l_seq, NULL);
 
-
-  /*
-  usim_erl.log_error('basic_test_data_setup', 'Get base to space id: usim_vol.get_id_base_to(''' || l_usim_id_vol || ''');');
-  l_usim_id_spc1 := usim_spc.get_id_spc_base_to(l_usim_id_vol);
-  usim_erl.log_error('basic_test_data_setup', 'Retrieved base to space id [' || l_usim_id_spc1 || '].');
-  usim_erl.log_error('basic_test_data_setup', 'Create next volume: usim_creator.create_volume(''' || l_usim_id_spc1 || ''');');
-  l_usim_id_vol := usim_creator.create_volume(l_usim_id_spc1);
-  usim_erl.log_error('basic_test_data_setup', 'Created next volume id [' || l_usim_id_vol || '].');
-  */
 END;
 /
+-- list error and debug messages
 SELECT usim_timestamp, SUBSTR(usim_err_object, 1, 50) AS usim_err_object, usim_err_info FROM usim_error_log ORDER BY usim_timestamp, usim_tick;
-/* testing
-SELECT CASE usim_dbif.classify_parent(usim_id_spc)
-         WHEN -2 THEN 'ERR'
-         WHEN -1 THEN 'DM ERR'
-         WHEN 0 THEN 'FULL'
-         WHEN 1 THEN 'FREE DIM POS'
-         WHEN 2 THEN 'FREE DIM'
-         WHEN 3 THEN 'FREE POS'
-         ELSE 'ERR'
-       END AS classify_parent
-     , CASE usim_dbif.dimension_rating(usim_id_spc)
-         WHEN -1 THEN 'ERR'
-         WHEN 0 THEN 'BASE0'
-         WHEN 1 THEN 'AXIS0'
-         WHEN 2 THEN 'AXIS'
-         WHEN 3 THEN 'BETWEEN'
-       END AS dim_rating
-     , CASE usim_dbif.overflow_rating(usim_id_spc)
-         WHEN 0 THEN 'TOTAL'
-         WHEN 1 THEN 'NO'
-         WHEN 2 THEN 'POS'
-         WHEN 3 THEN 'DIM'
-       END AS overflow
-     , usim_dbif.max_childs(usim_id_spc) AS max_childs
-     , usim_n_dimension
-     , dim_n1_sign
-     , usim_spo.get_xyz(usim_id_spc) AS xyz
-     , usim_id_spc
-  FROM usim_spc_v
- ORDER BY dim_n1_sign DESC NULLS FIRST
-        , usim_n_dimension
-        , ABS(usim_coordinate)
-        , usim_dbif.dimension_rating(usim_id_spc)
-;
--- create overview tabs
-SELECT usim_timestamp, SUBSTR(usim_err_object, 1, 50) AS usim_err_object, usim_err_info FROM usim_error_log ORDER BY usim_timestamp, usim_tick;
-SELECT * FROM usim_spc_v;
-SELECT * FROM usim_spc_chi_v;
-SELECT * FROM usim_spo_v;
-SELECT * FROM usim_rmd_v;
-SELECT * FROM usim_position;
-SELECT * FROM usim_spo_xyz_v;
-
-*/

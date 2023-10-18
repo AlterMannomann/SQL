@@ -203,7 +203,7 @@ IS
           usim_erl.log_error('usim_process.process_node', 'TODO overflow handling. Over/underflow get_acceleration[' || l_resEnergy || '] e[' || l_energy || '] tgt e[' || l_target_energy || '] failed for space id [' || p_usim_id_spc || '].');
           -- get escape strategy
           -- create new nodes
-          -- set energy of this node to 0 (or 1?)
+          -- set energy of causing node to 0 (or 1?)
           l_energy := 0;
           l_target_energy := 0;
         END IF;

@@ -175,13 +175,14 @@ BEGIN
   l_universe_state := usim_dbif.set_universe_state(l_id_mlv1, usim_static.usim_multiverse_status_active);
   -- test processing
   l_return := usim_process.place_start_node;
-  FOR i IN 1..10
+  FOR i IN 1..20
   LOOP
     l_return := usim_process.process_queue;
   END LOOP;
   -- provide json output, if website is running, will throw errors on file open
+  l_seq := usim_dbif.get_planck_time_current;
   l_return := usim_creator.create_json_struct(l_id_mlv1);
-  l_return := usim_creator.create_space_log(l_seq_aeon, l_seq, NULL);
+  l_return := usim_creator.create_space_log(l_seq_aeon, 1, l_seq);
 
 END;
 /

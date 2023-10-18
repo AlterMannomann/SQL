@@ -17,6 +17,15 @@ SELECT usim_n1_sign
   FROM usim_rmd_v
  GROUP BY usim_n1_sign
 ;
+-- symmetry processing, modulus 2 should be 0
+SELECT usim_planck_aeon
+     , usim_planck_time
+     , COUNT(*) AS process_cnt
+     , MOD(COUNT(*), 2) AS mod_2
+  FROM usim_spc_process
+ GROUP BY usim_planck_aeon
+        , usim_planck_time
+; 
 -- classify check
 SELECT CASE usim_dbif.classify_parent(usim_id_spc)
          WHEN -2 THEN 'ERR'
@@ -50,7 +59,7 @@ SELECT CASE usim_dbif.classify_parent(usim_id_spc)
         , usim_n_dimension
         , ABS(usim_coordinate)
         , usim_dbif.dimension_rating(usim_id_spc)
-;
+;       
 -- inspect processing
 SELECT spr.usim_planck_time
      , spr.is_processed

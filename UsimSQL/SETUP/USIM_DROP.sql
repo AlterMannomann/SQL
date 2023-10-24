@@ -372,6 +372,16 @@ SELECT CASE
    AND object_name = 'USIM_SPR_V'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_MLV_STATE_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_MLV_STATE_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_MLV_STATE_V'
+;
+@@&SCRIPTFILE
 --== drop views end ==--
 
 --== debug tables start ==--

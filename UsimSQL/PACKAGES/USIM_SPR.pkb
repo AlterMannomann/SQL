@@ -32,6 +32,64 @@ IS
   END has_unprocessed
   ;
 
+  FUNCTION is_queue_valid
+    RETURN NUMBER
+  IS
+    l_count       NUMBER;
+    l_planck_aeon usim_spc_process.usim_planck_aeon%TYPE;
+    l_planck_time usim_spc_process.usim_planck_time%TYPE;
+  BEGIN
+    IF usim_spr.has_data = 0
+    THEN
+      RETURN 1;
+    ELSE
+      IF usim_spr.has_unprocessed = 0
+      THEN
+        RETURN 0;
+      END IF;
+      SELECT COUNT(*) INTO l_count FROM (SELECT usim_planck_aeon, usim_planck_time FROM usim_spc_process WHERE is_processed = 0 GROUP BY usim_planck_aeon, usim_planck_time);
+      IF l_count != 1
+      THEN
+        RETURN -1;
+      END IF;
+      SELECT COUNT(*) INTO l_count FROM usim_spc_process WHERE is_processed = 0;
+      IF MOD(l_count, 2) != 0
+      THEN
+        RETURN -2;
+      END IF;
+      SELECT usim_planck_aeon, usim_planck_time INTO l_planck_aeon, l_planck_time FROM usim_spc_process WHERE is_processed = 0 GROUP BY usim_planck_aeon, usim_planck_time;
+      IF    usim_base.get_planck_aeon_seq_current != l_planck_aeon
+         OR usim_base.get_planck_time_current     != l_planck_time
+      THEN
+        RETURN -1;
+      END IF;
+      -- all checks passed
+      RETURN 1;
+    END IF;
+  END is_queue_valid
+  ;
+
+  FUNCTION get_unprocessed_planck( p_usim_planck_aeon OUT usim_spc_process.usim_planck_aeon%TYPE
+                                 , p_usim_planck_time OUT usim_spc_process.usim_planck_time%TYPE
+                                 )
+    RETURN NUMBER
+  IS
+    l_return NUMBER;
+  BEGIN
+    -- can't process not existing data
+    IF usim_spr.has_data = 0
+    THEN
+      RETURN 0;
+    END IF;
+    l_return := usim_spr.is_queue_valid;
+    IF l_return = 1
+    THEN
+      SELECT usim_planck_aeon, usim_planck_time INTO p_usim_planck_aeon, p_usim_planck_time FROM usim_spc_process WHERE is_processed = 0 GROUP BY usim_planck_aeon, usim_planck_time;
+    END IF;
+    RETURN l_return;
+  END get_unprocessed_planck
+  ;
+
   FUNCTION insert_spr( p_usim_id_spc_source IN usim_space.usim_id_spc%TYPE
                      , p_usim_id_spc_target IN usim_space.usim_id_spc%TYPE
                      , p_usim_energy_source IN usim_spc_process.usim_energy_source%TYPE

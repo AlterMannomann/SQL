@@ -37,6 +37,17 @@ IS
   ;
 
   /**
+  * Checks if for the given space id a maximum position on the dimension axis of the space
+  * node exists, that may or may not be different to the given space id. Handles escape situation 4 where
+  * dimension axis zero nodes can trigger new positions on their dimension axis.
+  * @param p_usim_id_spc The space id to check for max position on its dimension axis.
+  * @return Returns the count of maximum positions on the given dimension axis, any value not in 0,1 indicates an error in dimension symmetry.
+  */
+  FUNCTION has_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Retrieves the x,y,z coordinates of a given space node, if it exists in USIM_SPC_POS.
   * @param p_usim_id_spc The space id to get the coordinates for.
   * @return Returns on success a comma separated string, format x,y,z, otherwise NULL.
@@ -57,6 +68,57 @@ IS
                         , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
                         )
     RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+  /**
+  * Builds a dimension coordinate index for a given space id, if the
+  * index fits within VARCHAR2. Builds coordinate index like x,y,z but using
+  * all supported dimension. Includes coordinate for dimension 0.
+  * @param p_usim_id_spc The space id to build a dimension coordinate index.
+  * @return Returns a coordinate string in the form of x,y,z with all dimensions, otherwise NULL.
+  */
+  FUNCTION get_coord_id(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Checks if the given node is a 0 coordinate on all dimension axis.
+  * @param p_usim_id_spc The space id to check.
+  * @return Returns 1 if is a zero position node, otherwise 0.
+  */
+  FUNCTION is_axis_zero_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if the given node is a coordinate on a dimension axis, e.g. 1,0,0, 0,2,0.
+  * @param p_usim_id_spc The space id to check.
+  * @return Returns 1 if is an axis position node, otherwise 0.
+  */
+  FUNCTION is_axis_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Gets the space node with the maximum position on the given dimension axis. The dimension sign is
+  * used to identify the expected coordinate sign, the dimension n1 sign is used to limit the space
+  * which is divided into two subspaces by dimension 1. The dimension itself is used to identify the
+  * dimension axis, we want to get a new parent node from to extend the dimension and universe.
+  * Used with escape situation 4 where dimension axis zero nodes can trigger new positions on their dimension axis.
+  * @param p_usim_id_spc The space id ancestor node which may be itself the parent node or a 0 node on a dimension axis that can trigger new coordinates.
+  * @return The space node with the highest position on a dimension axis, sign and n1 sign of the given ancestor node, otherwise NULL on errors. Use has_axis_max_pos_parent to check before call.
+  */
+  FUNCTION get_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_id_spc%TYPE
+  ;
+
+  /**
+  * Gets the space node with the position 0 on the given dimension axis.
+  * @param p_usim_id_spc The space id ancestor node which may be itself the parent node.
+  * @return The space node with the position 0 on a dimension axis, otherwise NULL on errors. Every dimension axis should have a zero entry.
+  */
+  FUNCTION get_axis_zero_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_id_spc%TYPE
   ;
 
   /**

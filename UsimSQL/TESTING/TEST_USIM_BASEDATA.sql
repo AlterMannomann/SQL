@@ -276,7 +276,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '019';
+  l_run_id := '015';
   BEGIN
     UPDATE usim_basedata
        SET usim_planck_aeon_seq_last = 'BLA'
@@ -296,7 +296,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '015';
+  l_run_id := '016';
   BEGIN
     UPDATE usim_basedata
        SET usim_overflow_node_seed = -1
@@ -316,12 +316,12 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '016';
+  l_run_id := '017';
   BEGIN
     UPDATE usim_basedata
-       SET usim_max_dimension = 999
+       SET usim_max_dimension = 99
     RETURNING usim_max_dimension INTO l_sql_number_result;
-    IF l_sql_number_result != 999
+    IF l_sql_number_result != 99
     THEN
       l_tests_success := l_tests_success + 1;
     ELSE
@@ -336,7 +336,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '017';
+  l_run_id := '018';
   BEGIN
     UPDATE usim_basedata
        SET usim_abs_max_number = 999
@@ -356,7 +356,7 @@ BEGIN
       l_tests_failed := l_tests_failed + 1;
   END;
   ROLLBACK;
-  l_run_id := '018';
+  l_run_id := '019';
   BEGIN
     UPDATE usim_basedata
        SET usim_created = TRUNC(SYSDATE+10)

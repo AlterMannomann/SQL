@@ -61,7 +61,7 @@ BEGIN
   l_test_section := 'Table insert trigger';
   l_run_id := '003';
   BEGIN
-    INSERT INTO usim_dimension (usim_n_dimension) VALUES (500) RETURNING usim_id_dim INTO l_usim_id_dim;
+    INSERT INTO usim_dimension (usim_n_dimension) VALUES (99) RETURNING usim_id_dim INTO l_usim_id_dim;
     -- input should be prevented by trigger
     l_fail_message := l_test_object || ' - ' || l_test_section || ' - ' || l_run_id || ': dimension over max insert should not be possible.';
     usim_test.log_error(l_test_id, l_fail_message);

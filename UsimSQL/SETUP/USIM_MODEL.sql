@@ -316,6 +316,10 @@ SELECT CASE
 @@../PACKAGES/USIM_SPR.pkb
 --== relation tables end ==--
 
+--== other views start ==--
+@@../VIEW/USIM_MLV_STATE_V.sql
+--== other views end ==--
+
 --== interface package start ==--
 @@../PACKAGES/USIM_DBIF.pks
 @@../PACKAGES/USIM_DBIF.pkb

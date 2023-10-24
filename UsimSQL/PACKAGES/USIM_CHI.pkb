@@ -104,7 +104,7 @@ IS
   IS
     l_result    NUMBER;
   BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
+    IF usim_chi.has_child(p_usim_id_spc) = 1
     THEN
       SELECT COUNT(*)
         INTO l_result
@@ -114,10 +114,56 @@ IS
       ;
       RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
     ELSE
-      usim_erl.log_error('usim_chi.has_child_next_dim', 'Used with not existing space id [' || p_usim_id_spc || '].');
+      usim_erl.log_error('usim_chi.has_child_next_dim', 'No child for space id [' || p_usim_id_spc || '].');
       RETURN 0;
     END IF;
   END has_child_next_dim
+  ;
+
+  FUNCTION has_child_at_dim( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                           , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                           )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    IF usim_chi.has_child(p_usim_id_spc) = 1
+    THEN
+      SELECT COUNT(*)
+        INTO l_result
+        FROM usim_chi_v
+       WHERE usim_id_spc     = p_usim_id_spc
+         AND child_dimension = p_usim_n_dimension
+      ;
+      RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
+    ELSE
+      usim_erl.log_error('usim_chi.has_child_at_dim', 'No child for space id [' || p_usim_id_spc || '] at dimension [' || p_usim_n_dimension || '].');
+      RETURN 0;
+    END IF;
+  END has_child_at_dim
+  ;
+
+  FUNCTION has_parent_at_dim( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                            , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                            )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    IF usim_chi.has_child(p_usim_id_spc) = 1
+    THEN
+      SELECT COUNT(*)
+        INTO l_result
+        FROM usim_chi_v
+       WHERE usim_id_spc_child = p_usim_id_spc
+         AND parent_dimension  = p_usim_n_dimension
+      ;
+      RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
+    ELSE
+      usim_erl.log_error('usim_chi.has_parent_at_dim', 'No parent for space id [' || p_usim_id_spc || '] at dimension [' || p_usim_n_dimension || '].');
+      RETURN 0;
+    END IF;
+  END has_parent_at_dim
   ;
 
   FUNCTION has_child_same_dim(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -125,7 +171,7 @@ IS
   IS
     l_result    NUMBER;
   BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
+    IF usim_chi.has_child(p_usim_id_spc) = 1
     THEN
       SELECT COUNT(*)
         INTO l_result
@@ -135,7 +181,7 @@ IS
       ;
       RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
     ELSE
-      usim_erl.log_error('usim_chi.has_child_same_dim', 'Used with not existing space id [' || p_usim_id_spc || '].');
+      usim_erl.log_error('usim_chi.has_child_same_dim', 'No child for space id [' || p_usim_id_spc || '].');
       RETURN 0;
     END IF;
   END has_child_same_dim
@@ -147,17 +193,17 @@ IS
     l_result NUMBER;
     l_id_rmd usim_rel_mlv_dim.usim_id_rmd%TYPE;
   BEGIN
-    IF usim_spc.has_data(p_usim_id_spc) = 1
+    IF usim_chi.has_child(p_usim_id_spc) = 1
     THEN
       SELECT COUNT(*)
         INTO l_result
         FROM usim_chi_v
        WHERE usim_id_spc_child = p_usim_id_spc
-         AND parent_id_rmd    = child_id_rmd
+         AND parent_id_rmd     = child_id_rmd
       ;
       RETURN l_result;
     ELSE
-      usim_erl.log_error('usim_chi.has_parent_same_dim', 'Used with not existing space id [' || p_usim_id_spc || '].');
+      usim_erl.log_error('usim_chi.has_parent_same_dim', 'No child for space id [' || p_usim_id_spc || '].');
       RETURN 0;
     END IF;
   END has_parent_same_dim
@@ -189,14 +235,47 @@ IS
   IS
     l_result NUMBER;
   BEGIN
+      WITH src AS
+           (SELECT spc.usim_id_spc
+                 , rmd.usim_id_mlv
+              FROM usim_space spc
+             INNER JOIN usim_rel_mlv_dim rmd
+                ON spc.usim_id_rmd = rmd.usim_id_rmd
+             WHERE spc.usim_id_spc = p_usim_id_spc
+           )
+         , childs AS
+           (SELECT chi.usim_id_spc
+                 , chi.usim_id_spc_child
+                 , rmd.usim_id_mlv AS usim_id_mlv_child
+              FROM usim_spc_child chi
+             INNER JOIN usim_space spc
+                ON chi.usim_id_spc_child = spc.usim_id_spc
+             INNER JOIN usim_rel_mlv_dim rmd
+                ON spc.usim_id_rmd = rmd.usim_id_rmd
+           )
     SELECT COUNT(*)
       INTO l_result
-      FROM usim_chi_v
-     WHERE usim_id_spc   = p_usim_id_spc
-       AND parent_id_mlv = child_id_mlv
+      FROM childs
+     INNER JOIN src
+        ON childs.usim_id_spc       = src.usim_id_spc
+       AND childs.usim_id_mlv_child = src.usim_id_mlv
     ;
     RETURN l_result;
   END child_count
+  ;
+
+  FUNCTION child_count_all(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    SELECT COUNT(*)
+      INTO l_result
+      FROM usim_spc_child
+     WHERE usim_id_spc   = p_usim_id_spc
+    ;
+    RETURN l_result;
+  END child_count_all
   ;
 
   FUNCTION parent_count(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -204,14 +283,47 @@ IS
   IS
     l_result NUMBER;
   BEGIN
+      WITH src AS
+           (SELECT spc.usim_id_spc
+                 , rmd.usim_id_mlv
+              FROM usim_space spc
+             INNER JOIN usim_rel_mlv_dim rmd
+                ON spc.usim_id_rmd = rmd.usim_id_rmd
+             WHERE spc.usim_id_spc = p_usim_id_spc
+           )
+         , parents AS
+           (SELECT chi.usim_id_spc
+                 , chi.usim_id_spc_child
+                 , rmd.usim_id_mlv AS usim_id_mlv_parent
+              FROM usim_spc_child chi
+             INNER JOIN usim_space spc
+                ON chi.usim_id_spc = spc.usim_id_spc
+             INNER JOIN usim_rel_mlv_dim rmd
+                ON spc.usim_id_rmd = rmd.usim_id_rmd
+           )
     SELECT COUNT(*)
       INTO l_result
-      FROM usim_chi_v
-     WHERE usim_id_spc_child = p_usim_id_spc
-       AND child_id_mlv      = parent_id_mlv
+      FROM parents
+     INNER JOIN src
+        ON parents.usim_id_spc_child  = src.usim_id_spc
+       AND parents.usim_id_mlv_parent = src.usim_id_mlv
     ;
     RETURN l_result;
   END parent_count
+  ;
+
+  FUNCTION parent_count_all(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    SELECT COUNT(*)
+      INTO l_result
+      FROM usim_spc_child
+     WHERE usim_id_spc_child = p_usim_id_spc
+    ;
+    RETURN l_result;
+  END parent_count_all
   ;
 
   FUNCTION get_child_same_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -275,6 +387,33 @@ IS
       RETURN NULL;
     END IF;
   END get_parent_same_dimension
+  ;
+
+  FUNCTION get_cur_max_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_dimension.usim_n_dimension%TYPE
+  IS
+    l_max_dim usim_dimension.usim_n_dimension%TYPE;
+    l_n1_sign usim_rel_mlv_dim.usim_n1_sign%TYPE;
+  BEGIN
+      SELECT dim_n1_sign INTO l_n1_sign FROM usim_spc_v WHERE usim_id_spc = p_usim_id_spc;
+      WITH maxdim AS
+           (SELECT MAX(child_dimension) AS max_dim
+              FROM usim_chi_v
+             WHERE usim_id_spc       = p_usim_id_spc
+               AND child_dim_n1_sign = l_n1_sign
+             UNION ALL
+                   -- consider also possible parenting from higher dimensions
+            SELECT MAX(parent_dimension) AS max_dim
+              FROM usim_chi_v chip
+             WHERE usim_id_spc_child  = p_usim_id_spc
+               AND parent_dim_n1_sign = l_n1_sign
+           )
+    SELECT NVL(MAX(max_dim), 0)
+      INTO l_max_dim
+      FROM maxdim
+    ;
+    RETURN l_max_dim;
+  END get_cur_max_dimension
   ;
 
   FUNCTION get_chi_details( p_usim_id_spc  IN  usim_space.usim_id_spc%TYPE

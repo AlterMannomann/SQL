@@ -99,7 +99,7 @@ IS
     THEN
       l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
       l_n1_sign     := usim_spc.get_dim_n1_sign(p_usim_id_spc);
-      SELECT NVL(MAX(usim_n_dimension), -1)
+      SELECT MAX(usim_n_dimension)
         INTO l_result
         FROM usim_spc_v
        WHERE usim_id_mlv = l_usim_id_mlv
@@ -111,6 +111,28 @@ IS
       RETURN NULL;
     END IF;
   END get_cur_max_dim_n1
+  ;
+
+  FUNCTION get_cur_max_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  IS
+    l_usim_id_rmd usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_max_pos     usim_position.usim_coordinate%TYPE;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      l_usim_id_rmd := usim_spc.get_id_rmd(p_usim_id_spc);
+      SELECT MAX(ABS(usim_coordinate))
+        INTO l_max_pos
+        FROM usim_spc_v
+       WHERE usim_id_rmd = l_usim_id_rmd
+      ;
+      RETURN l_max_pos;
+    ELSE
+      usim_erl.log_error('usim_spc.get_cur_max_pos', 'Used not existing id [' || p_usim_id_spc || '].');
+      RETURN NULL;
+    END IF;
+  END get_cur_max_pos
   ;
 
   FUNCTION get_id_rmd(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)

@@ -2,8 +2,10 @@
 CREATE OR REPLACE FORCE VIEW usim_chi_v AS
   SELECT r_parent.usim_n_dimension AS parent_dimension
        , r_parent.dim_sign AS parent_dim_sign
+       , r_parent.dim_n1_sign AS parent_dim_n1_sign
        , r_child.usim_n_dimension AS child_dimension
        , r_child.dim_sign AS child_dim_sign
+       , r_child.dim_n1_sign AS child_dim_n1_sign
        , r_parent.usim_coordinate AS parent_coordinate
        , r_child.usim_coordinate AS child_coordinate
        , chi.usim_id_spc

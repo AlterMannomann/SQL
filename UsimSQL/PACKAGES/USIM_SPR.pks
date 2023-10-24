@@ -33,6 +33,28 @@ IS
   ;
 
   /**
+  * Checks if the current unprocessed queue is valid. All unprocessed records must have the current
+  * planck aeon and time and if the table is not empty, there must be at least 2 process records.
+  * Count of process records must be a multitude of 2. An empty table will also return 1.
+  * @return Returns 1 if queue is ready to be processed, otherwise error code: 0 no unprocessed records, -1 planck aeon/time error, -2 record count wrong.
+  */
+  FUNCTION is_queue_valid
+    RETURN NUMBER
+  ;
+
+  /**
+  * Fetches the current planck aeon and time if the queue is valid. Will not operate on empty tables.
+  * @param p_usim_planck_aeon The planck aeon for the current unprocessed records.
+  * @param p_usim_planck_time The planck time for the current unprocessed records.
+  * @return Returns 1 if planck data could be fetched, otherwise error code from USIM_SPR.IS_QUEUE_VALID: 0 no unprocessed records, -1 planck aeon/time error, -2 record count wrong.
+  */
+  FUNCTION get_unprocessed_planck( p_usim_planck_aeon OUT usim_spc_process.usim_planck_aeon%TYPE
+                                 , p_usim_planck_time OUT usim_spc_process.usim_planck_time%TYPE
+                                 )
+    RETURN NUMBER
+  ;
+
+  /**
   * Inserts a new process record with status IS_PROCESSED = 0 and current real time, planck aeon
   * and planck tick.
   * @param p_usim_id_spc_source The space id of the process that emits energy. Must exist.

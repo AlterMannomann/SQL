@@ -78,13 +78,23 @@ IS
   ;
 
   /**
-  * Returns the maximum available dimensions for a space id and the related universe in usim_space. Considers
-  * only n1 dimensions.
+  * Returns the current maximum available dimensions for a space id and the related universe in usim_space. Considers
+  * only n1 dimension of the given id.
   * @param p_usim_id_spc The space id.
-  * @return Returns the maximum available n=1 related dimensions for the related universe or -1 if no dimension available.
+  * @return Returns the maximum available n=1 related dimensions for the related universe or NULL on errors.
   */
   FUNCTION get_cur_max_dim_n1(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_dimension.usim_n_dimension%TYPE
+  ;
+
+  /**
+  * Returns the current maximum absolute position coordinate for a space id and the related universe in usim_space. Considers
+  * only the dimension axis of the given id.
+  * @param p_usim_id_spc The space id.
+  * @return Returns the maximum available absolute position coordinate (always positive) or NULL on errors.
+  */
+  FUNCTION get_cur_max_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
   ;
 
   /**

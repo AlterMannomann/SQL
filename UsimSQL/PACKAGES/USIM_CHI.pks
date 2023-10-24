@@ -83,6 +83,30 @@ IS
   ;
 
   /**
+  * Checks if a given space node has a child in the given dimension.
+  * @param p_usim_id_spc The space id to check data for.
+  * @param p_usim_n_dimension The dimension to check childs for.
+  * @return Returns 1 if the node has at least one child in the given dimension, otherwise 0.
+  */
+  FUNCTION has_child_at_dim( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                           , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                           )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if a given space node has a parent in the given dimension.
+  * @param p_usim_id_spc The space id to check data for.
+  * @param p_usim_n_dimension The dimension to check parents for.
+  * @return Returns 1 if the node has at least one parent in the given dimension, otherwise 0.
+  */
+  FUNCTION has_parent_at_dim( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                            , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                            )
+    RETURN NUMBER
+  ;
+
+  /**
   * Checks if a given space node has a child in the current dimension.
   * @param p_usim_id_spc The space id to check data for.
   * @return Returns 1 if the node has a child in the current dimension, otherwise 0.
@@ -116,9 +140,18 @@ IS
   /**
   * Retrieves the amount of childs a given space id has in the universe the parent is in.
   * @param p_usim_id_spc The space id to get the amount of childs.
-  * @return Returns the amount of childs found for the given space id.
+  * @return Returns the amount of childs found for the given space id in the related universe.
   */
   FUNCTION child_count(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the amount of childs a given space id has in the universe the parent is in.
+  * @param p_usim_id_spc The space id to get the amount of childs.
+  * @return Returns the amount of childs found for the given space id regardless of related universe.
+  */
+  FUNCTION child_count_all(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   ;
 
@@ -128,6 +161,15 @@ IS
   * @return Returns the amount of childs found for the given space id.
   */
   FUNCTION parent_count(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Retrieves the amount of parents a given space id has in the universe the child is in.
+  * @param p_usim_id_spc The space id to get the amount of parents.
+  * @return Returns the amount of childs found for the given space id.
+  */
+  FUNCTION parent_count_all(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   ;
 
@@ -159,6 +201,15 @@ IS
   */
   FUNCTION get_parent_same_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_space.usim_id_spc%TYPE
+  ;
+
+  /***
+  * Retrieve the maximum available dimension by childs and parents.
+  * @param p_usim_id_spc The space id to get the max child/parent dimensions for.
+  * @return Returns the highest dimension of childs/parents for the node.
+  */
+  FUNCTION get_cur_max_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_dimension.usim_n_dimension%TYPE
   ;
 
   /**

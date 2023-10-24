@@ -27,13 +27,22 @@ SELECT usim_planck_aeon
         , usim_planck_time
 ; 
 -- classify check
-SELECT CASE usim_dbif.classify_parent(usim_id_spc)
+SELECT CASE usim_dbif.classify_escape(usim_id_spc)
+         WHEN 0 THEN 'FULL'
+         WHEN 1 THEN 'FREE DIM POS'
+         WHEN 2 THEN 'FREE DIM'
+         WHEN 3 THEN 'FREE POS'
+         WHEN 4 THEN 'FREE X-POS'
+         ELSE 'ERR'
+       END AS classify_escape
+     , CASE usim_dbif.classify_parent(usim_id_spc)
          WHEN -2 THEN 'ERR'
          WHEN -1 THEN 'DM ERR'
          WHEN 0 THEN 'FULL'
          WHEN 1 THEN 'FREE DIM POS'
          WHEN 2 THEN 'FREE DIM'
          WHEN 3 THEN 'FREE POS'
+         WHEN 4 THEN 'FREE X-POS'
          ELSE 'ERR'
        END AS classify_parent
      , CASE usim_dbif.dimension_rating(usim_id_spc)
@@ -49,11 +58,20 @@ SELECT CASE usim_dbif.classify_parent(usim_id_spc)
          WHEN 2 THEN 'POS'
          WHEN 3 THEN 'DIM'
        END AS overflow
+     , usim_dbif.is_overflow_dim_spc(usim_id_spc) AS is_overflow_dim
+     , usim_dbif.is_overflow_pos_spc(usim_id_spc) AS is_overflow_pos
+     , usim_spo.is_axis_zero_pos(usim_id_spc) is_zero_axis
+     , usim_spc.is_universe_base(usim_id_spc) is_universe_base
      , usim_dbif.max_childs(usim_id_spc) AS max_childs
+     , usim_dbif.child_count(usim_id_spc) AS childs
+     , usim_spc.get_cur_max_dim_n1(usim_id_spc) AS max_dim_for_id
+     , usim_chi.has_child_next_dim(usim_id_spc) AS child_next_dim
      , usim_n_dimension
+     , dim_sign
      , dim_n1_sign
      , usim_spo.get_xyz(usim_id_spc) AS xyz
      , usim_id_spc
+     , usim_spo.get_axis_max_pos_parent(usim_id_spc) AS max_pos_parent
   FROM usim_spc_v
  ORDER BY dim_n1_sign DESC NULLS FIRST
         , usim_n_dimension
@@ -64,10 +82,12 @@ SELECT CASE usim_dbif.classify_parent(usim_id_spc)
 SELECT spr.usim_planck_time
      , spr.is_processed
      , xyz_src.xyz_coord AS from_xyz
+     , xyz_src.usim_process_spin AS from_spin
      , xyz_src.usim_n_dimension AS from_dim
      , xyz_src.dim_n1_sign AS from_n1_sign
      , xyz_src.dim_sign AS from_n_sign
      , xyz_tgt.xyz_coord AS to_xyz
+     , xyz_tgt.usim_process_spin AS to_spin
      , xyz_tgt.usim_n_dimension AS to_dim
      , xyz_tgt.dim_n1_sign AS to_n1_sign
      , xyz_tgt.dim_sign AS to_n_sign
@@ -99,3 +119,4 @@ SELECT * FROM usim_rmd_v;
 SELECT * FROM usim_position;
 SELECT * FROM usim_spo_xyz_v;
 SELECT * FROM usim_spr_v;
+SELECT * FROM usim_mlv_state_v;

@@ -1,13 +1,6 @@
 @@../UTIL/SET_DEFAULT_SPOOL.sql
 -- start spool
-SELECT CASE
-         WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM_TEST'
-         THEN 'LOG/USIM_TEST_SETUP.log'
-         ELSE 'LOG/USIM_SETUP.log'
-       END AS LOGFILE
-  FROM dual
-;
-SPOOL &LOGFILE
+SPOOL LOG/USIM_SETUP.log
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 
@@ -30,8 +23,9 @@ SELECT CASE
 
 -- build model
 @@USIM_MODEL.sql
-
 -- check state of database
 @@../UTIL/VERIFY_SYSTEM.sql
+-- setup some basic data
+@@../UTIL/START_SETUP.sql
 
 SPOOL OFF

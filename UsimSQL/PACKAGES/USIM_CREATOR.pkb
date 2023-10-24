@@ -30,10 +30,9 @@ IS
     IF l_file_exist
     THEN
       l_backup := TRIM(p_filename) || '_' || TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || '.json';
-      -- copy file first
-      UTL_FILE.FCOPY('USIM_DIR', l_filename, 'USIM_HIST_DIR', l_backup);
-      -- delete old file
-      UTL_FILE.FREMOVE('USIM_DIR', l_filename);
+      -- "copy" file first by rename, FCOPY requires reading content with required CR limiter before 32767 bytes
+      -- furthermore with rename no FREMOVE is required
+      UTL_FILE.FRENAME('USIM_DIR', l_filename, 'USIM_HIST_DIR', l_backup);
     END IF;
     -- now write new file
     -- open CLOB first
@@ -51,7 +50,7 @@ IS
     WHILE l_pos < l_clob_len
     LOOP
       EXIT WHEN l_buffer IS NULL;
-      UTL_FILE.put_raw(l_file, UTL_RAW.CAST_TO_RAW(l_buffer));
+      UTL_FILE.PUT_RAW(l_file, UTL_RAW.CAST_TO_RAW(l_buffer));
       l_pos := l_pos + LEAST(LENGTH(l_buffer) + 1, l_bufsize);
       UTL_FILE.FFLUSH(l_file);
       -- load next buffer chunk
@@ -518,10 +517,391 @@ IS
                               )
     RETURN usim_space.usim_id_spc%TYPE
   IS
+    -- zero node dim 0 pos 0
+    l_usim_id_spc           usim_space.usim_id_spc%TYPE;
+    -- used for parent check
+    l_usim_id_spc_parent    usim_space.usim_id_spc%TYPE;
+    -- dim 1 n1+ pos +0
+    l_id_spc0_n1p_1p        usim_space.usim_id_spc%TYPE;
+    -- dim 1 n1- pos -0
+    l_id_spc0_n1n_1n        usim_space.usim_id_spc%TYPE;
+    -- dim 1 n1+ pos +1
+    l_id_spc1p_n1p_1p       usim_space.usim_id_spc%TYPE;
+    -- dim 1 n1- pos -1
+    l_id_spc1n_n1n_1n       usim_space.usim_id_spc%TYPE;
+    -- universe id
+    l_usim_id_mlv           usim_multiverse.usim_id_mlv%TYPE;
+    -- dim axis 0
+    l_usim_id_rmd           usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    -- pos 0
+    l_usim_id_pos           usim_position.usim_id_pos%TYPE;
+    -- pos +1
+    l_usim_id_pos_1p        usim_position.usim_id_pos%TYPE;
+    -- pos -1
+    l_usim_id_pos_1n        usim_position.usim_id_pos%TYPE;
+    -- dim axis 1+
+    l_id_rmd_n1p_1p         usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    -- dim axis 1-
+    l_id_rmd_n1n_1n         usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    -- dummy of dim axis 0 creation
+    l_rmd_dummy             usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    -- parents array
+    l_parents               usim_static.usim_ids_type;
+    l_return                NUMBER;
   BEGIN
-    usim_erl.log_error('usim_creator.create_new_universe', 'NOT IMPLEMENTED.');
-    RETURN NULL;
+    -- check base data, must exist
+    IF usim_dbif.has_basedata = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Base data not initialized.');
+      RETURN NULL;
+    END IF;
+    -- a parent must be given, if usim_space has already data, assuming an existing base universe seed.
+    IF     usim_dbif.has_data_mlv = 1
+       AND p_usim_id_spc_parent  IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Parent for new universe missing, as already data in usim_multiverse exist.');
+      RETURN NULL;
+    END IF;
+    -- ignore parent if usim_space is empty
+    IF     usim_dbif.has_data_mlv = 0
+       AND p_usim_id_spc_parent  IS NOT NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Ignoring parent assignment [' || p_usim_id_spc_parent || '] on empty multiverse.');
+      l_usim_id_spc_parent := NULL;
+    ELSE
+      l_usim_id_spc_parent := p_usim_id_spc_parent;
+    END IF;
+    -- create universe
+    l_usim_id_mlv := usim_dbif.create_universe( p_usim_energy_start_value
+                                              , p_usim_planck_time_unit
+                                              , p_usim_planck_length_unit
+                                              , p_usim_planck_speed_unit
+                                              , p_usim_planck_stable
+                                              , p_usim_ultimate_border
+                                              , FALSE
+                                              )
+    ;
+    -- if universe creation failed rollback everything
+    IF l_usim_id_mlv IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create new universe with data energy start [' || p_usim_energy_start_value || '], planck time [' || p_usim_planck_time_unit || '], planck length [' || p_usim_planck_length_unit || '], planck speed [' || p_usim_planck_speed_unit || '], planck stable [' || p_usim_planck_stable || '] and ultimate border rule [' || p_usim_ultimate_border || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- check and create dimension, if necessary
+    l_return := usim_dbif.init_dimensions(FALSE);
+    IF l_return = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to init dimensions.');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- check and create positions, if necessary
+    l_return := usim_dbif.init_positions(FALSE);
+    IF l_return = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to init positions.');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- get position 0
+    l_usim_id_pos := usim_dbif.get_id_pos(0);
+    IF l_usim_id_pos IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to get position 0.');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- create dim axis
+    l_return  := usim_dbif.create_dim_axis(l_usim_id_mlv, 0, NULL, l_usim_id_rmd, l_rmd_dummy, FALSE);
+    IF l_return = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create dimension axis for dimension 0 universe id [' || l_usim_id_mlv || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- set parent if available
+    IF l_usim_id_spc_parent IS NOT NULL
+    THEN
+      l_parents(1) := l_usim_id_spc_parent;
+    END IF;
+    -- create basic space node
+    l_usim_id_spc := usim_dbif.create_space_node(l_usim_id_rmd, l_usim_id_pos, l_parents, FALSE);
+    IF l_usim_id_spc IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create space node for rmd id [' || l_usim_id_rmd || '], pos id [' || l_usim_id_pos || '] and parent [' || NVL(l_usim_id_spc_parent, 'NONE') || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- create dim axis (+/-) for dimension 1
+    l_return := usim_dbif.create_dim_axis(l_usim_id_mlv, 1, l_usim_id_rmd, l_id_rmd_n1p_1p, l_id_rmd_n1n_1n, FALSE);
+    IF l_return = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create dimension axis for dimension 1 universe id [' || l_usim_id_mlv || '] and rmd id [' || l_usim_id_rmd || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- create space nodes on dimension 1
+    l_parents(1) := l_usim_id_spc;
+    -- +0,0,0
+    l_id_spc0_n1p_1p  := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_usim_id_pos, l_parents, FALSE);
+    IF l_id_spc0_n1p_1p IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create space node position +0 at dimension 1, n1+ for rmd id [' || l_id_rmd_n1p_1p || '], pos id [' || l_usim_id_pos || '] and parent [' || NVL(l_usim_id_spc_parent, 'NONE') || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- -0,0,0
+    l_id_spc0_n1n_1n  := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_usim_id_pos, l_parents, FALSE);
+    IF l_id_spc0_n1p_1p IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create space node position -0 at dimension 1, n1- for rmd id [' || l_id_rmd_n1n_1n || '], pos id [' || l_usim_id_pos || '] and parent [' || NVL(l_usim_id_spc_parent, 'NONE') || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- get positions 1 (+/-)
+    l_usim_id_pos_1p := usim_dbif.get_id_pos(1);
+    IF l_usim_id_pos_1p IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to get position +1.');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    l_usim_id_pos_1n := usim_dbif.get_id_pos(-1);
+    IF l_usim_id_pos_1n IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to get position -1.');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- from here on parents have to have the same dim n1 sign
+    -- +1,0,0
+    l_parents(1) := l_id_spc0_n1p_1p;
+    l_id_spc1p_n1p_1p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_usim_id_pos_1p, l_parents, FALSE);
+    IF l_id_spc1p_n1p_1p IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create space node position +1 at dimension 1, n1+ for rmd id [' || l_id_rmd_n1p_1p || '], pos id [' || l_usim_id_pos_1p || '] and parent [' || NVL(l_parents(1), 'NONE') || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- -1,0,0
+    l_parents(1) := l_id_spc0_n1n_1n;
+    l_id_spc1n_n1n_1n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_usim_id_pos_1n, l_parents, FALSE);
+    IF l_id_spc1p_n1p_1p IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.create_new_universe', 'Failed to create space node position -1 at dimension 1, n1- for rmd id [' || l_id_rmd_n1n_1n || '], pos id [' || l_usim_id_pos_1n || '] and parent [' || NVL(l_parents(1), 'NONE') || '].');
+      ROLLBACK;
+      RETURN NULL;
+    END IF;
+    -- now commit if coming so far and do commit is set
+    IF p_do_commit
+    THEN
+      COMMIT;
+    END IF;
+    RETURN l_usim_id_spc;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_creator.create_new_universe', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
   END create_new_universe
+  ;
+
+  FUNCTION handle_overflow_dim( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                              , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                              )
+    RETURN NUMBER
+  IS
+    l_dim_parent      usim_space.usim_id_spc%TYPE;
+    l_spc_id_pos0p    usim_space.usim_id_spc%TYPE;
+    l_spc_id_pos1p    usim_space.usim_id_spc%TYPE;
+    l_spc_id_pos0n    usim_space.usim_id_spc%TYPE;
+    l_spc_id_pos1n    usim_space.usim_id_spc%TYPE;
+    l_id_pos0         usim_position.usim_id_pos%TYPE;
+    l_id_pos1p        usim_position.usim_id_pos%TYPE;
+    l_id_pos1n        usim_position.usim_id_pos%TYPE;
+    l_parents         usim_static.usim_ids_type;
+    l_next_dim        usim_dimension.usim_n_dimension%TYPE;
+    l_usim_id_mlv     usim_multiverse.usim_id_mlv%TYPE;
+    l_usim_id_rmd     usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_usim_id_rmd_p   usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_usim_id_rmd_n   usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_dim_sign        usim_rel_mlv_dim.usim_sign%TYPE;
+    l_dim_n1_sign     usim_rel_mlv_dim.usim_n1_sign%TYPE;
+    l_result          NUMBER;
+    l_classify        NUMBER;
+  BEGIN
+    l_classify := usim_dbif.is_dim_extendable(p_usim_id_spc, l_dim_parent, l_next_dim);
+    IF l_classify = 2
+    THEN
+      -- get data for create dimension
+      l_result := usim_dbif.get_spc_dim_details(l_dim_parent, l_usim_id_mlv, l_usim_id_rmd, l_dim_sign, l_dim_n1_sign);
+      IF l_result = 0
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow_dim', 'Could not fetch data for space id [' || p_usim_id_spc || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      -- create a new dimension on zero pos axis node
+      l_result := usim_dbif.create_dim_axis(l_usim_id_mlv, l_next_dim, l_usim_id_rmd, l_usim_id_rmd_p, l_usim_id_rmd_n);
+      -- create position 0 and 1 on new dimension
+      l_id_pos0      := usim_dbif.get_id_pos(0);
+      l_id_pos1p     := usim_dbif.get_id_pos(1);
+      l_id_pos1n     := usim_dbif.get_id_pos(-1);
+      l_parents(1)   := l_dim_parent;
+      l_spc_id_pos0p := usim_dbif.create_space_node(l_usim_id_rmd_p, l_id_pos0, l_parents);
+      IF l_spc_id_pos0p IS NULL
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow_dim', 'Could not create space id for rmd [' || l_usim_id_rmd_p || '], pos [' || l_id_pos0 || '] and parent [' || l_parents(1) || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      l_parents(1)   := l_spc_id_pos0p;
+      l_spc_id_pos1p := usim_dbif.create_space_node(l_usim_id_rmd_p, l_id_pos1p, l_parents);
+      IF l_spc_id_pos1p IS NULL
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow_dim', 'Could not create space id for rmd [' || l_usim_id_rmd_p || '], pos [' || l_id_pos1p || '] and parent [' || l_parents(1) || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      l_parents(1)   := l_dim_parent;
+      l_spc_id_pos0n := usim_dbif.create_space_node(l_usim_id_rmd_n, l_id_pos0, l_parents);
+      IF l_spc_id_pos0n IS NULL
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow_dim', 'Could not create space id for rmd [' || l_usim_id_rmd_n || '], pos [' || l_id_pos0 || '] and parent [' || l_parents(1) || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      l_parents(1)   := l_spc_id_pos0n;
+      l_spc_id_pos1n := usim_dbif.create_space_node(l_usim_id_rmd_n, l_id_pos1n, l_parents);
+      IF l_spc_id_pos1n IS NULL
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow_dim', 'Could not create space id for rmd [' || l_usim_id_rmd_n || '], pos [' || l_id_pos1n || '] and parent [' || l_parents(1) || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Handle new dimension in zero pos for space id [' || p_usim_id_spc || '].');
+      RETURN 1;
+    ELSIF l_classify = 1
+    THEN
+      -- connect node to available dimension
+      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Not implemented for space id [' || p_usim_id_spc || '].');
+    ELSE
+      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Not implemented for space id [' || p_usim_id_spc || '].');
+    END IF;
+    RETURN 1;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END handle_overflow_dim
+  ;
+
+
+  FUNCTION handle_overflow_pos( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                              , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                              )
+    RETURN NUMBER
+  IS
+    l_result    usim_space.usim_id_spc%TYPE;
+    l_parent    usim_space.usim_id_spc%TYPE;
+    l_parents   usim_static.usim_ids_type;
+    l_id_pos    usim_position.usim_id_pos%TYPE;
+    l_id_rmd    usim_rel_mlv_dim.usim_id_rmd%TYPE;
+    l_is_valid  NUMBER;
+    l_return    NUMBER;
+  BEGIN
+    l_is_valid := usim_dbif.is_pos_extendable(p_usim_id_spc);
+    IF l_is_valid = 0
+    THEN
+      usim_erl.log_error('usim_creator.handle_overflow_pos', 'Used invalid node id [' || p_usim_id_spc || '] no axis zero pos or no position free.');
+      RETURN 0;
+    END IF;
+    IF l_is_valid = 1
+    THEN
+      -- new position with parent current given node
+      l_parent := p_usim_id_spc;
+    ELSE
+      -- get max pos for zero nodes using their dimension settings
+      l_parent := usim_dbif.get_axis_max_pos_parent(p_usim_id_spc);
+      IF l_parent IS NULL
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow_pos', 'Could not retrieve max pos parent id from space node [' || p_usim_id_spc || '].');
+        RETURN 0;
+      END IF;
+    END IF;
+    l_parents(1) := l_parent;
+    -- get next position and axis
+    l_return := usim_dbif.get_next_pos_on_axis(l_parent, l_id_pos, l_id_rmd);
+    IF l_return = 0
+    THEN
+      usim_erl.log_error('usim_creator.handle_overflow_pos', 'usim_dbif.get_next_pos_on_axis failed for parent [' || l_parent || '].');
+      RETURN 0;
+    END IF;
+    -- create space node with parent identified
+    l_result := usim_dbif.create_space_node(l_id_rmd, l_id_pos, l_parents, p_do_commit);
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_creator.handle_overflow_pos', 'Failed to create space node for rmd [' || l_id_rmd || '], pos [' || l_id_pos || '] and parent [' || l_parents(1) || '].');
+      RETURN 0;
+    END IF;
+    RETURN 1;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_creator.handle_overflow_pos', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END handle_overflow_pos
+  ;
+
+  FUNCTION handle_overflow( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                          , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                          )
+    RETURN NUMBER
+  IS
+    l_escape    NUMBER;
+    l_result    NUMBER;
+  BEGIN
+    l_escape := usim_dbif.classify_escape(p_usim_id_spc);
+
+    IF l_escape IN (3, 4)
+    THEN
+      -- escape position 4 and 3 can be handled together
+      l_result := usim_creator.handle_overflow_pos(p_usim_id_spc, p_do_commit);
+      IF l_result = 0
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow', 'Pos overflow handling error for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      usim_erl.log_error('usim_creator.handle_overflow', 'Handle pos overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSIF l_escape = 2
+    THEN
+      l_result := usim_creator.handle_overflow_dim(p_usim_id_spc, p_do_commit);
+      usim_erl.log_error('usim_creator.handle_overflow', 'Handle dim overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSE
+      usim_erl.log_error('usim_creator.handle_overflow', 'Should handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    END IF;
+    RETURN 1;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_creator.handle_overflow', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END handle_overflow
   ;
 
 END usim_creator;

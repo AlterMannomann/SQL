@@ -19,26 +19,38 @@ IS
   PROCEDURE set_crashed;
 
   /**
-  * Wrapper for usim_mlv.update_state. Runs as autonomous transaction.
+  * Wrapper for usim_mlv.update_state. Updates state by USIM_MLV_STATE_V valid and calculated state.
+  * If state does not match (STATUS_VALID = 0) the calculated state is set. If state is valid, do nothing.
   * @param p_usim_id_mlv The id of the universe, that should update its state.
-  * @param p_usim_universe_status The new state of the universe. Must match usim_static's usim_multiverse_status_dead, usim_multiverse_status_crashed, usim_multiverse_status_active or usim_multiverse_status_inactive.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
   * @return Returns the updated state or NULL on errors.
   */
-  FUNCTION set_universe_state( p_usim_id_mlv          IN usim_multiverse.usim_id_mlv%TYPE
-                             , p_usim_universe_status IN usim_multiverse.usim_universe_status%TYPE
+  FUNCTION set_universe_state( p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
+                             , p_do_commit   IN BOOLEAN                          DEFAULT TRUE
                              )
     RETURN usim_multiverse.usim_universe_status%TYPE
   ;
 
   /**
-  * Determines the state of the universe, the given space node is in and
-  * updates the state as following:</br>
-  * Universe is inactive - set it to active.</br>
-  * Universe is active   - determine if universe is dead or active and set state accordingly.</br>
+  * Determines the state of the universe, the given space node is in and updates the state to the calculated state
+  * of USIM_MLV_STATE_V if current state is not valid.
   * @param p_usim_id_spc The space id of a node in a universe that should update its state.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
   * @return Returns the current state of the universe or NULL on errors.
   */
-  FUNCTION set_universe_state(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+  FUNCTION set_universe_state_spc( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                                 , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                                 )
+    RETURN usim_multiverse.usim_universe_status%TYPE
+  ;
+
+  /**
+  * Sets the seed universe active ignoring any current state. Used for placing start node and activate the seed universe for the
+  * first run. Afterwards the universe state should be determined after running a process queue.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns the activated state of the universe or NULL on errors.
+  */
+  FUNCTION set_seed_active(p_do_commit IN BOOLEAN DEFAULT TRUE)
     RETURN usim_multiverse.usim_universe_status%TYPE
   ;
 
@@ -75,6 +87,14 @@ IS
   * @return Returns 1 if base data exist and init was successful, 0 if base data do not exist and -1 on errors.
   */
   FUNCTION init_positions(p_do_commit IN BOOLEAN DEFAULT TRUE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if base data have been initialized.
+  * @return Returns 1 if base data are available, otherwise 0.
+  */
+  FUNCTION has_basedata
     RETURN NUMBER
   ;
 
@@ -122,11 +142,39 @@ IS
   ;
 
   /**
+  * Checks if usim_multiverse has data.
+  * @return Returns 1 if data exists, otherwise 0.
+  */
+  FUNCTION has_data_mlv
+    RETURN NUMBER
+  ;
+
+  /**
   * Checks if a given usim_multiverse id exists.
   * @param p_usim_id_mlv The id of the universe to check.
   * @return Returns 1 if universe exists, otherwise 0.
   */
   FUNCTION has_data_mlv(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Wrapper for usim_spo.has_axis_max_pos_parent.
+  * Checks if for the given space id a maximum position on the dimension axis of the space
+  * node exists, that may or may not be different to the given space id. Handles escape situation 4 where
+  * dimension axis zero nodes can trigger new positions on their dimension axis.
+  * @param p_usim_id_spc The space id to check for max position on its dimension axis.
+  * @return Returns 1 for maximum dimension position found, 0 for not found and -1 for errors in dimension symmetry.
+  */
+  FUNCTION has_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if the universe seed is active.
+  * @return Returns 1 if universe seed is active, otherwise 0.
+  */
+  FUNCTION is_seed_active
     RETURN NUMBER
   ;
 
@@ -242,6 +290,67 @@ IS
   ;
 
   /**
+  * Wrapper for usim_spr.is_queue_valid.
+  * Checks if the current unprocessed queue is valid. All unprocessed records must have the current
+  * planck aeon and time and if the table is not empty, there must be at least 2 process records.
+  * Count of process records must be a multitude of 2. An empty table will also return 1.
+  * @return Returns 1 if queue is ready to be processed, otherwise error code: 0 no unprocessed records, -1 planck aeon/time error, -2 record count wrong.
+  */
+  FUNCTION is_queue_valid
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if a given space id is extendable with a new position. Space node must either be a zero position axis node or
+  * a node that has no child it its dimension to match.
+  * @param p_usim_id_spc The space node id to check.
+  * @return Returns 1 if node has no child in its dimension, 2 if node is a zero position axis node else 0.
+  */
+  FUNCTION is_pos_extendable(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if a given space id is extendable with a new dimension.
+  * @param p_usim_id_spc The space node id to check.
+  * @param p_use_parent The parent space node id to use for dimension extend. NULL on return 0.
+  * @param p_next_dim The next available dimension to create. NULL on return 0.
+  * @return Returns 1 if node has no child in free dimension, 2 if new dimension on zero axis should be build else error 0.
+  */
+  FUNCTION is_dim_extendable( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
+                            , p_use_parent  OUT usim_space.usim_id_spc%TYPE
+                            , p_next_dim    OUT usim_dimension.usim_n_dimension%TYPE
+                            )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Get the child count of a given space node either in related universe are in all
+  * universes.
+  * @param p_usim_id_spc The space node id to check.
+  * @param p_ignore_mlv Defines if childs are only counted within universe of the space node (0) or childs are counted regardless of the universe they are in.
+  * @return Returns amount of childs for the given space node and universe mode or NULL on errors.
+  */
+  FUNCTION child_count( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                      , p_ignore_mlv  IN NUMBER                      DEFAULT 0
+                      )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Get the parent count of a given space node either in related universe are in all
+  * universes.
+  * @param p_usim_id_spc The space node id to check.
+  * @param p_ignore_mlv Defines if parents are only counted within universe of the space node (0) or parents are counted regardless of the universe they are in.
+  * @return Returns amount of parents for the given space node and universe mode or NULL on errors.
+  */
+  FUNCTION parent_count( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                       , p_ignore_mlv  IN NUMBER                      DEFAULT 0
+                       )
+    RETURN NUMBER
+  ;
+
+  /**
   * Wrapper for usim_mlv.insert_universe.
   * Inserts a new universe with the given values. Does check if a base universe already exists. USIM_UNIVERSE_STATUS is automatically set
   * to inactive on insert. USIM_IS_BASE_UNIVERSE is determined by existance of data. If no base universe exist, the universe gets the base universe, otherwise
@@ -343,7 +452,7 @@ IS
   * Wrapper for usim_spc.flip_process_spin.
   * Updates usim_process_spin by flipping the existing value (1 to -1 and vice versa)
   * if the given space node is not in dimension 0 with position 0. Otherwise does nothing.
-  * @param p_usim_id_spc The space id to get the max dimension.
+  * @param p_usim_id_spc The space id to flip process spin.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
   * @return Returns 1 if no errors or 0 if space id does not exist.
   */
@@ -399,12 +508,40 @@ IS
   ;
 
   /**
+  * Wrapper for usim_spc.get_id_mlv.
+  * Retrieves the universe id for a given space id if it exists in usim_space.
+  * @param p_usim_id_spc The space id.
+  * @return Returns usim_id_mlv if space id exists, otherwise NULL.
+  */
+  FUNCTION get_id_mlv(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_multiverse.usim_id_mlv%TYPE
+  ;
+
+  /**
   * Wrapper for usim_spc.get_id_spc_base_universe.
   * Retrieve the space id of the universe base seed at position 0 and dimension 0 without any parents.
   * @return Returns the usim_id_spc if a base universe seed exists or NULL.
   */
   FUNCTION get_id_spc_base_universe
     RETURN usim_space.usim_id_spc%TYPE
+  ;
+
+  /**
+  * Retrieve details about the space id for creation new dimensions.
+  * @param p_usim_id_spc The space id to get data for.
+  * @param p_usim_id_mlv The universe id of the space node.
+  * @param p_usim_id_rmd The dimension axis id of the space node.
+  * @param p_usim_sign The dimension sign of the space node.
+  * @param p_usim_n1_sign The dimension n1 sign of the space node.
+  * @return Returns 1 if data exist for space id or 0 if space id does not exist.
+  */
+  FUNCTION get_spc_dim_details( p_usim_id_spc  IN  usim_space.usim_id_spc%TYPE
+                              , p_usim_id_mlv  OUT usim_multiverse.usim_id_mlv%TYPE
+                              , p_usim_id_rmd  OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
+                              , p_usim_sign    OUT usim_rel_mlv_dim.usim_sign%TYPE
+                              , p_usim_n1_sign OUT usim_rel_mlv_dim.usim_n1_sign%TYPE
+                              )
+    RETURN NUMBER
   ;
 
   /**
@@ -514,6 +651,45 @@ IS
   ;
 
   /**
+  * Wrapper for usim_spr.get_unprocessed_planck.
+  * Fetches the current planck aeon and time if the queue is valid. Will not operate on empty tables.
+  * @param p_usim_planck_aeon The planck aeon for the current unprocessed records.
+  * @param p_usim_planck_time The planck time for the current unprocessed records.
+  * @return Returns 1 if planck data could be fetched, otherwise error code from USIM_SPR.IS_QUEUE_VALID: 0 no unprocessed records, -1 planck aeon/time error, -2 record count wrong.
+  */
+  FUNCTION get_unprocessed_planck( p_usim_planck_aeon OUT usim_spc_process.usim_planck_aeon%TYPE
+                                 , p_usim_planck_time OUT usim_spc_process.usim_planck_time%TYPE
+                                 )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Wrapper for usim_spo.get_axis_max_pos_parent.
+  * Gets the space node with the maximum position on the given dimension axis. The dimension sign is
+  * used to identify the expected coordinate sign, the dimension n1 sign is used to limit the space
+  * which is divided into two subspaces by dimension 1. The dimension itself is used to identify the
+  * dimension axis, we want to get a new parent node from to extend the dimension and universe.
+  * Used with escape situation 4 where dimension axis zero nodes can trigger new positions on their dimension axis.
+  * @param p_usim_id_spc The space id ancestor node which may be itself the parent node or a 0 node on a dimension axis that can trigger new coordinates.
+  * @return The space node with the highest position on a dimension axis, sign and n1 sign of the given ancestor node, otherwise NULL on errors. Use has_axis_max_pos_parent to check before call.
+  */
+  FUNCTION get_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_id_spc%TYPE
+  ;
+
+  /**
+  * Retrieve the the next position and axis for a given space id.
+  * @param p_usim_id_spc The space id ancestor node which may be itself the parent node or a 0 node on a dimension axis that can trigger new coordinates.
+  * @return Return 1 if the operation was successful otherwise 0.
+  */
+  FUNCTION get_next_pos_on_axis( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
+                               , p_usim_id_pos OUT usim_position.usim_id_pos%TYPE
+                               , p_usim_id_rmd OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
+                               )
+    RETURN NUMBER
+  ;
+
+  /**
   * Gets the overflow rating for a given space id. Overflow rating:</br>
   * 0 if universe has overflow in position and dimension.</br>
   * 1 if no overflow at all.</br>
@@ -547,8 +723,8 @@ IS
   * Gets the dimension axis rating for a given space id. Dimension rating:</br>
   * -1 error retrieving axis rating.</br>
   * 0 center axis at dimension n = 0, with position 0 in dimension 0. 2 special childs possible with opposite output energy sign.</br>
-  * 1 center axis at dimension n > 0, with position 0 in dimension n and sign (-/+1). 2 childs possible</br>
-  * 2 node is pure dimension axis coordinate, all other dimension coordinates are 0 apart from current dimension. 2 x n + 1 possible childs</br>
+  * 1 center axis at dimension n > 0, with position 0 in dimension n and sign (-/+1). 2 x n + 1 child possible</br>
+  * 2 node is pure dimension axis coordinate, all other dimension coordinates are 0 apart from current dimension. 1 possible child</br>
   * 3 node is in the middle of somewhere. 2 x n connections - x parents = possible childs</br>
   * @param p_usim_id_spc The child id to check data for.
   * @return Returns dimension rating as defined.
@@ -577,6 +753,7 @@ IS
   * 1 node is ready to get connected, further childs or connects are possible to dimensions and positions.</br>
   * 2 node is ready to get connected, further childs or connects are possible only to dimensions.</br>
   * 3 node is ready to get connected, further childs or connects are possible only to positions.</br>
+  * 4 node is ready to get connected, only new positions on dimension 1 axis possible.</br>
   * @param p_usim_id_spc The parent space id to classify.
   * @return Returns the classification of the parent space node.
   */
@@ -593,6 +770,7 @@ IS
   * 1 node can extend dimensions and positions to escape.</br>
   * 2 node can only extend dimensions to escape.</br>
   * 3 node can only extend positions to escape.</br>
+  * 4 node can only extend positions on dimension 1 axis to escape.</br>
   * @param p_usim_id_spc The space id to classify.
   * @return Returns the classification of the space node for escapes.
   */

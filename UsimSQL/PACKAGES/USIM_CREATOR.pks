@@ -142,9 +142,9 @@ IS
   ;
 
   /**
-  * Creates a universe, with a basic position coordinate 0, dimension 0 and node for it. If first universe, it will be the base universe.
-  * Will create also dimension 1 axis with position 1 and sign of axis. Parent node is only allowed for non-base universes otherwise ignored.
-  * Will only commit changes if all steps have been executed without errors otherwise rollback is executed.
+  * Creates a universe, with a basic position coordinate 0, dimension 0 and node for it. If first universe, it will be the base universe. Will
+  * create also the basic connections to dimension 1 with positions +0/-0 and +1/-1 for both dimension axis.
+  * Will only commit changes (if p_do_commit is TRUE) if all steps have been executed without errors. On errors always a rollback is executed.
   * @param p_usim_energy_start_value The start value of energy the universe should have. For inserts the absolute value is used and default if NULL or 0.
   * @param p_usim_planck_time_unit The outside planck time unit for this universe. Will use the absolute value and default if NULL or 0.
   * @param p_usim_planck_length_unit The outside planck length unit for this universe. Will use the absolute value and default if NULL or 0.
@@ -153,7 +153,7 @@ IS
   * @param p_usim_ultimate_border The energy flow rule for ultimate border (1) or any dimension border (0). NULL is interpreted as 1.
   * @param p_usim_id_spc_parent The usim_space id of the node, that is the parent of this universe. Ignored, if universe is base universe. Mandatory for non-base universes.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
-  * @return The new usim_space id for dimension 0 or NULL if error or base data are not available.
+  * @return The new usim_space id for dimension 0 or NULL if error or base data / mandatory parent in populated universe are not available.
   */
   FUNCTION create_new_universe( p_usim_energy_start_value IN usim_multiverse.usim_energy_start_value%TYPE DEFAULT 1
                               , p_usim_planck_time_unit   IN usim_multiverse.usim_planck_time_unit%TYPE   DEFAULT 1
@@ -165,6 +165,47 @@ IS
                               , p_do_commit               IN BOOLEAN                                      DEFAULT TRUE
                               )
     RETURN usim_space.usim_id_spc%TYPE
+  ;
+
+  /**
+  * In case of dimension overflow either a new node is created, if a higher free dimension is available
+  * or the creation of a new dimension with pos 0 and 1 is triggered.
+  * @param p_usim_id_spc The space node id causing the overflow.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns 1 on success or 0 on errors.
+  */
+  FUNCTION handle_overflow_dim( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                              , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                              )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Creates a new node in case of position overflow. Will add a new position on the axis the
+  * given node is. Depends on correct identified escape strategy (3, 4) which imply the creation
+  * of a new position. Will only accept nodes that are either 0 coordinate on the dimension axis or
+  * nodes that have no child in current dimension.
+  * @param p_usim_id_spc The space node id causing the overflow.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns 1 on success or 0 on errors.
+  */
+  FUNCTION handle_overflow_pos( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                              , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                              )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Main hub to handle overflow situations. Depending on escape classify an appropriate
+  * action is executed. Will create necessary space nodes for positions, dimensions or universes.
+  * @param p_usim_id_spc The usim_space id causing the overflow.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns 1 if overflow could be handled otherwise 0.
+  */
+  FUNCTION handle_overflow( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                          , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                          )
+    RETURN NUMBER
   ;
 
 END usim_creator;

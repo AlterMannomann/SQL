@@ -33,6 +33,49 @@ IS
   END has_data
   ;
 
+  FUNCTION has_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result            NUMBER;
+  BEGIN
+    -- fetch count
+      WITH known AS
+           (SELECT usim_id_spc
+                 , usim_spo.is_axis_pos(usim_id_spc) AS is_axis
+                 , usim_coordinate
+                 , usim_id_rmd
+                 , dim_sign
+              FROM usim_spc_v
+             WHERE usim_id_rmd = (SELECT usim_id_rmd FROM usim_space WHERE usim_id_spc = p_usim_id_spc)
+           )
+         , maxpos AS
+           (SELECT CASE
+                     WHEN dim_sign >= 0
+                     THEN MAX(usim_coordinate)
+                     ELSE MIN(usim_coordinate)
+                   END                         AS parent_pos
+                 , usim_id_rmd
+                 , dim_sign
+              FROM known
+             WHERE is_axis = 1
+             GROUP BY usim_id_rmd
+                    , dim_sign
+           )
+    SELECT COUNT(*)
+      INTO l_result
+      FROM known
+     INNER JOIN maxpos
+        ON known.usim_coordinate  = maxpos.parent_pos
+       AND known.usim_id_rmd      = maxpos.usim_id_rmd
+       AND known.dim_sign         = maxpos.dim_sign
+     WHERE known.is_axis = 1
+    ;
+    -- do not mimic count to 0 and 1 as any value > 1 is a dimension symmetry error
+    RETURN l_result;
+  END has_axis_max_pos_parent
+  ;
+
+
   FUNCTION get_xyz(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN VARCHAR2
   IS
@@ -74,10 +117,157 @@ IS
       ;
       RETURN l_result;
     ELSE
-      usim_erl.log_error('usim_spo.get_xyz', 'Used with space id [' || p_usim_id_spc || '] not in USIM_SPC_POS or not available dimension [' || p_usim_n_dimension || '].');
+      usim_erl.log_error('usim_spo.get_dim_coord', 'Used with space id [' || p_usim_id_spc || '] not in USIM_SPC_POS or not available dimension [' || p_usim_n_dimension || '].');
       RETURN NULL;
     END IF;
   END get_dim_coord
+  ;
+
+  FUNCTION get_coord_id(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN VARCHAR2
+  IS
+    l_coord_id VARCHAR2(32767);
+    l_max_dim  NUMBER;
+  BEGIN
+    IF usim_spo.has_data(p_usim_id_spc) = 1
+    THEN
+      l_max_dim  := usim_base.get_max_dimension;
+      l_coord_id := '';
+      FOR l_dim IN 0..l_max_dim
+      LOOP
+        -- check size before
+        IF LENGTH(l_coord_id) + LENGTH(',' || usim_spo.get_dim_coord(p_usim_id_spc, l_dim)) > 32767
+        THEN
+          usim_erl.log_error('usim_spo.get_coord_id', 'Too much dimensions to build coordinate id within system limits for space id [' || p_usim_id_spc || '].');
+          RETURN NULL;
+        END IF;
+        IF l_dim = 0
+        THEN
+          l_coord_id := l_coord_id || usim_spo.get_dim_coord(p_usim_id_spc, l_dim);
+        ELSE
+          l_coord_id := l_coord_id || ',' || usim_spo.get_dim_coord(p_usim_id_spc, l_dim);
+        END IF;
+      END LOOP;
+      RETURN l_coord_id;
+    ELSE
+      usim_erl.log_error('usim_spo.get_coord_id', 'Used with invalid space id [' || p_usim_id_spc || '].');
+      RETURN NULL;
+    END IF;
+  END get_coord_id
+  ;
+
+  FUNCTION is_axis_zero_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    SELECT COUNT(*)
+      INTO l_result
+      FROM usim_spo_v
+     WHERE usim_id_spc      = p_usim_id_spc
+       AND usim_coordinate != 0
+    ;
+
+    RETURN (CASE WHEN l_result > 0 THEN 0 ELSE 1 END);
+  END is_axis_zero_pos
+  ;
+
+  FUNCTION is_axis_pos(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    -- zero axis is axis
+    IF usim_spo.is_axis_zero_pos(p_usim_id_spc) = 1
+    THEN
+      RETURN 1;
+    END IF;
+    -- get axis if not zero axis
+    SELECT COUNT(*)
+      INTO l_result
+      FROM usim_spo_v
+     WHERE usim_coordinate != 0
+       AND usim_id_spc      = p_usim_id_spc
+     GROUP BY usim_id_spc
+    ;
+    IF l_result = 1
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  END is_axis_pos
+  ;
+
+  FUNCTION get_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_id_spc%TYPE
+  IS
+    l_result            usim_space.usim_id_spc%TYPE;
+  BEGIN
+    IF usim_spo.has_axis_max_pos_parent(p_usim_id_spc) = 1
+    THEN
+      -- fetch data
+        WITH known AS
+             (SELECT usim_id_spc
+                   , usim_spo.is_axis_pos(usim_id_spc) AS is_axis
+                   , usim_coordinate
+                   , usim_id_rmd
+                   , dim_sign
+                FROM usim_spc_v
+               WHERE usim_id_rmd = (SELECT usim_id_rmd FROM usim_space WHERE usim_id_spc = p_usim_id_spc)
+             )
+           , maxpos AS
+             (SELECT CASE
+                       WHEN dim_sign >= 0
+                       THEN MAX(usim_coordinate)
+                       ELSE MIN(usim_coordinate)
+                     END                         AS parent_pos
+                   , usim_id_rmd
+                   , dim_sign
+                FROM known
+               WHERE is_axis = 1
+               GROUP BY usim_id_rmd
+                      , dim_sign
+             )
+      SELECT known.usim_id_spc
+        INTO l_result
+        FROM known
+       INNER JOIN maxpos
+          ON known.usim_coordinate  = maxpos.parent_pos
+         AND known.usim_id_rmd      = maxpos.usim_id_rmd
+         AND known.dim_sign         = maxpos.dim_sign
+       WHERE known.is_axis = 1
+      ;
+      RETURN l_result;
+    ELSE
+      RETURN NULL;
+    END IF;
+  END get_axis_max_pos_parent
+  ;
+
+  FUNCTION get_axis_zero_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_id_spc%TYPE
+  IS
+    l_result            usim_space.usim_id_spc%TYPE;
+  BEGIN
+    -- fetch data
+      WITH known AS
+           (SELECT usim_id_spc
+                 , usim_spo.is_axis_pos(usim_id_spc) AS is_axis
+                 , usim_coordinate
+                 , usim_id_rmd
+                 , dim_sign
+              FROM usim_spc_v
+             WHERE usim_id_rmd     = (SELECT usim_id_rmd FROM usim_space WHERE usim_id_spc = p_usim_id_spc)
+               AND usim_coordinate = 0
+           )
+    SELECT known.usim_id_spc
+      INTO l_result
+      FROM known
+     WHERE known.is_axis = 1
+    ;
+    RETURN l_result;
+  END get_axis_zero_pos_parent
   ;
 
   FUNCTION insert_spc_pos( p_usim_id_spc        IN usim_space.usim_id_spc%TYPE
@@ -116,11 +306,11 @@ IS
         , usim_id_rmd
         , usim_id_pos
         )
-        VALUES
-        ( p_usim_id_spc
-        , usim_spc.get_id_rmd(p_usim_id_spc)
-        , usim_spc.get_id_pos(p_usim_id_spc)
-        )
+        SELECT usim_id_spc
+             , usim_id_rmd
+             , usim_id_pos
+          FROM usim_space
+         WHERE usim_id_spc = p_usim_id_spc
       ;
     END IF;
     -- check parent

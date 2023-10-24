@@ -53,13 +53,16 @@ DECLARE
   -- -1, -1
   l_id_spc1n1n_n1n_1n2n usim_space.usim_id_spc%TYPE;
 
-  l_seq_aeon        usim_static.usim_id;
-  l_parents         usim_static.usim_ids_type;
   l_seq             NUMBER;
   l_return          NUMBER;
+  l_usim_id_mlv     usim_multiverse.usim_id_mlv%TYPE;
+  l_usim_id_spc     usim_space.usim_id_spc%TYPE;
+  l_seq_aeon        usim_static.usim_id;
+  l_parents         usim_static.usim_ids_type;
   l_universe_state  usim_multiverse.usim_universe_status%TYPE;
 BEGIN
   usim_erl.purge_log;
+/*
   l_return := usim_dbif.init_basedata(3, 10);
   usim_erl.log_error('basic_test_data_setup', 'Init base data with max dimension 3 and max number 10.');
 
@@ -158,30 +161,45 @@ BEGIN
   -- 1,1,0 n1p
   l_parents(1) := l_id_spc1p_n1p_1p;
   l_parents(2) := l_id_spc1p_n1p_2p;
-  l_id_spc1p1p_n1p_1p2p := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
+  l_id_spc1p1p_n1p_1p2p := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos1p, l_parents);
   -- 1,-1,0 n1p
   l_parents(1) := l_id_spc1p_n1p_1p;
   l_parents(2) := l_id_spc1n_n1p_2n;
-  l_id_spc1p1n_n1p_1p2n := usim_dbif.create_space_node(l_id_rmd_n1p_1p, l_id_pos1p, l_parents);
+  l_id_spc1p1n_n1p_1p2n := usim_dbif.create_space_node(l_id_rmd_n1p_2p, l_id_pos1p, l_parents);
   -- -1,1,0 n1n
   l_parents(1) := l_id_spc1n_n1n_1n;
   l_parents(2) := l_id_spc1n_n1n_2n;
-  l_id_spc1n1p_n1n_1n2p := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
+  l_id_spc1n1p_n1n_1n2p := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos1n, l_parents);
   -- -1,-1,0 n1n
   l_parents(1) := l_id_spc1n_n1n_1n;
   l_parents(2) := l_id_spc1p_n1n_2p;
-  l_id_spc1n1n_n1n_1n2n := usim_dbif.create_space_node(l_id_rmd_n1n_1n, l_id_pos1n, l_parents);
+  l_id_spc1n1n_n1n_1n2n := usim_dbif.create_space_node(l_id_rmd_n1n_2n, l_id_pos1n, l_parents);
 
-  l_universe_state := usim_dbif.set_universe_state(l_id_mlv1, usim_static.usim_multiverse_status_active);
+--  l_universe_state := usim_dbif.set_universe_state(l_id_mlv1, usim_static.usim_multiverse_status_active,);
+*/
   -- test processing
-  l_return := usim_process.place_start_node;
-  FOR i IN 1..20
-  LOOP
-    l_return := usim_process.process_queue;
-  END LOOP;
-  -- provide json output, if website is running, will throw errors on file open
-  l_seq := usim_dbif.get_planck_time_current;
-  l_return := usim_creator.create_json_struct(l_id_mlv1);
+  l_return := usim_process.place_start_node(3, 10);
+  IF l_return = 1
+  THEN
+    usim_erl.log_error('basic_test_data_setup', 'Init place start node with max dimension 3 and max number 10.');
+    l_return := usim_process.run_samples(45);
+    IF l_return = 1
+    THEN
+      usim_erl.log_error('basic_test_data_setup', 'Samples run exit without error.');
+    ELSE
+      usim_erl.log_error('basic_test_data_setup', 'Error running samples.');
+    END IF;
+  ELSE
+    usim_erl.log_error('basic_test_data_setup', 'Failed to init place start node with max dimension 3 and max number 10.');
+  END IF;
+
+  -- get variables for this run
+  l_usim_id_spc := usim_dbif.get_id_spc_base_universe;
+  l_usim_id_mlv := usim_dbif.get_id_mlv(l_usim_id_spc);
+  l_seq_aeon    := usim_dbif.get_planck_aeon_seq_current;
+  l_seq         := usim_dbif.get_planck_time_current;
+  -- provide json output, if website is running, may throw errors on file open
+  l_return := usim_creator.create_json_struct(l_usim_id_mlv);
   l_return := usim_creator.create_space_log(l_seq_aeon, 1, l_seq);
 
 END;

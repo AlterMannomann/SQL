@@ -99,6 +99,9 @@ Execute the setup script **../SETUP/USIM_TEST_SETUP.sql** with user USIM_TEST.
 ### Application
 Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
 
+### Adjusting the defaults
+You may adjust **USIM_PROCESS.PLACE_START_NODE** to define and create the defaults for base data and seed universe. You may also create base data and seed universe before using the USIM_DBIF.INIT_BASEDATA and USIM_CREATOR.CREATE_NEW_UNIVERSE.
+
 ### Visualisation
 Now included is the very beginning of a small JS visualisation using P5.js. USIM_CREATOR can create JSON logs in the appropriate directory. Old JSON logs are saved in the history directory. The DBA setup now includes the creation of the directories and the necessary rights for the schema owners.
 To put it to work, the JS directory has to be made the root of a local web server and the necessary grants for web server and Oracle groups/roles on the operation system.

@@ -10,29 +10,65 @@ IS
        SET usim_universe_status = usim_static.usim_multiverse_status_crashed
     ;
     COMMIT;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.set_crashed', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
   END set_crashed
   ;
 
-  FUNCTION set_universe_state( p_usim_id_mlv          IN usim_multiverse.usim_id_mlv%TYPE
-                             , p_usim_universe_status IN usim_multiverse.usim_universe_status%TYPE
+  FUNCTION set_universe_state( p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
+                             , p_do_commit   IN BOOLEAN                          DEFAULT TRUE
                              )
     RETURN usim_multiverse.usim_universe_status%TYPE
   IS
-    PRAGMA AUTONOMOUS_TRANSACTION;
-    l_return NUMBER;
+    l_return            NUMBER;
+    l_status_valid      NUMBER;
+    l_status_calculated usim_multiverse.usim_universe_status%TYPE;
   BEGIN
-    -- check parameters
-    IF     usim_mlv.has_data(p_usim_id_mlv) = 1
-       AND p_usim_universe_status          IN ( usim_static.usim_multiverse_status_dead
-                                              , usim_static.usim_multiverse_status_crashed
-                                              , usim_static.usim_multiverse_status_active
-                                              , usim_static.usim_multiverse_status_inactive
-                                              )
+    -- check parameter
+    IF usim_mlv.has_data(p_usim_id_mlv) = 1
     THEN
-      l_return := usim_mlv.update_state(p_usim_id_mlv, p_usim_universe_status);
-      RETURN l_return;
+      -- check state and correct it if mismatch
+      SELECT status_valid, status_calculated INTO l_status_valid, l_status_calculated FROM usim_mlv_state_v WHERE usim_id_mlv = p_usim_id_mlv;
+      IF l_status_calculated != usim_static.usim_multiverse_status_active
+      THEN
+        -- we have an error in the universe
+        usim_erl.log_error('usim_dbif.set_universe_state', 'Current invalid status not running for mlv id [' || p_usim_id_mlv || '] is [' || l_status_valid || '] calculated [' || l_status_calculated || '].');
+        IF l_status_valid != 1
+        THEN
+          l_return := usim_mlv.update_state(p_usim_id_mlv, l_status_calculated, FALSE);
+          IF l_return IS NULL
+          THEN
+            ROLLBACK;
+            usim_erl.log_error('usim_dbif.set_universe_state', 'Could not update state for mlv id [' || p_usim_id_mlv || '].');
+          END IF;
+          RETURN l_return;
+        ELSE
+          RETURN l_status_calculated;
+        END IF;
+      ELSE
+        -- update state, if current state not valid
+        IF l_status_valid != 1
+        THEN
+          l_return := usim_mlv.update_state(p_usim_id_mlv, l_status_calculated, FALSE);
+          IF l_return IS NULL
+          THEN
+            ROLLBACK;
+            usim_erl.log_error('usim_dbif.set_universe_state', 'Could not update state for mlv id [' || p_usim_id_mlv || '].');
+          END IF;
+          RETURN l_return;
+        ELSE
+          RETURN l_status_calculated;
+        END IF;
+      END IF;
     ELSE
-      usim_erl.log_error('usim_dbif.set_universe_state', 'Invalid parameter mlv id [' || p_usim_id_mlv || '] or state [' || p_usim_universe_status || '].');
+      usim_erl.log_error('usim_dbif.set_universe_state', 'Invalid parameter mlv id [' || p_usim_id_mlv || '].');
       RETURN NULL;
     END IF;
   EXCEPTION
@@ -46,74 +82,99 @@ IS
   END set_universe_state
   ;
 
-  FUNCTION set_universe_state(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+  FUNCTION set_universe_state_spc( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                                 , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                                 )
     RETURN usim_multiverse.usim_universe_status%TYPE
   IS
-    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
-    l_state       usim_multiverse.usim_universe_status%TYPE;
-    l_count       NUMBER;
-    l_return      NUMBER;
-    l_pos_result  NUMBER;
-    l_neg_result  NUMBER;
+    l_usim_id_mlv       usim_multiverse.usim_id_mlv%TYPE;
+    l_status_calculated usim_multiverse.usim_universe_status%TYPE;
+    l_return            NUMBER;
+    l_status_valid      NUMBER;
   BEGIN
     IF usim_spc.has_data(p_usim_id_spc) = 1
     THEN
       l_usim_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
-      l_state       := usim_mlv.get_state(l_usim_id_mlv);
-      IF l_state = usim_static.usim_multiverse_status_inactive
+      IF l_usim_id_mlv IS NULL
       THEN
-        -- set active
-        l_state := usim_dbif.set_universe_state(l_usim_id_mlv, usim_static.usim_multiverse_status_active);
-        IF l_state IS NULL
+        usim_erl.log_error('usim_dbif.set_universe_state_spc', 'No valid universe found for space id [' || p_usim_id_spc || '].');
+        RETURN NULL;
+      END IF;
+      -- check state and correct it if mismatch
+      SELECT status_valid, status_calculated INTO l_status_valid, l_status_calculated FROM usim_mlv_state_v WHERE usim_id_mlv = l_usim_id_mlv;
+      -- do only something, is status is not valid
+      IF l_status_valid = 0
+      THEN
+        l_return := usim_mlv.update_state(l_usim_id_mlv, l_status_calculated, FALSE);
+        IF l_return IS NULL
         THEN
-          usim_erl.log_error('usim_dbif.set_universe_state', 'Could not update state to active for space id [' || p_usim_id_spc || '].');
-          RETURN NULL;
+          ROLLBACK;
+          usim_erl.log_error('usim_dbif.set_universe_state_spc', 'Could not update state for mlv id [' || l_usim_id_mlv || '].');
         ELSE
-          RETURN l_state;
-        END IF;
-      ELSIF l_state = usim_static.usim_multiverse_status_active
-      THEN
-        -- check state
-        SELECT COUNT(*) INTO l_count FROM usim_spc_process WHERE is_processed = 1;
-        IF l_count > 0
-        THEN
-          -- only check if at least some nodes are processed
-          SELECT NVL(SUM(usim_energy), 0) INTO l_pos_result FROM usim_spc_v WHERE usim_id_mlv = l_usim_id_mlv AND dim_n1_sign = 1;
-          SELECT NVL(SUM(usim_energy), 0) INTO l_neg_result FROM usim_spc_v WHERE usim_id_mlv = l_usim_id_mlv AND dim_n1_sign = -1;
-          IF     l_pos_result = 0
-             AND l_neg_result = 0
+          IF p_do_commit
           THEN
-            -- set dead
-            l_state := usim_dbif.set_universe_state(l_usim_id_mlv, usim_static.usim_multiverse_status_dead);
-            IF l_state IS NULL
-            THEN
-              usim_erl.log_error('usim_dbif.set_universe_state', 'Could not update state to dead for space id [' || p_usim_id_spc || '].');
-              RETURN NULL;
-            ELSE
-              RETURN l_state;
-            END IF;
-          ELSE
-            RETURN usim_static.usim_multiverse_status_active;
+            COMMIT;
           END IF;
-        ELSE
-          RETURN usim_static.usim_multiverse_status_active;
         END IF;
+        RETURN l_return;
+      ELSIF l_status_valid = -1
+      THEN
+        usim_erl.log_error('usim_dbif.set_universe_state_spc', 'Invalid calculation state for mlv id [' || l_usim_id_mlv || '].');
+        RETURN NULL;
       ELSE
-        RETURN l_state;
+        RETURN l_status_calculated;
       END IF;
     ELSE
-      usim_erl.log_error('usim_dbif.set_universe_state', 'Invalid parameter space id [' || p_usim_id_spc || '].');
+      usim_erl.log_error('usim_dbif.set_universe_state_spc', 'Invalid parameter space id [' || p_usim_id_spc || '].');
       RETURN NULL;
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
       -- write error might still work
-      usim_erl.log_error('usim_dbif.set_universe_state', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      usim_erl.log_error('usim_dbif.set_universe_state_spc', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed
       usim_dbif.set_crashed;
       -- raise in any case
       RAISE;
-  END set_universe_state
+  END set_universe_state_spc
+  ;
+
+  FUNCTION set_seed_active(p_do_commit IN BOOLEAN DEFAULT TRUE)
+    RETURN usim_multiverse.usim_universe_status%TYPE
+  IS
+    l_return      usim_multiverse.usim_universe_status%TYPE;
+    l_usim_id_mlv usim_multiverse.usim_id_mlv%TYPE;
+  BEGIN
+    IF usim_mlv.has_base = 1
+    THEN
+      SELECT usim_id_mlv INTO l_usim_id_mlv FROM usim_multiverse WHERE usim_is_base_universe = 1;
+      l_return := usim_mlv.update_state(l_usim_id_mlv, usim_static.usim_multiverse_status_active, FALSE);
+      IF l_return != usim_static.usim_multiverse_status_active
+      THEN
+        ROLLBACK;
+        usim_erl.log_error('usim_dbif.set_seed_active', 'Could not update state to active on universe seed id [' || l_usim_id_mlv || '] getting status [' || l_return || '].');
+        RETURN NULL;
+      ELSE
+        IF p_do_commit
+        THEN
+          COMMIT;
+        END IF;
+        RETURN l_return;
+      END IF;
+    ELSE
+      usim_erl.log_error('usim_dbif.set_seed_active', 'No base universe found.');
+      RETURN NULL;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.set_seed_active', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END set_seed_active
   ;
 
   FUNCTION init_basedata( p_max_dimension            IN NUMBER DEFAULT 42
@@ -179,6 +240,25 @@ IS
       -- raise in any case
       RAISE;
   END init_dimensions
+  ;
+
+  FUNCTION has_basedata
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_base.has_basedata;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_basedata', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_basedata
   ;
 
   FUNCTION has_data_spc
@@ -273,6 +353,24 @@ IS
   END has_unprocessed
   ;
 
+  FUNCTION has_data_mlv
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_mlv.has_data;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_data_mlv', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_data_mlv
+  ;
+
   FUNCTION has_data_mlv(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN NUMBER
   IS
@@ -289,6 +387,85 @@ IS
       -- raise in any case
       RAISE;
   END has_data_mlv
+  ;
+
+  FUNCTION has_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := usim_spo.has_axis_max_pos_parent(p_usim_id_spc);
+    IF l_result > 1
+    THEN
+      usim_erl.log_error('usim_dbif.has_axis_max_pos_parent', 'Error dimension symmetry, more than one maximum position on dimension axis found for space node [' || p_usim_id_spc || '].');
+      usim_dbif.set_crashed;
+      RETURN -1;
+    ELSE
+      RETURN l_result;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_axis_max_pos_parent', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_axis_max_pos_parent
+  ;
+
+  FUNCTION is_seed_active
+    RETURN NUMBER
+  IS
+    l_status_calculated NUMBER;
+    l_planck_aeon       usim_static.usim_id;
+    l_planck_time       NUMBER;
+    l_energy_total      NUMBER;
+    l_energy_positive   NUMBER;
+    l_energy_negative   NUMBER;
+    l_has_process_data  NUMBER;
+    l_has_unprocessed   NUMBER;
+  BEGIN
+    IF usim_mlv.has_base = 1
+    THEN
+      SELECT status_calculated INTO l_status_calculated FROM usim_mlv_state_v WHERE usim_is_base_universe = 1;
+      IF l_status_calculated = usim_static.usim_multiverse_status_active
+      THEN
+        RETURN 1;
+      ELSE
+        SELECT planck_aeon
+             , planck_time
+             , energy_total
+             , energy_positive
+             , energy_negative
+             , has_process_data
+             , has_unprocessed
+          INTO l_planck_aeon
+             , l_planck_time
+             , l_energy_total
+             , l_energy_positive
+             , l_energy_negative
+             , l_has_process_data
+             , l_has_unprocessed
+          FROM usim_mlv_state_v
+         WHERE usim_is_base_universe = 1
+        ;
+        usim_erl.log_error('usim_dbif.is_seed_active', 'Seed not active at planck aeon [' || l_planck_aeon || '], time [' || l_planck_time || '], total e [' || l_energy_total || '], e+ [' || l_energy_positive || '], e- [' || l_energy_negative || '], process data [' || l_has_process_data || '], unprocessed [' || l_has_unprocessed || '].');
+        RETURN 0;
+      END IF;
+    ELSE
+      usim_erl.log_error('usim_dbif.is_seed_active', 'No base universe found.');
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_seed_active', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_seed_active
   ;
 
   FUNCTION is_universe_active(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
@@ -577,7 +754,9 @@ IS
         RETURN 1;
       END IF;
       -- if child in same dimension we are in overflow
-      IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+      IF     usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+             -- if node is on position 0 on all axis, the node can trigger position extension, so it should not be a zero axis position
+         AND usim_spo.is_axis_zero_pos(p_usim_id_spc)   = 0
       THEN
         RETURN 1;
       ELSE
@@ -693,6 +872,155 @@ IS
       -- raise in any case
       RAISE;
   END is_base_universe_seed
+  ;
+
+  FUNCTION is_queue_valid
+    RETURN NUMBER
+  IS
+    l_return NUMBER;
+  BEGIN
+    l_return := usim_spr.is_queue_valid;
+    RETURN l_return;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_queue_valid', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_queue_valid
+  ;
+
+  FUNCTION is_pos_extendable(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_chi.has_child_same_dim(p_usim_id_spc) = 0
+    THEN
+      RETURN 1;
+    END IF;
+    IF usim_spo.is_axis_zero_pos(p_usim_id_spc) = 1
+    THEN
+      RETURN 2;
+    END IF;
+    -- no check passed
+    usim_erl.log_error('usim_dbif.is_pos_extendable', 'Given space node id [' || p_usim_id_spc || '] is not extendable on position.');
+    RETURN 0;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_pos_extendable', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_pos_extendable
+  ;
+
+  FUNCTION is_dim_extendable( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
+                            , p_use_parent  OUT usim_space.usim_id_spc%TYPE
+                            , p_next_dim    OUT usim_dimension.usim_n_dimension%TYPE
+                            )
+    RETURN NUMBER
+  IS
+    l_max_cur_dim NUMBER;
+    l_max_chi_dim NUMBER;
+    l_max_dim     NUMBER;
+  BEGIN
+    l_max_cur_dim := usim_spc.get_cur_max_dim_n1(p_usim_id_spc);
+    l_max_chi_dim := usim_chi.get_cur_max_dimension(p_usim_id_spc);
+    l_max_dim     := usim_base.get_max_dimension;
+    IF usim_spo.is_axis_zero_pos(p_usim_id_spc) = 1
+    THEN
+      IF l_max_chi_dim < l_max_dim
+      THEN
+        p_use_parent := p_usim_id_spc;
+        p_next_dim   := l_max_chi_dim + 1;
+        RETURN 2;
+      ELSE
+        -- no dimension left
+        p_use_parent := NULL;
+        p_next_dim   := NULL;
+        RETURN 0;
+      END IF;
+    END IF;
+    IF l_max_chi_dim < l_max_cur_dim
+    THEN
+      -- free available dimensions
+      p_use_parent := p_usim_id_spc;
+      p_next_dim   := l_max_chi_dim + 1;
+      RETURN 1;
+    ELSIF l_max_chi_dim < l_max_dim
+    THEN
+      -- free dimension, but dimension has to be build
+      p_use_parent := usim_spo.get_axis_zero_pos_parent(p_usim_id_spc);
+      p_next_dim   := l_max_chi_dim + 1;
+      RETURN 2;
+    ELSE
+      p_use_parent := NULL;
+      p_next_dim   := NULL;
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.is_dim_extendable', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END is_dim_extendable
+  ;
+
+  FUNCTION child_count( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                      , p_ignore_mlv  IN NUMBER                      DEFAULT 0
+                      )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    IF p_ignore_mlv = 0
+    THEN
+      l_result := usim_chi.child_count(p_usim_id_spc);
+    ELSE
+      l_result := usim_chi.child_count_all(p_usim_id_spc);
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.child_count', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END child_count
+  ;
+
+  FUNCTION parent_count( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                       , p_ignore_mlv  IN NUMBER                      DEFAULT 0
+                       )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    IF p_ignore_mlv = 0
+    THEN
+      l_result := usim_chi.parent_count(p_usim_id_spc);
+    ELSE
+      l_result := usim_chi.parent_count_all(p_usim_id_spc);
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.parent_count', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END parent_count
   ;
 
   FUNCTION create_universe( p_usim_energy_start_value IN usim_multiverse.usim_energy_start_value%TYPE DEFAULT 1
@@ -1216,6 +1544,29 @@ IS
   END get_id_nod
   ;
 
+  FUNCTION get_id_mlv(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_multiverse.usim_id_mlv%TYPE
+  IS
+    l_result usim_multiverse.usim_id_mlv%TYPE;
+  BEGIN
+    l_result := usim_spc.get_id_mlv(p_usim_id_spc);
+    IF l_result IS NULL
+    THEN
+      usim_erl.log_error('usim_dbif.get_id_mlv', 'Invalid space id [' || p_usim_id_spc || '] or no node found.');
+      usim_dbif.set_crashed;
+    END IF;
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_id_mlv', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_id_mlv
+  ;
+
   FUNCTION get_id_spc_base_universe
     RETURN usim_space.usim_id_spc%TYPE
   IS
@@ -1232,6 +1583,38 @@ IS
       -- raise in any case
       RAISE;
   END get_id_spc_base_universe
+  ;
+
+  FUNCTION get_spc_dim_details( p_usim_id_spc  IN  usim_space.usim_id_spc%TYPE
+                              , p_usim_id_mlv  OUT usim_multiverse.usim_id_mlv%TYPE
+                              , p_usim_id_rmd  OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
+                              , p_usim_sign    OUT usim_rel_mlv_dim.usim_sign%TYPE
+                              , p_usim_n1_sign OUT usim_rel_mlv_dim.usim_n1_sign%TYPE
+                              )
+    RETURN NUMBER
+  IS
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      p_usim_id_mlv   := usim_spc.get_id_mlv(p_usim_id_spc);
+      p_usim_id_rmd   := usim_spc.get_id_rmd(p_usim_id_spc);
+      p_usim_sign     := usim_spc.get_dim_sign(p_usim_id_spc);
+      p_usim_n1_sign  := usim_spc.get_dim_n1_sign(p_usim_id_spc);
+      RETURN 1;
+    ELSE
+      usim_erl.log_error('usim_dbif.get_spc_dim_details', 'Not existing space id [' || p_usim_id_spc || '].');
+      usim_dbif.set_crashed;
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_spc_dim_details', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_spc_dim_details
   ;
 
   FUNCTION get_abs_max_number
@@ -1486,6 +1869,80 @@ IS
   END get_planck_time_next
   ;
 
+  FUNCTION get_unprocessed_planck( p_usim_planck_aeon OUT usim_spc_process.usim_planck_aeon%TYPE
+                                 , p_usim_planck_time OUT usim_spc_process.usim_planck_time%TYPE
+                                 )
+    RETURN NUMBER
+  IS
+    l_return NUMBER;
+  BEGIN
+    l_return := usim_spr.get_unprocessed_planck(p_usim_planck_aeon, p_usim_planck_time);
+    RETURN l_return;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_unprocessed_planck', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_unprocessed_planck
+  ;
+
+  FUNCTION get_axis_max_pos_parent(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_space.usim_id_spc%TYPE
+  IS
+    l_result usim_space.usim_id_spc%TYPE;
+  BEGIN
+    l_result := usim_spo.get_axis_max_pos_parent(p_usim_id_spc);
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_axis_max_pos_parent', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_axis_max_pos_parent
+  ;
+
+  FUNCTION get_next_pos_on_axis( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
+                               , p_usim_id_pos OUT usim_position.usim_id_pos%TYPE
+                               , p_usim_id_rmd OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
+                               )
+    RETURN NUMBER
+  IS
+    l_new_pos NUMBER;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 1
+    THEN
+      -- determine the sign of the coordinate by dim sign
+      IF usim_spc.get_dim_sign(p_usim_id_spc) = 1
+      THEN
+        l_new_pos := usim_spc.get_coordinate(p_usim_id_spc) + 1;
+      ELSE
+        l_new_pos := usim_spc.get_coordinate(p_usim_id_spc) - 1;
+      END IF;
+      p_usim_id_pos := usim_pos.get_id_pos(l_new_pos);
+      p_usim_id_rmd := usim_spc.get_id_rmd(p_usim_id_spc);
+      RETURN 1;
+    ELSE
+      usim_erl.log_error('usim_dbif.get_next_pos_on_axis', 'Invalid space id [' || p_usim_id_spc || '].');
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_next_pos_on_axis', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_next_pos_on_axis
+  ;
+
+
   FUNCTION overflow_rating(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   IS
@@ -1568,11 +2025,21 @@ IS
         p_max_childs := 2;
         RETURN 0;
       END IF;
-      IF     l_n_dimension > 0
+      l_max_dim := usim_spc.get_cur_max_dim_n1(p_usim_id_spc);
+      IF     l_n_dimension = 1
          AND l_coordinate  = 0
       THEN
-        -- only 2 childs possible
-        p_max_childs := 2;
+        -- zero pos dimension axis at dimension 1
+        -- all dimension axis and position on dimension axis
+        p_max_childs := (l_max_dim * 2) + 1;
+        RETURN 1;
+      END IF;
+      IF     l_n_dimension > 1
+         AND l_coordinate  = 0
+      THEN
+        -- zero pos dimension axis dimension > 1
+        -- only position on dimension axis
+        p_max_childs := 1;
         RETURN 1;
       END IF;
       -- count coordinates not 0 for space id
@@ -1581,7 +2048,6 @@ IS
          AND l_coordinate != 0
       THEN
         -- pure dimension axis, possible childs: n Dimension x 2 + 1 axis child
-        l_max_dim := usim_spc.get_cur_max_dim_n1(p_usim_id_spc);
         p_max_childs := (l_max_dim * 2) + 1;
         RETURN 2;
       ELSE
@@ -1653,6 +2119,9 @@ IS
     l_connections  NUMBER;
     l_max_dim      NUMBER;
     l_max_child    NUMBER;
+    l_dimension    NUMBER;
+    l_max_pos      NUMBER;
+    l_has_n1       NUMBER;
   BEGIN
     IF usim_spc.has_data(p_usim_id_spc) = 0
     THEN
@@ -1667,7 +2136,7 @@ IS
     END IF;
     -- ignore errors like no child or parent, we get values anyway
     l_return      := usim_chi.get_chi_details(p_usim_id_spc, l_parent_count, l_child_count);
-    IF l_dim_rating = 0 -- center of a universe dimension 0,1
+    IF l_dim_rating = 0 -- center of a universe dimension
     THEN
       -- no more childs possible
       IF l_child_count = l_max_child
@@ -1678,7 +2147,7 @@ IS
         -- only next dimension possible
         RETURN 2;
       END IF;
-    ELSIF l_dim_rating = 1 -- center dimension axis with pos 0 dimension > 1
+    ELSIF l_dim_rating = 1 -- center dimension axis with pos 0 dimension > 0
     THEN
       -- only 2 childs possible
       IF l_child_count = l_max_child
@@ -1686,24 +2155,33 @@ IS
         -- fully connected
         RETURN 0;
       ELSE
-        -- find free node
-        IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+        IF l_child_count > 0
         THEN
-          -- only next dimension possible
-          RETURN 2;
+          -- find free node
+          IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+          THEN
+            -- if the position number on x axis that equals next dimension does not exist only position on X axis possible
+            l_dimension := usim_spc.get_dimension(p_usim_id_spc) + 1;
+            l_max_pos := ABS(NVL(usim_spc.get_coordinate(usim_spo.get_axis_max_pos_parent(p_usim_id_spc)), 1));
+            IF l_max_pos >= l_dimension
+            THEN
+              -- only next dimension possible
+              RETURN 2;
+            ELSE
+              -- first extend x axis
+              RETURN 4;
+            END IF;
+          ELSE
+            -- position or dimension (not checking upper dimensions available)
+            RETURN 1;
+          END IF;
         ELSE
           -- no childs at all
-          IF l_child_count = 0
-          THEN
-            -- position and dimension possible
-            RETURN 1;
-          ELSE
-            -- only position possible
-            RETURN 3;
-          END IF;
+          -- position or dimension (not checking upper dimensions available)
+          RETURN 1;
         END IF;
       END IF;
-    ELSIF l_dim_rating = 2 -- on dimension axis
+    ELSIF l_dim_rating = 2 -- on dimension axis pos > 0
     THEN
       IF l_child_count = l_max_child
       THEN
@@ -1711,10 +2189,16 @@ IS
         RETURN 0;
       ELSE
         -- find free node
-        IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+        IF l_child_count > 0
         THEN
-          -- only next dimension possible
-          RETURN 2;
+          IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+          THEN
+            -- only next dimension possible
+            RETURN 2;
+          ELSE
+            -- position or dimension (not checking upper dimensions available)
+            RETURN 1;
+          END IF;
         ELSE
           -- position or dimension (not checking upper dimensions available)
           RETURN 1;
@@ -1726,7 +2210,7 @@ IS
         -- fully connected
         RETURN 0;
       ELSE
-        -- only position possible
+        -- only position possible?
         RETURN 3;
       END IF;
     END IF;
@@ -1745,18 +2229,76 @@ IS
     RETURN NUMBER
   IS
     l_parent_classification NUMBER;
+    l_max_dim               NUMBER;
+    l_max_cur_dim           NUMBER;
+    l_max_pos               NUMBER;
+    l_max_cur_pos           NUMBER;
   BEGIN
     IF usim_spc.has_data(p_usim_id_spc) = 1
     THEN
+      l_max_dim               := usim_base.get_max_dimension;
+      l_max_pos               := usim_base.get_abs_max_number;
+      l_max_cur_dim           := usim_spc.get_cur_max_dim_n1(p_usim_id_spc);
+      l_max_cur_pos           := usim_spc.get_cur_max_pos(p_usim_id_spc);
       l_parent_classification := usim_dbif.classify_parent(p_usim_id_spc);
-      -- check overflow, otherwise parent classification should be fine
-      IF    usim_dbif.is_overflow_dim_spc(p_usim_id_spc) = 1
-         OR usim_dbif.is_overflow_pos_spc(p_usim_id_spc) = 1
+      -- check all classifications against all kinds of overflow
+      IF l_parent_classification < 0
       THEN
-        -- only universe escape
-        RETURN 0;
+        -- classification error, we should stop here
+        usim_erl.log_error('usim_dbif.classify_escape', 'Classification error parent on id [' || p_usim_id_spc || '].');
+        usim_dbif.set_crashed;
+        RETURN -1;
+      ELSIF l_parent_classification = 0
+      THEN
+        RETURN l_parent_classification;
+      ELSIF l_parent_classification = 1
+      THEN
+        -- check if dimension and positions are over the max for n1 side of space node
+        IF     l_max_cur_dim < l_max_dim
+           AND l_max_cur_pos < l_max_pos
+        THEN
+          -- everything available
+          RETURN l_parent_classification;
+        ELSIF l_max_cur_dim < l_max_dim
+        THEN
+          -- only dimensions available
+          RETURN 2;
+        ELSIF l_max_cur_pos < l_max_pos
+        THEN
+          -- only positions available
+          RETURN 3;
+        ELSE
+          -- full only new universe
+          RETURN 0;
+        END IF;
+      ELSIF l_parent_classification = 2
+      THEN
+        -- check
+        IF l_max_cur_dim < l_max_dim
+        THEN
+          -- everything available
+          RETURN l_parent_classification;
+        ELSE
+          -- full only new universe
+          RETURN 0;
+        END IF;
+      ELSIF l_parent_classification IN (3, 4)
+      THEN
+        -- check
+        IF l_max_cur_pos < l_max_pos
+        THEN
+          -- everything available
+          RETURN l_parent_classification;
+        ELSE
+          -- full only new universe
+          RETURN 0;
+        END IF;
+      ELSE
+        -- classification unknown
+        usim_erl.log_error('usim_dbif.classify_escape', 'Unknown parent classfication [' || l_parent_classification || '] for id [' || p_usim_id_spc || '].');
+        usim_dbif.set_crashed;
+        RETURN -1;
       END IF;
-      RETURN l_parent_classification;
     ELSE
       RETURN -1;
     END IF;

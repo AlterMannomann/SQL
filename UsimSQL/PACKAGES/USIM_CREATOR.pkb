@@ -888,7 +888,28 @@ IS
     ELSIF l_escape = 2
     THEN
       l_result := usim_creator.handle_overflow_dim(p_usim_id_spc, p_do_commit);
+      IF l_result = 0
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow', 'Dim overflow handling error for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
       usim_erl.log_error('usim_creator.handle_overflow', 'Handle dim overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSIF l_escape = 1
+    THEN
+      IF usim_dbif.is_pos_extendable(p_usim_id_spc) = 1
+      THEN
+        l_result := usim_creator.handle_overflow_pos(p_usim_id_spc, p_do_commit);
+      ELSE
+        l_result := usim_creator.handle_overflow_dim(p_usim_id_spc, p_do_commit);
+      END IF;
+      IF l_result = 0
+      THEN
+        usim_erl.log_error('usim_creator.handle_overflow', 'Pos/dim overflow handling error for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+        usim_dbif.set_crashed;
+        RETURN 0;
+      END IF;
+      usim_erl.log_error('usim_creator.handle_overflow', 'Handle overflow pos/dim for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
     ELSE
       usim_erl.log_error('usim_creator.handle_overflow', 'Should handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
     END IF;

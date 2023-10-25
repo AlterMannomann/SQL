@@ -10,7 +10,8 @@ BEGIN
   IF l_return = 1
   THEN
     usim_erl.log_error('basic_setup', 'Init place start node with defaults for base data and universe.');
-    l_return := usim_process.run_samples(23);
+    -- more than 50 samples will slow down JS visualization
+    l_return := usim_process.run_samples(50);
     IF l_return = 1
     THEN
       usim_erl.log_error('basic_setup', 'Samples run exit without error.');

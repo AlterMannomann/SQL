@@ -182,7 +182,7 @@ BEGIN
   IF l_return = 1
   THEN
     usim_erl.log_error('basic_test_data_setup', 'Init place start node with max dimension 3 and max number 10.');
-    l_return := usim_process.run_samples(45);
+    l_return := usim_process.run_samples(200);
     IF l_return = 1
     THEN
       usim_erl.log_error('basic_test_data_setup', 'Samples run exit without error.');

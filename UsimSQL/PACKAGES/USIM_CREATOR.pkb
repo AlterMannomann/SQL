@@ -476,7 +476,7 @@ IS
     RETURN usim_rel_mlv_dim.usim_id_rmd%TYPE
   IS
   BEGIN
-    usim_erl.log_error('usim_creator.init_dim_axis', 'NOT IMPLEMENTED.');
+    usim_debug.debug_log('usim_creator.init_dim_axis', 'NOT IMPLEMENTED.');
     RETURN NULL;
   END init_dim_axis
   ;
@@ -488,7 +488,7 @@ IS
     RETURN NUMBER
   IS
   BEGIN
-    usim_erl.log_error('usim_creator.init_dim_all', 'NOT IMPLEMENTED.');
+    usim_debug.debug_log('usim_creator.init_dim_all', 'NOT IMPLEMENTED.');
     RETURN 0;
   END init_dim_all
   ;
@@ -501,7 +501,7 @@ IS
     RETURN NUMBER
   IS
   BEGIN
-    usim_erl.log_error('usim_creator.init_zero_dim_nodes', 'NOT IMPLEMENTED.');
+    usim_debug.debug_log('usim_creator.init_zero_dim_nodes', 'NOT IMPLEMENTED.');
     RETURN 0;
   END init_zero_dim_nodes
   ;
@@ -783,14 +783,14 @@ IS
         usim_dbif.set_crashed;
         RETURN 0;
       END IF;
-      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Handle new dimension in zero pos for space id [' || p_usim_id_spc || '].');
+      usim_debug.debug_log('usim_creator.handle_overflow_dim', 'Handle new dimension in zero pos for space id [' || p_usim_id_spc || '].');
       RETURN 1;
     ELSIF l_classify = 1
     THEN
       -- connect node to available dimension
-      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Not implemented for space id [' || p_usim_id_spc || '].');
+      usim_debug.debug_log('usim_creator.handle_overflow_dim', 'Not implemented for space id [' || p_usim_id_spc || '].');
     ELSE
-      usim_erl.log_error('usim_creator.handle_overflow_dim', 'Not implemented for space id [' || p_usim_id_spc || '].');
+      usim_debug.debug_log('usim_creator.handle_overflow_dim', 'Not implemented for space id [' || p_usim_id_spc || '].');
     END IF;
     RETURN 1;
   EXCEPTION
@@ -864,19 +864,54 @@ IS
   END handle_overflow_pos
   ;
 
+  FUNCTION handle_overflow_between( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                                  , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                                  )
+    RETURN NUMBER
+  IS
+  BEGIN
+    -- where are we
+    -- if zero pos
+    -- if axis, next dimension only a 1 coordinate for connect is possible
+    IF usim_spo.is_axis_pos(p_usim_id_spc) = 1
+    THEN
+
+      -- has child next dim with pos 1?
+      -- no, then delegate next free low pos inbetween.
+      NULL;
+    ELSE
+      -- positions free lower dimension
+      -- positions free higher dimension
+      NULL;
+    END IF;
+    usim_debug.debug_log('usim_creator.handle_overflow_between', 'Not implemented yet.');
+    RETURN 0;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_creator.handle_overflow_between', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END handle_overflow_between
+  ;
+
+
   FUNCTION handle_overflow( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
                           , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
                           )
     RETURN NUMBER
   IS
-    l_escape    NUMBER;
-    l_result    NUMBER;
+    l_escape        NUMBER;
+    l_result        NUMBER;
+    l_id_spc_parent usim_space.usim_id_spc%TYPE;
   BEGIN
     l_escape := usim_dbif.classify_escape(p_usim_id_spc);
 
-    IF l_escape IN (3, 4)
+    IF l_escape IN (3, 5)
     THEN
-      -- escape position 4 and 3 can be handled together
+      -- escape position 5 and 3 can be handled together
       l_result := usim_creator.handle_overflow_pos(p_usim_id_spc, p_do_commit);
       IF l_result = 0
       THEN
@@ -884,8 +919,8 @@ IS
         usim_dbif.set_crashed;
         RETURN 0;
       END IF;
-      usim_erl.log_error('usim_creator.handle_overflow', 'Handle pos overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
-    ELSIF l_escape = 2
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Handle pos overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSIF l_escape IN (2, 4)
     THEN
       l_result := usim_creator.handle_overflow_dim(p_usim_id_spc, p_do_commit);
       IF l_result = 0
@@ -894,7 +929,7 @@ IS
         usim_dbif.set_crashed;
         RETURN 0;
       END IF;
-      usim_erl.log_error('usim_creator.handle_overflow', 'Handle dim overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Handle dim overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
     ELSIF l_escape = 1
     THEN
       IF usim_dbif.is_pos_extendable(p_usim_id_spc) = 1
@@ -909,9 +944,23 @@ IS
         usim_dbif.set_crashed;
         RETURN 0;
       END IF;
-      usim_erl.log_error('usim_creator.handle_overflow', 'Handle overflow pos/dim for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Handle overflow pos/dim for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    -- delegate options
+    ELSIF l_escape = 7
+    THEN
+      l_result := usim_creator.handle_overflow_between(p_usim_id_spc, p_do_commit);
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Not implemented. Handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSIF l_escape = 6
+    THEN
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Not implemented. Handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSIF l_escape = 5
+    THEN
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Not implemented. Handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+    ELSIF l_escape = 0
+    THEN
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Not implemented. Handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
     ELSE
-      usim_erl.log_error('usim_creator.handle_overflow', 'Should handle overflow for [' || p_usim_id_spc || '] escape strategy [' || l_escape || '].');
+      usim_debug.debug_log('usim_creator.handle_overflow', '[' || usim_dbif.get_planck_time_current || '] Not implemented. Handle overflow for [' || p_usim_id_spc || '] with unknown escape strategy [' || l_escape || '].');
     END IF;
     RETURN 1;
   EXCEPTION

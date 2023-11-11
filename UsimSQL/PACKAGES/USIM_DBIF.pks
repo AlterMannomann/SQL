@@ -171,6 +171,15 @@ IS
   ;
 
   /**
+  * Checks if a given space node has free between axis positions, if node has not reached max childs possible.
+  * @param p_usim_id_spc The space id to check for free between position on available dimension axis.
+  * @return Returns 1 if between positions are available or 0 for no between positions available.
+  */
+  FUNCTION has_free_between(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  ;
+
+  /**
   * Checks if the universe seed is active.
   * @return Returns 1 if universe seed is active, otherwise 0.
   */
@@ -218,18 +227,9 @@ IS
   ;
 
   /**
-  * Checks if a given dimension is in overflow. Depends on init_dimensions. Overflow is simply detected
-  * by a dimension that does not exist.
-  * @param p_usim_coordinate The dimension to check against overflow.
-  * @return Returns 1 if given dimendion is counted as overflow otherwise 0.
-  */
-  FUNCTION is_overflow_dim(p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE)
-    RETURN NUMBER
-  ;
-
-  /**
   * Checks if a given universe is in dimension overflow. Depends on base data. Overflow is detected by highest
-  * available rmd dimension for every n1 sign and compared against the maximum possible dimensions.
+  * available rmd dimension for every n1 sign and compared against the maximum possible dimensions. It will check
+  * only dimension overflow on axis level, not considering nodes inbetween connected to other dimensions.
   * @param p_usim_id_mlv The universe id to check against dimension overflow.
   * @return Returns TRUE if given universe is counted as dimension overflow otherwise FALSE.
   */
@@ -239,7 +239,8 @@ IS
 
   /**
   * Checks if the universe for a given space id is in dimension overflow. Depends on base data. Overflow is detected by highest
-  * available space dimension for every n1 sign and compared against the maximum possible dimension.
+  * available space dimension for every n1 sign and compared against the maximum possible dimension.It will check
+  * only dimension overflow on axis level, not considering nodes inbetween connected to other dimensions.
   * @param p_usim_id_spc The space id to check the universe it belongs against dimension overflow.
   * @return Returns 1 if the universe for the given space id is counted as dimension overflow otherwise 0.
   */
@@ -249,7 +250,8 @@ IS
 
   /**
   * Checks if the universe for a given space id is in position overflow. Means that for this specific space
-  * id no position is free. Positions itself may not be in overflow.
+  * id no position is free. Positions itself may not be in overflow. It will check only position overflow
+  * on axis level, not considering nodes inbetween connected to other dimensions.
   * @param p_usim_id_spc The space id to check the universe it belongs against position overflow.
   * @return Returns 1 if the universe for the given space id is counted as position overflow otherwise 0.
   */
@@ -325,7 +327,7 @@ IS
   ;
 
   /**
-  * Get the child count of a given space node either in related universe are in all
+  * Get the child count of a given space node either in related universe or in all
   * universes.
   * @param p_usim_id_spc The space node id to check.
   * @param p_ignore_mlv Defines if childs are only counted within universe of the space node (0) or childs are counted regardless of the universe they are in.
@@ -338,7 +340,7 @@ IS
   ;
 
   /**
-  * Get the parent count of a given space node either in related universe are in all
+  * Get the parent count of a given space node either in related universe or in all
   * universes.
   * @param p_usim_id_spc The space node id to check.
   * @param p_ignore_mlv Defines if parents are only counted within universe of the space node (0) or parents are counted regardless of the universe they are in.
@@ -678,6 +680,15 @@ IS
   ;
 
   /**
+  * Gets the current maximum position on the related dimension 1 axis for a given space node.
+  * @param p_usim_id_spc The space id node to get the max dimension 1 position.
+  * @return The maximum coordinate on dimension axis 1 or NULL on errors.
+  */
+  FUNCTION get_axis_max_pos_dim1(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  ;
+
+  /**
   * Retrieve the the next position and axis for a given space id.
   * @param p_usim_id_spc The space id ancestor node which may be itself the parent node or a 0 node on a dimension axis that can trigger new coordinates.
   * @return Return 1 if the operation was successful otherwise 0.
@@ -703,12 +714,14 @@ IS
   ;
 
   /**
-  * Gets the dimension axis rating for a given space id and the possible maximum number of childs. Dimension rating:</br>
+  * Gets the dimension axis rating for a given space id and the possible maximum number of childs. Maximum childs are calculated for the next
+  * possible dimension, if dimension is not already maximum to enable extension. Max n is n+1 where n+1 < max n else maximum possible dimensions. Dimension rating:</br>
   * -1 error retrieving axis rating.</br>
   * 0 center axis at dimension n = 0, with position 0 in dimension 0. 2 special childs possible with opposite output energy sign.</br>
-  * 1 center axis at dimension n > 0, with position 0 in dimension n and sign (-/+1). 2 childs possible</br>
-  * 2 node is pure dimension axis coordinate, all other dimension coordinates are 0 apart from current dimension. 2 x n + 1 possible childs</br>
-  * 3 node is in the middle of somewhere. 2 x n connections - x parents = possible childs</br>
+  * 1 center axis at dimension n = 1, with position 0 in dimension n and sign (-/+1). (max n - n) x 2 + 1 childs possible</br>
+  * 2 center axis at dimension n > 1, with position 0 in dimension n and sign (-/+1). 2 childs possible</br>
+  * 3 node is pure dimension axis coordinate, all other dimension coordinates are 0 apart from current dimension. (max n - n) + 1 possible childs</br>
+  * 4 node is in the middle of somewhere. max n possible childs</br>
   * @param p_usim_id_spc The child id to check data for.
   * @param p_max_childs The maximum childs possible as calculated for dimension axis type.
   * @return Returns dimension rating as defined.
@@ -723,9 +736,10 @@ IS
   * Gets the dimension axis rating for a given space id. Dimension rating:</br>
   * -1 error retrieving axis rating.</br>
   * 0 center axis at dimension n = 0, with position 0 in dimension 0. 2 special childs possible with opposite output energy sign.</br>
-  * 1 center axis at dimension n > 0, with position 0 in dimension n and sign (-/+1). 2 x n + 1 child possible</br>
-  * 2 node is pure dimension axis coordinate, all other dimension coordinates are 0 apart from current dimension. 1 possible child</br>
-  * 3 node is in the middle of somewhere. 2 x n connections - x parents = possible childs</br>
+  * 1 center axis at dimension n = 1, with position 0 in dimension n and sign (-/+1). (max n - n) x 2 + 1 childs possible</br>
+  * 2 center axis at dimension n > 1, with position 0 in dimension n and sign (-/+1). 2 childs possible</br>
+  * 3 node is pure dimension axis coordinate, all other dimension coordinates are 0 apart from current dimension. (max n - n) + 1 possible childs</br>
+  * 4 node is in the middle of somewhere. max n possible childs</br>
   * @param p_usim_id_spc The child id to check data for.
   * @return Returns dimension rating as defined.
   */
@@ -753,7 +767,7 @@ IS
   * 1 node is ready to get connected, further childs or connects are possible to dimensions and positions.</br>
   * 2 node is ready to get connected, further childs or connects are possible only to dimensions.</br>
   * 3 node is ready to get connected, further childs or connects are possible only to positions.</br>
-  * 4 node is ready to get connected, only new positions on dimension 1 axis possible.</br>
+  * 4 node is ready to get connected, only new positions on dimension axis possible.</br>
   * @param p_usim_id_spc The parent space id to classify.
   * @return Returns the classification of the parent space node.
   */
@@ -768,9 +782,12 @@ IS
   * -1 error.</br>
   * 0 node can only escape to another universe.</br>
   * 1 node can extend dimensions and positions to escape.</br>
-  * 2 node can only extend dimensions to escape.</br>
+  * 2 node can only extend dimensions to escape. Includes between positions to higher dimensions.</br>
   * 3 node can only extend positions to escape.</br>
-  * 4 node can only extend positions on dimension 1 axis to escape.</br>
+  * 4 node can only delegate new dim axis to axis zero position on dimension 1.</br>
+  * 5 node can only delegate new position on axis to axis zero position on current dimension.</br>
+  * 6 node can only delegate new position on dimension axis 1 related to the space node.</br>
+  * 7 node can only delegate new between position on current and next free higher dimension to axis zero position on current dimension.</br>
   * @param p_usim_id_spc The space id to classify.
   * @return Returns the classification of the space node for escapes.
   */

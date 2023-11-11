@@ -24,7 +24,8 @@ IS
   ;
 
   /**
-  * Activate debug state.
+  * Activate debug state and intialize an internal debug id which can be used
+  * for the whole session.
   */
   PROCEDURE set_debug_on;
 
@@ -34,13 +35,29 @@ IS
   PROCEDURE set_debug_off;
 
   /**
-  * Starts a debug session, if debug state is
-  * on for this session.
+  * Starts a debug session, if debug state is on for this session and user wants to control
+  * the debug ids.
   * @return A new debug id or NULL if debug state is not set.
   */
   FUNCTION start_debug
     RETURN usim_debug_log.usim_id_dlg%TYPE
   ;
+
+  /**
+  * Returns a text representation of supported status values.
+  * @param p_usim_status The status value to get the text representation for.
+  * @return The text for the given status value or UNKNOWN.
+  */
+  FUNCTION debug_status_txt(p_usim_status IN usim_debug_log.usim_status%TYPE)
+    RETURN VARCHAR2
+    DETERMINISTIC
+    PARALLEL_ENABLE
+  ;
+
+  /**
+  * Delete all entries of the current debug log.
+  */
+  PROCEDURE purge_log;
 
   /**
   * Creates a debug log entry in USIM_DEBUG_LOG if debug state
@@ -69,6 +86,19 @@ IS
                      , p_usim_status        IN usim_debug_log.usim_status%TYPE
                      , p_usim_log_object    IN usim_debug_log.usim_log_object%TYPE
                      , p_usim_log_content   IN usim_debug_log.usim_log_content%TYPE
+                     )
+  ;
+
+  /**
+  * Creates a debug log entry in USIM_DEBUG_LOG if debug state
+  * is set. Uses internal session debug id.
+  * @param p_usim_log_object The function or procedure name, e.g. USIM_DEBUG.DEBUG_LOG.
+  * @param p_usim_log_content The debug message to use limited to CLOB size.
+  * @param p_usim_status The debug status for this debug entry. Default 2 INFO.
+  */
+  PROCEDURE debug_log( p_usim_log_object    IN usim_debug_log.usim_log_object%TYPE
+                     , p_usim_log_content   IN usim_debug_log.usim_log_content%TYPE
+                     , p_usim_status        IN usim_debug_log.usim_status%TYPE      DEFAULT 2
                      )
   ;
 

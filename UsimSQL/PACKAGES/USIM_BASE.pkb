@@ -165,6 +165,18 @@ IS
   END num_has_overflow
   ;
 
+  FUNCTION num_add_has_overflow( p_check_number IN NUMBER
+                               , p_add_number   IN NUMBER
+                               )
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    l_result := p_check_number + p_add_number;
+    RETURN num_has_overflow(l_result);
+  END num_add_has_overflow
+  ;
+
   FUNCTION get_overflow_node_seed
     RETURN NUMBER
   IS

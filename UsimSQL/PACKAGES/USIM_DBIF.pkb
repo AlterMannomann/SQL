@@ -414,6 +414,28 @@ IS
   END has_axis_max_pos_parent
   ;
 
+  FUNCTION has_free_between(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN NUMBER
+  IS
+  BEGIN
+    -- if not related to all dimensions, relying on dimensions are built and assigned in order
+    IF usim_chi.get_cur_max_dimension(p_usim_id_spc) < usim_spc.get_cur_max_dim_n1(p_usim_id_spc)
+    THEN
+      RETURN 1;
+    ELSE
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.has_free_between', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END has_free_between
+  ;
+
   FUNCTION is_seed_active
     RETURN NUMBER
   IS
@@ -435,7 +457,7 @@ IS
       ELSE
         SELECT planck_aeon
              , planck_time
-             , energy_total
+             , energy_base
              , energy_positive
              , energy_negative
              , has_process_data
@@ -624,32 +646,6 @@ IS
   END is_overflow_pos_mlv
   ;
 
-  FUNCTION is_overflow_dim(p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE)
-    RETURN NUMBER
-  IS
-  BEGIN
-    IF usim_dim.has_data = 0
-    THEN
-      -- no data
-      RETURN 0;
-    END IF;
-    IF usim_dim.has_data(p_usim_n_dimension) = 1
-    THEN
-      RETURN 0;
-    ELSE
-      RETURN 1;
-    END IF;
-  EXCEPTION
-    WHEN OTHERS THEN
-      -- write error might still work
-      usim_erl.log_error('usim_dbif.is_overflow_dim', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
-      -- try to set all to crashed
-      usim_dbif.set_crashed;
-      -- raise in any case
-      RAISE;
-  END is_overflow_dim
-  ;
-
   FUNCTION is_overflow_dim_mlv(p_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     RETURN NUMBER
   IS
@@ -780,10 +776,12 @@ IS
   FUNCTION is_overflow_energy(p_energy IN NUMBER)
     RETURN NUMBER
   IS
+    l_result NUMBER;
   BEGIN
     IF usim_base.has_basedata = 1
     THEN
-      IF ABS(p_energy) > usim_base.get_abs_max_number
+      l_result := usim_base.num_has_overflow(p_energy);
+      IF l_result = 1
       THEN
         RETURN 1;
       ELSE
@@ -795,12 +793,20 @@ IS
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
-      -- write error might still work
-      usim_erl.log_error('usim_dbif.is_overflow_energy', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
-      -- try to set all to crashed
-      usim_dbif.set_crashed;
-      -- raise in any case
-      RAISE;
+      IF SQLCODE IN (-6502, -1426, -1428, -1476, -1487)
+      THEN
+        -- -6502 numeric value error POWER etc. or -1426 overflow or -1428 value range, -1476 zero divide, -1401: inserted value too large for column
+        -- -1487: packed decimal number too large
+        usim_erl.log_error('usim_dbif.is_overflow_energy', 'Numerical error on energy overflow check for [' || SQLCODE || '] error message: ' || SQLERRM);
+        RETURN 1;
+      ELSE
+        -- write error might still work
+        usim_erl.log_error('usim_dbif.is_overflow_energy', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+        -- try to set all to crashed
+        usim_dbif.set_crashed;
+        -- raise in any case
+        RAISE;
+      END IF;
   END is_overflow_energy
   ;
 
@@ -814,38 +820,29 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       -- check against base
-      BEGIN
-        l_result := p_energy + p_add;
-        IF ABS(l_result) > usim_base.get_abs_max_number
-        THEN
-          RETURN 1;
-        ELSE
-          RETURN 0;
-        END IF;
-      EXCEPTION
-        WHEN OTHERS THEN
-          -- system can't handle it
-          RETURN 1;
-      END;
+      l_result := usim_base.num_add_has_overflow(p_energy, p_add);
+      RETURN l_result;
     ELSE
-      -- check against system
-      BEGIN
-        l_result := p_energy + p_add;
-        RETURN 0;
-      EXCEPTION
-        WHEN OTHERS THEN
-          -- system can't handle it
-          RETURN 1;
-      END;
+      -- check against system, if fails with numerical exception we have overflow state
+      l_result := p_energy + p_add;
+      RETURN 0;
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
-      -- write error might still work
-      usim_erl.log_error('usim_dbif.is_overflow_energy_add', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
-      -- try to set all to crashed
-      usim_dbif.set_crashed;
-      -- raise in any case
-      RAISE;
+      IF SQLCODE IN (-6502, -1426, -1428, -1476, -1487)
+      THEN
+        -- -6502 numeric value error POWER etc. or -1426 overflow or -1428 value range, -1476 zero divide, -1401: inserted value too large for column
+        -- -1487: packed decimal number too large
+        usim_erl.log_error('usim_dbif.is_overflow_energy_add', 'Numerical error on add energy overflow check [' || SQLCODE || '] error message: ' || SQLERRM);
+        RETURN 1;
+      ELSE
+        -- write error might still work
+        usim_erl.log_error('usim_dbif.is_overflow_energy_add', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+        -- try to set all to crashed
+        usim_dbif.set_crashed;
+        -- raise in any case
+        RAISE;
+      END IF;
   END is_overflow_energy_add
   ;
 
@@ -1907,6 +1904,66 @@ IS
   END get_axis_max_pos_parent
   ;
 
+  FUNCTION get_axis_max_pos_dim1(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
+    RETURN usim_position.usim_coordinate%TYPE
+  IS
+    l_id_mlv  usim_multiverse.usim_id_mlv%TYPE;
+    l_n1_sign usim_rel_mlv_dim.usim_n1_sign%TYPE;
+    l_id_spc  usim_space.usim_id_spc%TYPE;
+    l_parent  usim_space.usim_id_spc%TYPE;
+    l_max_pos usim_position.usim_coordinate%TYPE;
+  BEGIN
+    l_id_mlv  := usim_spc.get_id_mlv(p_usim_id_spc);
+    l_n1_sign := usim_spc.get_dim_n1_sign(p_usim_id_spc);
+    IF usim_spc.get_cur_max_dim_n1(p_usim_id_spc) > 0
+    THEN
+      -- get dimension 1 by universe parent
+      WITH rmd AS
+           (SELECT usim_id_rmd
+              FROM usim_rmd_v
+             WHERE usim_id_mlv = l_id_mlv
+               AND usim_n_dimension = 0
+           )
+         , spc AS
+           (SELECT spcv.usim_id_spc
+              FROM usim_spc_v spcv
+             INNER JOIN rmd
+                ON spcv.usim_id_rmd = rmd.usim_id_rmd
+           )
+      SELECT chiv.usim_id_spc_child
+        INTO l_id_spc
+        FROM usim_chi_v chiv
+       INNER JOIN spc
+          ON chiv.usim_id_spc = spc.usim_id_spc
+       WHERE child_dim_n1_sign = l_n1_sign
+      ;
+      l_parent  := usim_spo.get_axis_max_pos_parent(l_id_spc);
+      IF l_parent IS NULL
+      THEN
+        usim_erl.log_error('usim_dbif.get_axis_max_pos_dim1', 'Could not get max axis dimension 1 coordinate for [' || p_usim_id_spc || '] axis 1 pos 0 id [' || l_id_spc || '].');
+        usim_dbif.set_crashed;
+      END IF;
+      l_max_pos := usim_spc.get_coordinate(l_parent);
+      IF l_max_pos IS NULL
+      THEN
+        usim_erl.log_error('usim_dbif.get_axis_max_pos_dim1', 'Could not get max coordinate for [' || p_usim_id_spc || '] max pos space id [' || l_parent || '].');
+        usim_dbif.set_crashed;
+      END IF;
+      RETURN l_max_pos;
+    ELSE
+      RETURN 0;
+    END IF;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_axis_max_pos_dim1', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_axis_max_pos_dim1
+  ;
+
   FUNCTION get_next_pos_on_axis( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
                                , p_usim_id_pos OUT usim_position.usim_id_pos%TYPE
                                , p_usim_id_rmd OUT usim_rel_mlv_dim.usim_id_rmd%TYPE
@@ -1942,7 +1999,6 @@ IS
   END get_next_pos_on_axis
   ;
 
-
   FUNCTION overflow_rating(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN NUMBER
   IS
@@ -1951,7 +2007,11 @@ IS
     IF      usim_dbif.is_overflow_dim_spc(p_usim_id_spc) = 1
        AND  usim_dbif.is_overflow_pos_spc(p_usim_id_spc) = 1
     THEN
-      -- total overflow
+      -- total overflow, no possible dimension or position open
+      RETURN 0;
+    ELSIF usim_dbif.max_childs(p_usim_id_spc) = usim_dbif.child_count(p_usim_id_spc)
+    THEN
+      -- total overflow, all possible childs connected
       RETURN 0;
     ELSIF usim_dbif.is_overflow_pos_spc(p_usim_id_spc) = 1
     THEN
@@ -2025,35 +2085,39 @@ IS
         p_max_childs := 2;
         RETURN 0;
       END IF;
-      l_max_dim := usim_spc.get_cur_max_dim_n1(p_usim_id_spc);
+      l_max_dim := NVL(usim_spc.get_cur_max_dim_n1(p_usim_id_spc), 0) + 1;
+      IF usim_base.get_max_dimension < l_max_dim
+      THEN
+        l_max_dim := usim_base.get_max_dimension;
+      END IF;
       IF     l_n_dimension = 1
          AND l_coordinate  = 0
       THEN
         -- zero pos dimension axis at dimension 1
-        -- all dimension axis and position on dimension axis
-        p_max_childs := (l_max_dim * 2) + 1;
+        -- all dimension axis and position on dimension axis: (max n - n) x 2 + 1 axis child
+        p_max_childs := ((l_max_dim - l_n_dimension) * 2) + 1;
         RETURN 1;
       END IF;
       IF     l_n_dimension > 1
          AND l_coordinate  = 0
       THEN
         -- zero pos dimension axis dimension > 1
-        -- only position on dimension axis
-        p_max_childs := 1;
-        RETURN 1;
+        -- only position on dimension axis and 1 inbetween node: 2 childs
+        p_max_childs := 2;
+        RETURN 2;
       END IF;
       -- count coordinates not 0 for space id
       SELECT COUNT(*) INTO l_count FROM usim_spo_v WHERE usim_id_spc = p_usim_id_spc AND usim_coordinate != 0;
       IF     l_count       = 1
          AND l_coordinate != 0
       THEN
-        -- pure dimension axis, possible childs: n Dimension x 2 + 1 axis child
-        p_max_childs := (l_max_dim * 2) + 1;
-        RETURN 2;
-      ELSE
-        -- anywhere, possible childs: n Dimension x 2
-        p_max_childs := (l_max_dim * 2);
+        -- pure dimension axis, possible childs: (max n - n) + 1 axis child
+        p_max_childs := (l_max_dim  - l_n_dimension) + 1;
         RETURN 3;
+      ELSE
+        -- anywhere, possible childs: max n
+        p_max_childs := l_max_dim;
+        RETURN 4;
       END IF;
     ELSE
       usim_erl.log_error('usim_dbif.dimension_rating', 'Invalid space id [' || p_usim_id_spc || '].');
@@ -2168,7 +2232,7 @@ IS
               -- only next dimension possible
               RETURN 2;
             ELSE
-              -- first extend x axis
+              -- first extend dimension axis
               RETURN 4;
             END IF;
           ELSE
@@ -2210,8 +2274,14 @@ IS
         -- fully connected
         RETURN 0;
       ELSE
-        -- only position possible?
-        RETURN 3;
+        IF usim_chi.has_child_same_dim(p_usim_id_spc) = 1
+        THEN
+          -- only next dimension possible
+          RETURN 2;
+        ELSE
+          -- position or dimension (not checking upper dimensions available)
+          RETURN 1;
+        END IF;
       END IF;
     END IF;
   EXCEPTION
@@ -2233,6 +2303,9 @@ IS
     l_max_cur_dim           NUMBER;
     l_max_pos               NUMBER;
     l_max_cur_pos           NUMBER;
+    l_max_n1_pos            NUMBER;
+    l_max_childs            NUMBER;
+    l_childs                NUMBER;
   BEGIN
     IF usim_spc.has_data(p_usim_id_spc) = 1
     THEN
@@ -2240,7 +2313,11 @@ IS
       l_max_pos               := usim_base.get_abs_max_number;
       l_max_cur_dim           := usim_spc.get_cur_max_dim_n1(p_usim_id_spc);
       l_max_cur_pos           := usim_spc.get_cur_max_pos(p_usim_id_spc);
+      l_max_childs            := usim_dbif.max_childs(p_usim_id_spc);
+      l_childs                := usim_dbif.child_count(p_usim_id_spc);
       l_parent_classification := usim_dbif.classify_parent(p_usim_id_spc);
+      l_max_n1_pos            := ABS(usim_dbif.get_axis_max_pos_dim1(p_usim_id_spc));
+
       -- check all classifications against all kinds of overflow
       IF l_parent_classification < 0
       THEN
@@ -2254,32 +2331,72 @@ IS
       ELSIF l_parent_classification = 1
       THEN
         -- check if dimension and positions are over the max for n1 side of space node
-        IF     l_max_cur_dim < l_max_dim
-           AND l_max_cur_pos < l_max_pos
+        IF     l_max_cur_dim  < l_max_dim
+           AND l_max_cur_pos  < l_max_pos
+           AND l_max_n1_pos  >= l_max_cur_dim
         THEN
           -- everything available
           RETURN l_parent_classification;
-        ELSIF l_max_cur_dim < l_max_dim
+        ELSIF     l_max_cur_dim  < l_max_dim
+              AND l_max_n1_pos  >= l_max_cur_dim
         THEN
           -- only dimensions available
           RETURN 2;
+        ELSIF     l_max_cur_dim < l_max_dim
+              AND l_max_n1_pos  < l_max_cur_dim
+        THEN
+          IF usim_dbif.has_free_between(p_usim_id_spc) = 1
+          THEN
+            -- prefer filling between nodes
+            RETURN 7;
+          ELSE
+            -- only position dim axis 1 delegate available
+            RETURN 6;
+          END IF;
         ELSIF l_max_cur_pos < l_max_pos
         THEN
           -- only positions available
           RETURN 3;
+        -- full only new universe or delegate between
+        ELSIF usim_dbif.has_free_between(p_usim_id_spc) = 1
+        THEN
+            -- delegate between
+            RETURN 7;
         ELSE
-          -- full only new universe
+          -- no delegate options
           RETURN 0;
         END IF;
       ELSIF l_parent_classification = 2
       THEN
         -- check
-        IF l_max_cur_dim < l_max_dim
+        IF     l_max_cur_dim  < l_max_dim
+           AND l_max_n1_pos  >= l_max_cur_dim
         THEN
           -- everything available
           RETURN l_parent_classification;
+        ELSIF     l_max_cur_dim < l_max_dim
+              AND l_max_n1_pos  < l_max_cur_dim
+        THEN
+          IF usim_dbif.has_free_between(p_usim_id_spc) = 1
+          THEN
+            -- prefer filling between nodes
+            RETURN 7;
+          ELSE
+            -- only position dim axis 1 delegate available
+            RETURN 6;
+          END IF;
+        -- full only new universe or delegate
+        ELSIF     l_max_cur_pos                             < l_max_pos
+              AND usim_dbif.has_free_between(p_usim_id_spc) = 0
+        THEN
+          -- delegate position, if no between nodes are free
+          RETURN 5;
+        ELSIF usim_dbif.has_free_between(p_usim_id_spc) = 1
+        THEN
+          -- delegate between
+          RETURN 7;
         ELSE
-          -- full only new universe
+          -- no delegate options
           RETURN 0;
         END IF;
       ELSIF l_parent_classification IN (3, 4)
@@ -2289,8 +2406,22 @@ IS
         THEN
           -- everything available
           RETURN l_parent_classification;
+        -- full only new universe or delegate
+        ELSIF     l_parent_classification                   = 4
+              AND usim_dbif.has_free_between(p_usim_id_spc) = 0
+        THEN
+          RETURN l_parent_classification;
+        ELSIF     l_max_cur_dim                             < l_max_dim
+              AND usim_dbif.has_free_between(p_usim_id_spc) = 0
+        THEN
+          -- delegate new dimension, if no between nodes are free
+          RETURN 4;
+        ELSIF usim_dbif.has_free_between(p_usim_id_spc) = 1
+        THEN
+          -- delegate between
+          RETURN 7;
         ELSE
-          -- full only new universe
+          -- no delegate options
           RETURN 0;
         END IF;
       ELSE
@@ -2312,6 +2443,7 @@ IS
       RAISE;
   END classify_escape
   ;
+
   FUNCTION get_dim_G( p_usim_id_spc IN  usim_space.usim_id_spc%TYPE
                     , p_node_G      OUT NUMBER
                     )
@@ -2417,7 +2549,7 @@ IS
     l_energy := usim_maths.calc_planck_a2(p_energy, p_radius, p_G);
     IF usim_base.num_has_overflow(l_energy) = 1
     THEN
-      usim_erl.log_error('usim_dbif.get_acceleration', 'Numerical overflow for l_energy[' || l_energy || '] overflow [' || usim_base.get_abs_max_number || ',-' || usim_base.get_abs_max_number || '] underflow[' || usim_base.get_max_underflow || ',' || usim_base.get_min_underflow || '].');
+      usim_debug.debug_log('usim_dbif.get_acceleration', 'Numerical overflow for l_energy[' || l_energy || '] overflow [' || usim_base.get_abs_max_number || ',-' || usim_base.get_abs_max_number || '] underflow[' || usim_base.get_max_underflow || ',' || usim_base.get_min_underflow || '].');
       RETURN 0;
     ELSE
       -- only set out value if valid value
@@ -2430,7 +2562,7 @@ IS
       THEN
         -- -6502 numeric value error POWER etc. or -1426 overflow or -1428 value range, -1476 zero divide, -1401: inserted value too large for column
         -- -1487: packed decimal number too large
-        usim_erl.log_error('usim_dbif.get_acceleration', 'Numerical error on acceleration calculation [' || SQLCODE || '] error message: ' || SQLERRM);
+        usim_debug.debug_log('usim_dbif.get_acceleration', 'Numerical error on acceleration calculation [' || SQLCODE || '] error message: ' || SQLERRM);
         RETURN 0;
       ELSE
         usim_erl.log_error('usim_process.get_acceleration', 'Unknown error [' || SQLCODE || '] error message: ' || SQLERRM);

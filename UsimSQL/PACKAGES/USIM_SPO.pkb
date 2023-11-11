@@ -276,10 +276,12 @@ IS
                          )
     RETURN NUMBER
   IS
-    l_dim usim_dimension.usim_n_dimension%TYPE;
+    l_dim     usim_dimension.usim_n_dimension%TYPE;
+    l_id_mlv  usim_multiverse.usim_id_mlv%TYPE;
 
     CURSOR cur_dims( cp_usim_id_spc        IN usim_space.usim_id_spc%TYPE
                    , cp_usim_id_spc_parent IN usim_space.usim_id_spc%TYPE
+                   , cp_usim_id_mlv        IN usim_multiverse.usim_id_mlv%TYPE
                    )
     IS
         WITH org_dim AS
@@ -287,15 +289,20 @@ IS
                      usim_n_dimension
                 FROM usim_spo_v
                WHERE usim_id_spc = cp_usim_id_spc
+                     -- consider only the universe of the given new space id
+                 AND usim_id_mlv = cp_usim_id_mlv
              )
       SELECT usim_id_rmd
            , usim_id_pos
         FROM usim_spo_v
+             -- parent might be in a different universe, so no positions are added from other universes
        WHERE usim_id_spc           = cp_usim_id_spc_parent
+         AND usim_id_mlv           = cp_usim_id_mlv
          AND usim_n_dimension NOT IN (SELECT usim_n_dimension FROM org_dim)
-         AND (   usim_coordinate  != 0
-              OR usim_n_dimension  = 0
-             )
+-- not sure if to exclude 0 coordinates and dimensions
+--         AND (   usim_coordinate  != 0
+--              OR usim_n_dimension  = 0
+--             )
     ;
   BEGIN
     IF usim_spo.has_data(p_usim_id_spc) = 0
@@ -316,8 +323,9 @@ IS
     -- check parent
     IF usim_spo.has_data(p_usim_id_spc_parent) = 1
     THEN
+      l_id_mlv := usim_spc.get_id_mlv(p_usim_id_spc);
       -- only lower dimension not present and position > 0, missing dimensions means 0 position in this dimension
-      FOR rec IN cur_dims(p_usim_id_spc, p_usim_id_spc_parent)
+      FOR rec IN cur_dims(p_usim_id_spc, p_usim_id_spc_parent, l_id_mlv)
       LOOP
         INSERT INTO usim_spc_pos
           ( usim_id_spc

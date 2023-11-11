@@ -1,5 +1,7 @@
 **Under Construction - heavy redesign currently**
 Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL and how to make it better than I do. Current state is basically working but still some issues with overflow handling and connecting nodes not on dimension axis. Visualization P5 JS gets quite slow if more than 50 planck ticks and has still some errors (coordinate display on z, zero details do not show full structure).
+
+Next work is making js faster, delivering the structure with every node, so structure design is faster. And reworking dimensions, in the end it is still a binary tree, current model does not consider this, so possible spaces like 1,-1,+1 or +1,-1,-1 are missing. Will establish a parent child relation between dimensions, to reflect properly the space in all dimensions. This probably removes the need for the n1 sign.
 # Intention
 This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).
 ## Expectations

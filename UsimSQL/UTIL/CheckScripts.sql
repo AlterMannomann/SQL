@@ -32,7 +32,10 @@ SELECT CASE usim_dbif.classify_escape(usim_id_spc)
          WHEN 1 THEN 'FREE DIM POS'
          WHEN 2 THEN 'FREE DIM'
          WHEN 3 THEN 'FREE POS'
-         WHEN 4 THEN 'FREE X-POS'
+         WHEN 4 THEN 'DELEGATE DIM'
+         WHEN 5 THEN 'DELEGATE POS'
+         WHEN 6 THEN 'DELEGATE POS X'
+         WHEN 7 THEN 'DELEGATE BETWEEN'
          ELSE 'ERR'
        END AS classify_escape
      , CASE usim_dbif.classify_parent(usim_id_spc)
@@ -42,15 +45,16 @@ SELECT CASE usim_dbif.classify_escape(usim_id_spc)
          WHEN 1 THEN 'FREE DIM POS'
          WHEN 2 THEN 'FREE DIM'
          WHEN 3 THEN 'FREE POS'
-         WHEN 4 THEN 'FREE X-POS'
+         WHEN 4 THEN 'FREE AXIS-POS'
          ELSE 'ERR'
        END AS classify_parent
      , CASE usim_dbif.dimension_rating(usim_id_spc)
          WHEN -1 THEN 'ERR'
          WHEN 0 THEN 'BASE0'
-         WHEN 1 THEN 'AXIS0'
-         WHEN 2 THEN 'AXIS'
-         WHEN 3 THEN 'BETWEEN'
+         WHEN 1 THEN 'AXIS0 N1'
+         WHEN 2 THEN 'AXIS0'
+         WHEN 3 THEN 'AXIS'
+         WHEN 4 THEN 'BETWEEN'
        END AS dim_rating
      , CASE usim_dbif.overflow_rating(usim_id_spc)
          WHEN 0 THEN 'TOTAL'
@@ -60,11 +64,14 @@ SELECT CASE usim_dbif.classify_escape(usim_id_spc)
        END AS overflow
      , usim_dbif.is_overflow_dim_spc(usim_id_spc) AS is_overflow_dim
      , usim_dbif.is_overflow_pos_spc(usim_id_spc) AS is_overflow_pos
+     , usim_dbif.has_free_between(usim_id_spc) AS free_between
      , usim_spo.is_axis_zero_pos(usim_id_spc) is_zero_axis
      , usim_spc.is_universe_base(usim_id_spc) is_universe_base
      , usim_dbif.max_childs(usim_id_spc) AS max_childs
      , usim_dbif.child_count(usim_id_spc) AS childs
      , usim_spc.get_cur_max_dim_n1(usim_id_spc) AS max_dim_for_id
+     , usim_dbif.get_axis_max_pos_dim1(usim_id_spc) AS max_pos_dim1
+     , usim_base.get_max_dimension AS max_dim
      , usim_chi.has_child_next_dim(usim_id_spc) AS child_next_dim
      , usim_n_dimension
      , dim_sign
@@ -112,6 +119,7 @@ SELECT spr.usim_planck_time
 ;
 -- create overview tabs
 SELECT usim_timestamp, SUBSTR(usim_err_object, 1, 50) AS usim_err_object, usim_err_info FROM usim_error_log ORDER BY usim_timestamp, usim_tick;
+SELECT usim_timestamp, SUBSTR(usim_log_object, 1, 50) AS usim_log_object, usim_log_content FROM usim_debug_log ORDER BY usim_timestamp, ROWID;
 SELECT * FROM usim_spc_v;
 SELECT * FROM usim_spc_chi_v;
 SELECT * FROM usim_spo_v;
@@ -120,3 +128,18 @@ SELECT * FROM usim_position;
 SELECT * FROM usim_spo_xyz_v;
 SELECT * FROM usim_spr_v;
 SELECT * FROM usim_mlv_state_v;
+
+-- spo testing does not get correct 0 dimension of dimensions between 1 and final dimension
+--     as other dimensions are only connected to dimension 1
+SELECT * 
+  FROM usim_chi_v
+ WHERE parent_dimension < child_dimension
+   AND parent_id_mlv    = &ID_MLV
+  START WITH usim_id_spc_child = &ID_NEW_POS
+CONNECT BY PRIOR usim_id_spc = usim_id_spc_child
+;
+-- if dimension is not in this select, the zero position of the missing 
+-- dimension must be added with correct rmd, n1_sign equal, dim_sign equal to dim 2 if dim > 2
+-- we got parent axis dim 1 so dim_n1_sign is set, dim_sign depends on the second dim, where 2 dim axis exist
+-- next dim axis are in the quarter of second dim axis and have the same dim sign
+

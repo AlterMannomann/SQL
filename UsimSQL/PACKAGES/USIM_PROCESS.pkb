@@ -251,7 +251,7 @@ IS
     l_result := usim_dbif.check_border(p_usim_id_spc, FALSE);
     IF l_result != 1
     THEN
-      usim_erl.log_error('usim_process.process_node', 'Check border failed with parameter [' || p_usim_id_spc || '].');
+      usim_erl.log_error('usim_process.process_node', 'Check border failed with parameter [' || p_usim_id_spc || '] and result [' || l_result || '].');
       RETURN 0;
     END IF;
     -- operate on node
@@ -275,7 +275,7 @@ IS
     THEN
       IF l_resDimG = 0
       THEN
-        usim_erl.log_error('usim_process.process_node', 'Overflow for space id [' || p_usim_id_spc || '] usim_dbif.get_dim_G. Set G to default 1.');
+        usim_debug.debug_log('usim_process.process_node', 'Overflow for space id [' || p_usim_id_spc || '] usim_dbif.get_dim_G. Set G to default 1.');
         l_result   := usim_creator.handle_overflow(p_usim_id_spc, FALSE);
         IF l_result = 0
         THEN
@@ -297,7 +297,7 @@ IS
     THEN
       IF l_resR = 0
       THEN
-        usim_erl.log_error('usim_process.process_node', 'Overflow for space id [' || p_usim_id_spc || '] usim_dbif.get_outer_planck_r. Set distance to default 1.');
+        usim_debug.debug_log('usim_process.process_node', 'Overflow for space id [' || p_usim_id_spc || '] usim_dbif.get_outer_planck_r. Set distance to default 1.');
         l_result   := usim_creator.handle_overflow(p_usim_id_spc, FALSE);
         IF l_result = 0
         THEN
@@ -319,7 +319,7 @@ IS
     THEN
       IF l_resEnergy = 0
       THEN
-        usim_erl.log_error('usim_process.process_node', 'Overflow for space id [' || p_usim_id_spc || '] usim_dbif.get_acceleration. Set target energy to 0.');
+        usim_debug.debug_log('usim_process.process_node', 'Overflow for space id [' || p_usim_id_spc || '] usim_dbif.get_acceleration. Set target energy to 0.');
         l_result        := usim_creator.handle_overflow(p_usim_id_spc, FALSE);
         IF l_result = 0
         THEN
@@ -537,7 +537,7 @@ IS
           IF usim_dbif.is_overflow_energy_add(rec.usim_energy_output, l_energy) = 1
           THEN
             -- overflow energy
-            usim_erl.log_error('usim_process.process_queue', 'Overflow for target space id [' || recmain.usim_id_spc_target || '] with energy [' || rec.usim_energy_output || '] and current target energy [' || l_energy || ']. Set energy to 0.');
+            usim_debug.debug_log('usim_process.process_queue', 'Overflow for target space id [' || recmain.usim_id_spc_target || '] with energy [' || rec.usim_energy_output || '] and current target energy [' || l_energy || ']. Set energy to 0.');
             -- handle overflow and create a new universe
             l_result := usim_creator.handle_overflow(recmain.usim_id_spc_target, FALSE);
             IF l_result = 0

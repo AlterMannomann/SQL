@@ -1,15 +1,4 @@
 --== sequences start ==--
--- USIM_DEBUG_LOG (dlg) sequence
-SELECT CASE
-         WHEN COUNT(*) = 0
-         THEN '../SEQUENCES/USIM_DLG_ID_SEQ.sql'
-         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_DLG_ID_SEQ still exists."'
-       END AS SCRIPTFILE
-  FROM user_objects
- WHERE object_name = 'USIM_DLG_ID_SEQ'
-   AND object_type = 'SEQUENCE'
-;
-@@&SCRIPTFILE
 -- USIM_TEST_SUMMARY (tsu) sequence
 SELECT CASE
          WHEN COUNT(*) = 0
@@ -22,25 +11,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== sequences end ==--
-
---== debug tables start ==--
--- USIM_DEBUG_LOG (dlg)
-SELECT CASE
-         WHEN COUNT(*) = 0
-         THEN '../TABLES/USIM_DEBUG_LOG_TBL.sql'
-         ELSE '../UTIL/../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_DEBUG_LOG still exists."'
-       END AS SCRIPTFILE
-  FROM user_objects
- WHERE object_name = 'USIM_DEBUG_LOG'
-   AND object_type = 'TABLE'
-;
-@@&SCRIPTFILE
---== debug tables end ==--
-
---== debug package start ==--
-@@../PACKAGES/USIM_DEBUG.pks
-@@../PACKAGES/USIM_DEBUG.pkb
---== debug package end ==--
 
 --== test tables start ==--
 SELECT CASE

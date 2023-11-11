@@ -62,6 +62,9 @@ DECLARE
   l_universe_state  usim_multiverse.usim_universe_status%TYPE;
 BEGIN
   usim_erl.purge_log;
+  usim_debug.purge_log;
+  usim_debug.set_debug_on;
+
 /*
   l_return := usim_dbif.init_basedata(3, 10);
   usim_erl.log_error('basic_test_data_setup', 'Init base data with max dimension 3 and max number 10.');
@@ -181,16 +184,16 @@ BEGIN
   l_return := usim_process.place_start_node(3, 10);
   IF l_return = 1
   THEN
-    usim_erl.log_error('basic_test_data_setup', 'Init place start node with max dimension 3 and max number 10.');
-    l_return := usim_process.run_samples(200);
+    usim_debug.debug_log('basic_test_data_setup', 'Init place start node with max dimension 3 and max number 10.');
+    l_return := usim_process.run_samples(120);
     IF l_return = 1
     THEN
-      usim_erl.log_error('basic_test_data_setup', 'Samples run exit without error.');
+      usim_debug.debug_log('basic_test_data_setup', 'Samples run exit without error.');
     ELSE
-      usim_erl.log_error('basic_test_data_setup', 'Error running samples.');
+      usim_debug.debug_log('basic_test_data_setup', 'Error running samples.');
     END IF;
   ELSE
-    usim_erl.log_error('basic_test_data_setup', 'Failed to init place start node with max dimension 3 and max number 10.');
+    usim_debug.debug_log('basic_test_data_setup', 'Failed to init place start node with max dimension 3 and max number 10.');
   END IF;
 
   -- get variables for this run
@@ -199,10 +202,13 @@ BEGIN
   l_seq_aeon    := usim_dbif.get_planck_aeon_seq_current;
   l_seq         := usim_dbif.get_planck_time_current;
   -- provide json output, if website is running, may throw errors on file open
-  l_return := usim_creator.create_json_struct(l_usim_id_mlv);
-  l_return := usim_creator.create_space_log(l_seq_aeon, 1, l_seq);
-
+  --l_return := usim_creator.create_json_struct(l_usim_id_mlv);
+  --l_return := usim_creator.create_space_log(l_seq_aeon, 1, l_seq);
+EXCEPTION
+  WHEN OTHERS THEN
+    usim_debug.debug_log('basic_test_data_setup', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
 END;
 /
 -- list error and debug messages
 SELECT usim_timestamp, SUBSTR(usim_err_object, 1, 50) AS usim_err_object, usim_err_info FROM usim_error_log ORDER BY usim_timestamp, usim_tick;
+SELECT usim_timestamp, SUBSTR(usim_log_object, 1, 50) AS usim_log_object, usim_log_content FROM usim_debug_log ORDER BY usim_timestamp, ROWID;

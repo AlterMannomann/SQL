@@ -114,7 +114,6 @@ IS
       ;
       RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
     ELSE
-      usim_erl.log_error('usim_chi.has_child_next_dim', 'No child for space id [' || p_usim_id_spc || '].');
       RETURN 0;
     END IF;
   END has_child_next_dim
@@ -137,7 +136,6 @@ IS
       ;
       RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
     ELSE
-      usim_erl.log_error('usim_chi.has_child_at_dim', 'No child for space id [' || p_usim_id_spc || '] at dimension [' || p_usim_n_dimension || '].');
       RETURN 0;
     END IF;
   END has_child_at_dim
@@ -160,7 +158,6 @@ IS
       ;
       RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
     ELSE
-      usim_erl.log_error('usim_chi.has_parent_at_dim', 'No parent for space id [' || p_usim_id_spc || '] at dimension [' || p_usim_n_dimension || '].');
       RETURN 0;
     END IF;
   END has_parent_at_dim
@@ -181,7 +178,6 @@ IS
       ;
       RETURN (CASE WHEN l_result = 0 THEN l_result ELSE 1 END);
     ELSE
-      usim_erl.log_error('usim_chi.has_child_same_dim', 'No child for space id [' || p_usim_id_spc || '].');
       RETURN 0;
     END IF;
   END has_child_same_dim
@@ -193,7 +189,7 @@ IS
     l_result NUMBER;
     l_id_rmd usim_rel_mlv_dim.usim_id_rmd%TYPE;
   BEGIN
-    IF usim_chi.has_child(p_usim_id_spc) = 1
+    IF usim_chi.has_parent(p_usim_id_spc) = 1
     THEN
       SELECT COUNT(*)
         INTO l_result
@@ -203,7 +199,6 @@ IS
       ;
       RETURN l_result;
     ELSE
-      usim_erl.log_error('usim_chi.has_parent_same_dim', 'No child for space id [' || p_usim_id_spc || '].');
       RETURN 0;
     END IF;
   END has_parent_same_dim

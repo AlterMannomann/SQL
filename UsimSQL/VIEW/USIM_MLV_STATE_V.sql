@@ -3,7 +3,6 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
     WITH det AS
          (SELECT usim_id_mlv
                , dim_n1_sign
-               , SUM(usim_energy)         AS base_energy
                , SUM(NVL(usim_energy, 0)) AS energy
             FROM usim_spc_v
            GROUP BY usim_id_mlv
@@ -20,9 +19,9 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
                , usim_static.get_multiverse_status(mlv.usim_universe_status) AS current_status
                , mlv.usim_is_base_universe
                , tot.energy AS energy_total
+               , det_base.energy AS energy_base
                , det_pos.energy AS energy_positive
                , det_neg.energy AS energy_negative
-               , det_base.base_energy AS energy_base
                , mlv.usim_universe_status
                , usim_spr.has_data AS has_process_data
                , usim_spr.has_unprocessed AS has_unprocessed
@@ -46,8 +45,8 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
        , CASE usim_universe_status
            WHEN usim_static.get_multiverse_active
            THEN CASE
-                  WHEN has_process_data    = 1
-                   AND NVL(energy_base, 0) = 0
+                  WHEN has_process_data = 1
+                   AND energy_base      = 0
                   THEN 1
                   ELSE 0
                 END
@@ -56,9 +55,9 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
                   WHEN has_process_data = 1
                    AND has_unprocessed  = 0
                   THEN 1
-                  WHEN has_process_data = 1
-                   AND has_unprocessed  = 1
-                   AND energy_base     != 0
+                  WHEN has_process_data  = 1
+                   AND has_unprocessed   = 1
+                   AND energy_base      != 0
                   THEN 1
                   ELSE 0
                 END
@@ -102,10 +101,10 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
          END                                    AS status_calculated
        , usim_universe_status                   AS status_current
        , usim_is_base_universe
-       , energy_total
+       , energy_base
+       , energy_total AS energy_total_calc
        , energy_positive
        , energy_negative
-       , energy_base
        , has_process_data
        , has_unprocessed
     FROM ovr
@@ -113,7 +112,7 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
 
 COMMENT ON COLUMN usim_mlv_state_v.status_valid IS 'Determines if the current database status is valid. 1 = valid 0 = invalid, -1 = no valid calculation rule found for a related universe';
 COMMENT ON COLUMN usim_mlv_state_v.status_calculated IS 'Calculates the database status by current energy and process data for a related universe, NULL means invalid no rules found to determine state';
-COMMENT ON COLUMN usim_mlv_state_v.energy_total IS 'The total summed up energy of the related universe';
+COMMENT ON COLUMN usim_mlv_state_v.energy_total_calc IS 'The total summed up energy of the related universe, may differ slightly from 0 for missing SUM exactness on high decimals';
 COMMENT ON COLUMN usim_mlv_state_v.energy_positive IS 'The energy sum for all dimension axis with n1 sign = +1';
 COMMENT ON COLUMN usim_mlv_state_v.energy_negative IS 'The energy sum for all dimension axis with n1 sign = -1';
 COMMENT ON COLUMN usim_mlv_state_v.energy_base IS 'The energy sum for the base universe node with n1 sign = NULL';

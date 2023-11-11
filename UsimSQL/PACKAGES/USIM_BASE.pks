@@ -66,11 +66,24 @@ IS
 
   /**
   * Checks if given number if it has an overflow or underflow situation based on the maximum absolute number defined in base.
-  * Infinity is always an overflow situation.
+  * Infinity is always an overflow situation. Exceptions have to be checked on a higher level.
   * @param p_check_number The number to verify.
   * @return Returns 1 if overflow, 0 if not or NULL if base data not initialized.
   */
   FUNCTION num_has_overflow(p_check_number IN NUMBER)
+    RETURN NUMBER
+  ;
+
+  /**
+  * Checks if a given number addition would cause an overflow or underflow situation based on the maximum absolute number defined in base.
+  * Infinity is always an overflow situation. Exceptions have to be checked on a higher level.
+  * @param p_check_number The first number of the addition.
+  * @param p_add_number The second number of the addition.
+  * @return Returns 1 if overflow, 0 if not or NULL if base data not initialized.
+  */
+  FUNCTION num_add_has_overflow( p_check_number IN NUMBER
+                               , p_add_number   IN NUMBER
+                               )
     RETURN NUMBER
   ;
 

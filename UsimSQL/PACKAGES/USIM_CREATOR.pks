@@ -196,14 +196,26 @@ IS
   ;
 
   /**
+  * Creates a new node in case of between node is needed. Between nodes are filled from bottom up.
+  * @param p_usim_id_spc The space node id causing the overflow.
+  * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
+  * @return Returns 1 on success or 0 on errors.
+  */
+  FUNCTION handle_overflow_between( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
+                                  , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+                                  )
+    RETURN NUMBER
+  ;
+
+  /**
   * Main hub to handle overflow situations. Depending on escape classify an appropriate
   * action is executed. Will create necessary space nodes for positions, dimensions or universes.
   * @param p_usim_id_spc The usim_space id causing the overflow.
   * @param p_do_commit An boolean indicator if data should be committed or not (e.g. for trigger use).
   * @return Returns 1 if overflow could be handled otherwise 0.
   */
-  FUNCTION handle_overflow( p_usim_id_spc IN usim_space.usim_id_spc%TYPE
-                          , p_do_commit   IN BOOLEAN                     DEFAULT TRUE
+  FUNCTION handle_overflow( p_usim_id_spc   IN usim_space.usim_id_spc%TYPE
+                          , p_do_commit     IN BOOLEAN                     DEFAULT TRUE
                           )
     RETURN NUMBER
   ;

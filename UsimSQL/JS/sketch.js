@@ -33,6 +33,7 @@ let usim_sensivity;
 let usim_btn_debug;
 let usim_btn_debug_label;
 let usim_show_debug;
+let usim_pg;
 
 function preload() {
   usim_font = loadFont('Inconsolata.otf');
@@ -198,6 +199,8 @@ function setup() {
   frameRate(usim_frames);
   createCanvas(usim_frame_size, usim_win_width, WEBGL);
   textFont(usim_font);
+  usim_pg = createGraphics(200, 100);
+  usim_pg.textSize(80);
   // set draw center to center of frame only x,y
   translate(usim_frame_size/2, usim_frame_size/2);
   usimGUI();
@@ -286,7 +289,6 @@ function usimUpdateTicks() {
       usim_current_tick = 0;
     }
   }
-
 }
 
 function usimDrawPoint(usim_spc_node, usim_clr_code, usim_txt_xyz) {
@@ -295,7 +297,18 @@ function usimDrawPoint(usim_spc_node, usim_clr_code, usim_txt_xyz) {
     strokeWeight(1);
     point(usim_spc_node);
     if (usim_show_coords > 0) {
-      text(usim_txt_xyz, usim_spc_node.x + 10, usim_spc_node.y - 10);
+      push()
+      translate(usim_spc_node.x + 20, usim_spc_node.y -20, usim_spc_node.z);
+      //text(usim_txt_xyz, usim_spc_node.x + 10 - usim_spc_node.z, usim_spc_node.y - 10 + usim_spc_node.z);
+      usim_pg.background(0);
+      usim_pg.stroke('white');
+      usim_pg.fill('white');
+      usim_pg.text(usim_txt_xyz, 1, 80);
+      //pass image as texture
+      texture(usim_pg);
+      noStroke();
+      plane(20, 10);
+      pop();
     }
   pop();
 }

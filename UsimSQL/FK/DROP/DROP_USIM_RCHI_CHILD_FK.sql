@@ -1,0 +1,1 @@
+ALTER TABLE usim_rmd_child DROP CONSTRAINT usim_rchi_child_fk;

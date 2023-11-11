@@ -191,6 +191,28 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_RCHI_PARENT_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RCHI_PARENT_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_RMD_CHILD'
+   AND constraint_name  = 'USIM_RCHI_PARENT_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../FK/DROP/DROP_USIM_RCHI_CHILD_FK.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RCHI_CHILD_FK does not exist."'
+       END AS SCRIPTFILE
+  FROM user_constraints
+ WHERE constraint_type  = 'R'
+   AND table_name       = 'USIM_RMD_CHILD'
+   AND constraint_name  = 'USIM_RCHI_CHILD_FK'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
          THEN '../FK/DROP/DROP_USIM_SPC_POS_FK.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_POS_FK does not exist."'
        END AS SCRIPTFILE
@@ -825,6 +847,16 @@ SELECT CASE
        END AS SCRIPTFILE
   FROM user_objects
  WHERE object_name = 'USIM_REL_MLV_DIM'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../TABLES/DROP/DROP_USIM_RMD_CHILD_TBL.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Table USIM_RMD_CHILD does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMD_CHILD'
    AND object_type = 'TABLE'
 ;
 @@&SCRIPTFILE

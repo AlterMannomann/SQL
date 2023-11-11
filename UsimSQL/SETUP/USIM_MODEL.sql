@@ -256,6 +256,21 @@ SELECT CASE
 -- usim_rel_mlv_dim package
 @@../PACKAGES/USIM_RMD.pks
 @@../PACKAGES/USIM_RMD.pkb
+-- USIM_RMD_CHILD (rchi)
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../TABLES/USIM_RMD_CHILD_TBL.sql'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_RMD_CHILD still exists."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_name = 'USIM_RMD_CHILD'
+   AND object_type = 'TABLE'
+;
+@@&SCRIPTFILE
+-- foreign keys
+@@../FK/USIM_RCHI_PARENT_FK.sql
+@@../FK/USIM_RCHI_CHILD_FK.sql
+
 -- USIM_SPACE (spc)
 SELECT CASE
          WHEN COUNT(*) = 0

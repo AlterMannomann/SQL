@@ -49,12 +49,12 @@ We have different situations. The seed energy has an overflow, a node between di
 
 And we are maybe still within the limitations of dimension n = 0. Means we may add +1/-1 and that's it. Other concepts are not available within dimension n = 0.
 
-Infinity is the currency for creation of objects like new nodes, new dimensions and new universes. To make things a little bit more interesting, it could be helpful to define the maximum one below infinity of the used system. In that way we could discover a value between 0-1 if we subtract max from our virtual infinity. If we get a value less or equal to 1, then this is the start value of the new object otherwise the start value is 1.
+Infinity is the currency for creation of objects like new nodes, new dimensions and new universes. One infinity, one new object.
 #### Overflow rules - under construction
 - **Generic overflow behavior**
   - Add the negative amount of energy (e * -1), that would have caused an overflow, to the node energy of the impacted node that has an overflow. Means set the node energy to 0.
   - Set energy to 0 as default for the new created node / base node. All overflow energy is consumed by creating a new node, dimension or universe. The input for new universes is retrieved by the next energy input received from parent node.
-  - Any zero position dimension axis is able to create a new universes, dimensions or nodes. New dimension node childs are limited to position 1 on every dimension axis. As long as space is not filled continously any node can delegate the next node, dimension or universe creation to the zero position of its dimension axis. If the node is a zero position dimension axis it can also delegate to its parent, if a parent exists. Delegate is needed, if the node is not able to expand to a new node in the available dimensions.
+  - Any zero position dimension axis is able to create new universes, dimensions or nodes. New dimension node childs are limited to position 1 on every dimension axis. As long as space is not filled continously any node can delegate the next node, dimension or universe creation to the zero position of its dimension axis. If the node is a zero position dimension axis it can also delegate to its parent, if a parent exists. Delegate is needed, if the node is not able to expand to a new node in the available dimensions.
   - If the parent node of a new universe is in dimension n > 0, it can't output any energy anymore to the universe it is located in. It can receive energy from the parent universe, but it will never distribute energy to this parent universe, as it is now part of a new universe located in an old universe. Close nodes may still emit energy to the parent universe, but they are only close. *Anybody mentioned black holes^^?*
   - Prefer lower values in dimensions and positions
 - **Node overflow**

@@ -69,7 +69,7 @@ Infinity is the currency for creation of objects like new nodes, new dimensions 
     - Create dimension or node with lowest possible number as long as universe has no overflow in dimensions and positions
       - Prefer position in current dimensions as long as current available positions have not spread to all available dimensions
       - Prefer position if next dimension n < max coordinate
-      - Intention: Fill all existing dimensions with coordinates <= dimension n before creating a new dimension. If the dimension maximum is reached, fill the lower position nodes before the higher ones. For every possible position, fill first all dimensions before going tho next possible position, e.g. n=3 pos=3 fill all possible coordinates between 0 and 3 (0,0,0 up to +/-3,+/-3,+/-3) for all available dimensions before creating pos=+/-4 which will enable the creation of dim n=4.
+      - Intention: Fill all existing dimensions with coordinates <= dimension n before creating a new dimension. If the dimension maximum is reached, fill the lower position nodes before the higher ones. For every possible position, fill first all dimensions before going to next possible position, e.g. n=3 pos=3 fill all possible coordinates between 0 and 3 (0,0,0 up to +/-3,+/-3,+/-3) for all available dimensions before creating pos=+/-4 which will enable the creation of dim n=4.
     - Create new universe related to zero node, if current universe has overflow in dimensions and positions
   - Zero node delegate
     - Same as zero node overflow, but universes get connected to the node, that has caused the overflow event.

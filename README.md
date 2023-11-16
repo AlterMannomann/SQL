@@ -57,6 +57,8 @@ Infinity is the currency for creation of objects like new nodes, new dimensions 
   - Any zero position dimension axis is able to create new universes, dimensions or nodes. New dimension node childs are limited to position 1 on every dimension axis. As long as space is not filled continously any node can delegate the next node, dimension or universe creation to the zero position of its dimension axis. If the node is a zero position dimension axis it can also delegate to its parent, if a parent exists. Delegate is needed, if the node is not able to expand to a new node in the available dimensions.
   - If the parent node of a new universe is in dimension n > 0, it can't output any energy anymore to the universe it is located in. It can receive energy from the parent universe, but it will never distribute energy to this parent universe, as it is now part of a new universe located in an old universe. Close nodes may still emit energy to the parent universe, but they are only close. *Anybody mentioned black holes^^?*
   - Prefer lower values in dimensions and positions
+  - Prefer coordinates closer to the center
+  - If no unique next possible coordinate can be identified, prefer symmetry. Create symmetric nodes in all alternative positions.
 - **Node overflow**
   - Seed node overflow
     - Should not happen, as the value of the seed node should sum up to zero.

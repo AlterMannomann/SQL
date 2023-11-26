@@ -123,6 +123,29 @@ IS
   END get_dim_coord
   ;
 
+  FUNCTION get_magnitude( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                        , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                        )
+    RETURN NUMBER
+  IS
+    l_sum    NUMBER;
+    l_result NUMBER;
+  BEGIN
+    IF usim_spc.has_data(p_usim_id_spc) = 0
+    THEN
+      usim_erl.log_error('usim_spo.get_magnitude', 'Used with not existing space id [' || p_usim_id_spc || ']');
+    END IF;
+    l_result := 0;
+    l_sum    := 0;
+    FOR l_idx IN 1..p_usim_n_dimension
+    LOOP
+      l_sum := l_sum + POWER(usim_spo.get_dim_coord(p_usim_id_spc, l_idx), 2);
+    END LOOP;
+    l_result := SQRT(l_sum);
+    RETURN l_result;
+  END get_magnitude
+  ;
+
   FUNCTION get_coord_id(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN VARCHAR2
   IS

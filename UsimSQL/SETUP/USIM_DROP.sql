@@ -386,6 +386,26 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_SPO_BASE3D_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_BASE3D_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_SPO_BASE3D_V'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../VIEW/DROP/DROP_USIM_SPO_ZERO3D_V.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_ZERO3D_V does not exist."'
+       END AS SCRIPTFILE
+  FROM user_objects
+ WHERE object_type = 'VIEW'
+   AND object_name = 'USIM_SPO_ZERO3D_V'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
          THEN '../VIEW/DROP/DROP_USIM_SPR_V.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_SPR_V does not exist."'
        END AS SCRIPTFILE

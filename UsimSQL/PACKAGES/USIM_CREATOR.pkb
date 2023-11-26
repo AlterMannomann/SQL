@@ -2,9 +2,9 @@ CREATE OR REPLACE PACKAGE BODY usim_creator
 IS
   -- see header for documentation
 
-  FUNCTION write_json_log( p_json_clob IN CLOB
-                         , p_filename  IN VARCHAR2 DEFAULT 'usim_space_log'
-                         )
+  FUNCTION write_json_file( p_json_clob IN CLOB
+                          , p_filename  IN VARCHAR2 DEFAULT 'usim_space_log'
+                          )
     RETURN NUMBER
   IS
     l_file        UTL_FILE.FILE_TYPE;
@@ -21,7 +21,7 @@ IS
   BEGIN
     IF LENGTH(p_filename) > 100
     THEN
-      usim_erl.log_error('usim_creator.write_json_log', 'Filename [' || p_filename || '] too long.');
+      usim_erl.log_error('usim_creator.write_json_file', 'Filename [' || p_filename || '] too long.');
       RETURN 0;
     END IF;
     l_clob  := p_json_clob;
@@ -35,12 +35,7 @@ IS
       UTL_FILE.FRENAME('USIM_DIR', l_filename, 'USIM_HIST_DIR', l_backup);
     END IF;
     -- now write new file
-    -- open CLOB first
-    IF DBMS_LOB.ISOPEN(l_clob) = 0
-    THEN
-      DBMS_LOB.OPEN(l_clob, DBMS_LOB.LOB_READONLY);
-    END IF;
-    -- prepare and open
+    -- prepare
     l_pos      := 1;
     l_clob_len := DBMS_LOB.GETLENGTH(l_clob);
     l_file     := UTL_FILE.FOPEN('USIM_DIR', l_filename, 'WB', l_bufsize);
@@ -58,56 +53,70 @@ IS
     END LOOP;
     -- close file
     UTL_FILE.FCLOSE(l_file);
-    DBMS_LOB.CLOSE(l_clob);
     RETURN 1;
   EXCEPTION
     WHEN OTHERS THEN
-      IF DBMS_LOB.ISOPEN(l_clob) = 1
-      THEN
-        DBMS_LOB.CLOSE(l_clob);
-      END IF;
       IF UTL_FILE.IS_OPEN(l_file)
       THEN
         UTL_FILE.FCLOSE(l_file);
       END IF;
-      usim_erl.log_error('usim_creator.write_json_log', 'Unexpected exception writing JSON log SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      usim_erl.log_error('usim_creator.write_json_file', 'Unexpected exception writing JSON log SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       RETURN 0;
-  END write_json_log
+  END write_json_file
   ;
 
   FUNCTION get_json_log( p_planck_aeon      IN     usim_spc_process.usim_planck_aeon%TYPE
-                       , p_from_planck_time IN OUT usim_spc_process.usim_planck_time%TYPE
+                       , p_from_planck_time IN     usim_spc_process.usim_planck_time%TYPE
                        , p_to_planck_time   IN     usim_spc_process.usim_planck_time%TYPE
                        , p_json_log            OUT CLOB
                        )
     RETURN NUMBER
   IS
     l_main_object         JSON_OBJECT_T;
+    l_universe_object     JSON_OBJECT_T;
+    l_universe_array      JSON_ARRAY_T;
+    l_universe_select     JSON_ARRAY_T;
     l_planck_times_array  JSON_ARRAY_T;
     l_planck_detail_array JSON_ARRAY_T;
     l_planck_time_details JSON_OBJECT_T;
     l_planck_time_main    JSON_OBJECT_T;
-    l_from_xyz            JSON_OBJECT_T;
-    l_to_xyz              JSON_OBJECT_T;
+    l_fromto_array        VARCHAR2(32000);
     l_return              NUMBER;
-    l_result              NUMBER;
 
+    -- get all known universes
+    CURSOR cur_universes
+    IS
+      SELECT usim_id_mlv
+        FROM usim_multiverse
+       ORDER BY usim_is_base_universe DESC
+           , usim_id_mlv
+    ;
+    -- get needed planck pieces with associated universe
     CURSOR cur_planck_pieces( cp_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE
                             , cp_from_planck_time IN usim_spc_process.usim_planck_time%TYPE
                             , cp_to_planck_time   IN usim_spc_process.usim_planck_time%TYPE
+                            , cp_usim_id_mlv      IN usim_multiverse.usim_id_mlv%TYPE
                             )
     IS
       SELECT usim_planck_aeon
            , usim_planck_time
-        FROM usim_spc_process
-       WHERE usim_planck_aeon       = cp_planck_aeon
-         AND usim_planck_time BETWEEN cp_from_planck_time
-                                  AND cp_to_planck_time
-       GROUP BY usim_planck_aeon
+           , src_id_mlv
+        FROM usim_spr_v
+       WHERE src_id_mlv             = tgt_id_mlv
+         AND src_id_mlv             = cp_usim_id_mlv
+         AND usim_planck_aeon       = cp_planck_aeon
+         AND usim_planck_time BETWEEN cp_from_planck_time AND cp_to_planck_time
+       GROUP BY src_id_mlv
+              , usim_planck_aeon
+              , usim_planck_time
+       ORDER BY src_id_mlv
+              , usim_planck_aeon
               , usim_planck_time
     ;
+    -- get details on a specific planck aeon and time using ordered view
     CURSOR cur_log_details( cp_planck_aeon IN usim_spc_process.usim_planck_aeon%TYPE
                           , cp_planck_time IN usim_spc_process.usim_planck_time%TYPE
+                          , cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
                           )
     IS
       SELECT usim_planck_aeon
@@ -119,15 +128,16 @@ IS
            , usim_energy_source
            , usim_energy_target
            , usim_energy_output
-        FROM usim_spc_process
-       WHERE usim_planck_aeon = cp_planck_aeon
+        FROM usim_spr_v
+       WHERE src_id_mlv       = tgt_id_mlv
+         AND src_id_mlv       = cp_usim_id_mlv
+         AND usim_planck_aeon = cp_planck_aeon
          AND usim_planck_time = cp_planck_time
-             -- order by insert order
-       ORDER BY ROWID
     ;
   BEGIN
+    -- check the parameters for given range without universe specified
     SELECT COUNT(*)
-      INTO l_result
+      INTO l_return
       FROM (SELECT usim_planck_time
               FROM usim_spc_process
              WHERE usim_planck_aeon = p_planck_aeon
@@ -136,61 +146,62 @@ IS
                     , usim_planck_time
            )
     ;
-    IF l_result != 2
+    IF l_return         NOT IN (1, 2)
+       OR p_from_planck_time > p_to_planck_time
     THEN
       usim_erl.log_error('usim_creator.get_json_log', 'Invalid input parameter aeon [' || p_planck_aeon || '], from [' || p_from_planck_time || '] or to [' || p_to_planck_time || '].');
       RETURN -1;
     END IF;
-    l_return              := 1;
+    -- start processing
     l_main_object         := new JSON_OBJECT_T;
     l_planck_times_array  := new JSON_ARRAY_T;
-    l_main_object.put('planck_aeon', p_planck_aeon);
-    l_main_object.put('max_number', usim_dbif.get_abs_max_number);
-    FOR mainrec IN cur_planck_pieces(p_planck_aeon, p_from_planck_time, p_to_planck_time)
+    l_universe_array      := new JSON_ARRAY_T;
+    l_universe_select     := new JSON_ARRAY_T;
+    l_main_object.put('aeon', p_planck_aeon);
+    l_main_object.put('max', usim_dbif.get_abs_max_number);
+    -- cycle through universes
+    FOR usim_rec IN cur_universes
     LOOP
-      -- check size
-      -- take about the half of 5 MB bytes as frontier as UTF8 will need mostly 2 Bytes.
-      IF LENGTH(l_planck_times_array.to_clob) > 2600000
-      THEN
-        p_from_planck_time := mainrec.usim_planck_time;
-        l_return           := 0;
-        -- exit loop
-        EXIT;
-      END IF;
-      l_planck_detail_array := new JSON_ARRAY_T;
-      l_planck_time_main    := new JSON_OBJECT_T;
-      -- get details for time tick
-      FOR rec IN cur_log_details(mainrec.usim_planck_aeon, mainrec.usim_planck_time)
+      l_universe_object := new JSON_OBJECT_T;
+      l_universe_object.put('id', usim_rec.usim_id_mlv);
+      -- Collect all universes in a separate array for fast and easy JS selection and access
+      l_universe_select.append(usim_rec.usim_id_mlv);
+      FOR mainrec IN cur_planck_pieces(p_planck_aeon, p_from_planck_time, p_to_planck_time, usim_rec.usim_id_mlv)
       LOOP
-        l_planck_time_details := new JSON_OBJECT_T;
-        l_from_xyz            := new JSON_OBJECT_T;
-        l_to_xyz              := new JSON_OBJECT_T;
-        l_from_xyz.put('x', usim_dbif.get_dim_coord(rec.usim_id_spc_source, 1));
-        l_from_xyz.put('y', usim_dbif.get_dim_coord(rec.usim_id_spc_source, 2));
-        l_from_xyz.put('z', usim_dbif.get_dim_coord(rec.usim_id_spc_source, 3));
-        l_from_xyz.put('energy', rec.usim_energy_source);
-        l_from_xyz.put('dimension', usim_dbif.get_dimension(rec.usim_id_spc_source));
-        l_from_xyz.put('dim_sign', usim_dbif.get_dim_sign(rec.usim_id_spc_source));
-        l_from_xyz.put('dim_n1_sign', usim_dbif.get_dim_n1_sign(rec.usim_id_spc_source));
-        l_to_xyz.put('x', usim_dbif.get_dim_coord(rec.usim_id_spc_target, 1));
-        l_to_xyz.put('y', usim_dbif.get_dim_coord(rec.usim_id_spc_target, 2));
-        l_to_xyz.put('z', usim_dbif.get_dim_coord(rec.usim_id_spc_target, 3));
-        l_to_xyz.put('energy', NVL(rec.usim_energy_target, 0));
-        l_to_xyz.put('dimension', usim_dbif.get_dimension(rec.usim_id_spc_target));
-        l_to_xyz.put('dim_sign', usim_dbif.get_dim_sign(rec.usim_id_spc_target));
-        l_to_xyz.put('dim_n1_sign', usim_dbif.get_dim_n1_sign(rec.usim_id_spc_target));
-        l_planck_time_details.put('output_energy', rec.usim_energy_output);
-        l_planck_time_details.put('from', l_from_xyz);
-        l_planck_time_details.put('to', l_to_xyz);
-        l_planck_detail_array.append(l_planck_time_details);
+        l_planck_detail_array := new JSON_ARRAY_T;
+        l_planck_time_main    := new JSON_OBJECT_T;
+        -- get details for time tick
+        FOR rec IN cur_log_details(mainrec.usim_planck_aeon, mainrec.usim_planck_time, usim_rec.usim_id_mlv)
+        LOOP
+          -- build JSON array like csv to save space
+          l_fromto_array :=  '[' || usim_dbif.get_xyz(rec.usim_id_spc_source) || ',' ||
+                                    usim_dbif.get_dimension(rec.usim_id_spc_source) || ',' ||
+                                    usim_dbif.get_dim_sign(rec.usim_id_spc_source) || ',' ||
+                                    usim_dbif.get_dim_n1_sign(rec.usim_id_spc_source) || ',' ||
+                                    NVL(rec.usim_energy_source, 0) || ',' ||
+                                    usim_dbif.get_xyz(rec.usim_id_spc_target) || ',' ||
+                                    usim_dbif.get_dimension(rec.usim_id_spc_target) || ',' ||
+                                    usim_dbif.get_dim_sign(rec.usim_id_spc_target) || ',' ||
+                                    usim_dbif.get_dim_n1_sign(rec.usim_id_spc_target) || ',' ||
+                                    NVL(rec.usim_energy_target,0) || ',' ||
+                                    rec.usim_energy_output || ']'
+          ;
+          l_planck_time_details := new JSON_OBJECT_T;
+          l_planck_time_details.put('row', JSON_ARRAY_T.parse(l_fromto_array));
+          -- put structure for this tick
+          l_planck_detail_array.append(l_planck_time_details);
+        END LOOP;
+        l_planck_time_main.put('tick', mainrec.usim_planck_time);
+        l_planck_time_main.put('data', l_planck_detail_array);
+        l_planck_times_array.append(l_planck_time_main);
       END LOOP;
-      l_planck_time_main.put('planck_time', mainrec.usim_planck_time);
-      l_planck_time_main.put('details', l_planck_detail_array);
-      l_planck_times_array.append(l_planck_time_main);
+      l_universe_object.put('ticks', l_planck_times_array);
+      l_universe_array.append(l_universe_object);
     END LOOP;
-    l_main_object.put('planck_ticks', l_planck_times_array);
+    l_main_object.put('select', l_universe_select);
+    l_main_object.put('usims', l_universe_array);
     p_json_log := l_main_object.to_clob;
-    RETURN l_return;
+    RETURN 1;
   EXCEPTION
     WHEN OTHERS THEN
       usim_erl.log_error('usim_creator.get_json_log', 'Unexpected exception SQL code [' || SQLCODE || '] message [' || SQLERRM || '].');
@@ -198,137 +209,163 @@ IS
   END get_json_log
   ;
 
-  FUNCTION get_json_struct( p_usim_id_mlv IN  usim_multiverse.usim_id_mlv%TYPE
-                          , p_json_struct OUT CLOB
+  FUNCTION get_json_struct( p_planck_aeon      IN     usim_spc_process.usim_planck_aeon%TYPE
+                          , p_from_planck_time IN     usim_spc_process.usim_planck_time%TYPE
+                          , p_to_planck_time   IN     usim_spc_process.usim_planck_time%TYPE
+                          , p_json_struct         OUT CLOB
                           )
     RETURN NUMBER
   IS
     l_has_data         NUMBER;
     l_main_object      JSON_OBJECT_T;
-    l_node_array       JSON_ARRAY_T;
-    l_child_array      JSON_ARRAY_T;
-    l_coord_array      JSON_ARRAY_T;
+    l_universe_object  JSON_OBJECT_T;
+    l_universe_array   JSON_ARRAY_T;
     l_zero_array       JSON_ARRAY_T;
-    l_zero_child_array JSON_ARRAY_T;
-    l_zero_child       JSON_OBJECT_T;
-    l_zero_parent      JSON_OBJECT_T;
+    l_zero_node        JSON_OBJECT_T;
     l_node             JSON_OBJECT_T;
-    l_child            JSON_OBJECT_T;
+    l_node_array       JSON_ARRAY_T;
+    l_fromto_array     VARCHAR2(32000);
+    l_src_first_tick   INTEGER;
+    l_tgt_first_tick   INTEGER;
 
-    CURSOR cur_has_xyz(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    -- get all known universes
+    CURSOR cur_universes
     IS
-      SELECT COUNT(*)
-        FROM usim_spo_xyz_v
-       WHERE usim_n_dimension BETWEEN 1 AND 3
-         AND usim_id_mlv = cp_usim_id_mlv
+      SELECT usim_id_mlv
+        FROM usim_multiverse
+       ORDER BY usim_is_base_universe DESC
+           , usim_id_mlv
     ;
-    CURSOR cur_coordinates(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
+    CURSOR cur_structure(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     IS
-      SELECT xyz_coord
-        FROM usim_spo_xyz_v
-       WHERE usim_n_dimension BETWEEN 1 AND 3
-         AND usim_id_mlv = cp_usim_id_mlv
-       GROUP BY xyz_coord
-       ORDER BY xyz_coord
+      SELECT src_xyz
+           , tgt_xyz
+           , src_mag
+           , src_dim
+           , tgt_dim
+           , src_dim_sign
+           , tgt_dim_sign
+           , 0 AS src_n1_sign
+           , 0 AS tgt_n1_sign
+           , usim_id_mlv
+        FROM usim_spo_base3d_v
+       WHERE usim_id_mlv = cp_usim_id_mlv
     ;
-    CURSOR cur_child_coordinates( cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE
-                                , cp_xyz_coord   IN VARCHAR2
-                                )
+    CURSOR cur_zero_structure(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
     IS
-        WITH parents AS
-             (SELECT usim_id_spc
-                FROM usim_spo_xyz_v
-               WHERE usim_n_dimension BETWEEN 1 AND 3
-                 AND usim_id_mlv = cp_usim_id_mlv
-                 AND xyz_coord   = cp_xyz_coord
-             )
-           , chi AS
-             (SELECT usim_id_spc
-                   , usim_id_spc_child
-                   , usim_id_mlv
-                   , usim_dbif.get_xyz(usim_id_spc) AS xyz_parent
-                FROM usim_spc_chi_v
-             )
-           , coords AS
-             (SELECT usim_id_spc
-                   , usim_id_mlv
-                   , xyz_coord
-                FROM usim_spo_xyz_v
-               WHERE usim_n_dimension BETWEEN 1 AND 3
-             )
-      SELECT coords.xyz_coord
-        FROM parents
-       INNER JOIN chi
-          ON parents.usim_id_spc   = chi.usim_id_spc
-       INNER JOIN coords
-          ON chi.usim_id_spc_child = coords.usim_id_spc
-         AND chi.usim_id_mlv       = coords.usim_id_mlv
-             -- exclude self references on 0,0,0 coordinates
-         AND chi.xyz_parent       != coords.xyz_coord
-       GROUP BY coords.xyz_coord
-       ORDER BY coords.xyz_coord
-    ;
-    CURSOR cur_zero_struct(cp_usim_id_mlv IN usim_multiverse.usim_id_mlv%TYPE)
-    IS
-      SELECT usim_id_spc
-           , usim_n_dimension
-           , dim_sign
-           , NVL(dim_n1_sign, 0) AS dim_n1_sign
-        FROM usim_spo_xyz_v
-       WHERE usim_n_dimension < 4
-         AND xyz_coord        = '0,0,0'
-         AND usim_id_mlv      = cp_usim_id_mlv
-       ORDER BY usim_n_dimension
-              , dim_n1_sign
-              , dim_sign
+      SELECT src_xyz
+           , tgt_xyz
+           , src_mag
+           , src_dim
+           , tgt_dim
+           , src_dim_sign
+           , tgt_dim_sign
+           , NVL(src_n1_sign, 0) AS src_n1_sign
+           , NVL(tgt_n1_sign, 0) AS tgt_n1_sign
+           , usim_id_mlv
+        FROM usim_spo_zero3d_v
+       WHERE usim_id_mlv = cp_usim_id_mlv
     ;
 
   BEGIN
-    OPEN cur_has_xyz(p_usim_id_mlv);
-    FETCH cur_has_xyz INTO l_has_data;
-    CLOSE cur_has_xyz;
-    IF l_has_data = 0
-    THEN
-      usim_erl.log_error('usim_creator.get_json_struct', 'No data found for  [' || p_usim_id_mlv || '].');
-      RETURN -1;
-    END IF;
-    l_main_object := new JSON_OBJECT_T;
-    l_node_array  := new JSON_ARRAY_T;
-    l_zero_array  := new JSON_ARRAY_T;
-    l_main_object.put('universe_id', p_usim_id_mlv);
-    -- zero structure
-    FOR mainrec IN cur_zero_struct(p_usim_id_mlv)
+    l_main_object     := new JSON_OBJECT_T;
+    l_node_array      := new JSON_ARRAY_T;
+    l_zero_array      := new JSON_ARRAY_T;
+    l_universe_array  := new JSON_ARRAY_T;
+    -- cycle through universes
+    FOR usim_rec IN cur_universes
     LOOP
-      l_zero_parent := new JSON_OBJECT_T;
-      l_zero_parent.put('dimension', mainrec.usim_n_dimension);
-      l_zero_parent.put('dim_sign', mainrec.dim_sign);
-      l_zero_parent.put('dim_n1_sign', mainrec.dim_n1_sign);
-      l_zero_array.append(l_zero_parent);
-    END LOOP;
-    l_main_object.put('zero_nodes', l_zero_array);
-    -- xyz relations
-    FOR mainrec IN cur_coordinates(p_usim_id_mlv)
-    LOOP
-      -- build main node
-      l_node        := new JSON_OBJECT_T;
-      l_coord_array := JSON_ARRAY_T.parse('[' || mainrec.xyz_coord || ']');
-      l_node.put('xyz', l_coord_array);
-      -- build unique child coordinates array
-      l_child_array := new JSON_ARRAY_T;
-      -- condsider n parents for 0,0,0 space nodes
-      FOR rec IN cur_child_coordinates(p_usim_id_mlv, mainrec.xyz_coord)
+      l_universe_object := new JSON_OBJECT_T;
+      l_universe_object.put('id', usim_rec.usim_id_mlv);
+      -- zero structure
+      FOR mainrec IN cur_zero_structure(usim_rec.usim_id_mlv)
       LOOP
-        l_child       := new JSON_OBJECT_T;
-        l_coord_array := JSON_ARRAY_T.parse('[' || rec.xyz_coord || ']');
-        l_child.put('xyz', l_coord_array);
-        l_child_array.append(l_child);
+        -- get min planck ticks for first active source and target
+        SELECT NVL(MIN(usim_planck_time), -1)
+          INTO l_src_first_tick
+          FROM usim_spr_v
+         WHERE src_id_mlv             = usim_rec.usim_id_mlv
+           AND usim_planck_aeon       = p_planck_aeon
+           AND usim_planck_time BETWEEN p_from_planck_time
+                                    AND p_to_planck_time
+           AND src_xyz                = mainrec.src_xyz
+           AND src_dim                = mainrec.src_dim
+           AND src_dim_sign           = mainrec.src_dim_sign
+           AND src_dim_n1_sign        = mainrec.src_n1_sign
+        ;
+        SELECT NVL(MIN(usim_planck_time), -1)
+          INTO l_tgt_first_tick
+          FROM usim_spr_v
+         WHERE src_id_mlv             = usim_rec.usim_id_mlv
+           AND usim_planck_aeon       = p_planck_aeon
+           AND usim_planck_time BETWEEN p_from_planck_time
+                                    AND p_to_planck_time
+           AND tgt_xyz                = mainrec.tgt_xyz
+           AND tgt_dim                = mainrec.tgt_dim
+           AND tgt_dim_sign           = mainrec.tgt_dim_sign
+           AND tgt_dim_n1_sign        = mainrec.tgt_n1_sign
+        ;
+        -- build JSON array like csv to save space
+        l_fromto_array :=  '[' || mainrec.src_xyz || ',' ||
+                                  mainrec.src_dim || ',' ||
+                                  mainrec.src_dim_sign || ',' ||
+                                  mainrec.src_n1_sign || ',' ||
+                                  l_src_first_tick || ',' ||
+                                  mainrec.tgt_xyz || ',' ||
+                                  mainrec.tgt_dim || ',' ||
+                                  mainrec.tgt_dim_sign || ',' ||
+                                  mainrec.tgt_n1_sign || ',' ||
+                                  l_tgt_first_tick || ']'
+        ;
+        l_zero_node := new JSON_OBJECT_T;
+        l_zero_node.put('row', JSON_ARRAY_T.parse(l_fromto_array));
+        l_zero_array.append(l_zero_node);
       END LOOP;
-      -- add child array
-      l_node.put('childs', l_child_array);
-      l_node_array.append(l_node);
+      l_universe_object.put('zero', l_zero_array);
+      -- xyz relations
+      FOR mainrec IN cur_structure(usim_rec.usim_id_mlv)
+      LOOP
+        -- get min planck ticks for first active source and target
+        SELECT NVL(MIN(usim_planck_time), -1)
+          INTO l_src_first_tick
+          FROM usim_spr_v
+         WHERE src_id_mlv             = usim_rec.usim_id_mlv
+           AND usim_planck_aeon       = p_planck_aeon
+           AND usim_planck_time BETWEEN p_from_planck_time
+                                    AND p_to_planck_time
+           AND src_xyz                = mainrec.src_xyz
+        ;
+        SELECT NVL(MIN(usim_planck_time), -1)
+          INTO l_tgt_first_tick
+          FROM usim_spr_v
+         WHERE src_id_mlv             = usim_rec.usim_id_mlv
+           AND usim_planck_aeon       = p_planck_aeon
+           AND usim_planck_time BETWEEN p_from_planck_time
+                                    AND p_to_planck_time
+           AND tgt_xyz                = mainrec.tgt_xyz
+        ;
+        -- build JSON array like csv to save space
+        l_fromto_array :=  '[' || mainrec.src_xyz || ',' ||
+                                  mainrec.src_dim || ',' ||
+                                  mainrec.src_dim_sign || ',' ||
+                                  '0,' ||
+                                  l_src_first_tick || ',' ||
+                                  mainrec.tgt_xyz || ',' ||
+                                  mainrec.tgt_dim || ',' ||
+                                  mainrec.tgt_dim_sign || ',' ||
+                                  '0,' ||
+                                  l_tgt_first_tick || ']'
+        ;
+        -- build main node
+        l_node     := new JSON_OBJECT_T;
+        l_node.put('row', JSON_ARRAY_T.parse(l_fromto_array));
+        l_node_array.append(l_node);
+      END LOOP;
+      l_universe_object.put('data', l_node_array);
+      l_universe_array.append(l_universe_object);
     END LOOP;
     -- add to main object
-    l_main_object.put('nodes', l_node_array);
+    l_main_object.put('usims', l_universe_array);
     p_json_struct := l_main_object.to_clob;
     RETURN 1;
   EXCEPTION
@@ -336,6 +373,38 @@ IS
       usim_erl.log_error('usim_creator.get_json_struct', 'Unexpected exception SQL code [' || SQLCODE || '] message [' || SQLERRM || '].');
       RETURN NULL;
   END get_json_struct
+  ;
+
+  FUNCTION create_json_struct( p_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE
+                             , p_from_planck_time IN usim_spc_process.usim_planck_time%TYPE
+                             , p_to_planck_time   IN usim_spc_process.usim_planck_time%TYPE
+                             )
+    RETURN NUMBER
+  IS
+    l_json_struct CLOB;
+    l_return      NUMBER;
+    l_file        NUMBER;
+  BEGIN
+    IF usim_dbif.has_data_spc = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_json_struct', 'No data in USIM_SPACE for structure JSON.');
+      RETURN 0;
+    END IF;
+    l_return := usim_creator.get_json_struct(p_planck_aeon, p_from_planck_time, p_to_planck_time, l_json_struct);
+    IF l_return = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_json_struct', 'ERROR getting json space structure.');
+      RETURN 0;
+    END IF;
+    -- write file
+    l_file := usim_creator.write_json_file(l_json_struct, 'usim_space_struct');
+    IF l_file = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_json_struct', 'ERROR writing json space structure.');
+      RETURN 0;
+    END IF;
+    RETURN 1;
+  END create_json_struct
   ;
 
   FUNCTION create_space_log( p_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE
@@ -358,94 +427,49 @@ IS
       usim_erl.log_error('usim_creator.create_space_log', 'Could not write log without logging data in USIM_SPC_PROCESS, table is empty.');
       RETURN 0;
     END IF;
-    -- check if from record exists
-    SELECT COUNT(*) INTO l_has_data FROM usim_spc_process WHERE usim_planck_aeon = p_planck_aeon AND usim_planck_time = p_from_planck_time;
+    -- get aeon to use if NULL
+    SELECT COUNT(*) INTO l_has_data FROM usim_spc_process WHERE usim_planck_aeon = NVL(p_planck_aeon, usim_dbif.get_planck_aeon_seq_current);
     IF l_has_data = 0
     THEN
-      -- get first record in table
-      SELECT usim_planck_aeon
-           , usim_planck_time
-        INTO l_planck_aeon
-           , l_from_planck_time
-        FROM (SELECT usim_planck_aeon
-                   , usim_planck_time
-                FROM usim_spc_process
-               ORDER BY ROWID
-             )
-       WHERE ROWNUM = 1
-      ;
+      -- get max aeon in process, maybe a switch has occured after last processing
+      SELECT MAX(usim_planck_aeon) INTO l_planck_aeon FROM usim_spc_process;
     ELSE
-      l_planck_aeon := p_planck_aeon;
+      l_planck_aeon := NVL(p_planck_aeon, usim_dbif.get_planck_aeon_seq_current);
+    END IF;
+    -- check from record
+    SELECT COUNT(*) INTO l_has_data FROM usim_spc_process WHERE usim_planck_aeon = l_planck_aeon AND usim_planck_time = p_from_planck_time;
+    IF l_has_data = 0
+    THEN
+      SELECT MIN(usim_planck_time) INTO l_from_planck_time FROM usim_spc_process WHERE usim_planck_aeon = l_planck_aeon;
+    ELSE
       l_from_planck_time := p_from_planck_time;
     END IF;
-    -- check if to record exists
-    SELECT COUNT(*) INTO l_has_data FROM usim_spc_process WHERE usim_planck_aeon = p_planck_aeon AND usim_planck_time = p_to_planck_time;
+    -- check to record
+    SELECT COUNT(*) INTO l_has_data FROM usim_spc_process WHERE usim_planck_aeon = l_planck_aeon AND usim_planck_time = p_to_planck_time;
     IF l_has_data = 0
     THEN
-      -- get last record in table
-      SELECT usim_planck_time
-        INTO l_to_planck_time
-        FROM (SELECT usim_planck_aeon
-                   , usim_planck_time
-                FROM usim_spc_process
-               ORDER BY ROWID DESC
-             )
-       WHERE ROWNUM = 1
-      ;
+      SELECT MAX(usim_planck_time) INTO l_from_planck_time FROM usim_spc_process WHERE usim_planck_aeon = l_planck_aeon;
     ELSE
       l_to_planck_time := p_to_planck_time;
     END IF;
-    -- repeat until end is reached
-    LOOP
-      l_result := usim_creator.get_json_log(l_planck_aeon, l_from_planck_time, l_to_planck_time, l_json_log);
-      IF l_result = -1
-      THEN
-        usim_erl.log_error('usim_creator.create_space_log', 'Could not get json space log for from [' || l_planck_aeon || '], [' || l_from_planck_time || '] or to [' || l_to_planck_time || '].');
-        RETURN 0;
-      ELSE
-        -- write file
-        l_file := usim_creator.write_json_log(l_json_log, 'usim_space_log');
-        IF l_result = 1
-        THEN
-          EXIT;
-        ELSE
-          usim_erl.log_error('usim_creator.create_space_log', 'ERROR writing json space log for from [' || l_planck_aeon || '], [' || l_from_planck_time || '] or to [' || l_to_planck_time || '].');
-          RETURN 0;
-        END IF;
-      END IF;
-    END LOOP;
+    -- write JSON log file
+    l_result := usim_creator.get_json_log(l_planck_aeon, l_from_planck_time, l_to_planck_time, l_json_log);
+    IF l_result = -1
+    THEN
+      usim_erl.log_error('usim_creator.create_space_log', 'Could not get json space log for from [' || l_planck_aeon || '], [' || l_from_planck_time || '] or to [' || l_to_planck_time || '].');
+      RETURN 0;
+    ELSE
+      l_file := usim_creator.write_json_file(l_json_log, 'usim_space_log');
+    END IF;
+    -- write associated JSON structure file
+    l_result := usim_creator.create_json_struct(l_planck_aeon, l_from_planck_time, l_to_planck_time);
+    IF l_result = 0
+    THEN
+      usim_erl.log_error('usim_creator.create_space_log', 'Could not create associated structure for from [' || l_planck_aeon || '], [' || l_from_planck_time || '] or to [' || l_to_planck_time || '].');
+      RETURN 0;
+    END IF;
     RETURN 1;
   END create_space_log
-  ;
-
-  FUNCTION create_json_struct(p_usim_id_mlv IN  usim_multiverse.usim_id_mlv%TYPE)
-    RETURN NUMBER
-  IS
-    l_json_struct CLOB;
-    l_return      NUMBER;
-    l_file        NUMBER;
-  BEGIN
-    IF    usim_dbif.has_data_spc                = 0
-       OR usim_dbif.has_data_mlv(p_usim_id_mlv) = 0
-    THEN
-      usim_erl.log_error('usim_creator.create_json_struct', 'Either not existing [' || p_usim_id_mlv || '] or no data in USIM_SPACE for structure JSON.');
-      RETURN 0;
-    END IF;
-    l_return := usim_creator.get_json_struct(p_usim_id_mlv, l_json_struct);
-    IF l_return = 0
-    THEN
-      usim_erl.log_error('usim_creator.create_json_struct', 'ERROR getting json space structure for mlv [' || p_usim_id_mlv || '].');
-      RETURN 0;
-    END IF;
-    -- write file
-    l_file := usim_creator.write_json_log(l_json_struct, 'usim_space_struct');
-    IF l_file = 0
-    THEN
-      usim_erl.log_error('usim_creator.create_json_struct', 'ERROR writing json space structure for mlv [' || p_usim_id_mlv || '].');
-      RETURN 0;
-    END IF;
-    RETURN 1;
-  END create_json_struct
   ;
 
   FUNCTION create_next_dimension(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)

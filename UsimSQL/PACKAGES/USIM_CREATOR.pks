@@ -9,24 +9,23 @@ IS
   * @param p_filename The filename for the JSON file to write. Do not use special chars and spaces. Lenght limited to 100.
   * @return Return 1 if file was written, 0 on errors.
   */
-  FUNCTION write_json_log( p_json_clob IN CLOB
-                         , p_filename  IN VARCHAR2 DEFAULT 'usim_space_log'
-                         )
+  FUNCTION write_json_file( p_json_clob IN CLOB
+                          , p_filename  IN VARCHAR2 DEFAULT 'usim_space_log'
+                          )
     RETURN NUMBER
   ;
 
   /**
-  * Builds a JSON representation of the USIM_SPC_PROCESS content for the given range. Size is limited to roughly
-  * about 5 MB each. If the total log size is over 5 MB, the log is divided at planck time ticks returning the
-  * new start planck aeon and time and a return value of 0.
+  * Builds a JSON representation of the USIM_SPC_PROCESS content for the given range. If size too long for JS P5 limit the size by choosen range.
+  * Will also create an assoziated structure.
   * @param p_planck_aeon The valid planck time aeon for the log.
-  * @param p_from_planck_time The valid planck time tick for start of log. Will return the new start planck time if log file has to be splitted by size.
+  * @param p_from_planck_time The valid planck time tick for start of log.
   * @param p_to_planck_time The valid planck time tick for end of log.
-  * @param p_json_log The JSON formatted log chunk.
-  * @return Return 1 if log was completely delivered, 0 if more log chunks can be delivered or -1 on errors.
+  * @param p_json_log The JSON formatted log chunk as CLOB.
+  * @return Return 1 if log was completely delivered or -1 on errors.
   */
   FUNCTION get_json_log( p_planck_aeon      IN     usim_spc_process.usim_planck_aeon%TYPE
-                       , p_from_planck_time IN OUT usim_spc_process.usim_planck_time%TYPE
+                       , p_from_planck_time IN     usim_spc_process.usim_planck_time%TYPE
                        , p_to_planck_time   IN     usim_spc_process.usim_planck_time%TYPE
                        , p_json_log            OUT CLOB
                        )
@@ -34,45 +33,57 @@ IS
   ;
 
   /**
-  * Builds a JSON representation of the USIM_SPACE content in means of coordinates and child relations.
-  * No limitation in size, may lead to load problems in case of big files.
-  * @param p_usim_id_mlv The universe id to get a JSON coordinate structure for.
+  * Builds a JSON representation of the USIM_SPACE content in means of coordinates and child relations for all
+  * existing universes. No limitation in size. The given aeon and from to ticks will only mark current log content range
+  * as active for display from the first tick they occured in the log. Structure will not know current energy of node.
+  * @param p_planck_aeon The valid planck time aeon for the log to mark node as active.
+  * @param p_from_planck_time The valid planck time tick for start of log to mark node as active.
+  * @param p_to_planck_time The valid planck time tick for end of log to mark node as active.
+  * @param p_json_struct The JSON formatted structure chunk as CLOB.
   * @return Return 1 if structure was completely delivered or -1 on errors.
   */
-  FUNCTION get_json_struct( p_usim_id_mlv IN  usim_multiverse.usim_id_mlv%TYPE
-                          , p_json_struct OUT CLOB
+  FUNCTION get_json_struct( p_planck_aeon      IN     usim_spc_process.usim_planck_aeon%TYPE
+                          , p_from_planck_time IN     usim_spc_process.usim_planck_time%TYPE
+                          , p_to_planck_time   IN     usim_spc_process.usim_planck_time%TYPE
+                          , p_json_struct         OUT CLOB
                           )
-    RETURN NUMBER
-  ;
-
-  /**
-  * Writes a space log file in JSON format with maximum size of roughly 5 MB. The name of the file
-  * is fixed to usim_space_log.json. The file is written to the directory USIM_DIR. If a file already
-  * exists, it is copied before to the directory USIM_HIST_DIR and renamed to a unique file name by
-  * current date extension. If the range of the space log is bigger than 5 MB it is cutted in 5 MB
-  * pieces where the last piece remains in directory USIM_DIR. If planck aeon changes, start a new log
-  * as only one planck aeon is supported. Callers must ensure that at least a second has past before
-  * a new log is written to have unique names in the history log directory.
-  * @param p_planck_aeon The planck time aeon for of the log. If NULL, p_from_planck_time is ignored and log starts from beginning of USIM_SPC_PROCESS.
-  * @param p_from_planck_time The planck time tick for start of log. Ignored if p_from_planck_aeon is NULL.
-  * @param p_to_planck_time The planck time tick for end of log. if NULL, log contains every record of USIM_SPC_PROCESS after log start.
-  * @return Return 1 if operation was successful otherwise 0.
-  */
-  FUNCTION create_space_log( p_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE
-                           , p_from_planck_time IN usim_spc_process.usim_planck_time%TYPE
-                           , p_to_planck_time   IN usim_spc_process.usim_planck_time%TYPE
-                           )
     RETURN NUMBER
   ;
 
   /**
   * Writes a space structure file in JSON format. The name of the file is fixed to usim_space_struct.json.
   * The file is written to the directory USIM_DIR. If a file already exists, it is copied before to the directory
-  * USIM_HIST_DIR and renamed to a unique file name by current date extension.
-  * @param p_usim_id_mlv The universe id to get a JSON coordinate structure for.
+  * USIM_HIST_DIR and renamed to a unique file name by current date extension. The given aeon and from to ticks will only mark current log content range
+  * as active for display from the first tick they occured in the log. Structure will not know current energy of node.
+  * As the structure for all existing universes is build, the file may get too big for JS P5. Row Order:</br>
+  * 0:from x, 1:from y, 2:from z, 3:from dimension, 4:from dim sign, 5:from n1 sign, 6:first from tick active, 7:to x, 8:to y, 9:to z, 10:to dimension, 11:to dim sign, 12:to n1 sign, 13:first to tick active</br>
+  * @param p_planck_aeon The valid planck time aeon for the log to mark node as active or ignored.
+  * @param p_from_planck_time The valid planck time tick for start of log to mark node as active or ignored.
+  * @param p_to_planck_time The valid planck time tick for end of log to mark node as active or ignored.
   * @return Return 1 if operation was successful otherwise 0.
   */
-  FUNCTION create_json_struct(p_usim_id_mlv IN  usim_multiverse.usim_id_mlv%TYPE)
+  FUNCTION create_json_struct( p_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE
+                             , p_from_planck_time IN usim_spc_process.usim_planck_time%TYPE
+                             , p_to_planck_time   IN usim_spc_process.usim_planck_time%TYPE
+                             )
+    RETURN NUMBER
+  ;
+
+  /**
+  * Writes a space log file in JSON format. The name of the file is fixed to usim_space_log.json. The file is written to the directory USIM_DIR.
+  * If a file already exists, it is copied before to the directory USIM_HIST_DIR and renamed to a unique file name by
+  * current date extension. Only one planck aeon supported. Will create also an associated structure, where log content is marked as active in
+  * the created structure. To keep space as low as possible an array structure is used per row. Order:</br>
+  * 0:from x, 1:from y, 2:from z, 3:from dimension, 4:from dim sign, 5:from n1 sign, 6:from energy, 7:to x, 8:to y, 9:to z, 10:to dimension, 11:to dim sign, 12:to n1 sign, 13:to energy, 14:output energy</br>
+  * @param p_planck_aeon The planck time aeon for of the log. If NULL, p_from_planck_time is ignored and log starts with current aeon.
+  * @param p_from_planck_time The planck time tick for start of log. Ignored if p_from_planck_aeon is NULL using first planck time tick in aeon given or found.
+  * @param p_to_planck_time The planck time tick for end of log. if NULL, log contains every record of USIM_SPC_PROCESS for aeon given or found.
+  * @return Return 1 if operation was successful otherwise 0.
+  */
+  FUNCTION create_space_log( p_planck_aeon      IN usim_spc_process.usim_planck_aeon%TYPE
+                           , p_from_planck_time IN usim_spc_process.usim_planck_time%TYPE
+                           , p_to_planck_time   IN usim_spc_process.usim_planck_time%TYPE
+                           )
     RETURN NUMBER
   ;
 

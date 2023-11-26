@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-31.08.2023 13:18:14 XEPDB1                         USIM_TEST                      Adi
+26.11.2023 19:56:50 XEPDB1                         USIM_TEST                      Adi
 
 INFO
 ----------------------------------
@@ -68,12 +68,24 @@ SCRIPTFILE
 ../SEQUENCES/DROP/DROP_USIM_SPC_ID_SEQ.sql
 
 SCRIPTFILE
+--------------------------------------------------------------------
+../SEQUENCES/DROP/DROP_USIM_SPR_ID_SEQ.sql
+
+SCRIPTFILE
 -----------------------------------------------------------------------
 ../FK/DROP/DROP_USIM_RMD_MLV_FK.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------------
 ../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RCHI_PARENT_FK.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RCHI_CHILD_FK.sql
 
 SCRIPTFILE
 -----------------------------------------------------------------------
@@ -96,12 +108,24 @@ SCRIPTFILE
 ../FK/DROP/DROP_USIM_CHI_CHILD_FK.sql
 
 SCRIPTFILE
-------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_MIR_BASE_FK.sql
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_SPO_SPC_FK.sql
 
 SCRIPTFILE
---------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_MIR_MIRROR_FK.sql
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_SPO_RMD_FK.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_SPO_POS_FK.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_SPR_SRC_FK.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../FK/DROP/DROP_USIM_SPR_TGT_FK.sql
 
 SCRIPTFILE
 -----------------------------------------------------------
@@ -121,7 +145,27 @@ SCRIPTFILE
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_MIR_V.sql
+../VIEW/DROP/DROP_USIM_SPO_V.sql
+
+SCRIPTFILE
+---------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPO_XYZ_V.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPO_BASE3D_V.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPO_ZERO3D_V.sql
+
+SCRIPTFILE
+-----------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPR_V.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_MLV_STATE_V.sql
 
 SCRIPTFILE
 ----------------------------------------------------------------
@@ -225,11 +269,19 @@ SCRIPTFILE
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MIR_PKB.sql
+../PACKAGES/DROP/DROP_USIM_SPO_PKB.sql
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MIR_PKS.sql
+../PACKAGES/DROP/DROP_USIM_SPO_PKS.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_SPR_PKB.sql
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_SPR_PKS.sql
 
 SCRIPTFILE
 ---------------------------------------------------------------------
@@ -238,6 +290,22 @@ SCRIPTFILE
 SCRIPTFILE
 -----------------------------------------------------------------------
 ../PACKAGES/DROP/DROP_USIM_CREATOR_PKS.sql
+
+SCRIPTFILE
+---------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_PROCESS_PKB.sql
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_PROCESS_PKS.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_DBIF_PKB.sql
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../PACKAGES/DROP/DROP_USIM_DBIF_PKS.sql
 
 SCRIPTFILE
 ---------------------------------------------------------------
@@ -264,8 +332,16 @@ SCRIPTFILE
 ../TABLES/DROP/DROP_USIM_NODE_TBL.sql
 
 SCRIPTFILE
+-----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_TMP_STRUCT_TBL.sql
+
+SCRIPTFILE
 ------------------------------------------------------------------
 ../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_RMD_CHILD_TBL.sql
 
 SCRIPTFILE
 ------------------------------------------------------------
@@ -276,8 +352,12 @@ SCRIPTFILE
 ../TABLES/DROP/DROP_USIM_SPC_CHILD_TBL.sql
 
 SCRIPTFILE
------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_MIRROR_TBL.sql
+--------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_SPC_POS_TBL.sql
+
+SCRIPTFILE
+------------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_SPC_PROCESS_TBL.sql
 
 OBJECTS_AFTER_CLEANUP
 ---------------------

@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-11.11.2023 16:37:19 XEPDB1                         USIM_TEST                      Adi
+26.11.2023 19:59:15 XEPDB1                         USIM_TEST                      Adi
 
 1 Zeile ausgewählt.
 
@@ -215,6 +215,26 @@ Table USIM_REL_MLV_DIM geändert.
 
 
 SCRIPTFILE
+---------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RCHI_PARENT_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_RMD_CHILD geändert.
+
+
+SCRIPTFILE
+--------------------------------------------------------------------------
+../FK/DROP/DROP_USIM_RCHI_CHILD_FK.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_RMD_CHILD geändert.
+
+
+SCRIPTFILE
 -----------------------------------------------------------------------
 ../FK/DROP/DROP_USIM_SPC_POS_FK.sql
 
@@ -372,6 +392,26 @@ SCRIPTFILE
 
 
 View USIM_SPO_XYZ_V gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPO_BASE3D_V.sql
+
+1 Zeile ausgewählt.
+
+
+View USIM_SPO_BASE3D_V gelöscht.
+
+
+SCRIPTFILE
+------------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_SPO_ZERO3D_V.sql
+
+1 Zeile ausgewählt.
+
+
+View USIM_SPO_ZERO3D_V gelöscht.
 
 
 SCRIPTFILE
@@ -812,6 +852,16 @@ SCRIPTFILE
 
 
 Table USIM_REL_MLV_DIM gelöscht.
+
+
+SCRIPTFILE
+----------------------------------------------------------------
+../TABLES/DROP/DROP_USIM_RMD_CHILD_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_RMD_CHILD gelöscht.
 
 
 SCRIPTFILE
@@ -1419,6 +1469,46 @@ Package Body USIM_RMD kompiliert
 
 
 SCRIPTFILE
+-----------------------------------------------------------------------
+../TABLES/USIM_RMD_CHILD_TBL.sql
+
+1 Zeile ausgewählt.
+
+
+Table USIM_RMD_CHILD erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Comment erstellt.
+
+
+Table USIM_RMD_CHILD geändert.
+
+
+Trigger USIM_RCHI_INS_TRG kompiliert
+
+
+Trigger USIM_RCHI_INS_TRG geändert.
+
+
+Trigger USIM_RCHI_UPD_TRG kompiliert
+
+
+Trigger USIM_RCHI_UPD_TRG geändert.
+
+
+Table USIM_RMD_CHILD geändert.
+
+
+Table USIM_RMD_CHILD geändert.
+
+
+SCRIPTFILE
 -------------------------------------------------------------------
 ../TABLES/USIM_SPACE_TBL.sql
 
@@ -1588,6 +1678,12 @@ Package Body USIM_SPO kompiliert
 
 
 View USIM_SPO_XYZ_V erstellt.
+
+
+View USIM_SPO_BASE3D_V erstellt.
+
+
+View USIM_SPO_ZERO3D_V erstellt.
 
 
 SCRIPTFILE
@@ -1815,182 +1911,182 @@ PL/SQL-Prozedur erfolgreich abgeschlossen.
 
 USIM_TIMESTAMP              USIM_LOG_OBJECT                                    USIM_LOG_CONTENT
 --------------------------- -------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-11.11.23 16:37:23.835000000 basic_test_data_setup                              Init place start node with max dimension 3 and max number 10.
-11.11.23 16:37:24.024000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [4.713134765625] and current target energy [7.4111328125]. Set energy to 0.
-11.11.23 16:37:24.118000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023111116372377300000000000000000000000000000000000002].
-11.11.23 16:37:24.118000000 usim_creator.handle_overflow                       [23] Handle dim overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [4].
-11.11.23 16:37:24.118000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-4.713134765625] and current target energy [-7.4111328125]. Set energy to 0.
-11.11.23 16:37:24.118000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023111116372380400000000000000000000000000000000000003].
-11.11.23 16:37:24.118000000 usim_creator.handle_overflow                       [23] Handle dim overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [4].
-11.11.23 16:37:24.166000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000004] with energy [2.3565673828125] and current target energy [9.42626953125]. Set energy to 0.
-11.11.23 16:37:24.182000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.182000000 usim_creator.handle_overflow                       [30] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000004] escape strategy [7].
-11.11.23 16:37:24.182000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000005] with energy [-2.3565673828125] and current target energy [-9.42626953125]. Set energy to 0.
-11.11.23 16:37:24.182000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.182000000 usim_creator.handle_overflow                       [30] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000005] escape strategy [7].
-11.11.23 16:37:24.244000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [1.4941419661045074462890625] and current target energy [8.9504684507846832275390625]. Set energy to 0.
-11.11.23 16:37:24.244000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023111116372377300000000000000000000000000000000000002].
-11.11.23 16:37:24.260000000 usim_creator.handle_overflow                       [37] Handle dim overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [4].
-11.11.23 16:37:24.260000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-1.4941419661045074462890625] and current target energy [-8.9504684507846832275390625]. Set energy to 0.
-11.11.23 16:37:24.265000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023111116372380400000000000000000000000000000000000003].
-11.11.23 16:37:24.265000000 usim_creator.handle_overflow                       [37] Handle dim overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [4].
-11.11.23 16:37:24.370000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000006] with energy [1.444719441351480782032012939453125] and current target energy [9.29599237628281116485595703125]. Set energy to 0.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000006] escape strategy [7].
-11.11.23 16:37:24.370000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000008] with energy [1.444719441351480782032012939453125] and current target energy [9.29599237628281116485595703125]. Set energy to 0.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000008] escape strategy [7].
-11.11.23 16:37:24.370000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000010] with energy [-1.444719441351480782032012939453125] and current target energy [-9.29599237628281116485595703125]. Set energy to 0.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000010] escape strategy [7].
-11.11.23 16:37:24.370000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000012] with energy [-1.444719441351480782032012939453125] and current target energy [-9.29599237628281116485595703125]. Set energy to 0.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.370000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000012] escape strategy [7].
-11.11.23 16:37:24.418000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [4.78262897559943667147308588027954101563] and current target energy [8.2540455265916534699499607086181640625]. Set energy to 0.
-11.11.23 16:37:24.433000000 usim_creator.handle_overflow                       [47] Not implemented. Handle overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [0].
-11.11.23 16:37:24.433000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-4.78262897559943667147308588027954101563] and current target energy [-8.2540455265916534699499607086181640625]. Set energy to 0.
-11.11.23 16:37:24.433000000 usim_creator.handle_overflow                       [47] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [0].
-11.11.23 16:37:24.480000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000004] with energy [2.30278562910118722584229544736444950104] and current target energy [9.56525795119887334294617176055908203125]. Set energy to 0.
-11.11.23 16:37:24.480000000 usim_creator.handle_overflow                       [50] Handle pos overflow for [2023111116372380400000000000000000000000000000000000004] escape strategy [3].
-11.11.23 16:37:24.480000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000005] with energy [-2.30278562910118722584229544736444950104] and current target energy [-9.56525795119887334294617176055908203125]. Set energy to 0.
-11.11.23 16:37:24.480000000 usim_creator.handle_overflow                       [50] Handle pos overflow for [2023111116372380400000000000000000000000000000000000005] escape strategy [3].
-11.11.23 16:37:24.512000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000006] with energy [2.21093753633587519757952577492687851191] and current target energy [8.13246675645448391378522501327097415924]. Set energy to 0.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000006] escape strategy [7].
-11.11.23 16:37:24.527000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000008] with energy [2.21093753633587519757952577492687851191] and current target energy [8.13246675645448391378522501327097415924]. Set energy to 0.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000008] escape strategy [7].
-11.11.23 16:37:24.527000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000010] with energy [-2.21093753633587519757952577492687851191] and current target energy [-8.13246675645448391378522501327097415924]. Set energy to 0.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000010] escape strategy [7].
-11.11.23 16:37:24.527000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000012] with energy [-2.21093753633587519757952577492687851191] and current target energy [-8.13246675645448391378522501327097415924]. Set energy to 0.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.527000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000012] escape strategy [7].
-11.11.23 16:37:24.565000000 usim_process.process_queue                         Overflow for target space id [2023111116372424400000000000000000000000000000000000014] with energy [3.47143377129631509891982688031930592843] and current target energy [9.3491851375610229846202514636388514191]. Set energy to 0.
-11.11.23 16:37:24.575000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023111116372424400000000000000000000000000000000000014] escape strategy [5].
-11.11.23 16:37:24.575000000 usim_process.process_queue                         Overflow for target space id [2023111116372424400000000000000000000000000000000000016] with energy [3.47143377129631509891982688031930592843] and current target energy [9.3491851375610229846202514636388514191]. Set energy to 0.
-11.11.23 16:37:24.575000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023111116372424400000000000000000000000000000000000016] escape strategy [5].
-11.11.23 16:37:24.575000000 usim_process.process_queue                         Overflow for target space id [2023111116372426000000000000000000000000000000000000018] with energy [-3.47143377129631509891982688031930592843] and current target energy [-9.3491851375610229846202514636388514191]. Set energy to 0.
-11.11.23 16:37:24.591000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023111116372426000000000000000000000000000000000000018] escape strategy [5].
-11.11.23 16:37:24.591000000 usim_process.process_queue                         Overflow for target space id [2023111116372426500000000000000000000000000000000000020] with energy [-3.47143377129631509891982688031930592843] and current target energy [-9.3491851375610229846202514636388514191]. Set energy to 0.
-11.11.23 16:37:24.591000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023111116372426500000000000000000000000000000000000020] escape strategy [5].
-11.11.23 16:37:24.653000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [1.47483397958455249754546045881653526522] and current target energy [9.11251364965282713466454556083817806213]. Set energy to 0.
-11.11.23 16:37:24.653000000 usim_creator.handle_overflow                       [59] Not implemented. Handle overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [0].
-11.11.23 16:37:24.653000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-1.47483397958455249754546045881653526522] and current target energy [-9.11251364965282713466454556083817806213]. Set energy to 0.
-11.11.23 16:37:24.653000000 usim_creator.handle_overflow                       [59] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [0].
-11.11.23 16:37:24.700000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000007] with energy [1.48383104378045119691809441975216543597] and current target energy [9.71160858816757956504805981978734052973]. Set energy to 0.
-11.11.23 16:37:24.700000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023111116372411800000000000000000000000000000000000007] escape strategy [3].
-11.11.23 16:37:24.700000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000009] with energy [1.48383104378045119691809441975216543597] and current target energy [9.71160858816757956504805981978734052973]. Set energy to 0.
-11.11.23 16:37:24.700000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023111116372411800000000000000000000000000000000000009] escape strategy [3].
-11.11.23 16:37:24.700000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000011] with energy [-1.48383104378045119691809441975216543597] and current target energy [-9.71160858816757956504805981978734052973]. Set energy to 0.
-11.11.23 16:37:24.716000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023111116372411800000000000000000000000000000000000011] escape strategy [3].
-11.11.23 16:37:24.716000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000013] with energy [-1.48383104378045119691809441975216543597] and current target energy [-9.71160858816757956504805981978734052973]. Set energy to 0.
-11.11.23 16:37:24.716000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023111116372411800000000000000000000000000000000000013] escape strategy [3].
-11.11.23 16:37:24.826000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000004] with energy [4.3414914625736268592386748704616138855] and current target energy [9.51925160809420366689455315738549651999]. Set energy to 0.
-11.11.23 16:37:24.826000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.826000000 usim_creator.handle_overflow                       [70] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000004] escape strategy [7].
-11.11.23 16:37:24.826000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000005] with energy [-4.3414914625736268592386748704616138855] and current target energy [-9.51925160809420366689455315738549651999]. Set energy to 0.
-11.11.23 16:37:24.826000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.826000000 usim_creator.handle_overflow                       [70] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000005] escape strategy [7].
-11.11.23 16:37:24.889000000 usim_creator.handle_overflow                       [73] Not implemented. Handle overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [0].
-11.11.23 16:37:24.889000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-2.43077087229590885602427726898483736157] and current target energy [-8.79535602557618696250267153324204470344]. Set energy to 0.
-11.11.23 16:37:24.889000000 usim_creator.handle_overflow                       [73] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [0].
-11.11.23 16:37:24.889000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [2.43077087229590885602427726898483736157] and current target energy [8.79535602557618696250267153324204470344]. Set energy to 0.
-11.11.23 16:37:24.998000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000006] with energy [1.32459761190071819014463964503231665061] and current target energy [9.72308348918363542409710907593934944626]. Set energy to 0.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000006] escape strategy [7].
-11.11.23 16:37:24.998000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000008] with energy [1.32459761190071819014463964503231665061] and current target energy [9.72308348918363542409710907593934944626]. Set energy to 0.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000008] escape strategy [7].
-11.11.23 16:37:24.998000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000010] with energy [-1.32459761190071819014463964503231665061] and current target energy [-9.72308348918363542409710907593934944626]. Set energy to 0.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000010] escape strategy [7].
-11.11.23 16:37:24.998000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000012] with energy [-1.32459761190071819014463964503231665061] and current target energy [-9.72308348918363542409710907593934944626]. Set energy to 0.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:24.998000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000012] escape strategy [7].
-11.11.23 16:37:25.045000000 usim_process.process_queue                         Overflow for target space id [2023111116372448000000000000000000000000000000000000022] with energy [3.00389195065549014449212787788690927625] and current target energy [8.682982925147253718477349740923227771]. Set energy to 0.
-11.11.23 16:37:25.045000000 usim_creator.handle_overflow                       [81] Handle pos overflow for [2023111116372448000000000000000000000000000000000000022] escape strategy [3].
-11.11.23 16:37:25.045000000 usim_process.process_queue                         Overflow for target space id [2023111116372448000000000000000000000000000000000000023] with energy [-3.00389195065549014449212787788690927625] and current target energy [-8.682982925147253718477349740923227771]. Set energy to 0.
-11.11.23 16:37:25.045000000 usim_creator.handle_overflow                       [81] Handle pos overflow for [2023111116372448000000000000000000000000000000000000023] escape strategy [3].
-11.11.23 16:37:25.139000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000004] with energy [4.85539220097759943032959896851012874837] and current target energy [6.00778390131098028898425575577381855249]. Set energy to 0.
-11.11.23 16:37:25.139000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.139000000 usim_creator.handle_overflow                       [88] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000004] escape strategy [7].
-11.11.23 16:37:25.139000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000005] with energy [-4.85539220097759943032959896851012874837] and current target energy [-6.00778390131098028898425575577381855249]. Set energy to 0.
-11.11.23 16:37:25.155000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.155000000 usim_creator.handle_overflow                       [88] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000005] escape strategy [7].
-11.11.23 16:37:25.155000000 usim_process.process_queue                         Overflow for target space id [2023111116372424400000000000000000000000000000000000014] with energy [4.85539220097759943032959896851012874837] and current target energy [6.90569471520637087486095505041909958969]. Set energy to 0.
-11.11.23 16:37:25.155000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023111116372424400000000000000000000000000000000000014] escape strategy [5].
-11.11.23 16:37:25.155000000 usim_process.process_queue                         Overflow for target space id [2023111116372424400000000000000000000000000000000000016] with energy [4.85539220097759943032959896851012874837] and current target energy [6.90569471520637087486095505041909958969]. Set energy to 0.
-11.11.23 16:37:25.155000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023111116372424400000000000000000000000000000000000016] escape strategy [5].
-11.11.23 16:37:25.155000000 usim_process.process_queue                         Overflow for target space id [2023111116372426000000000000000000000000000000000000018] with energy [-4.85539220097759943032959896851012874837] and current target energy [-6.90569471520637087486095505041909958969]. Set energy to 0.
-11.11.23 16:37:25.171000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023111116372426000000000000000000000000000000000000018] escape strategy [5].
-11.11.23 16:37:25.171000000 usim_process.process_queue                         Overflow for target space id [2023111116372426500000000000000000000000000000000000020] with energy [-4.85539220097759943032959896851012874837] and current target energy [-6.90569471520637087486095505041909958969]. Set energy to 0.
-11.11.23 16:37:25.171000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023111116372426500000000000000000000000000000000000020] escape strategy [5].
-11.11.23 16:37:25.249000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000006] with energy [2.47333999090793370403948912094569740407] and current target energy [8.15115999102441770625093802031845672657]. Set energy to 0.
-11.11.23 16:37:25.249000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.249000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000006] escape strategy [7].
-11.11.23 16:37:25.249000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000008] with energy [2.47333999090793370403948912094569740407] and current target energy [8.15115999102441770625093802031845672657]. Set energy to 0.
-11.11.23 16:37:25.264000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.264000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000008] escape strategy [7].
-11.11.23 16:37:25.264000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000010] with energy [-2.47333999090793370403948912094569740407] and current target energy [-8.15115999102441770625093802031845672657]. Set energy to 0.
-11.11.23 16:37:25.267000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.267000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000010] escape strategy [7].
-11.11.23 16:37:25.267000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000012] with energy [-2.47333999090793370403948912094569740407] and current target energy [-8.15115999102441770625093802031845672657]. Set energy to 0.
-11.11.23 16:37:25.267000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.267000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000012] escape strategy [7].
-11.11.23 16:37:25.327000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000007] with energy [1.23360571491999858301957336451881050589] and current target energy [9.89335996363173481615795648378278961629]. Set energy to 0.
-11.11.23 16:37:25.327000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.327000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000007] escape strategy [7].
-11.11.23 16:37:25.327000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000009] with energy [1.23360571491999858301957336451881050589] and current target energy [9.89335996363173481615795648378278961629]. Set energy to 0.
-11.11.23 16:37:25.343000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.343000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000009] escape strategy [7].
-11.11.23 16:37:25.343000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000011] with energy [-1.23360571491999858301957336451881050589] and current target energy [-9.89335996363173481615795648378278961629]. Set energy to 0.
-11.11.23 16:37:25.343000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.343000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000011] escape strategy [7].
-11.11.23 16:37:25.343000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000013] with energy [-1.23360571491999858301957336451881050589] and current target energy [-9.89335996363173481615795648378278961629]. Set energy to 0.
-11.11.23 16:37:25.343000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.343000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000013] escape strategy [7].
-11.11.23 16:37:25.422000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-3.23821500166499628042638008186187757797] and current target energy [-9.86884571935998866415658691615048404714]. Set energy to 0.
-11.11.23 16:37:25.422000000 usim_creator.handle_overflow                       [101] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [0].
-11.11.23 16:37:25.422000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [3.23821500166499628042638008186187757797] and current target energy [9.86884571935998866415658691615048404714]. Set energy to 0.
-11.11.23 16:37:25.422000000 usim_creator.handle_overflow                       [101] Not implemented. Handle overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [0].
-11.11.23 16:37:25.547000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000004] with energy [4.50740224268752273343714466145929096094] and current target energy [7.26877403006408096548533740246063014078]. Set energy to 0.
-11.11.23 16:37:25.547000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.547000000 usim_creator.handle_overflow                       [108] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000004] escape strategy [7].
-11.11.23 16:37:25.547000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000005] with energy [-4.50740224268752273343714466145929096094] and current target energy [-7.26877403006408096548533740246063014078]. Set energy to 0.
-11.11.23 16:37:25.563000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.563000000 usim_creator.handle_overflow                       [108] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000005] escape strategy [7].
-11.11.23 16:37:25.610000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000006] with energy [3.59116548803316050097258166032675623106] and current target energy [7.15341987991702433926456488320946895236]. Set energy to 0.
-11.11.23 16:37:25.610000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.610000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000006] escape strategy [7].
-11.11.23 16:37:25.610000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000008] with energy [3.59116548803316050097258166032675623106] and current target energy [7.15341987991702433926456488320946895236]. Set energy to 0.
-11.11.23 16:37:25.610000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.610000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000008] escape strategy [7].
-11.11.23 16:37:25.610000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000010] with energy [-3.59116548803316050097258166032675623106] and current target energy [-7.15341987991702433926456488320946895236]. Set energy to 0.
-11.11.23 16:37:25.610000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.610000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000010] escape strategy [7].
-11.11.23 16:37:25.610000000 usim_process.process_queue                         Overflow for target space id [2023111116372411800000000000000000000000000000000000012] with energy [-3.59116548803316050097258166032675623106] and current target energy [-7.15341987991702433926456488320946895236]. Set energy to 0.
-11.11.23 16:37:25.626000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.626000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023111116372411800000000000000000000000000000000000012] escape strategy [7].
-11.11.23 16:37:25.626000000 usim_process.process_queue                         Overflow for target space id [2023111116372424400000000000000000000000000000000000014] with energy [3.59116548803316050097258166032675623106] and current target energy [8.08373193055852809219090560630011206505]. Set energy to 0.
-11.11.23 16:37:25.626000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023111116372424400000000000000000000000000000000000014] escape strategy [5].
-11.11.23 16:37:25.626000000 usim_process.process_queue                         Overflow for target space id [2023111116372424400000000000000000000000000000000000016] with energy [3.59116548803316050097258166032675623106] and current target energy [8.08373193055852809219090560630011206505]. Set energy to 0.
-11.11.23 16:37:25.626000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023111116372424400000000000000000000000000000000000016] escape strategy [5].
-11.11.23 16:37:25.626000000 usim_process.process_queue                         Overflow for target space id [2023111116372426000000000000000000000000000000000000018] with energy [-3.59116548803316050097258166032675623106] and current target energy [-8.08373193055852809219090560630011206505]. Set energy to 0.
-11.11.23 16:37:25.642000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023111116372426000000000000000000000000000000000000018] escape strategy [5].
-11.11.23 16:37:25.642000000 usim_process.process_queue                         Overflow for target space id [2023111116372426500000000000000000000000000000000000020] with energy [-3.59116548803316050097258166032675623106] and current target energy [-8.08373193055852809219090560630011206505]. Set energy to 0.
-11.11.23 16:37:25.642000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023111116372426500000000000000000000000000000000000020] escape strategy [5].
-11.11.23 16:37:25.657000000 usim_process.process_queue                         Overflow for target space id [2023111116372448000000000000000000000000000000000000022] with energy [1.79558274401658025048629083016337811553] and current target energy [9.01480448537504546687428932291858192187]. Set energy to 0.
-11.11.23 16:37:25.669000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.669000000 usim_creator.handle_overflow                       [113] Not implemented. Handle overflow for [2023111116372448000000000000000000000000000000000000022] escape strategy [7].
-11.11.23 16:37:25.669000000 usim_process.process_queue                         Overflow for target space id [2023111116372448000000000000000000000000000000000000023] with energy [-1.79558274401658025048629083016337811553] and current target energy [-9.01480448537504546687428932291858192187]. Set energy to 0.
-11.11.23 16:37:25.669000000 usim_creator.handle_overflow_between               Not implemented yet.
-11.11.23 16:37:25.669000000 usim_creator.handle_overflow                       [113] Not implemented. Handle overflow for [2023111116372448000000000000000000000000000000000000023] escape strategy [7].
-11.11.23 16:37:25.736000000 usim_process.process_queue                         Overflow for target space id [2023111116372377300000000000000000000000000000000000002] with energy [.3848738264251695716626354850830776526475] and current target energy [9.93688834226882295573976143849777837698]. Set energy to 0.
-11.11.23 16:37:25.751000000 usim_creator.handle_overflow                       [117] Not implemented. Handle overflow for [2023111116372377300000000000000000000000000000000000002] escape strategy [0].
-11.11.23 16:37:25.751000000 usim_process.process_queue                         Overflow for target space id [2023111116372380400000000000000000000000000000000000003] with energy [-.3848738264251695716626354850830776526475] and current target energy [-9.93688834226882295573976143849777837698]. Set energy to 0.
-11.11.23 16:37:25.751000000 usim_creator.handle_overflow                       [117] Not implemented. Handle overflow for [2023111116372380400000000000000000000000000000000000003] escape strategy [0].
-11.11.23 16:37:25.815000000 basic_test_data_setup                              Samples run exit without error.
+26.11.23 19:59:20.214000000 basic_test_data_setup                              Init place start node with max dimension 3 and max number 10.
+26.11.23 19:59:20.401000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [4.713134765625] and current target energy [7.4111328125]. Set energy to 0.
+26.11.23 19:59:20.511000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023112619592012000000000000000000000000000000000000002].
+26.11.23 19:59:20.526000000 usim_creator.handle_overflow                       [23] Handle dim overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [4].
+26.11.23 19:59:20.526000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-4.713134765625] and current target energy [-7.4111328125]. Set energy to 0.
+26.11.23 19:59:20.526000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023112619592015100000000000000000000000000000000000003].
+26.11.23 19:59:20.526000000 usim_creator.handle_overflow                       [23] Handle dim overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [4].
+26.11.23 19:59:20.589000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000004] with energy [2.3565673828125] and current target energy [9.42626953125]. Set energy to 0.
+26.11.23 19:59:20.605000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.605000000 usim_creator.handle_overflow                       [30] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000004] escape strategy [7].
+26.11.23 19:59:20.605000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000005] with energy [-2.3565673828125] and current target energy [-9.42626953125]. Set energy to 0.
+26.11.23 19:59:20.605000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.605000000 usim_creator.handle_overflow                       [30] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000005] escape strategy [7].
+26.11.23 19:59:20.683000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [1.4941419661045074462890625] and current target energy [8.9504684507846832275390625]. Set energy to 0.
+26.11.23 19:59:20.683000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023112619592012000000000000000000000000000000000000002].
+26.11.23 19:59:20.698000000 usim_creator.handle_overflow                       [37] Handle dim overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [4].
+26.11.23 19:59:20.698000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-1.4941419661045074462890625] and current target energy [-8.9504684507846832275390625]. Set energy to 0.
+26.11.23 19:59:20.698000000 usim_creator.handle_overflow_dim                   Handle new dimension in zero pos for space id [2023112619592015100000000000000000000000000000000000003].
+26.11.23 19:59:20.698000000 usim_creator.handle_overflow                       [37] Handle dim overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [4].
+26.11.23 19:59:20.808000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000006] with energy [1.444719441351480782032012939453125] and current target energy [9.29599237628281116485595703125]. Set energy to 0.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000006] escape strategy [7].
+26.11.23 19:59:20.823000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000008] with energy [1.444719441351480782032012939453125] and current target energy [9.29599237628281116485595703125]. Set energy to 0.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000008] escape strategy [7].
+26.11.23 19:59:20.823000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000010] with energy [-1.444719441351480782032012939453125] and current target energy [-9.29599237628281116485595703125]. Set energy to 0.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000010] escape strategy [7].
+26.11.23 19:59:20.823000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000012] with energy [-1.444719441351480782032012939453125] and current target energy [-9.29599237628281116485595703125]. Set energy to 0.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.823000000 usim_creator.handle_overflow                       [44] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000012] escape strategy [7].
+26.11.23 19:59:20.870000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [4.78262897559943667147308588027954101563] and current target energy [8.2540455265916534699499607086181640625]. Set energy to 0.
+26.11.23 19:59:20.870000000 usim_creator.handle_overflow                       [47] Not implemented. Handle overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [0].
+26.11.23 19:59:20.870000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-4.78262897559943667147308588027954101563] and current target energy [-8.2540455265916534699499607086181640625]. Set energy to 0.
+26.11.23 19:59:20.870000000 usim_creator.handle_overflow                       [47] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [0].
+26.11.23 19:59:20.917000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000004] with energy [2.30278562910118722584229544736444950104] and current target energy [9.56525795119887334294617176055908203125]. Set energy to 0.
+26.11.23 19:59:20.917000000 usim_creator.handle_overflow                       [50] Handle pos overflow for [2023112619592015100000000000000000000000000000000000004] escape strategy [3].
+26.11.23 19:59:20.917000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000005] with energy [-2.30278562910118722584229544736444950104] and current target energy [-9.56525795119887334294617176055908203125]. Set energy to 0.
+26.11.23 19:59:20.933000000 usim_creator.handle_overflow                       [50] Handle pos overflow for [2023112619592015100000000000000000000000000000000000005] escape strategy [3].
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000006] escape strategy [7].
+26.11.23 19:59:20.964000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000008] with energy [2.21093753633587519757952577492687851191] and current target energy [8.13246675645448391378522501327097415924]. Set energy to 0.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000008] escape strategy [7].
+26.11.23 19:59:20.964000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000010] with energy [-2.21093753633587519757952577492687851191] and current target energy [-8.13246675645448391378522501327097415924]. Set energy to 0.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000010] escape strategy [7].
+26.11.23 19:59:20.964000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000012] with energy [-2.21093753633587519757952577492687851191] and current target energy [-8.13246675645448391378522501327097415924]. Set energy to 0.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow                       [52] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000012] escape strategy [7].
+26.11.23 19:59:20.964000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000006] with energy [2.21093753633587519757952577492687851191] and current target energy [8.13246675645448391378522501327097415924]. Set energy to 0.
+26.11.23 19:59:20.964000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:20.995000000 usim_process.process_queue                         Overflow for target space id [2023112619592068300000000000000000000000000000000000014] with energy [3.47143377129631509891982688031930592843] and current target energy [9.3491851375610229846202514636388514191]. Set energy to 0.
+26.11.23 19:59:21.011000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023112619592068300000000000000000000000000000000000014] escape strategy [5].
+26.11.23 19:59:21.011000000 usim_process.process_queue                         Overflow for target space id [2023112619592068300000000000000000000000000000000000016] with energy [3.47143377129631509891982688031930592843] and current target energy [9.3491851375610229846202514636388514191]. Set energy to 0.
+26.11.23 19:59:21.011000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023112619592068300000000000000000000000000000000000016] escape strategy [5].
+26.11.23 19:59:21.011000000 usim_process.process_queue                         Overflow for target space id [2023112619592069800000000000000000000000000000000000018] with energy [-3.47143377129631509891982688031930592843] and current target energy [-9.3491851375610229846202514636388514191]. Set energy to 0.
+26.11.23 19:59:21.011000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023112619592069800000000000000000000000000000000000018] escape strategy [5].
+26.11.23 19:59:21.011000000 usim_process.process_queue                         Overflow for target space id [2023112619592069800000000000000000000000000000000000020] with energy [-3.47143377129631509891982688031930592843] and current target energy [-9.3491851375610229846202514636388514191]. Set energy to 0.
+26.11.23 19:59:21.011000000 usim_creator.handle_overflow                       [56] Handle pos overflow for [2023112619592069800000000000000000000000000000000000020] escape strategy [5].
+26.11.23 19:59:21.058000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [1.47483397958455249754546045881653526522] and current target energy [9.11251364965282713466454556083817806213]. Set energy to 0.
+26.11.23 19:59:21.073000000 usim_creator.handle_overflow                       [59] Not implemented. Handle overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [0].
+26.11.23 19:59:21.073000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-1.47483397958455249754546045881653526522] and current target energy [-9.11251364965282713466454556083817806213]. Set energy to 0.
+26.11.23 19:59:21.073000000 usim_creator.handle_overflow                       [59] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [0].
+26.11.23 19:59:21.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000007] with energy [1.48383104378045119691809441975216543597] and current target energy [9.71160858816757956504805981978734052973]. Set energy to 0.
+26.11.23 19:59:21.120000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023112619592051100000000000000000000000000000000000007] escape strategy [3].
+26.11.23 19:59:21.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000009] with energy [1.48383104378045119691809441975216543597] and current target energy [9.71160858816757956504805981978734052973]. Set energy to 0.
+26.11.23 19:59:21.120000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023112619592051100000000000000000000000000000000000009] escape strategy [3].
+26.11.23 19:59:21.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000011] with energy [-1.48383104378045119691809441975216543597] and current target energy [-9.71160858816757956504805981978734052973]. Set energy to 0.
+26.11.23 19:59:21.136000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023112619592052600000000000000000000000000000000000011] escape strategy [3].
+26.11.23 19:59:21.136000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000013] with energy [-1.48383104378045119691809441975216543597] and current target energy [-9.71160858816757956504805981978734052973]. Set energy to 0.
+26.11.23 19:59:21.136000000 usim_creator.handle_overflow                       [63] Handle pos overflow for [2023112619592052600000000000000000000000000000000000013] escape strategy [3].
+26.11.23 19:59:21.261000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000004] with energy [4.3414914625736268592386748704616138855] and current target energy [9.51925160809420366689455315738549651999]. Set energy to 0.
+26.11.23 19:59:21.261000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.261000000 usim_creator.handle_overflow                       [70] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000004] escape strategy [7].
+26.11.23 19:59:21.261000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000005] with energy [-4.3414914625736268592386748704616138855] and current target energy [-9.51925160809420366689455315738549651999]. Set energy to 0.
+26.11.23 19:59:21.261000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.261000000 usim_creator.handle_overflow                       [70] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000005] escape strategy [7].
+26.11.23 19:59:21.323000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [2.43077087229590885602427726898483736157] and current target energy [8.79535602557618696250267153324204470344]. Set energy to 0.
+26.11.23 19:59:21.339000000 usim_creator.handle_overflow                       [73] Not implemented. Handle overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [0].
+26.11.23 19:59:21.339000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-2.43077087229590885602427726898483736157] and current target energy [-8.79535602557618696250267153324204470344]. Set energy to 0.
+26.11.23 19:59:21.339000000 usim_creator.handle_overflow                       [73] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [0].
+26.11.23 19:59:21.433000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000006] with energy [1.32459761190071819014463964503231665061] and current target energy [9.72308348918363542409710907593934944626]. Set energy to 0.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000006] escape strategy [7].
+26.11.23 19:59:21.448000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000008] with energy [1.32459761190071819014463964503231665061] and current target energy [9.72308348918363542409710907593934944626]. Set energy to 0.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000008] escape strategy [7].
+26.11.23 19:59:21.448000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000010] with energy [-1.32459761190071819014463964503231665061] and current target energy [-9.72308348918363542409710907593934944626]. Set energy to 0.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000010] escape strategy [7].
+26.11.23 19:59:21.448000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000012] with energy [-1.32459761190071819014463964503231665061] and current target energy [-9.72308348918363542409710907593934944626]. Set energy to 0.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.448000000 usim_creator.handle_overflow                       [78] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000012] escape strategy [7].
+26.11.23 19:59:21.495000000 usim_process.process_queue                         Overflow for target space id [2023112619592091700000000000000000000000000000000000022] with energy [3.00389195065549014449212787788690927625] and current target energy [8.682982925147253718477349740923227771]. Set energy to 0.
+26.11.23 19:59:21.495000000 usim_creator.handle_overflow                       [81] Handle pos overflow for [2023112619592091700000000000000000000000000000000000022] escape strategy [3].
+26.11.23 19:59:21.495000000 usim_process.process_queue                         Overflow for target space id [2023112619592093300000000000000000000000000000000000023] with energy [-3.00389195065549014449212787788690927625] and current target energy [-8.682982925147253718477349740923227771]. Set energy to 0.
+26.11.23 19:59:21.495000000 usim_creator.handle_overflow                       [81] Handle pos overflow for [2023112619592093300000000000000000000000000000000000023] escape strategy [3].
+26.11.23 19:59:21.605000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000004] with energy [4.85539220097759943032959896851012874837] and current target energy [6.00778390131098028898425575577381855249]. Set energy to 0.
+26.11.23 19:59:21.605000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.605000000 usim_creator.handle_overflow                       [88] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000004] escape strategy [7].
+26.11.23 19:59:21.605000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000005] with energy [-4.85539220097759943032959896851012874837] and current target energy [-6.00778390131098028898425575577381855249]. Set energy to 0.
+26.11.23 19:59:21.605000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.605000000 usim_creator.handle_overflow                       [88] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000005] escape strategy [7].
+26.11.23 19:59:21.605000000 usim_process.process_queue                         Overflow for target space id [2023112619592068300000000000000000000000000000000000014] with energy [4.85539220097759943032959896851012874837] and current target energy [6.90569471520637087486095505041909958969]. Set energy to 0.
+26.11.23 19:59:21.620000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023112619592068300000000000000000000000000000000000014] escape strategy [5].
+26.11.23 19:59:21.620000000 usim_process.process_queue                         Overflow for target space id [2023112619592068300000000000000000000000000000000000016] with energy [4.85539220097759943032959896851012874837] and current target energy [6.90569471520637087486095505041909958969]. Set energy to 0.
+26.11.23 19:59:21.620000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023112619592068300000000000000000000000000000000000016] escape strategy [5].
+26.11.23 19:59:21.620000000 usim_process.process_queue                         Overflow for target space id [2023112619592069800000000000000000000000000000000000018] with energy [-4.85539220097759943032959896851012874837] and current target energy [-6.90569471520637087486095505041909958969]. Set energy to 0.
+26.11.23 19:59:21.620000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023112619592069800000000000000000000000000000000000018] escape strategy [5].
+26.11.23 19:59:21.620000000 usim_process.process_queue                         Overflow for target space id [2023112619592069800000000000000000000000000000000000020] with energy [-4.85539220097759943032959896851012874837] and current target energy [-6.90569471520637087486095505041909958969]. Set energy to 0.
+26.11.23 19:59:21.620000000 usim_creator.handle_overflow                       [88] Handle pos overflow for [2023112619592069800000000000000000000000000000000000020] escape strategy [5].
+26.11.23 19:59:21.714000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000006] with energy [2.47333999090793370403948912094569740407] and current target energy [8.15115999102441770625093802031845672657]. Set energy to 0.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000006] escape strategy [7].
+26.11.23 19:59:21.714000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000008] with energy [2.47333999090793370403948912094569740407] and current target energy [8.15115999102441770625093802031845672657]. Set energy to 0.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000008] escape strategy [7].
+26.11.23 19:59:21.714000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000010] with energy [-2.47333999090793370403948912094569740407] and current target energy [-8.15115999102441770625093802031845672657]. Set energy to 0.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000010] escape strategy [7].
+26.11.23 19:59:21.714000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000012] with energy [-2.47333999090793370403948912094569740407] and current target energy [-8.15115999102441770625093802031845672657]. Set energy to 0.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.714000000 usim_creator.handle_overflow                       [92] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000012] escape strategy [7].
+26.11.23 19:59:21.792000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000007] with energy [1.23360571491999858301957336451881050589] and current target energy [9.89335996363173481615795648378278961629]. Set energy to 0.
+26.11.23 19:59:21.792000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.792000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000007] escape strategy [7].
+26.11.23 19:59:21.792000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000009] with energy [1.23360571491999858301957336451881050589] and current target energy [9.89335996363173481615795648378278961629]. Set energy to 0.
+26.11.23 19:59:21.792000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.792000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000009] escape strategy [7].
+26.11.23 19:59:21.792000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000011] with energy [-1.23360571491999858301957336451881050589] and current target energy [-9.89335996363173481615795648378278961629]. Set energy to 0.
+26.11.23 19:59:21.792000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.792000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000011] escape strategy [7].
+26.11.23 19:59:21.792000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000013] with energy [-1.23360571491999858301957336451881050589] and current target energy [-9.89335996363173481615795648378278961629]. Set energy to 0.
+26.11.23 19:59:21.808000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:21.808000000 usim_creator.handle_overflow                       [97] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000013] escape strategy [7].
+26.11.23 19:59:21.886000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [3.23821500166499628042638008186187757797] and current target energy [9.86884571935998866415658691615048404714]. Set energy to 0.
+26.11.23 19:59:21.886000000 usim_creator.handle_overflow                       [101] Not implemented. Handle overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [0].
+26.11.23 19:59:21.886000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-3.23821500166499628042638008186187757797] and current target energy [-9.86884571935998866415658691615048404714]. Set energy to 0.
+26.11.23 19:59:21.886000000 usim_creator.handle_overflow                       [101] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [0].
+26.11.23 19:59:22.042000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000004] with energy [4.50740224268752273343714466145929096094] and current target energy [7.26877403006408096548533740246063014078]. Set energy to 0.
+26.11.23 19:59:22.042000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.042000000 usim_creator.handle_overflow                       [108] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000004] escape strategy [7].
+26.11.23 19:59:22.042000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000005] with energy [-4.50740224268752273343714466145929096094] and current target energy [-7.26877403006408096548533740246063014078]. Set energy to 0.
+26.11.23 19:59:22.042000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.042000000 usim_creator.handle_overflow                       [108] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000005] escape strategy [7].
+26.11.23 19:59:22.105000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000006] with energy [3.59116548803316050097258166032675623106] and current target energy [7.15341987991702433926456488320946895236]. Set energy to 0.
+26.11.23 19:59:22.105000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.105000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000006] escape strategy [7].
+26.11.23 19:59:22.105000000 usim_process.process_queue                         Overflow for target space id [2023112619592051100000000000000000000000000000000000008] with energy [3.59116548803316050097258166032675623106] and current target energy [7.15341987991702433926456488320946895236]. Set energy to 0.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023112619592051100000000000000000000000000000000000008] escape strategy [7].
+26.11.23 19:59:22.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000010] with energy [-3.59116548803316050097258166032675623106] and current target energy [-7.15341987991702433926456488320946895236]. Set energy to 0.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000010] escape strategy [7].
+26.11.23 19:59:22.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592052600000000000000000000000000000000000012] with energy [-3.59116548803316050097258166032675623106] and current target energy [-7.15341987991702433926456488320946895236]. Set energy to 0.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow                       [112] Not implemented. Handle overflow for [2023112619592052600000000000000000000000000000000000012] escape strategy [7].
+26.11.23 19:59:22.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592068300000000000000000000000000000000000014] with energy [3.59116548803316050097258166032675623106] and current target energy [8.08373193055852809219090560630011206505]. Set energy to 0.
+26.11.23 19:59:22.120000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023112619592068300000000000000000000000000000000000014] escape strategy [5].
+26.11.23 19:59:22.120000000 usim_process.process_queue                         Overflow for target space id [2023112619592068300000000000000000000000000000000000016] with energy [3.59116548803316050097258166032675623106] and current target energy [8.08373193055852809219090560630011206505]. Set energy to 0.
+26.11.23 19:59:22.136000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023112619592068300000000000000000000000000000000000016] escape strategy [5].
+26.11.23 19:59:22.136000000 usim_process.process_queue                         Overflow for target space id [2023112619592069800000000000000000000000000000000000018] with energy [-3.59116548803316050097258166032675623106] and current target energy [-8.08373193055852809219090560630011206505]. Set energy to 0.
+26.11.23 19:59:22.136000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023112619592069800000000000000000000000000000000000018] escape strategy [5].
+26.11.23 19:59:22.136000000 usim_process.process_queue                         Overflow for target space id [2023112619592069800000000000000000000000000000000000020] with energy [-3.59116548803316050097258166032675623106] and current target energy [-8.08373193055852809219090560630011206505]. Set energy to 0.
+26.11.23 19:59:22.136000000 usim_creator.handle_overflow                       [112] Handle pos overflow for [2023112619592069800000000000000000000000000000000000020] escape strategy [5].
+26.11.23 19:59:22.183000000 usim_process.process_queue                         Overflow for target space id [2023112619592091700000000000000000000000000000000000022] with energy [1.79558274401658025048629083016337811553] and current target energy [9.01480448537504546687428932291858192187]. Set energy to 0.
+26.11.23 19:59:22.183000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.183000000 usim_creator.handle_overflow                       [113] Not implemented. Handle overflow for [2023112619592091700000000000000000000000000000000000022] escape strategy [7].
+26.11.23 19:59:22.183000000 usim_process.process_queue                         Overflow for target space id [2023112619592093300000000000000000000000000000000000023] with energy [-1.79558274401658025048629083016337811553] and current target energy [-9.01480448537504546687428932291858192187]. Set energy to 0.
+26.11.23 19:59:22.183000000 usim_creator.handle_overflow_between               Not implemented yet.
+26.11.23 19:59:22.183000000 usim_creator.handle_overflow                       [113] Not implemented. Handle overflow for [2023112619592093300000000000000000000000000000000000023] escape strategy [7].
+26.11.23 19:59:22.261000000 usim_process.process_queue                         Overflow for target space id [2023112619592012000000000000000000000000000000000000002] with energy [.3848738264251695716626354850830776526475] and current target energy [9.93688834226882295573976143849777837698]. Set energy to 0.
+26.11.23 19:59:22.261000000 usim_creator.handle_overflow                       [117] Not implemented. Handle overflow for [2023112619592012000000000000000000000000000000000000002] escape strategy [0].
+26.11.23 19:59:22.261000000 usim_process.process_queue                         Overflow for target space id [2023112619592015100000000000000000000000000000000000003] with energy [-.3848738264251695716626354850830776526475] and current target energy [-9.93688834226882295573976143849777837698]. Set energy to 0.
+26.11.23 19:59:22.261000000 usim_creator.handle_overflow                       [117] Not implemented. Handle overflow for [2023112619592015100000000000000000000000000000000000003] escape strategy [0].
+26.11.23 19:59:22.324000000 basic_test_data_setup                              Samples run exit without error.
 
 176 Zeilen ausgewählt.
 

@@ -4,10 +4,7 @@ let usim_font;
 let usim_ticks;
 let usim_current_tick;
 let usim_info;
-let usim_clr_neutral;
-let usim_clr_negative;
-let usim_clr_positive;
-let usim_clr_link;
+let usim_clr;
 let usim_move_tick;
 let usim_magnifier;
 let usim_norm_magnifier;
@@ -29,11 +26,16 @@ let usim_btn_show_coords_label;
 let usim_btn_zero_struct;
 let usim_btn_zero_label;
 let usim_show_zero_struct;
+let usim_btn_universes;
+let usim_btn_universes_label;
+let usim_id_universe;
 let usim_sensivity;
 let usim_btn_debug;
 let usim_btn_debug_label;
 let usim_show_debug;
 let usim_pg;
+let usim_current_row;
+let usim_stretch_zero;
 
 function preload() {
   usim_font = loadFont('Inconsolata.otf');
@@ -42,15 +44,20 @@ function preload() {
 }
 
 function usimSetup() {
-  usim_ticks = usim_log.planck_ticks.length;
+  usim_id_universe = 0;
+  usim_ticks = usim_log.usims[usim_id_universe].ticks.length;
   usim_current_tick = 0;
   // animation tick start, dividing one planck tick into 10 slices
   usim_move_tick = 1;
   // color definitions
-  usim_clr_neutral = color('aqua');
-  usim_clr_negative = color('red');
-  usim_clr_positive = color('lime');
-  usim_clr_link = color('white');
+  usim_clr = new Map([
+    ["neutral", color('Aqua')],
+    ["negative", color('Red')],
+    ["positive", color('Lime')],
+    ["link_normal", color('White')],
+    ["link_background", color('DimGrey')],
+    ["point_background", color('Silver')]
+  ]);
   // translator for display distance between two points
   usim_magnifier = 100;
   // normalization for energy output displays
@@ -58,7 +65,7 @@ function usimSetup() {
   // default run state -1 = stopped, 1 = running
   usim_run_state = 1;
   usim_btn_run_label = 'Stop';
-  // default show state -1 = structure, 1 = process log
+  // default show state -1 = structure, 1 = process log, 2 = background structure for process (temporary state)
   usim_show_state = 1;
   usim_btn_show_label = 'Switch to structure'
   // defines the quadratic frame for simulation displays, offset for GUI elements
@@ -66,7 +73,7 @@ function usimSetup() {
   // defines the real width used for display simulation and GUI elements
   usim_win_width  = 960;
   // frame count per second
-  usim_frames = 6;
+  usim_frames = 24;
   // show coordinates on the simulation or structure, default -1 = off, 1 = on
   usim_show_coords = -1;
   // default label for the show/hide coordinate button
@@ -104,7 +111,6 @@ function usimChgShowState() {
   }
   usim_btn_show.elt.innerText = usim_btn_show_label;
   usim_btn_show.elt.innerHTML = usim_btn_show_label;
-
 }
 
 function usimChgShowCoords() {
@@ -120,9 +126,9 @@ function usimChgShowCoords() {
 
 function usimUpdateText() {
   if (usim_show_state > 0) {
-    usim_info = 'aeon: ' + usim_log.planck_aeon + ' tick: ' + usim_log.planck_ticks[usim_current_tick].planck_time + ' move: ' + usim_move_tick;
+    usim_info = 'aeon: ' + usim_log.aeon + ' tick: ' + usim_log.usims[usim_id_universe].ticks[usim_current_tick].tick + ' move: ' + usim_move_tick;
   } else {
-    usim_info = 'mlv id: ' + usim_struct.universe_id;
+    usim_info = 'Pure structure of selected universe';
   }
   usim_txt_info.elt.innerHTML = usim_info;
   usim_txt_info.elt.innerText = usim_info;
@@ -158,6 +164,10 @@ function usimChgDebug() {
   usim_btn_debug.elt.innerText = usim_btn_debug_label;
 }
 
+function usimChgUniverse() {
+  usim_id_universe = usim_btn_universes.value();
+}
+
 function usimGUI() {
   usim_btn_run = createButton(usim_btn_run_label);
   usim_btn_run.position(usim_frame_size + 10, 10);
@@ -168,20 +178,30 @@ function usimGUI() {
   usim_btn_show_coords = createButton(usim_btn_show_coords_label);
   usim_btn_show_coords.position(usim_frame_size + 10, 70);
   usim_btn_show_coords.mousePressed(usimChgShowCoords);
+  usim_btn_universes_label = createP('Active universe id');
+  usim_btn_universes_label.style('color', 'white');
+  usim_btn_universes_label.position(usim_frame_size + 10, 80);
+  usim_btn_universes = createSelect();
+  usim_btn_universes.position(usim_frame_size + 10, 120)
+  for (let index = 0; index < usim_log.select.length; index++) {
+    usim_btn_universes.option(usim_log.select[index], index);
+  }
+  usim_btn_universes.selected(usim_id_universe);
+  usim_btn_universes.changed(usimChgUniverse);
   usim_btn_zero_struct = createButton(usim_btn_zero_label);
-  usim_btn_zero_struct.position(usim_frame_size + 10, 100);
+  usim_btn_zero_struct.position(usim_frame_size + 10, 150);
   usim_btn_zero_struct.mousePressed(usimChgZeroDisplay);
   usim_btn_debug = createButton(usim_btn_debug_label);
-  usim_btn_debug.position(usim_frame_size + 10, 130);
+  usim_btn_debug.position(usim_frame_size + 10, 180);
   usim_btn_debug.mousePressed(usimChgDebug);
   usim_sli_frames_label = createP('Frames: ' + usim_frames);
   usim_sli_frames_label.style('color', 'white');
-  usim_sli_frames_label.position(usim_frame_size + 10, 140);
+  usim_sli_frames_label.position(usim_frame_size + 10, 200);
   usim_sli_frames = createSlider(1, 60, usim_frames);
-  usim_sli_frames.position(usim_frame_size + 10, 180);
+  usim_sli_frames.position(usim_frame_size + 10, 240);
   usim_txt_info = createP('aeon:');
   usim_txt_info.style('color', 'white');
-  usim_txt_info.position(usim_frame_size + 10, 200);
+  usim_txt_info.position(usim_frame_size + 10, 250);
 }
 
 function usimSensivity() {
@@ -216,13 +236,15 @@ function usimStartScreen() {
 }
 
 function usimColor(usim_dim_sign) {
-  if (usim_dim_sign == 0) {
-    stroke(usim_clr_neutral);
-  } else if (usim_dim_sign == 1) {
-    stroke(usim_clr_positive);
-  } else {
-    stroke(usim_clr_negative);
-  }
+    if (usim_dim_sign == 0) {
+      stroke(usim_clr.get("neutral"));
+    } else if (usim_dim_sign == 1) {
+      stroke(usim_clr.get("positive"));
+    } else if (usim_dim_sign == -1) {
+      stroke(usim_clr.get("negative"));
+    } else if (usim_dim_sign == 2) {
+      stroke(usim_clr.get("point_background"));
+    }
 }
 
 function usimXYZ(usim_vector) {
@@ -231,7 +253,7 @@ function usimXYZ(usim_vector) {
 
 function usimEnergySphere(usim_output) {
   // normalize and get smaller by every move tick
-  let r_norm = norm(usim_output, 0, usim_log.max_number) * usim_norm_magnifier / usim_move_tick;
+  let r_norm = norm(usim_output, 0, usim_log.max) * usim_norm_magnifier / usim_move_tick;
   // upper/lower bounds
   if (r_norm < 2) {
     r_norm = 2;
@@ -241,18 +263,17 @@ function usimEnergySphere(usim_output) {
   sphere(r_norm);
 }
 
-function usimNodeConnect(usim_from, usim_to) {
+function usimNodeConnect(usim_from, usim_to, showMode) {
   push();
   // if we have a distance
   if (! usim_from.equals(usim_to)) {
     // draw a line
-    stroke(usim_clr_link);
+    if (showMode != 2) {
+      stroke(usim_clr.get("link_normal"));
+    } else {
+      stroke(usim_clr.get("link_background"));
+    }
     line(usim_from.x, usim_from.y, usim_from.z, usim_to.x, usim_to.y, usim_to.z);
-  } else {
-    // static lines in dimension 1
-    stroke(usim_clr_link);
-    line(0, 0, 0, usim_magnifier, 0, 0);
-    line(0, 0, 0, -usim_magnifier, 0, 0);
   }
   pop();
 }
@@ -264,7 +285,7 @@ function usimMoveEnergy(usim_from, usim_to, usim_output) {
     push();
     let new_pos = p5.Vector.lerp(usim_from, usim_to, (usim_move_tick / 10));
     translate(new_pos);
-    let r_norm = norm(usim_output, 0, usim_log.max_number) * usim_move_tick;
+    let r_norm = norm(Math.abs(usim_output), 0, usim_log.max) * usim_move_tick;
     // upper/lower bounds
     if (r_norm < 2) {
       r_norm = 2;
@@ -313,121 +334,86 @@ function usimDrawPoint(usim_spc_node, usim_clr_code, usim_txt_xyz) {
   pop();
 }
 
-function usimDimToPos(n_dim, n_sign, n1_sign){
-  // includes displacement
-  let usim_xyz = createVector(0, 0, 0);
-  let displace = n_sign * (usim_magnifier/2);
-  let displaceBase = n1_sign * (usim_magnifier/2)
-  if (n_dim == 1) {
-    usim_xyz.x = displace;
-  } else if (n_dim == 2) {
-    usim_xyz.x = displaceBase;
-    usim_xyz.y = displace;
-  } else if (n_dim == 3) {
-    usim_xyz.x = displaceBase;
-    usim_xyz.z = displace;
-  }
-  return usim_xyz.copy();
-}
-
-function usimDimStr(n_dim, n_sign, n1_sign) {
-  let dimstr = (n1_sign > 0) ? '+n' : '-n';
-  if (n_dim == 0) {
-    return 'n0';
-  } else {
-    return dimstr + (n_dim * n_sign);
-  }
-}
-
-function usimZeroStructure() {
-  let usim_details = usim_struct.zero_nodes;
-  for (var i = 0; i < usim_details.length; i++) {
-    let usim_parent = usim_details[i];
-    let usim_base = usimDimToPos(usim_parent.dimension, usim_parent.dim_sign, usim_parent.dim_n1_sign);
-    usimDrawPoint(usim_base, usim_parent.dim_n1_sign);
-    if (usim_parent.dimension > 0) {
-      usimDrawPoint(usim_base, usim_parent.dim_n1_sign);
-      let usim_base_to = usim_base.copy();
-      if (usim_parent.dimension == 1) {
-        usim_base_to.x = usim_parent.dim_sign * (usim_magnifier + usim_magnifier/2);
-      } else if (usim_parent.dimension == 2) {
-        usim_base_to.y = usim_parent.dim_sign * (usim_magnifier + usim_magnifier/2);
-      } else if (usim_parent.dimension == 3) {
-        usim_base_to.z = usim_parent.dim_sign * (usim_magnifier + usim_magnifier/2);
-      }
-      usimNodeConnect(usim_base, usim_base_to);
-      usimDrawPoint(usim_base_to, usim_parent.dim_n1_sign, usimDimStr(usim_parent.dimension, usim_parent.dim_sign, usim_parent.dim_n1_sign));
+function usimDrawRow(rowData, showMode) {
+  let usim_vec_from = createVector(rowData.row[0], rowData.row[1], rowData.row[2]);
+  let usim_vec_to = createVector(rowData.row[7], rowData.row[8], rowData.row[9]);
+  let usim_xyz_from = usimXYZ(usim_vec_from);
+  let usim_xyz_to = usimXYZ(usim_vec_to);
+  usim_vec_from.mult(usim_magnifier);
+  usim_vec_to.mult(usim_magnifier);
+  if (usim_show_zero_struct > 0) {
+    // n1 sign check
+    if (rowData.row[5] > 0) {
+      usim_vec_from.x = usim_vec_from.x + usim_magnifier
     } else {
-      usimDrawPoint(usim_base, usim_parent.dim_n1_sign, usimDimStr(usim_parent.dimension, usim_parent.dim_sign, usim_parent.dim_n1_sign));
+      usim_vec_from.x = usim_vec_from.x - usim_magnifier
     }
+    if (rowData.row[12] > 0) {
+      usim_vec_to.x = usim_vec_to.x + usim_magnifier
+    } else {
+      usim_vec_to.x = usim_vec_to.x - usim_magnifier
+    }
+  }
+  let usim_tick = usim_log.usims[usim_id_universe].ticks[usim_current_tick].tick;
+  if (showMode == 0) {
+    // normal row
+    usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from);
+    usimNodeConnect(usim_vec_from, usim_vec_to, showMode);
+    usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to);
+    usimColor(rowData.row[11]);
+    usimEnergySphere(rowData.row[14]);
+    usimMoveEnergy(usim_vec_from, usim_vec_to, rowData.row[14]);
+  } else if (showMode == 1) {
+    // structure row normal display
+    usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from);
+    usimNodeConnect(usim_vec_from, usim_vec_to, showMode);
+    usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to);
+  } else if (showMode == 2) {
+    // structure row display before noral row
+    if (rowData.row[6] >= 0 && rowData.row[6] <= usim_tick) {
+      // show active
+      usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from);
+    } else {
+      // show inactive
+      usimDrawPoint(usim_vec_from, 2, usim_xyz_from);
+    }
+    if (rowData.row[6] >= 0 && rowData.row[13] >= 0 && rowData.row[6] <= usim_tick && rowData.row[13] <= usim_tick) {
+      // show active
+      usimNodeConnect(usim_vec_from, usim_vec_to, 1);
+    } else {
+      // show inactive
+      usimNodeConnect(usim_vec_from, usim_vec_to, showMode);
+    }
+    if (rowData.row[13] >= 0 && rowData.row[13] <= usim_tick) {
+      // show active
+      usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to);
+    } else {
+      // show inactive
+      usimDrawPoint(usim_vec_to, 2, usim_xyz_to);
+    }
+  }
+}
+
+function usimStructure(showMode) {
+  let usim_structure;
+  if (usim_show_zero_struct > 0) {
+    usim_structure = usim_struct.usims[usim_id_universe].zero;
+  } else {
+    usim_structure = usim_struct.usims[usim_id_universe].data;
+  }
+  for (var i = 0; i < usim_structure.length; i++) {
+    usimDrawRow(usim_structure[i], showMode);
   }
 }
 
 function usimProcess() {
-  let usim_details;
-  // redraw structure 0 up to current tick
-  for (var ix = 0; ix < usim_current_tick; ix++ ) {
-    usim_details = usim_log.planck_ticks[ix].details;
-    for (var i = 0; i < usim_details.length; i++) {
-      // get output
-      let usim_vec_from = createVector(usim_details[i].from.x, usim_details[i].from.y, usim_details[i].from.z);
-      let usim_vec_to = createVector(usim_details[i].to.x, usim_details[i].to.y, usim_details[i].to.z);
-      // adjust vectors in size
-      let usim_xyz_from = usimXYZ(usim_vec_from);
-      let usim_xyz_to = usimXYZ(usim_vec_to);
-      usim_vec_from.mult(usim_magnifier);
-      usim_vec_to.mult(usim_magnifier);
-      usimDrawPoint(usim_vec_from, usim_details[i].to.dim_sign, usim_xyz_from);
-      usimNodeConnect(usim_vec_from, usim_vec_to);
-      usimDrawPoint(usim_vec_to, usim_details[i].to.dim_sign, usim_xyz_to);
-    }
-  }
+  // redraw structure
+  usimStructure(2);
   // get details for current tick
-  usim_details = usim_log.planck_ticks[usim_current_tick].details;
-  for (var i = 0; i < usim_details.length; i++) {
-    // get output
-    let usim_vec_from = createVector(usim_details[i].from.x, usim_details[i].from.y, usim_details[i].from.z);
-    let usim_vec_to = createVector(usim_details[i].to.x, usim_details[i].to.y, usim_details[i].to.z);
-    if (usim_move_tick == 1 && usim_show_debug > 0) {
-      console.log('' + usim_log.planck_ticks[usim_current_tick].planck_time + ':' + usim_vec_from.x + ',' + usim_vec_from.y + ',' + usim_vec_from.z + ' -> ' + usim_vec_to.x + ',' + usim_vec_to.y + ',' + usim_vec_to.z + '(e=' + usim_details[i].output_energy + ') n' + usim_details[i].from.dimension + '(' + usim_details[i].from.dim_sign + '.' + usim_details[i].from.dim_n1_sign + '):n' + usim_details[i].to.dimension + '(' + usim_details[i].to.dim_sign + '.' + usim_details[i].to.dim_n1_sign + ')');
-    }
-    // adjust vectors in size
-    let usim_xyz_from = usimXYZ(usim_vec_from);
-    let usim_xyz_to = usimXYZ(usim_vec_to);
-    usim_vec_from.mult(usim_magnifier);
-    usim_vec_to.mult(usim_magnifier);
-    usimDrawPoint(usim_vec_from, usim_details[i].to.dim_sign, usim_xyz_from);
-    usimNodeConnect(usim_vec_from, usim_vec_to);
-    usimDrawPoint(usim_vec_to, usim_details[i].to.dim_sign, usim_xyz_to);
-    usimColor(usim_details[i].to.dim_sign);
-    usimEnergySphere(usim_details[i].output_energy);
-    usimMoveEnergy(usim_vec_from, usim_vec_to, usim_details[i].output_energy);
+  for (var i = 0; i < usim_log.usims[usim_id_universe].ticks[usim_current_tick].data.length; i++) {
+    usimDrawRow(usim_log.usims[usim_id_universe].ticks[usim_current_tick].data[i], 0);
   }
   usimUpdateTicks();
-}
-
-function usimStructure() {
-  let usim_details = usim_struct.nodes;
-  for (var i = 0; i < usim_details.length; i++) {
-    let usim_spc = createVector(usim_details[i].xyz[0], usim_details[i].xyz[1], usim_details[i].xyz[2]);
-    let usim_xyz = '' + usim_spc.x + ',' + usim_spc.y + ',' + usim_spc.z;
-    let usim_clr = 0;
-    if (usim_spc.mag() > 0 && usim_spc.heading() >= 0 && usim_spc.heading() != PI) {
-      usim_clr = 1;
-    }
-    if (usim_spc.mag() > 0 && (usim_spc.heading() < 0 || usim_spc.heading() == PI)) {
-      usim_clr = -1;
-    }
-    usim_spc.mult(usim_magnifier);
-    usimDrawPoint(usim_spc, usim_clr, usim_xyz);
-    let usim_childs = usim_details[i].childs;
-    for (var i2 = 0; i2 < usim_childs.length; i2++) {
-      let usim_chi = createVector(usim_childs[i2].xyz[0], usim_childs[i2].xyz[1], usim_childs[i2].xyz[2]);
-      usim_chi.mult(usim_magnifier);
-      usimNodeConnect(usim_spc, usim_chi);
-      usimDrawPoint(usim_chi, 1);
-  }
-  }
 }
 
 function draw() {
@@ -438,10 +424,6 @@ function draw() {
   if (usim_show_state > 0) {
     usimProcess();
   } else {
-    if (usim_show_zero_struct > 0) {
-      usimZeroStructure();
-    } else {
-      usimStructure();
-    }
+    usimStructure(1);
   }
 }

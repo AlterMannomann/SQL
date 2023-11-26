@@ -143,3 +143,21 @@ CONNECT BY PRIOR usim_id_spc = usim_id_spc_child
 -- we got parent axis dim 1 so dim_n1_sign is set, dim_sign depends on the second dim, where 2 dim axis exist
 -- next dim axis are in the quarter of second dim axis and have the same dim sign
 
+-- all coordinates in one direction from processing
+SELECT src_xyz, tgt_xyz FROM usim_spr_v WHERE usim_spo.get_magnitude(usim_id_spc_source, 3) <= usim_spo.get_magnitude(usim_id_spc_target, 3) GROUP BY src_xyz, tgt_xyz;
+-- all coordinates from childs with from magnitude to get possibly missing structure
+SELECT usim_dbif.get_xyz(usim_id_spc) AS src_xyz, usim_dbif.get_xyz(usim_id_spc_child) AS tgt_xyz FROM usim_spc_child GROUP BY usim_dbif.get_xyz(usim_id_spc), usim_dbif.get_xyz(usim_id_spc_child);
+
+-- get some log
+SET SERVEROUTPUT ON SIZE UNLIMITED
+DECLARE
+  l_return NUMBER;
+BEGIN 
+  usim_erl.purge_log;
+  usim_debug.purge_log;
+  usim_debug.set_debug_on;
+  l_return := usim_creator.create_space_log(usim_dbif.get_planck_aeon_seq_current, 20, 60);
+END;
+/
+SELECT usim_timestamp, SUBSTR(usim_err_object, 1, 50) AS usim_err_object, usim_err_info FROM usim_error_log ORDER BY usim_timestamp, usim_tick;
+SELECT usim_timestamp, SUBSTR(usim_log_object, 1, 50) AS usim_log_object, usim_log_content FROM usim_debug_log ORDER BY usim_timestamp, ROWID;

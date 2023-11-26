@@ -25,4 +25,10 @@ CREATE OR REPLACE VIEW usim_spr_v AS
       ON spr.usim_id_spc_source = xyzv_src.usim_id_spc
     LEFT OUTER JOIN usim_spo_xyz_v xyzv_tgt
       ON spr.usim_id_spc_target = xyzv_tgt.usim_id_spc
+         -- provide basic process order as ROWID can only be accessed from here
+   ORDER BY spr.usim_planck_aeon
+          , spr.usim_planck_time
+          , spr.usim_real_time
+            -- use ROWID order for processes to fast for real time and planck time
+          , spr.ROWID ASC
 ;

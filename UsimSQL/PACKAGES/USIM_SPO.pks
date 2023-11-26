@@ -71,6 +71,18 @@ IS
   ;
 
   /**
+  * Retrieves the magnitude of a vector for the given dimension.
+  * @param p_usim_id_spc The space id to get the magnitude for.
+  * @param p_usim_n_dimension The dimension for the magnitude calculation.
+  * @return Returns the magnitude of the vector associated to the given space id or NULL on errors.
+  */
+  FUNCTION get_magnitude( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                        , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                        )
+    RETURN NUMBER
+  ;
+
+  /**
   * Builds a dimension coordinate index for a given space id, if the
   * index fits within VARCHAR2. Builds coordinate index like x,y,z but using
   * all supported dimension. Includes coordinate for dimension 0.

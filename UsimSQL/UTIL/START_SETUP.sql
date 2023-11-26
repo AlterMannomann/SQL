@@ -28,7 +28,7 @@ BEGIN
   l_seq_aeon    := usim_dbif.get_planck_aeon_seq_current;
   l_seq         := usim_dbif.get_planck_time_current;
   -- provide json output, if website is running, may throw errors on file open
-  l_return := usim_creator.create_json_struct(l_usim_id_mlv);
+  l_return := usim_creator.create_json_struct;
   l_return := usim_creator.create_space_log(l_seq_aeon, 1, l_seq);
 
 END;

@@ -334,6 +334,8 @@ SELECT CASE
 @@../PACKAGES/USIM_SPO.pkb
 -- package depend view
 @@../VIEW/USIM_SPO_XYZ_V.sql
+@@../VIEW/USIM_SPO_BASE3D_V.sql
+@@../VIEW/USIM_SPO_ZERO3D_V.sql
 -- USIM_SPC_PROCESS (SPR)
 SELECT CASE
          WHEN COUNT(*) = 0

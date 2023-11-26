@@ -1748,6 +1748,26 @@ IS
   END get_xyz
   ;
 
+  FUNCTION get_magnitude( p_usim_id_spc      IN usim_space.usim_id_spc%TYPE
+                        , p_usim_n_dimension IN usim_dimension.usim_n_dimension%TYPE
+                        )
+    RETURN NUMBER
+  IS
+    l_result  NUMBER;
+  BEGIN
+    l_result := usim_spo.get_magnitude(p_usim_id_spc, p_usim_n_dimension);
+    RETURN l_result;
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- write error might still work
+      usim_erl.log_error('usim_dbif.get_magnitude', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
+      -- try to set all to crashed
+      usim_dbif.set_crashed;
+      -- raise in any case
+      RAISE;
+  END get_magnitude
+  ;
+
   FUNCTION get_process_spin(p_usim_id_spc IN usim_space.usim_id_spc%TYPE)
     RETURN usim_space.usim_process_spin%TYPE
   IS

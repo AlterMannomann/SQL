@@ -35,7 +35,6 @@ let usim_btn_debug_label;
 let usim_show_debug;
 let usim_pg;
 let usim_current_row;
-let usim_stretch_zero;
 
 function preload() {
   usim_font = loadFont('Inconsolata.otf');
@@ -61,7 +60,7 @@ function usimSetup() {
   // translator for display distance between two points
   usim_magnifier = 100;
   // normalization for energy output displays
-  usim_norm_magnifier = 50;
+  usim_norm_magnifier = 20;
   // default run state -1 = stopped, 1 = running
   usim_run_state = 1;
   usim_btn_run_label = 'Stop';
@@ -87,6 +86,12 @@ function usimSetup() {
   // turn console log on or off, default is off
   usim_show_debug = -1;
   usim_btn_debug_label = 'Debug on';
+}
+
+function usimDebug(dbgMsg) {
+  if (usim_show_debug > 0) {
+    console.log(dbgMsg);
+  }
 }
 
 function usimChgRunState() {
@@ -251,18 +256,6 @@ function usimXYZ(usim_vector) {
   return ('' + usim_vector.x + ',' + usim_vector.y + ',' + usim_vector.z);
 }
 
-function usimEnergySphere(usim_output) {
-  // normalize and get smaller by every move tick
-  let r_norm = norm(usim_output, 0, usim_log.max) * usim_norm_magnifier / usim_move_tick;
-  // upper/lower bounds
-  if (r_norm < 2) {
-    r_norm = 2;
-  } else if (r_norm > usim_norm_magnifier) {
-    r_norm = usim_norm_magnifier;
-  }
-  sphere(r_norm);
-}
-
 function usimNodeConnect(usim_from, usim_to, showMode) {
   push();
   // if we have a distance
@@ -280,6 +273,7 @@ function usimNodeConnect(usim_from, usim_to, showMode) {
 
 function usimMoveEnergy(usim_from, usim_to, usim_output) {
   // if we have a distance
+  // usimDebug('usimMoveEnergy: ' + usim_from.x + ',' + usim_from.y + ',' + usim_from.z + ' - ' + usim_to.x + ',' + usim_to.y + ',' + usim_to.z + ' dist: ' + usim_from.dist(usim_to));
   if (usim_from.dist(usim_to) != 0) {
     // move energy sphere to target
     push();
@@ -312,26 +306,36 @@ function usimUpdateTicks() {
   }
 }
 
-function usimDrawPoint(usim_spc_node, usim_clr_code, usim_txt_xyz) {
+function usimDrawPoint(usim_spc_node, usim_clr_code, usim_txt_xyz, usim_energy) {
+  // create sphere according to given energy
   push();
+    translate(usim_spc_node);
     usimColor(usim_clr_code);
-    strokeWeight(1);
-    point(usim_spc_node);
-    if (usim_show_coords > 0) {
-      push()
-      translate(usim_spc_node.x + 20, usim_spc_node.y -20, usim_spc_node.z);
-      //text(usim_txt_xyz, usim_spc_node.x + 10 - usim_spc_node.z, usim_spc_node.y - 10 + usim_spc_node.z);
-      usim_pg.background(0);
-      usim_pg.stroke('white');
-      usim_pg.fill('white');
-      usim_pg.text(usim_txt_xyz, 1, 80);
-      //pass image as texture
-      texture(usim_pg);
-      noStroke();
-      plane(20, 10);
-      pop();
+    // normalize to represent given energy
+    let r_norm = norm(Math.abs(usim_energy), 0, usim_log.max) * usim_norm_magnifier;
+    // upper/lower bounds
+    if (r_norm < 2) {
+      r_norm = 2;
+    } else if (r_norm > usim_norm_magnifier) {
+      r_norm = usim_norm_magnifier;
     }
+    //strokeWeight(1);
+    sphere(r_norm);
   pop();
+  if (usim_show_coords > 0) {
+    push()
+    translate(usim_spc_node.x + 20, usim_spc_node.y -20, usim_spc_node.z);
+    //text(usim_txt_xyz, usim_spc_node.x + 10 - usim_spc_node.z, usim_spc_node.y - 10 + usim_spc_node.z);
+    usim_pg.background(0);
+    usim_pg.stroke('white');
+    usim_pg.fill('white');
+    usim_pg.text(usim_txt_xyz, 1, 80);
+    //pass image as texture
+    texture(usim_pg);
+    noStroke();
+    plane(20, 10);
+    pop();
+  }
 }
 
 function usimDrawRow(rowData, showMode) {
@@ -345,37 +349,37 @@ function usimDrawRow(rowData, showMode) {
     // n1 sign check
     if (rowData.row[5] > 0) {
       usim_vec_from.x = usim_vec_from.x + usim_magnifier
-    } else {
+    } else if (rowData.row[5] < 0) {
       usim_vec_from.x = usim_vec_from.x - usim_magnifier
     }
     if (rowData.row[12] > 0) {
       usim_vec_to.x = usim_vec_to.x + usim_magnifier
-    } else {
+    } else if (rowData.row[12] < 0) {
       usim_vec_to.x = usim_vec_to.x - usim_magnifier
     }
   }
   let usim_tick = usim_log.usims[usim_id_universe].ticks[usim_current_tick].tick;
   if (showMode == 0) {
     // normal row
-    usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from);
+    usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from, rowData.row[6]);
     usimNodeConnect(usim_vec_from, usim_vec_to, showMode);
-    usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to);
-    usimColor(rowData.row[11]);
-    usimEnergySphere(rowData.row[14]);
+    usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to, rowData.row[13]);
+    //usimColor(rowData.row[11]);
+    //usimEnergySphere(rowData.row[14]);
     usimMoveEnergy(usim_vec_from, usim_vec_to, rowData.row[14]);
   } else if (showMode == 1) {
     // structure row normal display
-    usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from);
+    usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from, 0);
     usimNodeConnect(usim_vec_from, usim_vec_to, showMode);
-    usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to);
+    usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to, 0);
   } else if (showMode == 2) {
     // structure row display before noral row
     if (rowData.row[6] >= 0 && rowData.row[6] <= usim_tick) {
       // show active
-      usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from);
+      usimDrawPoint(usim_vec_from, rowData.row[11], usim_xyz_from, 0);
     } else {
       // show inactive
-      usimDrawPoint(usim_vec_from, 2, usim_xyz_from);
+      usimDrawPoint(usim_vec_from, 2, usim_xyz_from, 0);
     }
     if (rowData.row[6] >= 0 && rowData.row[13] >= 0 && rowData.row[6] <= usim_tick && rowData.row[13] <= usim_tick) {
       // show active
@@ -386,10 +390,10 @@ function usimDrawRow(rowData, showMode) {
     }
     if (rowData.row[13] >= 0 && rowData.row[13] <= usim_tick) {
       // show active
-      usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to);
+      usimDrawPoint(usim_vec_to, rowData.row[11], usim_xyz_to, 0);
     } else {
       // show inactive
-      usimDrawPoint(usim_vec_to, 2, usim_xyz_to);
+      usimDrawPoint(usim_vec_to, 2, usim_xyz_to, 0);
     }
   }
 }

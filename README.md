@@ -106,6 +106,8 @@ Execute the setup script **../SETUP/USIM_TEST_SETUP.sql** with user USIM_TEST.
 
 ### Application
 Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
+<img width="1241" alt="image" src="https://github.com/AlterMannomann/SQL/assets/100498474/a82d00bc-b38a-4db4-8855-89d3eb55c707">
+
 
 ### Adjusting the defaults
 You may adjust **USIM_PROCESS.PLACE_START_NODE** to define and create the defaults for base data and seed universe. You may also create base data and seed universe before using the USIM_DBIF.INIT_BASEDATA and USIM_CREATOR.CREATE_NEW_UNIVERSE functions.

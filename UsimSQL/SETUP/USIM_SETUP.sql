@@ -1,6 +1,5 @@
 @@../UTIL/SET_DEFAULT_SPOOL.sql
--- start spool
-SPOOL LOG/USIM_SETUP.log
+-- no spool file if started from server
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 
@@ -25,7 +24,3 @@ SELECT CASE
 @@USIM_MODEL.sql
 -- check state of database
 @@../UTIL/VERIFY_SYSTEM.sql
--- setup some basic data
-@@../UTIL/START_SETUP.sql
-
-SPOOL OFF

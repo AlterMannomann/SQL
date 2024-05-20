@@ -1,5 +1,7 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_SPO_XYZ_V (xyzv)
-CREATE OR REPLACE VIEW usim_spo_xyz_v AS
+CREATE OR REPLACE VIEW &USIM_SCHEMA..usim_spo_xyz_v AS
   SELECT usim_id_spc
        , usim_process_spin
        , usim_spo.get_dim_coord(usim_id_spc, 1) AS x_coord

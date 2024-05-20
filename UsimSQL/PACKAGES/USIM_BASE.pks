@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_base
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_base
 IS
   /** A package for getting/setting values of USIM_BASEDATA table.
   */
@@ -50,7 +53,7 @@ IS
 
   /**
   * Retrieves the current positive number for underflow situation (too close to zero).
-  * @return The current positive underflow value derived from usim_abs_max_number or NULL if not initialized.
+  * @return The current positive underflow value derived from usim_abs_max_number length, symetric in scientific notation (e.g. 1E+1 / 1E-1) or NULL if not initialized.
   */
   FUNCTION get_max_underflow
     RETURN NUMBER
@@ -58,7 +61,7 @@ IS
 
   /**
   * Retrieves the current negative number for underflow situation (too close to zero).
-  * @return The current negative underflow value derived from usim_abs_max_number or NULL if not initialized.
+  * @return The current negative underflow value derived from usim_abs_max_number length, symetric in scientific notation (e.g. 1E+1 / 1E-1) or NULL if not initialized.
   */
   FUNCTION get_min_underflow
     RETURN NUMBER
@@ -96,7 +99,7 @@ IS
   ;
 
   /**
-  * CHecks if the defined planck time sequence exists.
+  * Checks if the defined planck time sequence exists.
   * @return TRUE if the sequence exists, otherwise FALSE.
   */
   FUNCTION planck_time_seq_exists

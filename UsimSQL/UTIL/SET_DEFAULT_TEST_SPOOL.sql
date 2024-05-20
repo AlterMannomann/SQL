@@ -1,6 +1,6 @@
 -- default settings for spooling log files
-SET ECHO OFF
-SET VERIFY OFF
+SET ECHO ON
+SET VERIFY ON
 SET TRIMSPOOL ON
 SET LINESIZE 9999
 SET PAGESIZE 9999
@@ -17,4 +17,6 @@ CLEAR COLUMNS
 COLUMN SCRIPTFILE NEW_VAL SCRIPTFILE
 -- used for setting log file names to spool
 COLUMN LOGFILE NEW_VAL LOGFILE
+-- used for setting the current schema to work on if sys
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
 

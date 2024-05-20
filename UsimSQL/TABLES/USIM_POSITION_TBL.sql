@@ -1,30 +1,32 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_POSITION (pos)
-CREATE TABLE usim_position
+CREATE TABLE &USIM_SCHEMA..usim_position
   ( usim_id_pos     CHAR(55)      NOT NULL ENABLE
   , usim_coordinate NUMBER        NOT NULL ENABLE
   )
 ;
-COMMENT ON TABLE usim_position IS 'A table holding the possible coordinates for reuse by different universes. Will use the alias pos.';
-COMMENT ON COLUMN usim_position.usim_id_pos IS 'The unique id of the coordinate. Automatically set, update not allowed.';
-COMMENT ON COLUMN usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space. Must be set on insert, update not allowed.';
+COMMENT ON TABLE &USIM_SCHEMA..usim_position IS 'A table holding the possible coordinates for reuse by different universes. Will use the alias pos.';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_position.usim_id_pos IS 'The unique id of the coordinate. Automatically set, update not allowed.';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_position.usim_coordinate IS 'The coordinate value between -max and +max of available number space. Must be set on insert, update not allowed.';
 
 -- pk
-ALTER TABLE usim_position
+ALTER TABLE &USIM_SCHEMA..usim_position
   ADD CONSTRAINT usim_pos_pk
   PRIMARY KEY (usim_id_pos)
   ENABLE
 ;
 
 -- uk
-ALTER TABLE usim_position
+ALTER TABLE &USIM_SCHEMA..usim_position
   ADD CONSTRAINT usim_pos_uk
   UNIQUE (usim_coordinate)
   ENABLE
 ;
 
 -- insert trigger
-CREATE OR REPLACE TRIGGER usim_pos_ins_trg
-  BEFORE INSERT ON usim_position
+CREATE OR REPLACE TRIGGER &USIM_SCHEMA..usim_pos_ins_trg
+  BEFORE INSERT ON &USIM_SCHEMA..usim_position
     FOR EACH ROW
     BEGIN
       -- verify insert value
@@ -39,11 +41,11 @@ CREATE OR REPLACE TRIGGER usim_pos_ins_trg
       :NEW.usim_id_pos := usim_static.get_big_pk(usim_pos_id_seq.NEXTVAL);
     END;
 /
-ALTER TRIGGER usim_pos_ins_trg ENABLE;
+ALTER TRIGGER &USIM_SCHEMA..usim_pos_ins_trg ENABLE;
 
 -- update trigger to prevent updates
-CREATE OR REPLACE TRIGGER usim_pos_upd_trg
-  BEFORE UPDATE ON usim_position
+CREATE OR REPLACE TRIGGER &USIM_SCHEMA..usim_pos_upd_trg
+  BEFORE UPDATE ON &USIM_SCHEMA..usim_position
     FOR EACH ROW
     BEGIN
       RAISE_APPLICATION_ERROR( num => -20001
@@ -52,4 +54,4 @@ CREATE OR REPLACE TRIGGER usim_pos_upd_trg
       ;
     END;
 /
-ALTER TRIGGER usim_pos_upd_trg ENABLE;
+ALTER TRIGGER &USIM_SCHEMA..usim_pos_upd_trg ENABLE;

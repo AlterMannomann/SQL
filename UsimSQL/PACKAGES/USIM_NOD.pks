@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_nod
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_nod
 IS
   /**A low level package for actions on table usim_node and its associated
   * views. Views can be seen as interfaces and dependency. No other package dependencies
@@ -75,3 +78,4 @@ IS
   ;
 
 END usim_nod;
+/

@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE BODY usim_erl
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE BODY &USIM_SCHEMA..usim_erl
 IS
   -- see header for documentation
   PROCEDURE log_error( p_usim_err_object  IN VARCHAR2
@@ -32,3 +35,4 @@ IS
   ;
 
 END usim_erl;
+/

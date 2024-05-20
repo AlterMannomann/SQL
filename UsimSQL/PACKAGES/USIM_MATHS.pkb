@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE BODY usim_maths
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE BODY &USIM_SCHEMA..usim_maths
 IS
   -- see header for documentation
   FUNCTION init_planck_speed( p_planck_length IN NUMBER

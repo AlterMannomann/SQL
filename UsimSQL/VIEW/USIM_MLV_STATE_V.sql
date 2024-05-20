@@ -1,5 +1,7 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_MLV_STATE_V (mlsv)
-CREATE OR REPLACE VIEW usim_mlv_state_v AS
+CREATE OR REPLACE VIEW &USIM_SCHEMA..usim_mlv_state_v AS
     WITH det AS
          (SELECT usim_id_mlv
                , dim_n1_sign
@@ -110,11 +112,11 @@ CREATE OR REPLACE VIEW usim_mlv_state_v AS
     FROM ovr
 ;
 
-COMMENT ON COLUMN usim_mlv_state_v.status_valid IS 'Determines if the current database status is valid. 1 = valid 0 = invalid, -1 = no valid calculation rule found for a related universe';
-COMMENT ON COLUMN usim_mlv_state_v.status_calculated IS 'Calculates the database status by current energy and process data for a related universe, NULL means invalid no rules found to determine state';
-COMMENT ON COLUMN usim_mlv_state_v.energy_total_calc IS 'The total summed up energy of the related universe, may differ slightly from 0 for missing SUM exactness on high decimals';
-COMMENT ON COLUMN usim_mlv_state_v.energy_positive IS 'The energy sum for all dimension axis with n1 sign = +1';
-COMMENT ON COLUMN usim_mlv_state_v.energy_negative IS 'The energy sum for all dimension axis with n1 sign = -1';
-COMMENT ON COLUMN usim_mlv_state_v.energy_base IS 'The energy sum for the base universe node with n1 sign = NULL';
-COMMENT ON COLUMN usim_mlv_state_v.has_process_data IS 'Determines if process data are available. Without process data or no unprocessed data, the universe is inactive';
-COMMENT ON COLUMN usim_mlv_state_v.has_unprocessed IS 'Determines if there are unprocessed data. An active universe should always have some unprocessed data';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.status_valid IS 'Determines if the current database status is valid. 1 = valid 0 = invalid, -1 = no valid calculation rule found for a related universe';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.status_calculated IS 'Calculates the database status by current energy and process data for a related universe, NULL means invalid no rules found to determine state';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.energy_total_calc IS 'The total summed up energy of the related universe, may differ slightly from 0 for missing SUM exactness on high decimals';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.energy_positive IS 'The energy sum for all dimension axis with n1 sign = +1';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.energy_negative IS 'The energy sum for all dimension axis with n1 sign = -1';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.energy_base IS 'The energy sum for the base universe node with n1 sign = NULL';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.has_process_data IS 'Determines if process data are available. Without process data or no unprocessed data, the universe is inactive';
+COMMENT ON COLUMN &USIM_SCHEMA..usim_mlv_state_v.has_unprocessed IS 'Determines if there are unprocessed data. An active universe should always have some unprocessed data';

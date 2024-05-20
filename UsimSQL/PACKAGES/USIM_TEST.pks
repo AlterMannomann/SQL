@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_test
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_test
 IS
   /** Package for test support.
   * No checks are done, parameters must be valid.

@@ -14,4 +14,6 @@ CLEAR COLUMNS
 COLUMN SCRIPTFILE NEW_VAL SCRIPTFILE
 -- used for setting log file names to spool
 COLUMN LOGFILE NEW_VAL LOGFILE
+-- used for setting the current schema to work on if sys
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
 

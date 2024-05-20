@@ -1,5 +1,7 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_CHI_V (chiv)
-CREATE OR REPLACE FORCE VIEW usim_chi_v AS
+CREATE OR REPLACE FORCE VIEW &USIM_SCHEMA..usim_chi_v AS
   SELECT r_parent.usim_n_dimension AS parent_dimension
        , r_parent.dim_sign AS parent_dim_sign
        , r_parent.dim_n1_sign AS parent_dim_n1_sign

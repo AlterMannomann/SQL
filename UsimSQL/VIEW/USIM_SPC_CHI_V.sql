@@ -1,6 +1,8 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_SPC_CHI_V (scv)
 -- guarantees all space id in view with or without childs
-CREATE OR REPLACE VIEW usim_spc_chi_v AS
+CREATE OR REPLACE VIEW &USIM_SCHEMA..usim_spc_chi_v AS
   SELECT spcv.usim_n_dimension AS parent_dimension
        , spcv.dim_sign         AS parent_dim_sign
        , chiv.child_dimension

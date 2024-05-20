@@ -1,6 +1,8 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_SPC_V (spcv)
 -- minimal joining
-CREATE OR REPLACE FORCE VIEW usim_spc_v AS
+CREATE OR REPLACE FORCE VIEW &USIM_SCHEMA..usim_spc_v AS
   SELECT rmd.usim_id_mlv
        , spc.usim_id_spc
        , spc.usim_id_rmd

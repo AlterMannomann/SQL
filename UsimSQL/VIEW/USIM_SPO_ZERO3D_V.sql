@@ -1,5 +1,7 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_SPO_ZERO3D_V (spz3d)
-CREATE OR REPLACE VIEW usim_spo_zero3d_v AS
+CREATE OR REPLACE VIEW &USIM_SCHEMA..usim_spo_zero3d_v AS
     WITH base AS
          (SELECT /*+ MATERIALIZE */
                  usim_spo.get_xyz(chi.usim_id_spc)          AS src_xyz

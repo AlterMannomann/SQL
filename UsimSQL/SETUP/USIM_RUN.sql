@@ -1,0 +1,12 @@
+SET ECHO ON
+SELECT '&1' AS username
+     , '&2' AS scriptname
+  FROM dual
+;
+SHOW con_name
+ALTER SESSION SET CONTAINER = FREEPDB1;
+SELECT username, SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS db_schema FROM dba_users WHERE username = '&1';
+ALTER SESSION SET CURRENT_SCHEMA = &1;
+SHOW con_name
+SELECT user, SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') FROM dual;
+@&2

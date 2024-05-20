@@ -1,6 +1,8 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_RMD_V (rmdv)
 -- minimal joining to get universe basics and dimension for the relation table usim_rel_mlv_dim
-CREATE OR REPLACE FORCE VIEW usim_rmd_v AS
+CREATE OR REPLACE FORCE VIEW &USIM_SCHEMA..usim_rmd_v AS
   SELECT rmd.usim_id_rmd
        , rmd.usim_id_mlv
        , rmd.usim_id_dim

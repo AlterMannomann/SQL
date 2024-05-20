@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_maths
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_maths
 IS
   /** A package for all mathematical calculations in this multiverse which will not use any database access.
   * The universes itself don't care about units, their units are always based on 1, like the planck units. Units like seconds do only

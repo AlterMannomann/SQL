@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_spc
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_spc
 IS
   /**A low level package for actions on table usim_space and its associated
   * views. Views can be seen as interfaces and dependency. No other package dependencies

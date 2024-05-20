@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_creator
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_creator
 IS
   /**A package providing creator function on objects needed */
 

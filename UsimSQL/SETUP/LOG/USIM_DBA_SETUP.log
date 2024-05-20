@@ -1,7 +1,15 @@
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-16.09.2023 19:44:34 XEPDB1                         SYS                            Adi
+20.05.2024 00:26:12 FREEPDB1                       SYS                            Adi
+
+U
+-
+/
+
+USI USIM_HISTORY USIM_S USI
+--- ------------ ------ ---
+/JS /JS/SpaceLog /SETUP /SH
 
 INFO
 -----------------------
@@ -9,15 +17,43 @@ CREATE USIM tablespaces
 
 SCRIPTFILE
 ----------------------------------------------------------------
-USIM_CREATE_TBL_SPC.sql
+../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_LIVE already exists."
+
+INFO
+---------------------------------------------------
+Nothing to do. Tablespace USIM_LIVE already exists.
 
 SCRIPTFILE
 ----------------------------------------------------------------
-USIM_CREATE_TEST_TBL_SPC.sql
+../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_TEST already exists."
+
+INFO
+---------------------------------------------------
+Nothing to do. Tablespace USIM_TEST already exists.
 
 SCRIPTFILE
---------------------------------------------------------------
-USIM_CREATE_DIRECTORIES.sql
+-----------------------------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST already exists."
+
+INFO
+----------------------------------------------------------------------------------
+Nothing to do. Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST already exists.
+
+SCRIPTFILE
+---------------------------------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR already exists."
+
+INFO
+--------------------------------------------------------------------------------------
+Nothing to do. Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR already exists.
+
+SCRIPTFILE
+----------------------------------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Job RUN_SERVER_SQL and program RUN_SQL already exists for live and test."
+
+INFO
+---------------------------------------------------------------------------------------
+Nothing to do. Job RUN_SERVER_SQL and program RUN_SQL already exists for live and test.
 
 INFO
 -----------------
@@ -25,8 +61,16 @@ CREATE USIM users
 
 SCRIPTFILE
 -----------------------------------------------------
-USIM_CREATE_USER.sql
+../UTIL/NOTHING_TO_DO.sql "User USIM already exists."
+
+INFO
+----------------------------------------
+Nothing to do. User USIM already exists.
 
 SCRIPTFILE
 ----------------------------------------------------------
-USIM_CREATE_TESTUSER.sql
+../UTIL/NOTHING_TO_DO.sql "User USIM_TEST already exists."
+
+INFO
+---------------------------------------------
+Nothing to do. User USIM_TEST already exists.

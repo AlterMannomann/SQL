@@ -1,4 +1,6 @@
-CREATE OR REPLACE VIEW usim_spr_v AS
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE VIEW &USIM_SCHEMA..usim_spr_v AS
   SELECT spr.is_processed
        , xyzv_src.xyz_coord         AS src_xyz -- temporary, must have all dimensions
        , xyzv_src.usim_process_spin AS src_spin

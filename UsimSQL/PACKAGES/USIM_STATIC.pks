@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_static
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_static
 IS
   /** A Package containing static values and SQL functions for retrieving this values to be used with the application. Changing values
   * in this package may break the application.

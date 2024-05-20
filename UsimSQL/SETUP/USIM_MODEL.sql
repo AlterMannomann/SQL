@@ -1,3 +1,5 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 SELECT 'Create or recreate USIM objects.' AS info FROM dual;
 --== error logging start ==--
 -- USIM_ERL_TICK_SEQ
@@ -6,9 +8,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_ERL_TICK_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_ERL_TICK_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_ERL_TICK_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_ERROR_LOG (erl)
@@ -17,9 +20,10 @@ SELECT CASE
          THEN '../TABLES/USIM_ERROR_LOG_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_ERROR_LOG still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_ERROR_LOG'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_DLG_ID_SEQ
@@ -28,9 +32,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_DLG_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_DLG_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_DLG_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_DEBUG_LOG (dlg)
@@ -39,9 +44,10 @@ SELECT CASE
          THEN '../TABLES/USIM_DEBUG_LOG_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_DEBUG_LOG still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_DEBUG_LOG'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- error logging package
@@ -65,9 +71,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_MLV_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_MLV_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_MLV_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_PLANCK_TIME_SEQ
@@ -76,9 +83,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_PLANCK_TIME_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_PLANCK_TIME_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_PLANCK_TIME_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_PLANCK_AEON_SEQ
@@ -87,9 +95,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_PLANCK_AEON_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_PLANCK_AEON_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_PLANCK_AEON_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_DIMENSION (dim) sequence
@@ -98,9 +107,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_DIM_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_DIM_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_DIM_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_POSITION (pos) sequence
@@ -109,9 +119,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_POS_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_POS_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_POS_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_NODE (nod) sequence
@@ -120,9 +131,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_NOD_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_NOD_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_NOD_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_REL_MLV_DIM (rmd) sequence
@@ -131,9 +143,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_RMD_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_RMD_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_RMD_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_SPACE (spc)
@@ -142,9 +155,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_SPC_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_SPC_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_SPC_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- USIM_SPC_PROCESS (spr)
@@ -153,9 +167,10 @@ SELECT CASE
          THEN '../SEQUENCES/USIM_SPR_ID_SEQ.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Sequence USIM_SPR_ID_SEQ still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_SPR_ID_SEQ'
    AND object_type = 'SEQUENCE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 --== sequences end ==--
@@ -167,9 +182,10 @@ SELECT CASE
          THEN '../TABLES/USIM_BASEDATA_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_BASEDATA still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_BASEDATA'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- base data package
@@ -184,9 +200,10 @@ SELECT CASE
          THEN '../TABLES/USIM_MULTIVERSE_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_MULTIVERSE still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_MULTIVERSE'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- usim_multiverse package
@@ -198,9 +215,10 @@ SELECT CASE
          THEN '../TABLES/USIM_POSITION_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_POSITION still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_POSITION'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- usim_position package
@@ -212,9 +230,10 @@ SELECT CASE
          THEN '../TABLES/USIM_DIMENSION_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_DIMENSION still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_DIMENSION'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- usim_dimension package
@@ -226,9 +245,10 @@ SELECT CASE
          THEN '../TABLES/USIM_NODE_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_NODE still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_NODE'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- usim_node packages
@@ -243,9 +263,10 @@ SELECT CASE
          THEN '../TABLES/USIM_REL_MLV_DIM_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_REL_MLV_DIM still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_REL_MLV_DIM'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- foreign keys
@@ -262,9 +283,10 @@ SELECT CASE
          THEN '../TABLES/USIM_RMD_CHILD_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_RMD_CHILD still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_RMD_CHILD'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- foreign keys
@@ -277,9 +299,10 @@ SELECT CASE
          THEN '../TABLES/USIM_SPACE_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPACE still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_SPACE'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- foreign keys
@@ -298,9 +321,10 @@ SELECT CASE
          THEN '../TABLES/USIM_SPC_CHILD_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPC_CHILD still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_SPC_CHILD'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- foreign keys
@@ -318,9 +342,10 @@ SELECT CASE
          THEN '../TABLES/USIM_SPC_POS_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPC_POS still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_SPC_POS'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- foreign keys
@@ -342,9 +367,10 @@ SELECT CASE
          THEN '../TABLES/USIM_SPC_PROCESS_TBL.sql'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Table USIM_SPC_PROCESS still exists."'
        END AS SCRIPTFILE
-  FROM user_objects
+  FROM all_objects
  WHERE object_name = 'USIM_SPC_PROCESS'
    AND object_type = 'TABLE'
+   AND owner       = '&USIM_SCHEMA'
 ;
 @@&SCRIPTFILE
 -- foreign keys

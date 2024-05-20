@@ -1,5 +1,7 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_SPACE (spc)
-CREATE TABLE usim_space
+CREATE TABLE &USIM_SCHEMA..usim_space
   ( usim_id_spc       CHAR(55)    NOT NULL ENABLE
   , usim_id_rmd       CHAR(55)    NOT NULL ENABLE
   , usim_id_pos       CHAR(55)    NOT NULL ENABLE
@@ -15,47 +17,47 @@ COMMENT ON COLUMN usim_space.usim_id_nod IS 'The id for the node relation. Must 
 COMMENT ON COLUMN usim_space.usim_process_spin IS 'The direction to emit energy to. 1 is direction childs, -1 direction parents. Nodes in dimension 0 will always have direction childs.';
 
 -- pk
-ALTER TABLE usim_space
+ALTER TABLE &USIM_SCHEMA..usim_space
   ADD CONSTRAINT usim_spc_pk
   PRIMARY KEY (usim_id_spc)
   ENABLE
 ;
 
 -- uk universe/dim/position/node is unique
-ALTER TABLE usim_space
+ALTER TABLE &USIM_SCHEMA..usim_space
   ADD CONSTRAINT usim_spc_uk
   UNIQUE (usim_id_rmd, usim_id_pos, usim_id_nod)
   ENABLE
 ;
 
 -- uk node is unique
-ALTER TABLE usim_space
+ALTER TABLE &USIM_SCHEMA..usim_space
   ADD CONSTRAINT usim_spc_nod_uk
   UNIQUE (usim_id_nod)
   ENABLE
 ;
 
 -- check usim_process_spin
-ALTER TABLE usim_space
+ALTER TABLE &USIM_SCHEMA..usim_space
   ADD CONSTRAINT usim_spc_spin_chk
   CHECK (usim_process_spin IN (-1, 1))
   ENABLE
 ;
 
 -- insert trigger
-CREATE OR REPLACE TRIGGER usim_spc_ins_trg
-  BEFORE INSERT ON usim_space
+CREATE OR REPLACE TRIGGER &USIM_SCHEMA..usim_spc_ins_trg
+  BEFORE INSERT ON &USIM_SCHEMA..usim_space
     FOR EACH ROW
     BEGIN
       -- ignore input on pk
       :NEW.usim_id_spc := usim_static.get_big_pk(usim_spc_id_seq.NEXTVAL);
     END;
 /
-ALTER TRIGGER usim_spc_ins_trg ENABLE;
+ALTER TRIGGER &USIM_SCHEMA..usim_spc_ins_trg ENABLE;
 
 -- update trigger
-CREATE OR REPLACE TRIGGER usim_spc_upd_trg
-  BEFORE UPDATE ON usim_space
+CREATE OR REPLACE TRIGGER &USIM_SCHEMA..usim_spc_upd_trg
+  BEFORE UPDATE ON &USIM_SCHEMA..usim_space
     FOR EACH ROW
     BEGIN
       IF :NEW.usim_process_spin = :OLD.usim_process_spin
@@ -67,4 +69,4 @@ CREATE OR REPLACE TRIGGER usim_spc_upd_trg
       END IF;
     END;
 /
-ALTER TRIGGER usim_spc_upd_trg ENABLE;
+ALTER TRIGGER &USIM_SCHEMA..usim_spc_upd_trg ENABLE;

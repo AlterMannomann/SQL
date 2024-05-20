@@ -1,36 +1,222 @@
+SQL> -- get system information roughly formatted
+SQL> @@../UTIL/SYSTEM_INFO.sql
+SQL> SELECT SYSDATE AS exec_date
+  2       , SUBSTR(SYS_CONTEXT('USERENV', 'DB_NAME'), 1, 30) AS db_name
+  3       , SUBSTR(SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA'), 1, 30) AS db_schema
+  4       , SUBSTR(SYS_CONTEXT('USERENV', 'OS_USER'), 1, 60) AS os_user
+  5    FROM dual
+  6  ;
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-16.09.2023 19:42:44 XEPDB1                         SYS                            Adi
+19.05.2024 21:54:11 FREEPDB1                       SYS                            Adi
+
+1 Zeile ausgewählt.
+
+SQL>
+SQL> -- DROP USERS
+SQL> SELECT 'DROP USIM Users' AS info FROM dual;
 
 INFO
 ---------------
 DROP USIM Users
 
+1 Zeile ausgewählt.
+
+SQL> -- USIM_TEST
+SQL> SELECT CASE
+  2           WHEN COUNT(*) > 0
+  3           THEN 'USIM_DROP_TESTUSER.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "User USIM_TEST does not exist."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_users
+  7   WHERE username = 'USIM_TEST'
+  8  ;
+
 SCRIPTFILE
 ----------------------------------------------------------
-USIM_DROP_TESTUSER.sql
+../UTIL/NOTHING_TO_DO.sql "User USIM_TEST does not exist."
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('User USIM_TEST does not exist.', 'No further information available.')  AS info FROM dual
+
+INFO
+---------------------------------------------
+Nothing to do. User USIM_TEST does not exist.
+
+1 Zeile ausgewählt.
+
+SQL> -- USIM
+SQL> SELECT CASE
+  2           WHEN COUNT(*) > 0
+  3           THEN 'USIM_DROP_USER.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "User USIM does not exist."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_users
+  7   WHERE username = 'USIM'
+  8  ;
 
 SCRIPTFILE
 -----------------------------------------------------
-USIM_DROP_USER.sql
+../UTIL/NOTHING_TO_DO.sql "User USIM does not exist."
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('User USIM does not exist.', 'No further information available.')  AS info FROM dual
+
+INFO
+----------------------------------------
+Nothing to do. User USIM does not exist.
+
+1 Zeile ausgewählt.
+
+SQL> -- DROP TABLESPACES
+SQL> SELECT 'DROP USIM Tablespaces' AS info FROM dual;
 
 INFO
 ---------------------
 DROP USIM Tablespaces
 
+1 Zeile ausgewählt.
+
+SQL> -- USIM_TEST
+SQL> SELECT CASE
+  2           WHEN COUNT(*) > 0
+  3           THEN 'USIM_DROP_TEST_TBL_SPC.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_TEST does not exist."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_tablespaces
+  7   WHERE tablespace_name = 'USIM_TEST'
+  8  ;
+
 SCRIPTFILE
 ----------------------------------------------------------------
 USIM_DROP_TEST_TBL_SPC.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP TABLESPACE usim_test
+  2    INCLUDING CONTENTS AND DATAFILES
+  3    CASCADE CONSTRAINTS
+  4  ;
+
+TABLESPACE USIM_TEST gelöscht.
+
+SQL> -- USIM_LIVE
+SQL> SELECT CASE
+  2           WHEN COUNT(*) > 0
+  3           THEN 'USIM_DROP_TBL_SPC.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_LIVE does not exist."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_tablespaces
+  7   WHERE tablespace_name = 'USIM_LIVE'
+  8  ;
 
 SCRIPTFILE
 ----------------------------------------------------------------
 USIM_DROP_TBL_SPC.sql
 
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP TABLESPACE usim_live
+  2    INCLUDING CONTENTS AND DATAFILES
+  3    CASCADE CONSTRAINTS
+  4  ;
+
+TABLESPACE USIM_LIVE gelöscht.
+
+SQL> -- DROP JOBS AND PROGRAMS
+SQL> SELECT CASE
+  2           WHEN COUNT(*) > 0
+  3           THEN 'USIM_DROP_JOBS.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_LIVE does not exist."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name IN ('RUN_SERVER_SQL', 'RUN_SERVER_SQL_TEST', 'RUN_SQL', 'RUN_SQL_TEST')
+  8     AND owner = USER
+  9  ;
+
 SCRIPTFILE
----------------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR and USIM_HIST_DIR do not exists."
+----------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_LIVE does not exist."
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('Tablespace USIM_LIVE does not exist.', 'No further information available.')  AS info FROM dual
 
 INFO
---------------------------------------------------------------------
-Nothing to do. Directories USIM_DIR and USIM_HIST_DIR do not exists.
+---------------------------------------------------
+Nothing to do. Tablespace USIM_LIVE does not exist.
+
+1 Zeile ausgewählt.
+
+SQL> -- DROP CREDENTIALS
+SQL> SELECT CASE
+  2           WHEN COUNT(*) > 0
+  3           THEN 'USIM_DROP_CREDENTIALS.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST does not exists."'
+  5         END AS SCRIPTNAME
+  6    FROM dba_credentials
+  7   WHERE owner = USER
+  8     AND credential_name IN ('OS_ACCESS', 'DB_ACCESS', 'DB_ACCESS_TEST')
+  9  ;
+
+SCRIPTNAME
+------------------------------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST does not exists."
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('Tablespace USIM_LIVE does not exist.', 'No further information available.')  AS info FROM dual
+
+INFO
+---------------------------------------------------
+Nothing to do. Tablespace USIM_LIVE does not exist.
+
+1 Zeile ausgewählt.
+
+SQL> -- DROP DIRECTORIES
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 3
+  3           THEN 'USIM_DROP_DIRECTORIES.sql'
+  4           WHEN COUNT(*) = 0
+  5           THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists."'
+  6           ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove directories manually before."'
+  7         END AS SCRIPTFILE
+  8    FROM dba_directories
+  9   WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR')
+ 10  ;
+
+SCRIPTFILE
+--------------------------------------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists."
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists.', 'No further information available.')  AS info FROM dual
+
+INFO
+-------------------------------------------------------------------------------------
+Nothing to do. Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists.
+
+1 Zeile ausgewählt.
+
+SQL> SPOOL OFF

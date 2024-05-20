@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE BODY usim_static
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE BODY &USIM_SCHEMA..usim_static
 IS
   -- decription see header
   FUNCTION get_max_childs_per_dimension

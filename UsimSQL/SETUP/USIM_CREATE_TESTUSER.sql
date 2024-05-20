@@ -1,5 +1,4 @@
-ACCEPT PASSW CHAR PROMPT 'Password for user USIM_TEST: '
-CREATE USER usim_test IDENTIFIED BY &PASSW;
+CREATE USER usim_test IDENTIFIED BY &PASS_USIM_TEST;
 
 ALTER USER usim_test
 DEFAULT TABLESPACE usim_test
@@ -16,5 +15,13 @@ GRANT GATHER_SYSTEM_STATISTICS, CONNECT, RESOURCE TO usim_test;
 GRANT CREATE VIEW TO usim_test;
 GRANT ALL ON DIRECTORY usim_dir TO usim_test;
 GRANT ALL ON DIRECTORY usim_hist_dir TO usim_test;
+GRANT ALL ON DIRECTORY usim_script_dir TO usim_test;
 GRANT EXECUTE ON UTL_FILE to usim_test;
 GRANT EXECUTE ON DBMS_LOB to usim_test;
+GRANT MANAGE SCHEDULER TO usim_test;
+GRANT CREATE EXTERNAL JOB TO usim_test;
+GRANT EXECUTE ANY PROGRAM TO usim_test;
+GRANT ALL ON os_access TO usim_test;
+GRANT ALL ON db_access_test TO usim_test;
+GRANT ALL ON run_sql_test TO usim_test;
+GRANT ALL ON run_server_sql_test TO usim_test;

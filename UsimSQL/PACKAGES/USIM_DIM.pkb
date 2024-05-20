@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE BODY usim_dim
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE BODY &USIM_SCHEMA..usim_dim
 IS
   -- see header for documentation
   FUNCTION has_data
@@ -121,7 +124,7 @@ IS
     LOOP
       l_usim_id_dim := usim_dim.insert_dimension(l_dim, p_do_commit);
       IF l_usim_id_dim IS NULL
-      THEN 
+      THEN
         usim_erl.log_error('usim_dim.init_dimensions', 'Error inserting dimension [' || l_dim || '].');
         RETURN 0;
       END IF;

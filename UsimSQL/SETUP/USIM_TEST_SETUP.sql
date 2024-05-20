@@ -1,7 +1,6 @@
 @@../UTIL/SET_DEFAULT_TEST_SPOOL.sql
 --@@../UTIL/SET_EXTENDED_SPOOL.sql
--- start spool
-SPOOL LOG/USIM_TESTING.log
+-- no spool file if started from server
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 
@@ -34,5 +33,3 @@ SELECT CASE
 @@../UTIL/TEST_SUMMARY.sql
 -- setup some basic data
 @@../UTIL/BASIC_TEST_DATA_SETUP.sql
-
-SPOOL OFF

@@ -1,5 +1,7 @@
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
 -- USIM_SPO_V (spov)
-CREATE OR REPLACE FORCE VIEW usim_spo_v AS
+CREATE OR REPLACE FORCE VIEW &USIM_SCHEMA..usim_spo_v AS
   SELECT spo.usim_id_spc
        , spo.usim_id_rmd
        , spo.usim_id_pos

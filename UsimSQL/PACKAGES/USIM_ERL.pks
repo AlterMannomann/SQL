@@ -1,4 +1,7 @@
-CREATE OR REPLACE PACKAGE usim_erl
+-- make object qualified and ensure that script can start standalone
+COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
+SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_erl
 IS
   /**A package for actions on table usim_error_log.*/
 
@@ -19,3 +22,4 @@ IS
   PROCEDURE purge_log;
 
 END usim_erl;
+/

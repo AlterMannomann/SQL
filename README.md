@@ -1,6 +1,9 @@
 **Under Construction - heavy redesign currently**
 Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL and how to make it better than I do. Current state is basically working but still some issues with overflow handling and connecting nodes not on dimension axis. Visualization P5 JS performance fixed but still depends on size of selected universe. Zero display basically works for structure and process.
 
+Started to make application usable with APEX and options to run scripts on server. Using a separate Linux server
+as provided with https://www.oracle.com/database/technologies/databaseappdev-vm.html.
+
 Next work is fixing zero display. Energy exchange between zero nodes seems not fully correct currently. Connection does not stay active. And enable nodes creation not purely on dimension axis, e.g. 3,2,-5.
 # Intention
 This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).

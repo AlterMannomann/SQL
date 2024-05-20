@@ -96,7 +96,7 @@ Removed DOC folder, to get a correct representation of the code base. Anyone may
 
 Sorry for not branching currently. I'm not at this point yet. While designing and creating I noticed that a lot of things didn't work the way I want it to operate. From the point, where I have the feeling it is a more or less stable code base, I will start with branches. So the only way to get to a specific point of the repository is rebasing it to a certain commit. I'm still renaming and restructuring the data model and packages.
 ## Setup
-Development and scripts executed on Oracle XE version 21.0 with SQL Developer version 23.1.0.097.
+Development and scripts executed on Oracle XE version 21.0 with SQL Developer version 23.1.0.097. Also tested with Oracle 23ai Free Devlopement OVA as separate Linux server.
 All setup scripts are in the folder ../SETUP.
 ### Database preparation
 You will need DBA rights to execute the scripts creating users and tablespaces. Big file tablespaces can be adjusted to a higher size, if using full Oracle version, not XE.

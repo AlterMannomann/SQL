@@ -106,6 +106,8 @@ Execute the setup script **../SETUP/USIM_TEST_SETUP.sql** with user USIM_TEST.
 
 ### Application
 Execute the setup script **../SETUP/USIM_SETUP.sql** with user USIM.
+
+You may try to import the workspace. Currently I have no tests made and application is under development.
 <img width="1241" alt="image" src="https://github.com/AlterMannomann/SQL/assets/100498474/a82d00bc-b38a-4db4-8855-89d3eb55c707">
 
 

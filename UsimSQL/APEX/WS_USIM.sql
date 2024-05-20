@@ -36,7 +36,7 @@ prompt  WORKSPACE 3179346209101735
 --   Using Instance Administration / Manage Workspaces
 --   or
 --   Using SQL*Plus as the Oracle user APEX_230200
- 
+
 begin
     wwv_flow_imp.set_security_group_id(p_security_group_id=>3179346209101735);
 end;
@@ -114,10 +114,10 @@ begin
 wwv_flow_fnd_user_api.create_fnd_user (
   p_user_id                      => '3179280856101735',
   p_user_name                    => 'USIM',
-  p_first_name                   => 'Adi',
+  p_first_name                   => '',
   p_last_name                    => '',
   p_description                  => '',
-  p_email_address                => 'adi@angewandte-lebenskunst.ch',
+  p_email_address                => '',
   p_web_password                 => '99051632EF89024BDBA857704605C86FCB0E41B79B0A2B7A55967E5BE2639202FA48EF15AAF91CD0708D5BFE3F279989E19289EE78D90ACCE678E3E1B4F08F14',
   p_web_password_format          => '5;5;10000',
   p_group_ids                    => '',
@@ -138,10 +138,10 @@ begin
 wwv_flow_fnd_user_api.create_fnd_user (
   p_user_id                      => '7167966890955662',
   p_user_name                    => 'USIM_TEST',
-  p_first_name                   => 'Adi',
+  p_first_name                   => '',
   p_last_name                    => 'Tester',
   p_description                  => 'Test Account',
-  p_email_address                => 'adi@angewandte-lebenskunst.ch',
+  p_email_address                => '',
   p_web_password                 => 'E02DC03716F30D84297A862EA6107E058F418F7FB5FCF212BBE66A2887F4E518C996BC9592F477684A515F185E3F7E075144F9C6E327A6E535C16C57730B9F7E',
   p_web_password_format          => '5;5;10000',
   p_group_ids                    => '',
@@ -165,7 +165,7 @@ wwv_flow_fnd_user_api.create_fnd_user (
   p_first_name                   => 'User',
   p_last_name                    => 'USIM_TEST',
   p_description                  => '',
-  p_email_address                => 'adi@angewandte-lebenskunst.ch',
+  p_email_address                => '',
   p_web_password                 => '2192D875C9141113059EB50563560EC318F855EEA9DCBB0A5CAC21A39996803E0786AF8F89CC1D939D2E5221F5C301F5B7F666AD282520657720CE58C39BBCBF',
   p_web_password_format          => '5;5;10000',
   p_group_ids                    => '',
@@ -189,7 +189,7 @@ wwv_flow_fnd_user_api.create_fnd_user (
   p_first_name                   => 'User',
   p_last_name                    => 'USIM',
   p_description                  => '',
-  p_email_address                => 'adi@angewandte-lebenskunst.ch',
+  p_email_address                => '',
   p_web_password                 => '6FE426059F9648081AFAAF09E23F81CE94FB56F76F90CE8D2D89970ADCD491E48AEC8AF70D8C437313DB9DEAC8F12F29A091B5E373C7AFAAD34AE98F7E3AC976',
   p_web_password_format          => '5;5;10000',
   p_group_ids                    => '',
@@ -215,10 +215,10 @@ begin
 wwv_flow_team_api.check_version(p_version_yyyy_mm_dd=>'2010.05.13');
 end;
 /
- 
-begin wwv_flow.g_import_in_progress := true; wwv_flow.g_user := USER; end; 
+
+begin wwv_flow.g_import_in_progress := true; wwv_flow.g_user := USER; end;
 /
- 
+
 --
 prompt ...feedback
 --
@@ -317,9 +317,9 @@ begin
 null;
 end;
 /
- 
+
 prompt ... Extension Links
- 
+
 begin
 wwv_flow_imp.import_end(p_auto_install_sup_obj => nvl(wwv_flow_application_install.get_auto_install_sup_obj, false));
 commit;

@@ -7,9 +7,9 @@ SQL> SELECT SYSDATE AS exec_date
   5    FROM dual
   6  ;
 
-EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
-------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-19.05.2024 21:54:11 FREEPDB1                       SYS                            Adi
+EXEC_DATE DB_NAME                        DB_SCHEMA                      OS_USER
+--------- ------------------------------ ------------------------------ ------------------------------------------------------------
+20-MAY-24 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -35,20 +35,14 @@ SQL> SELECT CASE
 
 SCRIPTFILE
 ----------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "User USIM_TEST does not exist."
+USIM_DROP_TESTUSER.sql
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
-alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
-neu:SELECT 'Nothing to do. ' || NVL('User USIM_TEST does not exist.', 'No further information available.')  AS info FROM dual
+SQL> DROP USER usim_test CASCADE;
 
-INFO
----------------------------------------------
-Nothing to do. User USIM_TEST does not exist.
-
-1 Zeile ausgewählt.
+User USIM_TEST gelöscht.
 
 SQL> -- USIM
 SQL> SELECT CASE
@@ -62,20 +56,14 @@ SQL> SELECT CASE
 
 SCRIPTFILE
 -----------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "User USIM does not exist."
+USIM_DROP_USER.sql
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
-alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
-neu:SELECT 'Nothing to do. ' || NVL('User USIM does not exist.', 'No further information available.')  AS info FROM dual
+SQL> DROP USER usim CASCADE;
 
-INFO
-----------------------------------------
-Nothing to do. User USIM does not exist.
-
-1 Zeile ausgewählt.
+User USIM gelöscht.
 
 SQL> -- DROP TABLESPACES
 SQL> SELECT 'DROP USIM Tablespaces' AS info FROM dual;
@@ -134,6 +122,70 @@ SQL> DROP TABLESPACE usim_live
 
 TABLESPACE USIM_LIVE gelöscht.
 
+SQL> -- DROP PROCEDURES
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 1
+  3           THEN '../PROCEDURES/DROP/DROP_USIM_RUN_SCRIPT.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_SCRIPT procedure does not exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_RUN_SCRIPT'
+  8     AND object_type = 'PROCEDURE'
+  9  ;
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../PROCEDURES/DROP/DROP_USIM_RUN_SCRIPT.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP PROCEDURE usim_run_script;
+
+Procedure USIM_RUN_SCRIPT gelöscht.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 1
+  3           THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE procedure does not exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_RUN_RECREATE'
+  8     AND object_type = 'PROCEDURE'
+  9  ;
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP PROCEDURE usim_run_recreate;
+
+Procedure USIM_RUN_RECREATE gelöscht.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 1
+  3           THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE_TEST.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure does not exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
+  8     AND object_type = 'PROCEDURE'
+  9  ;
+
+SCRIPTFILE
+-----------------------------------------------------------------------------
+../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE_TEST.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP PROCEDURE usim_run_recreate_test;
+
+Procedure USIM_RUN_RECREATE_TEST gelöscht.
+
 SQL> -- DROP JOBS AND PROGRAMS
 SQL> SELECT CASE
   2           WHEN COUNT(*) > 0
@@ -147,49 +199,126 @@ SQL> SELECT CASE
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_LIVE does not exist."
+USIM_DROP_JOBS.sql
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
-alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
-neu:SELECT 'Nothing to do. ' || NVL('Tablespace USIM_LIVE does not exist.', 'No further information available.')  AS info FROM dual
-
-INFO
----------------------------------------------------
-Nothing to do. Tablespace USIM_LIVE does not exist.
-
-1 Zeile ausgewählt.
-
+SQL> -- drop sys jobs for usim
+SQL> DECLARE
+  2    l_result INTEGER;
+  3  BEGIN
+  4    SELECT COUNT(*)
+  5      INTO l_result
+  6      FROM dba_objects
+  7     WHERE object_name = 'RUN_SERVER_SQL'
+  8       AND object_type = 'JOB'
+  9       AND owner = USER
+ 10    ;
+ 11    IF l_result = 1
+ 12    THEN
+ 13      DBMS_SCHEDULER.DROP_JOB('SYS.RUN_SERVER_SQL', TRUE);
+ 14    END IF;
+ 15    SELECT COUNT(*)
+ 16      INTO l_result
+ 17      FROM dba_objects
+ 18     WHERE object_name = 'RUN_SQL'
+ 19       AND object_type = 'PROGRAM'
+ 20       AND owner = USER
+ 21    ;
+ 22    IF l_result = 1
+ 23    THEN
+ 24      DBMS_SCHEDULER.DROP_PROGRAM('SYS.RUN_SQL', TRUE);
+ 25    END IF;
+ 26    SELECT COUNT(*)
+ 27      INTO l_result
+ 28      FROM dba_objects
+ 29     WHERE object_name = 'RUN_SERVER_SQL_TEST'
+ 30       AND object_type = 'JOB'
+ 31       AND owner = USER
+ 32    ;
+ 33    IF l_result = 1
+ 34    THEN
+ 35      DBMS_SCHEDULER.DROP_JOB('SYS.RUN_SERVER_SQL_TEST', TRUE);
+ 36    END IF;
+ 37    SELECT COUNT(*)
+ 38      INTO l_result
+ 39      FROM dba_objects
+ 40     WHERE object_name = 'RUN_SQL_TEST'
+ 41       AND object_type = 'PROGRAM'
+ 42       AND owner = USER
+ 43    ;
+ 44    IF l_result = 1
+ 45    THEN
+ 46      DBMS_SCHEDULER.DROP_PROGRAM('SYS.RUN_SQL_TEST', TRUE);
+ 47    END IF;
+ 48    -- job class also
+ 49    SELECT COUNT(*)
+ 50      INTO l_result
+ 51      FROM dba_scheduler_job_classes
+ 52     WHERE job_class_name = 'USIM_JOBS'
+ 53    ;
+ 54    IF l_result = 1
+ 55    THEN
+ 56      DBMS_SCHEDULER.DROP_JOB_CLASS(job_class_name => 'SYS.USIM_JOBS');
+ 57    END IF;
+ 58  END;
+ 59  /
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 SQL> -- DROP CREDENTIALS
 SQL> SELECT CASE
   2           WHEN COUNT(*) > 0
   3           THEN 'USIM_DROP_CREDENTIALS.sql'
   4           ELSE '../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST does not exists."'
-  5         END AS SCRIPTNAME
+  5         END AS SCRIPTFILE
   6    FROM dba_credentials
   7   WHERE owner = USER
   8     AND credential_name IN ('OS_ACCESS', 'DB_ACCESS', 'DB_ACCESS_TEST')
   9  ;
 
-SCRIPTNAME
+SCRIPTFILE
 ------------------------------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST does not exists."
+USIM_DROP_CREDENTIALS.sql
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
-alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
-neu:SELECT 'Nothing to do. ' || NVL('Tablespace USIM_LIVE does not exist.', 'No further information available.')  AS info FROM dual
-
-INFO
----------------------------------------------------
-Nothing to do. Tablespace USIM_LIVE does not exist.
-
-1 Zeile ausgewählt.
-
+SQL> DECLARE
+  2    l_result INTEGER;
+  3  BEGIN
+  4    SELECT COUNT(*)
+  5      INTO l_result
+  6      FROM dba_credentials
+  7     WHERE owner = USER
+  8       AND credential_name = 'OS_ACCESS'
+  9    ;
+ 10    IF l_result = 1
+ 11    THEN
+ 12      DBMS_CREDENTIAL.DROP_CREDENTIAL('SYS.OS_ACCESS', TRUE);
+ 13    END IF;
+ 14    SELECT COUNT(*)
+ 15      INTO l_result
+ 16      FROM dba_credentials
+ 17     WHERE owner = USER
+ 18       AND credential_name = 'DB_ACCESS'
+ 19    ;
+ 20    IF l_result = 1
+ 21    THEN
+ 22      DBMS_CREDENTIAL.DROP_CREDENTIAL('SYS.DB_ACCESS', TRUE);
+ 23    END IF;
+ 24    SELECT COUNT(*)
+ 25      INTO l_result
+ 26      FROM dba_credentials
+ 27     WHERE owner = USER
+ 28       AND credential_name = 'DB_ACCESS_TEST'
+ 29    ;
+ 30    IF l_result = 1
+ 31    THEN
+ 32      DBMS_CREDENTIAL.DROP_CREDENTIAL('SYS.DB_ACCESS_TEST', TRUE);
+ 33    END IF;
+ 34  END;
+ 35  /
+PL/SQL-Prozedur erfolgreich abgeschlossen.
 SQL> -- DROP DIRECTORIES
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 3
@@ -204,19 +333,22 @@ SQL> SELECT CASE
 
 SCRIPTFILE
 --------------------------------------------------------------------------------------------------
-../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists."
+USIM_DROP_DIRECTORIES.sql
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
-alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
-neu:SELECT 'Nothing to do. ' || NVL('Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists.', 'No further information available.')  AS info FROM dual
+SQL> -- one may fail if not all directories are present
+SQL> DROP DIRECTORY usim_dir;
 
-INFO
--------------------------------------------------------------------------------------
-Nothing to do. Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists.
+Directory USIM_DIR gelöscht.
 
-1 Zeile ausgewählt.
+SQL> DROP DIRECTORY usim_hist_dir;
+
+Directory USIM_HIST_DIR gelöscht.
+
+SQL> DROP DIRECTORY usim_script_dir;
+
+Directory USIM_SCRIPT_DIR gelöscht.
 
 SQL> SPOOL OFF

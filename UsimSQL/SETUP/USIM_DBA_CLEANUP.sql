@@ -50,6 +50,37 @@ SELECT CASE
  WHERE tablespace_name = 'USIM_LIVE'
 ;
 @@&SCRIPTFILE
+-- DROP PROCEDURES
+SELECT CASE
+         WHEN COUNT(*) = 1
+         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_SCRIPT.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_SCRIPT procedure does not exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_SCRIPT'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 1
+         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE procedure does not exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_RECREATE'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 1
+         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE_TEST.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure does not exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
 -- DROP JOBS AND PROGRAMS
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -66,7 +97,7 @@ SELECT CASE
          WHEN COUNT(*) > 0
          THEN 'USIM_DROP_CREDENTIALS.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST does not exists."'
-       END AS SCRIPTNAME
+       END AS SCRIPTFILE
   FROM dba_credentials
  WHERE owner = USER
    AND credential_name IN ('OS_ACCESS', 'DB_ACCESS', 'DB_ACCESS_TEST')

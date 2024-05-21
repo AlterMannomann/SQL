@@ -1,15 +1,48 @@
--- you will need a user with sufficient rights to run this script
-@@../UTIL/SET_DEFAULT_SPOOL.sql
+-- use PDB SYS user to run this script
+/* Run the following script on your install client to get NLS settings
+-- from server and set it for any SYS installs
+SELECT 'Client To Server NLS' AS direction
+     , 'ALTER SESSION SET ' || parameter || ' = ''' || value || ''';' AS statement
+  FROM nls_database_parameters
+ WHERE parameter IN ('NLS_LANGUAGE', 'NLS_TERRITORY', 'NLS_CURRENCY', 'NLS_ISO_CURRENCY', 'NLS_NUMERIC_CHARACTERS', 'NLS_CALENDAR', 'NLS_DATE_FORMAT', 'NLS_DATE_LANGUAGE', 'NLS_SORT', 'NLS_TIME_FORMAT', 'NLS_TIMESTAMP_FORMAT', 'NLS_TIME_TZ_FORMAT', 'NLS_TIMESTAMP_TZ_FORMAT', 'NLS_DUAL_CURRENCY', 'NLS_COMP', 'NLS_LENGTH_SEMANTICS', 'NLS_NCHAR_CONV_EXCP', 'NLS_CHARACTERSET')
+ UNION ALL
+SELECT 'Client Back To Client NLS' AS direction
+     , 'ALTER SESSION SET ' || parameter || ' = ''' || value || ''';' AS statement
+  FROM v$nls_parameters
+ WHERE parameter IN ('NLS_LANGUAGE', 'NLS_TERRITORY', 'NLS_CURRENCY', 'NLS_ISO_CURRENCY', 'NLS_NUMERIC_CHARACTERS', 'NLS_CALENDAR', 'NLS_DATE_FORMAT', 'NLS_DATE_LANGUAGE', 'NLS_SORT', 'NLS_TIME_FORMAT', 'NLS_TIMESTAMP_FORMAT', 'NLS_TIME_TZ_FORMAT', 'NLS_TIMESTAMP_TZ_FORMAT', 'NLS_DUAL_CURRENCY', 'NLS_COMP', 'NLS_LENGTH_SEMANTICS', 'NLS_NCHAR_CONV_EXCP', 'NLS_CHARACTERSET')
+;
+*/
+-- set to server setting hardcoded (settings derived from OVA 23ai Free)
+ALTER SESSION SET NLS_CHARACTERSET = 'AL32UTF8';
+ALTER SESSION SET NLS_NCHAR_CONV_EXCP = 'FALSE';
+ALTER SESSION SET NLS_LENGTH_SEMANTICS = 'BYTE';
+ALTER SESSION SET NLS_COMP = 'BINARY';
+ALTER SESSION SET NLS_DUAL_CURRENCY = '$';
+ALTER SESSION SET NLS_TIMESTAMP_TZ_FORMAT = 'DD-MON-RR HH.MI.SSXFF AM TZR';
+ALTER SESSION SET NLS_TIME_TZ_FORMAT = 'HH.MI.SSXFF AM TZR';
+ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'DD-MON-RR HH.MI.SSXFF AM';
+ALTER SESSION SET NLS_TIME_FORMAT = 'HH.MI.SSXFF AM';
+ALTER SESSION SET NLS_SORT = 'BINARY';
+ALTER SESSION SET NLS_DATE_LANGUAGE = 'AMERICAN';
+ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RR';
+ALTER SESSION SET NLS_CALENDAR = 'GREGORIAN';
+ALTER SESSION SET NLS_NUMERIC_CHARACTERS = '.,';
+ALTER SESSION SET NLS_ISO_CURRENCY = 'AMERICA';
+ALTER SESSION SET NLS_CURRENCY = '$';
+ALTER SESSION SET NLS_TERRITORY = 'AMERICA';
+ALTER SESSION SET NLS_LANGUAGE = 'AMERICAN';
+--@@../UTIL/SET_DEFAULT_SPOOL.sql
+@@../UTIL/SET_EXTENDED_SPOOL.sql
 -- start spool
 SPOOL LOG/USIM_DBA_SETUP.log
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 -- get parameter to use - can be skipped with ok for objects that exist already
-ACCEPT USIM_SCRIPTS CHAR PROMPT 'Main directory for script files (a valid server directory like C:\Users\xxx\Documents\SQL\UsimSQL or /opt/oracle/USIM):'
-ACCEPT USER_OS CHAR PROMPT 'OS username for DB server: '
-ACCEPT PASS_OS CHAR PROMPT 'OS password for DB server: '
-ACCEPT PASS_USIM CHAR PROMPT 'Password for user USIM: '
-ACCEPT PASS_USIM_TEST CHAR PROMPT 'Password for user USIM_TEST: '
+ACCEPT USIM_SCRIPTS CHAR DEFAULT '/opt/oracle/USIM' PROMPT 'Main directory for script files (a valid server directory like C:\Users\xxx\Documents\SQL\UsimSQL or /opt/oracle/USIM - the default):'
+ACCEPT USER_OS CHAR DEFAULT 'oracle' PROMPT 'OS username for DB server (default ORACLE): '
+ACCEPT PASS_OS CHAR DEFAULT 'oracle' PROMPT 'OS password for DB server (default oracle): '
+ACCEPT PASS_USIM CHAR DEFAULT 'usim' PROMPT 'Password for user USIM (default usim): '
+ACCEPT PASS_USIM_TEST CHAR DEFAULT 'usim' PROMPT 'Password for user USIM_TEST (default usim): '
 COLUMN USIM_TERMINATOR NEW_VAL USIM_TERMINATOR
 SELECT CASE
          WHEN INSTR('&USIM_SCRIPTS', ':') > 0
@@ -28,6 +61,20 @@ SELECT '&USIM_SCRIPTS.&USIM_TERMINATOR.JS' AS USIM_DIRECTORY
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.SH' AS USIM_SHELL
   FROM dual
 ;
+COLUMN CONFIG_INFO NEW_VAL CONFIG_INFO
+SELECT 'Current configuration' || CHR(13) || CHR(10) ||
+       'Main directory: &USIM_SCRIPTS' || CHR(13) || CHR(10) ||
+       'Space log directory: &USIM_DIRECTORY' || CHR(13) || CHR(10) ||
+       'History log directory: &USIM_HISTORY' || CHR(13) || CHR(10) ||
+       'Shell script directory: &USIM_SHELL' || CHR(13) || CHR(10) ||
+       'Server user: &USER_OS' || CHR(13) || CHR(10) ||
+       'Server user password: &PASS_OS' || CHR(13) || CHR(10) ||
+       'USIM password: &PASS_USIM' || CHR(13) || CHR(10) ||
+       'USIM_TEST password: &PASS_USIM_TEST' || CHR(13) ||  CHR(10) || CHR(13) || CHR(10) ||
+       'Remark: If you care about security this is the wrong application for you. Press Yes to install or No to cancel.' AS CONFIG_INFO
+  FROM dual
+;
+PAUSE &CONFIG_INFO
 -- CREATE TABLESPACES
 SELECT 'CREATE USIM tablespaces' AS info FROM dual;
 -- USIM_LIVE
@@ -96,6 +143,37 @@ SELECT CASE
          WHERE object_name IN ('RUN_SERVER_SQL', 'RUN_SERVER_SQL_TEST', 'RUN_SQL', 'RUN_SQL_TEST')
            AND owner = USER
        )
+;
+@@&SCRIPTFILE
+-- CREATE PROCEDURES
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../PROCEDURES/USIM_RUN_SCRIPT.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_SCRIPT procedure already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_SCRIPT'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../PROCEDURES/USIM_RUN_RECREATE.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE procedure already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_RECREATE'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../PROCEDURES/USIM_RUN_RECREATE_TEST.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
+   AND object_type = 'PROCEDURE'
 ;
 @@&SCRIPTFILE
 -- CREATE USERS

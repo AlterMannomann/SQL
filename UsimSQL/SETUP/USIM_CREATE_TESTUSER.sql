@@ -25,3 +25,7 @@ GRANT ALL ON os_access TO usim_test;
 GRANT ALL ON db_access_test TO usim_test;
 GRANT ALL ON run_sql_test TO usim_test;
 GRANT ALL ON run_server_sql_test TO usim_test;
+GRANT ALL ON usim_run_recreate_test TO usim_test;
+GRANT ALL ON usim_run_script TO usim_test;
+CREATE SYNONYM usim_test.usim_run_recreate FOR sys.usim_run_recreate_test;
+CREATE SYNONYM usim_test.run_server_sql FOR sys.run_server_sql_test;

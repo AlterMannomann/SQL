@@ -25,7 +25,7 @@ SELECT usim_planck_aeon
   FROM usim_spc_process
  GROUP BY usim_planck_aeon
         , usim_planck_time
-; 
+;
 -- classify check
 SELECT CASE usim_dbif.classify_escape(usim_id_spc)
          WHEN 0 THEN 'FULL'
@@ -84,7 +84,7 @@ SELECT CASE usim_dbif.classify_escape(usim_id_spc)
         , usim_n_dimension
         , ABS(usim_coordinate)
         , usim_dbif.dimension_rating(usim_id_spc)
-;       
+;
 -- inspect processing
 SELECT spr.usim_planck_time
      , spr.is_processed
@@ -131,14 +131,14 @@ SELECT * FROM usim_mlv_state_v;
 
 -- spo testing does not get correct 0 dimension of dimensions between 1 and final dimension
 --     as other dimensions are only connected to dimension 1
-SELECT * 
+SELECT *
   FROM usim_chi_v
  WHERE parent_dimension < child_dimension
    AND parent_id_mlv    = &ID_MLV
   START WITH usim_id_spc_child = &ID_NEW_POS
 CONNECT BY PRIOR usim_id_spc = usim_id_spc_child
 ;
--- if dimension is not in this select, the zero position of the missing 
+-- if dimension is not in this select, the zero position of the missing
 -- dimension must be added with correct rmd, n1_sign equal, dim_sign equal to dim 2 if dim > 2
 -- we got parent axis dim 1 so dim_n1_sign is set, dim_sign depends on the second dim, where 2 dim axis exist
 -- next dim axis are in the quarter of second dim axis and have the same dim sign
@@ -152,7 +152,7 @@ SELECT usim_dbif.get_xyz(usim_id_spc) AS src_xyz, usim_dbif.get_xyz(usim_id_spc_
 SET SERVEROUTPUT ON SIZE UNLIMITED
 DECLARE
   l_return NUMBER;
-BEGIN 
+BEGIN
   usim_erl.purge_log;
   usim_debug.purge_log;
   usim_debug.set_debug_on;
@@ -161,3 +161,36 @@ END;
 /
 SELECT usim_timestamp, SUBSTR(usim_err_object, 1, 50) AS usim_err_object, usim_err_info FROM usim_error_log ORDER BY usim_timestamp, usim_tick;
 SELECT usim_timestamp, SUBSTR(usim_log_object, 1, 50) AS usim_log_object, usim_log_content FROM usim_debug_log ORDER BY usim_timestamp, ROWID;
+
+-- Scheduler information
+SELECT * FROM dba_scheduler_jobs;
+SELECT * FROM dba_scheduler_running_jobs;
+SELECT * FROM dba_scheduler_job_log ORDER BY log_date DESC;
+SELECT * FROM dba_scheduler_job_run_details ORDER BY log_date DESC;
+SELECT * FROM dba_scheduler_notifications;
+CREATE SYNONYM usim_test.run_server_sql FOR sys.run_server_sql_test;
+BEGIN
+  DBMS_SCHEDULER.DROP_JOB_CLASS(job_class_name => 'USIM_JOBS', force => TRUE);
+  DBMS_SCHEDULER.CREATE_JOB_CLASS( job_class_name => 'USIM_JOBS'
+                                 , resource_consumer_group => 'SYS_GROUP'
+                                 , logging_level => DBMS_SCHEDULER.LOGGING_FULL
+                                 )
+  ;
+END;
+/
+-- profile limitations
+select profile from dba_users where username = 'USIM_TEST';
+select resource_name, limit from dba_profiles where profile=
+( select profile from dba_users where username = 'USIM_TEST');
+-- get script to adjust server NLS settings for SYS jobs
+-- run on client to get the statements for system running the DBA setup, e.g. SQL Developer on windows
+SELECT 'Client To Server NLS' AS direction
+     , 'ALTER SESSION SET ' || parameter || ' = ''' || value || ''';' AS statement
+  FROM nls_database_parameters
+ WHERE parameter IN ('NLS_LANGUAGE', 'NLS_TERRITORY', 'NLS_CURRENCY', 'NLS_ISO_CURRENCY', 'NLS_NUMERIC_CHARACTERS', 'NLS_CALENDAR', 'NLS_DATE_FORMAT', 'NLS_DATE_LANGUAGE', 'NLS_SORT', 'NLS_TIME_FORMAT', 'NLS_TIMESTAMP_FORMAT', 'NLS_TIME_TZ_FORMAT', 'NLS_TIMESTAMP_TZ_FORMAT', 'NLS_DUAL_CURRENCY', 'NLS_COMP', 'NLS_LENGTH_SEMANTICS', 'NLS_NCHAR_CONV_EXCP', 'NLS_CHARACTERSET')
+ UNION ALL
+SELECT 'Client Back To Client NLS' AS direction
+     , 'ALTER SESSION SET ' || parameter || ' = ''' || value || ''';' AS statement
+  FROM v$nls_parameters
+ WHERE parameter IN ('NLS_LANGUAGE', 'NLS_TERRITORY', 'NLS_CURRENCY', 'NLS_ISO_CURRENCY', 'NLS_NUMERIC_CHARACTERS', 'NLS_CALENDAR', 'NLS_DATE_FORMAT', 'NLS_DATE_LANGUAGE', 'NLS_SORT', 'NLS_TIME_FORMAT', 'NLS_TIMESTAMP_FORMAT', 'NLS_TIME_TZ_FORMAT', 'NLS_TIMESTAMP_TZ_FORMAT', 'NLS_DUAL_CURRENCY', 'NLS_COMP', 'NLS_LENGTH_SEMANTICS', 'NLS_NCHAR_CONV_EXCP', 'NLS_CHARACTERSET')
+;

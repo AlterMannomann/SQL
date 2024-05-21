@@ -182,7 +182,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== sequences end ==--
-
 --== foreign keys drop for easy delete start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -353,7 +352,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== foreign keys drop for easy delete end ==--
-
 --== drop views start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -466,7 +464,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== drop views end ==--
-
 --== debug tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -480,7 +477,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== debug tables end ==--
-
 --== debug package start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -505,7 +501,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== debug package end ==--
-
 --== test tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -530,7 +525,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== test tables end ==--
-
 --== test package start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -555,7 +549,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== test package end ==--
-
 --== packages depending on tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -868,7 +861,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== packages depending on tables end ==--
-
 --== base data start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -882,7 +874,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== base data end ==--
-
 --== base tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -940,7 +931,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== base tables end ==--
-
 --== relation tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
@@ -1009,10 +999,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== relation tables end ==--
-
 --== log tables start ==--
 --== log tables end ==--
-
-
 -- empty recycle bin
 PURGE recyclebin;

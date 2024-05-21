@@ -1,6 +1,6 @@
 @@../UTIL/SET_DEFAULT_TEST_SPOOL.sql
 --@@../UTIL/SET_EXTENDED_SPOOL.sql
--- no spool file if started from server
+SPOOL LOG/USIM_TESTING.log
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 
@@ -16,11 +16,9 @@ SELECT CASE
   FROM dual
 ;
 @@&SCRIPTFILE
-
 -- delete model
 @@USIM_DROP.sql
 @@../UTIL/VERIFY_DROP.sql
-
 -- build model
 @@USIM_MODEL.sql
 -- build test model
@@ -33,3 +31,4 @@ SELECT CASE
 @@../UTIL/TEST_SUMMARY.sql
 -- setup some basic data
 @@../UTIL/BASIC_TEST_DATA_SETUP.sql
+SPOOL OFF

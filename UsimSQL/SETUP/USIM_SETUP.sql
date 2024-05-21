@@ -1,8 +1,8 @@
 @@../UTIL/SET_DEFAULT_SPOOL.sql
 -- no spool file if started from server
+SPOOL LOG/USIM_SETUP.log
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
-
 -- Check user
 SELECT 'Check USIM user/schema' AS info FROM dual;
 -- USIM_LIVE
@@ -15,12 +15,11 @@ SELECT CASE
   FROM dual
 ;
 @@&SCRIPTFILE
-
 -- delete model
 @@USIM_DROP.sql
 @@../UTIL/VERIFY_DROP.sql
-
 -- build model
 @@USIM_MODEL.sql
 -- check state of database
 @@../UTIL/VERIFY_SYSTEM.sql
+SPOOL OFF

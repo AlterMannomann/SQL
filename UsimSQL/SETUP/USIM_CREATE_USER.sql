@@ -23,3 +23,6 @@ GRANT ALL ON os_access TO usim;
 GRANT ALL ON db_access TO usim;
 GRANT ALL ON run_sql TO usim;
 GRANT ALL ON run_server_sql TO usim;
+GRANT ALL ON usim_run_recreate TO usim;
+GRANT ALL ON usim_run_script TO usim;
+CREATE SYNONYM usim.usim_run_recreate FOR sys.usim_run_recreate;

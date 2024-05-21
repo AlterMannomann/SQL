@@ -56,14 +56,12 @@ SELECT CASE
 @@../PACKAGES/USIM_DEBUG.pks
 @@../PACKAGES/USIM_DEBUG.pkb
 --== error logging end ==--
-
 --== basic packages start ==--
 @@../PACKAGES/USIM_STATIC.pks
 @@../PACKAGES/USIM_STATIC.pkb
 @@../PACKAGES/USIM_MATHS.pks
 @@../PACKAGES/USIM_MATHS.pkb
 --== basic packages end ==--
-
 --== sequences start ==--
 -- USIM_MULTIVERSE (mlv) sequence
 SELECT CASE
@@ -174,7 +172,6 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 --== sequences end ==--
-
 --== base data start ==--
 -- USIM_BASEDATA (bda)
 SELECT CASE
@@ -191,8 +188,7 @@ SELECT CASE
 -- base data package
 @@../PACKAGES/USIM_BASE.pks
 @@../PACKAGES/USIM_BASE.pkb
---== base data end ==--
-
+--== base data end =
 --== base tables start ==--
 -- USIM_MULTIVERSE (mlv)
 SELECT CASE
@@ -255,7 +251,6 @@ SELECT CASE
 @@../PACKAGES/USIM_NOD.pks
 @@../PACKAGES/USIM_NOD.pkb
 --== base tables end ==--
-
 --== relation tables start ==--
 -- USIM_REL_MLV_DIM (rmd)
 SELECT CASE
@@ -292,7 +287,6 @@ SELECT CASE
 -- foreign keys
 @@../FK/USIM_RCHI_PARENT_FK.sql
 @@../FK/USIM_RCHI_CHILD_FK.sql
-
 -- USIM_SPACE (spc)
 SELECT CASE
          WHEN COUNT(*) = 0
@@ -382,20 +376,16 @@ SELECT CASE
 @@../PACKAGES/USIM_SPR.pks
 @@../PACKAGES/USIM_SPR.pkb
 --== relation tables end ==--
-
 --== other views start ==--
 @@../VIEW/USIM_MLV_STATE_V.sql
 --== other views end ==--
-
 --== interface package start ==--
 @@../PACKAGES/USIM_DBIF.pks
 @@../PACKAGES/USIM_DBIF.pkb
 --== interface package end ==--
-
 --== processing packages start ==--
 @@../PACKAGES/USIM_CREATOR.pks
 @@../PACKAGES/USIM_CREATOR.pkb
 @@../PACKAGES/USIM_PROCESS.pks
 @@../PACKAGES/USIM_PROCESS.pkb
 --== processing packages end ==--
-

@@ -4,11 +4,15 @@
 # parameter 3: db user name
 # if running on a system with other, important, databases find a better solution.
 # change to given directory
+# TAKE CARE on Windows systems, file has to be saved always with LF, not CRLF as it is called from Linux server
 export ORAENV_ASK=NO
 export ORACLE_SID=FREE
 . oraenv
+echo Parameter $1 $2 $3
+echo Current dir: "$(pwd)"
+echo cd to $1
 cd $1
-pwd
-whoami
-echo ${ORACLE_HOME}/bin/sqlplus / AS SYSDBA @USIM_RUN.sql "${3}" "${2}"
+echo Current dir: "$(pwd)"
+echo User: "$(whoami)"
+echo EXECUTE: ${ORACLE_HOME}/bin/sqlplus / AS SYSDBA @USIM_RUN.sql "${3}" "${2}"
 ${ORACLE_HOME}/bin/sqlplus / AS SYSDBA @USIM_RUN.sql "${3}" "${2}"

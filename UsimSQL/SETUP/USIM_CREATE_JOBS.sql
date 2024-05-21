@@ -1,5 +1,10 @@
 -- prebuild programs and jobs to create or recreate the schema DDL
 BEGIN
+  DBMS_SCHEDULER.CREATE_JOB_CLASS( job_class_name => 'USIM_JOBS'
+                                 , resource_consumer_group => 'SYS_GROUP'
+                                 , logging_level => DBMS_SCHEDULER.LOGGING_FULL
+                                 )
+  ;
   DBMS_SCHEDULER.CREATE_PROGRAM( program_name => 'RUN_SQL'
                                , program_type => 'EXTERNAL_SCRIPT'
                                , program_action => '&USIM_SHELL./run_sql.sh'
@@ -30,8 +35,6 @@ BEGIN
                                         )
   ;
   DBMS_SCHEDULER.ENABLE( name => 'RUN_SQL');
-
-
   DBMS_SCHEDULER.CREATE_PROGRAM( program_name => 'RUN_SQL_TEST'
                                , program_type => 'EXTERNAL_SCRIPT'
                                , program_action => '&USIM_SHELL./run_sql.sh'
@@ -68,6 +71,7 @@ BEGIN
                            , repeat_interval => NULL
                            , end_date => NULL
                            , enabled => FALSE
+                           , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
                            , comments => 'Runs sql scripts on the server'
                            , credential_name => 'OS_ACCESS'
@@ -95,12 +99,13 @@ BEGIN
                            , repeat_interval => NULL
                            , end_date => NULL
                            , enabled => FALSE
+                           , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
                            , comments => 'Runs sql scripts on the server'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
-                           );
-
+                           )
+  ;
   DBMS_SCHEDULER.SET_ATTRIBUTE( name => 'RUN_SERVER_SQL_TEST'
                               , attribute => 'store_output'
                               , value => TRUE

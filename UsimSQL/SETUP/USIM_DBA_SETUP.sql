@@ -1,6 +1,5 @@
 -- use PDB SYS user to run this script
 -- check setting equal to server and ask if to continue due to NLS from session is NLS from client not from server.
--- TO BE DONE
 COLUMN CONFIG_INFO NEW_VAL CONFIG_INFO
 SELECT 'NLS settings for ' || LISTAGG(srv.parameter, ', ') || ' do not match. Jobs will have different NLS settings.' AS CONFIG_INFO
   FROM nls_database_parameters srv

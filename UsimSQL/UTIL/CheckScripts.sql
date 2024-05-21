@@ -194,3 +194,18 @@ SELECT 'Client Back To Client NLS' AS direction
   FROM v$nls_parameters
  WHERE parameter IN ('NLS_LANGUAGE', 'NLS_TERRITORY', 'NLS_CURRENCY', 'NLS_ISO_CURRENCY', 'NLS_NUMERIC_CHARACTERS', 'NLS_CALENDAR', 'NLS_DATE_FORMAT', 'NLS_DATE_LANGUAGE', 'NLS_SORT', 'NLS_TIME_FORMAT', 'NLS_TIMESTAMP_FORMAT', 'NLS_TIME_TZ_FORMAT', 'NLS_TIMESTAMP_TZ_FORMAT', 'NLS_DUAL_CURRENCY', 'NLS_COMP', 'NLS_LENGTH_SEMANTICS', 'NLS_NCHAR_CONV_EXCP', 'NLS_CHARACTERSET')
 ;
+-- NLS equal to server
+SELECT srv.parameter
+     , srv.value
+     , cli.value
+  FROM nls_database_parameters srv
+  LEFT OUTER JOIN v$nls_parameters cli
+    ON srv.parameter = cli.parameter
+-- WHERE srv.value != cli.value
+;
+SELECT 'NLS settings for ' || LISTAGG(srv.parameter, ', ') || ' do not match. Jobs will have different NLS settings.' AS info
+  FROM nls_database_parameters srv
+  LEFT OUTER JOIN v$nls_parameters cli
+    ON srv.parameter = cli.parameter
+ WHERE srv.value != cli.value
+;

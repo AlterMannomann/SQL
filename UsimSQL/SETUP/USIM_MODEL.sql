@@ -389,3 +389,7 @@ SELECT CASE
 @@../PACKAGES/USIM_PROCESS.pks
 @@../PACKAGES/USIM_PROCESS.pkb
 --== processing packages end ==--
+--== APEX package start ==--
+@@../PACKAGES/USIM_APEX.pks
+@@../PACKAGES/USIM_APEX.pkb
+--== APEX package end ==--

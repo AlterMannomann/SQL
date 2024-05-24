@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-21.05.2024 00:53:53 FREEPDB1                       SYS                            Adi
+24.05.2024 16:35:43 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -355,7 +355,7 @@ SQL> BEGIN
   9                                 , program_action => '&USIM_SHELL./run_sql.sh'
  10                                 , number_of_arguments => 3
  11                                 , enabled => FALSE
- 12                                 , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+ 12                                 , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM'
  13                                 )
  14    ;
  15    DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL'
@@ -385,7 +385,7 @@ SQL> BEGIN
  39                                 , program_action => '&USIM_SHELL./run_sql.sh'
  40                                 , number_of_arguments => 3
  41                                 , enabled => FALSE
- 42                                 , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+ 42                                 , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM_TEST'
  43                                 )
  44    ;
  45    DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL_TEST'
@@ -418,7 +418,7 @@ SQL> BEGIN
  72                             , enabled => FALSE
  73                             , job_class => 'USIM_JOBS'
  74                             , auto_drop => FALSE
- 75                             , comments => 'Runs sql scripts on the server'
+ 75                             , comments => 'Runs sql scripts on the server for USIM'
  76                             , credential_name => 'OS_ACCESS'
  77                             , job_style => 'REGULAR'
  78                             );
@@ -446,7 +446,7 @@ SQL> BEGIN
 100                             , enabled => FALSE
 101                             , job_class => 'USIM_JOBS'
 102                             , auto_drop => FALSE
-103                             , comments => 'Runs sql scripts on the server'
+103                             , comments => 'Runs sql scripts on the server for USIM_TEST'
 104                             , credential_name => 'OS_ACCESS'
 105                             , job_style => 'REGULAR'
 106                             )
@@ -480,7 +480,7 @@ alt:BEGIN
                                , program_action => '&USIM_SHELL./run_sql.sh'
                                , number_of_arguments => 3
                                , enabled => FALSE
-                               , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+                               , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM'
                                )
   ;
   DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL'
@@ -510,7 +510,7 @@ alt:BEGIN
                                , program_action => '&USIM_SHELL./run_sql.sh'
                                , number_of_arguments => 3
                                , enabled => FALSE
-                               , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+                               , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM_TEST'
                                )
   ;
   DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL_TEST'
@@ -543,7 +543,7 @@ alt:BEGIN
                            , enabled => FALSE
                            , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
-                           , comments => 'Runs sql scripts on the server'
+                           , comments => 'Runs sql scripts on the server for USIM'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
                            );
@@ -571,7 +571,7 @@ alt:BEGIN
                            , enabled => FALSE
                            , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
-                           , comments => 'Runs sql scripts on the server'
+                           , comments => 'Runs sql scripts on the server for USIM_TEST'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
                            )
@@ -605,7 +605,7 @@ neu:BEGIN
                                , program_action => '/opt/oracle/USIM/SH/run_sql.sh'
                                , number_of_arguments => 3
                                , enabled => FALSE
-                               , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+                               , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM'
                                )
   ;
   DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL'
@@ -635,7 +635,7 @@ neu:BEGIN
                                , program_action => '/opt/oracle/USIM/SH/run_sql.sh'
                                , number_of_arguments => 3
                                , enabled => FALSE
-                               , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+                               , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM_TEST'
                                )
   ;
   DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL_TEST'
@@ -668,7 +668,7 @@ neu:BEGIN
                            , enabled => FALSE
                            , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
-                           , comments => 'Runs sql scripts on the server'
+                           , comments => 'Runs sql scripts on the server for USIM'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
                            );
@@ -696,7 +696,7 @@ neu:BEGIN
                            , enabled => FALSE
                            , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
-                           , comments => 'Runs sql scripts on the server'
+                           , comments => 'Runs sql scripts on the server for USIM_TEST'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
                            )
@@ -794,37 +794,15 @@ SCRIPTFILE
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate(p_timeout IN NUMBER DEFAULT 300)
+SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate
   2  /**
   3  * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
-  4  * @param p_timeout Default is to wait not longer than 5 minutes for job to finish.
-  5  */
-  6  IS
-  7    l_job_runs  INTEGER;
-  8    l_job_end   DATE;
-  9    l_timeout   NUMBER;
- 10  BEGIN
- 11    usim_run_script(p_job_name  => 'RUN_SERVER_SQL');
- 12    IF p_timeout > 0
- 13    THEN
- 14      l_timeout := p_timeout;
- 15    ELSE
- 16      l_timeout := 300;
- 17    END IF;
- 18    l_job_end := SYSDATE + l_timeout/86400;
- 19    WHILE TRUE
- 20    LOOP
- 21      SELECT COUNT(*)
- 22        INTO l_job_runs
- 23        FROM all_scheduler_running_jobs
- 24        WHERE job_name = 'RUN_SERVER_SQL'
- 25      ;
- 26      EXIT WHEN l_job_runs = 0 OR SYSDATE > l_job_end;
- 27      -- wait 10 seconds to next check
- 28      DBMS_SESSION.SLEEP(seconds  => 10);
- 29    END LOOP;
- 30  END;
- 31  /
+  4  */
+  5  IS
+  6  BEGIN
+  7    usim_run_script(p_job_name  => 'RUN_SERVER_SQL');
+  8  END;
+  9  /
 
 Procedure USIM_RUN_RECREATE kompiliert
 
@@ -845,39 +823,109 @@ SCRIPTFILE
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate_test(p_timeout IN NUMBER DEFAULT 300)
+SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate_test
   2  /**
   3  * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
-  4  * @param p_timeout Default is to wait not longer than 5 minutes for job to finish.
-  5  */
-  6  IS
-  7    l_job_runs  INTEGER;
-  8    l_job_end   DATE;
-  9    l_timeout   NUMBER;
- 10  BEGIN
- 11    usim_run_script(p_job_name  => 'RUN_SERVER_SQL_TEST');
- 12    IF p_timeout > 0
- 13    THEN
- 14      l_timeout := p_timeout;
- 15    ELSE
- 16      l_timeout := 300;
- 17    END IF;
- 18    l_job_end := SYSDATE + l_timeout/86400;
- 19    WHILE TRUE
- 20    LOOP
- 21      SELECT COUNT(*)
- 22        INTO l_job_runs
- 23        FROM all_scheduler_running_jobs
- 24        WHERE job_name = 'RUN_SERVER_SQL_TEST'
- 25      ;
- 26      EXIT WHEN l_job_runs = 0 OR SYSDATE > l_job_end;
- 27      -- wait 10 seconds to next check
- 28      DBMS_SESSION.SLEEP(seconds  => 10);
- 29    END LOOP;
- 30  END;
- 31  /
+  4  */
+  5  IS
+  6  BEGIN
+  7    usim_run_script(p_job_name  => 'RUN_SERVER_SQL_TEST');
+  8  END;
+  9  /
 
 Procedure USIM_RUN_RECREATE_TEST kompiliert
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 0
+  3           THEN '../PROCEDURES/USIM_RUN_TEST.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure already exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_RUN_TEST'
+  8     AND object_type = 'PROCEDURE'
+  9  ;
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../PROCEDURES/USIM_RUN_TEST.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> CREATE OR REPLACE PROCEDURE usim_run_test
+  2  /**
+  3  * Wrapper for USIM_RUN_SCRIPT to run test script for USIM_TEST main user.
+  4  */
+  5  IS
+  6    l_path VARCHAR2(4000);
+  7  BEGIN
+  8    SELECT directory_path || delimiter || 'TESTING' AS test_path
+  9      INTO l_path
+ 10      FROM (SELECT directory_path
+ 11                 , CASE
+ 12                     WHEN INSTR(directory_path, ':')
+ 13                     THEN '\'
+ 14                     ELSE '/'
+ 15                   END AS delimiter
+ 16              FROM dba_directories
+ 17             WHERE directory_name = 'USIM_SCRIPT_DIR'
+ 18           )
+ 19    ;
+ 20    usim_run_script( p_job_name  => 'RUN_SERVER_SQL_TEST'
+ 21                   , p_script    => 'USIM_TESTS.sql'
+ 22                   , p_path      => l_path
+ 23                   )
+ 24    ;
+ 25  END;
+ 26  /
+
+Procedure USIM_RUN_TEST kompiliert
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 0
+  3           THEN '../PROCEDURES/USIM_RUN_TESTDATA.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TESTDATA procedure already exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_RUN_TESTDATA'
+  8     AND object_type = 'PROCEDURE'
+  9  ;
+
+SCRIPTFILE
+-----------------------------------------------------------------------
+../PROCEDURES/USIM_RUN_TESTDATA.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> CREATE OR REPLACE PROCEDURE usim_run_testdata
+  2  /**
+  3  * Wrapper for USIM_RUN_SCRIPT to run test script for USIM_TEST main user.
+  4  */
+  5  IS
+  6    l_path VARCHAR2(4000);
+  7  BEGIN
+  8    SELECT directory_path || delimiter || 'TESTING' AS test_path
+  9      INTO l_path
+ 10      FROM (SELECT directory_path
+ 11                 , CASE
+ 12                     WHEN INSTR(directory_path, ':')
+ 13                     THEN '\'
+ 14                     ELSE '/'
+ 15                   END AS delimiter
+ 16              FROM dba_directories
+ 17             WHERE directory_name = 'USIM_SCRIPT_DIR'
+ 18           )
+ 19    ;
+ 20    usim_run_script( p_job_name  => 'RUN_SERVER_SQL_TEST'
+ 21                   , p_script    => 'BASIC_TEST_DATA_SETUP.sql'
+ 22                   , p_path      => l_path
+ 23                   )
+ 24    ;
+ 25  END;
+ 26  /
+
+Procedure USIM_RUN_TESTDATA kompiliert
 
 SQL> -- CREATE USERS
 SQL> SELECT 'CREATE USIM users' AS info FROM dual;
@@ -1106,6 +1154,14 @@ SQL> GRANT ALL ON usim_run_script TO usim_test;
 
 Grant erfolgreich.
 
+SQL> GRANT ALL ON usim_run_test TO usim_test;
+
+Grant erfolgreich.
+
+SQL> GRANT ALL ON usim_run_testdata TO usim_test;
+
+Grant erfolgreich.
+
 SQL> CREATE SYNONYM usim_test.usim_run_recreate FOR sys.usim_run_recreate_test;
 
 Synonym USIM_TEST.USIM_RUN_RECREATE erstellt.
@@ -1113,5 +1169,13 @@ Synonym USIM_TEST.USIM_RUN_RECREATE erstellt.
 SQL> CREATE SYNONYM usim_test.run_server_sql FOR sys.run_server_sql_test;
 
 Synonym USIM_TEST.RUN_SERVER_SQL erstellt.
+
+SQL> CREATE SYNONYM usim_test.usim_run_test FOR sys.usim_run_test;
+
+Synonym USIM_TEST.USIM_RUN_TEST erstellt.
+
+SQL> CREATE SYNONYM usim_test.usim_run_testdata FOR sys.usim_run_testdata;
+
+Synonym USIM_TEST.USIM_RUN_TESTDATA erstellt.
 
 SQL> SPOOL OFF

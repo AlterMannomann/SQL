@@ -209,3 +209,11 @@ SELECT 'NLS settings for ' || LISTAGG(srv.parameter, ', ') || ' do not match. Jo
     ON srv.parameter = cli.parameter
  WHERE srv.value != cli.value
 ;
+-- get base path
+SELECT directory_path
+  FROM dba_directories
+ WHERE directory_name = 'USIM_SCRIPT_DIR'
+;
+-- testing in vscode
+SELECT * FROM all_objects WHERE object_name LIKE 'RUN%' OR object_name LIKE 'USIM%RUN%';
+SELECT * FROM all_scheduler_jobs;

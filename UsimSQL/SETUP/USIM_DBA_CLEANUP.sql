@@ -81,6 +81,26 @@ SELECT CASE
    AND object_type = 'PROCEDURE'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 1
+         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_TEST.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure does not exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_TEST'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 1
+         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_TESTDATA.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TESTDATA procedure does not exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_TESTDATA'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
 -- DROP JOBS AND PROGRAMS
 SELECT CASE
          WHEN COUNT(*) > 0

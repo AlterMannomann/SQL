@@ -160,6 +160,26 @@ SELECT CASE
    AND object_type = 'PROCEDURE'
 ;
 @@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../PROCEDURES/USIM_RUN_TEST.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_TEST'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../PROCEDURES/USIM_RUN_TESTDATA.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TESTDATA procedure already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_RUN_TESTDATA'
+   AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
 -- CREATE USERS
 SELECT 'CREATE USIM users' AS info FROM dual;
 -- USIM

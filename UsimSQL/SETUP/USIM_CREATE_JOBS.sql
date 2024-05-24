@@ -10,7 +10,7 @@ BEGIN
                                , program_action => '&USIM_SHELL./run_sql.sh'
                                , number_of_arguments => 3
                                , enabled => FALSE
-                               , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+                               , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM'
                                )
   ;
   DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL'
@@ -40,7 +40,7 @@ BEGIN
                                , program_action => '&USIM_SHELL./run_sql.sh'
                                , number_of_arguments => 3
                                , enabled => FALSE
-                               , comments => 'Provide program with parameters to run sql script on server in the correct directory'
+                               , comments => 'Provide program with parameters to run sql script on server in the correct directory for USIM_TEST'
                                )
   ;
   DBMS_SCHEDULER.DEFINE_PROGRAM_ARGUMENT( program_name => 'RUN_SQL_TEST'
@@ -73,7 +73,7 @@ BEGIN
                            , enabled => FALSE
                            , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
-                           , comments => 'Runs sql scripts on the server'
+                           , comments => 'Runs sql scripts on the server for USIM'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
                            );
@@ -101,7 +101,7 @@ BEGIN
                            , enabled => FALSE
                            , job_class => 'USIM_JOBS'
                            , auto_drop => FALSE
-                           , comments => 'Runs sql scripts on the server'
+                           , comments => 'Runs sql scripts on the server for USIM_TEST'
                            , credential_name => 'OS_ACCESS'
                            , job_style => 'REGULAR'
                            )

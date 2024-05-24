@@ -25,10 +25,4 @@ SELECT CASE
 @@USIM_TEST_MODEL.sql
 -- check state of database
 @@../UTIL/VERIFY_SYSTEM.sql
--- run tests
-@@../TESTING/USIM_TESTS.sql
--- test summary
-@@../UTIL/TEST_SUMMARY.sql
--- setup some basic data
-@@../UTIL/BASIC_TEST_DATA_SETUP.sql
 SPOOL OFF

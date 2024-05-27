@@ -552,6 +552,28 @@ SELECT CASE
 --== packages depending on tables start ==--
 SELECT CASE
          WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_APEX_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_APEX does not exist."'
+       END AS SCRIPTFILE
+  FROM all_objects
+ WHERE object_name = 'USIM_APEX'
+   AND object_type = 'PACKAGE BODY'
+   AND owner       = '&USIM_SCHEMA'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
+         THEN '../PACKAGES/DROP/DROP_USIM_APEX_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "Package USIM_APEX does not exist."'
+       END AS SCRIPTFILE
+  FROM all_objects
+ WHERE object_name = 'USIM_APEX'
+   AND object_type = 'PACKAGE'
+   AND owner       = '&USIM_SCHEMA'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) > 0
          THEN '../PACKAGES/DROP/DROP_USIM_ERL_PKB.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_ERL does not exist."'
        END AS SCRIPTFILE

@@ -25,4 +25,12 @@ GRANT ALL ON run_sql TO usim;
 GRANT ALL ON run_server_sql TO usim;
 GRANT ALL ON usim_run_recreate TO usim;
 GRANT ALL ON usim_run_script TO usim;
-CREATE SYNONYM usim.usim_run_recreate FOR sys.usim_run_recreate;
+GRANT ALL ON usim_install_state TO usim;
+--COLUMN CUR_DBA NEW_VAL CUR_DBA
+--SELECT USER AS CUR_DBA FROM dual;
+--CREATE SYNONYM usim.usim_run_recreate FOR "&CUR_DBA".usim_run_recreate;
+--CREATE SYNONYM usim.usim_is_installed FOR "&CUR_DBA".usim_is_installed;
+--CREATE SYNONYM usim.usim_is_installed_txt FOR "&CUR_DBA".usim_is_installed_txt;
+--CREATE SYNONYM usim.usim_is_test FOR "&CUR_DBA".usim_is_test;
+--CREATE SYNONYM usim.usim_is_test_txt FOR "&CUR_DBA".usim_is_test_txt;
+--CREATE SYNONYM usim.usim_install_state FOR "&CUR_DBA".usim_install_state;

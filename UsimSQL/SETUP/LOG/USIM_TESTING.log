@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                                                                                                                  DB_SCHEMA                                                                                                                OS_USER
 ------------------- ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-24.05.2024 23:18:48 FREEPDB1                                                                                                                 USIM_TEST                                                                                                                oracle
+27.05.2024 00:28:53 FREEPDB1                                                                                                                 USIM_TEST                                                                                                                oracle
 
 1 row selected.
 
@@ -85,25 +85,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_STATIC_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_STATIC does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Package body USIM_STATIC does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_static;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_static
-new   1: DROP PACKAGE BODY USIM_TEST.usim_static
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -120,25 +115,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_STATIC_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_STATIC does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------------
+Nothing to do. Package header USIM_STATIC does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_static;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_static
-new   1: DROP PACKAGE USIM_TEST.usim_static
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -155,25 +145,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MATHS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_MATHS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_MATHS does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_maths;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_maths
-new   1: DROP PACKAGE BODY USIM_TEST.usim_maths
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -190,25 +175,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MATHS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_MATHS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_MATHS does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_maths;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_maths
-new   1: DROP PACKAGE USIM_TEST.usim_maths
-
-Package dropped.
 
 SQL> --== basic packages end ==--
 SQL> 
@@ -228,26 +208,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_DLG_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_DEBUG_LOG (dlg) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_dlg_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_dlg_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_dlg_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -264,26 +238,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_ERL_TICK_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_ERL_TICK_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_ERL_TICK_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------------
+Nothing to do. Sequence USIM_ERL_TICK_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_ERROR_LOG (erl) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_erl_tick_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_erl_tick_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_erl_tick_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -300,26 +268,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_MLV_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_MLV_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_MLV_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_MULTIVERSE (mlv) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_mlv_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_mlv_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_mlv_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -336,25 +298,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_PLANCK_TIME_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_PLANCK_TIME_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_TIME_SEQ does not exist.
 
 1 row selected.
-
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_planck_time_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_planck_time_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_planck_time_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -371,25 +328,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_PLANCK_AEON_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_PLANCK_AEON_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_AEON_SEQ does not exist.
 
 1 row selected.
-
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_planck_aeon_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_planck_aeon_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_planck_aeon_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -406,26 +358,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_DIM_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_DIM_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DIM_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_DIMENSION (dim) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_dim_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_dim_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_dim_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -442,26 +388,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_TSU_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_TSU_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_TSU_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_TEST_SUMMARY (tsu) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_tsu_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_tsu_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_tsu_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -478,26 +418,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_POS_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_POS_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_POS_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_POSITION (pos) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_pos_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_pos_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_pos_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -514,26 +448,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_NOD_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_NOD_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_NOD_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_NOD_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_NODE (nod) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_nod_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_nod_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_nod_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -550,26 +478,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMD_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_RMD_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_RMD_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_REL_MLV_DIM (rmd) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_rmd_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_rmd_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_rmd_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -586,26 +508,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_SPC_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_SPC_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_SPC_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_SPC_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_DIMENSION (dim) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_spc_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_spc_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_spc_id_seq
-
-Sequence dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -622,26 +538,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_SPR_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_SPR_ID_SEQ does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Sequence USIM_SPR_ID_SEQ does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_SPR_ID_SEQ does not exist.
 
 1 row selected.
-
-SQL> -- USIM_DIMENSION (dim) sequence
-SQL> DROP SEQUENCE &USIM_SCHEMA..usim_spr_id_seq;
-old   1: DROP SEQUENCE &USIM_SCHEMA..usim_spr_id_seq
-new   1: DROP SEQUENCE USIM_TEST.usim_spr_id_seq
-
-Sequence dropped.
 
 SQL> --== sequences end ==--
 SQL> --== foreign keys drop for easy delete start ==--
@@ -661,26 +571,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RMD_MLV_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_MLV_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_RMD_MLV_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMD_MLV_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_rel_mlv_dim DROP CONSTRAINT usim_rmd_mlv_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_rel_mlv_dim DROP CONSTRAINT usim_rmd_mlv_fk
-new   1: ALTER TABLE USIM_TEST.usim_rel_mlv_dim DROP CONSTRAINT usim_rmd_mlv_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -698,26 +602,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_DIM_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_RMD_DIM_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMD_DIM_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_rel_mlv_dim DROP CONSTRAINT usim_rmd_dim_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_rel_mlv_dim DROP CONSTRAINT usim_rmd_dim_fk
-new   1: ALTER TABLE USIM_TEST.usim_rel_mlv_dim DROP CONSTRAINT usim_rmd_dim_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -735,26 +633,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RCHI_PARENT_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RCHI_PARENT_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_RCHI_PARENT_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------------------
+Nothing to do. Foreign key USIM_RCHI_PARENT_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_rmd_child DROP CONSTRAINT usim_rchi_parent_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_rmd_child DROP CONSTRAINT usim_rchi_parent_fk
-new   1: ALTER TABLE USIM_TEST.usim_rmd_child DROP CONSTRAINT usim_rchi_parent_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -772,26 +664,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RCHI_CHILD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RCHI_CHILD_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_RCHI_CHILD_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------------
+Nothing to do. Foreign key USIM_RCHI_CHILD_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_rmd_child DROP CONSTRAINT usim_rchi_child_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_rmd_child DROP CONSTRAINT usim_rchi_child_fk
-new   1: ALTER TABLE USIM_TEST.usim_rmd_child DROP CONSTRAINT usim_rchi_child_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -809,26 +695,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPC_POS_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_POS_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPC_POS_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPC_POS_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_space DROP CONSTRAINT usim_spc_pos_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_space DROP CONSTRAINT usim_spc_pos_fk
-new   1: ALTER TABLE USIM_TEST.usim_space DROP CONSTRAINT usim_spc_pos_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -846,26 +726,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPC_NOD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_NOD_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPC_NOD_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPC_NOD_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_space DROP CONSTRAINT usim_spc_nod_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_space DROP CONSTRAINT usim_spc_nod_fk
-new   1: ALTER TABLE USIM_TEST.usim_space DROP CONSTRAINT usim_spc_nod_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -883,26 +757,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPC_RMD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_RMD_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPC_RMD_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPC_RMD_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_space DROP CONSTRAINT usim_spc_rmd_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_space DROP CONSTRAINT usim_spc_rmd_fk
-new   1: ALTER TABLE USIM_TEST.usim_space DROP CONSTRAINT usim_spc_rmd_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -920,26 +788,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_CHI_PARENT_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_CHI_PARENT_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_CHI_PARENT_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------------
+Nothing to do. Foreign key USIM_CHI_PARENT_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_child DROP CONSTRAINT usim_chi_parent_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_child DROP CONSTRAINT usim_chi_parent_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_child DROP CONSTRAINT usim_chi_parent_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -957,26 +819,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_CHI_CHILD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_CHI_CHILD_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_CHI_CHILD_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------------
+Nothing to do. Foreign key USIM_CHI_CHILD_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_child DROP CONSTRAINT usim_chi_child_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_child DROP CONSTRAINT usim_chi_child_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_child DROP CONSTRAINT usim_chi_child_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -994,26 +850,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPO_SPC_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_SPC_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPO_SPC_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPO_SPC_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_pos DROP CONSTRAINT usim_spo_spc_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_pos DROP CONSTRAINT usim_spo_spc_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_pos DROP CONSTRAINT usim_spo_spc_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1031,26 +881,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPO_RMD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_RMD_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPO_RMD_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPO_RMD_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_pos DROP CONSTRAINT usim_spo_rmd_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_pos DROP CONSTRAINT usim_spo_rmd_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_pos DROP CONSTRAINT usim_spo_rmd_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1068,26 +912,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPO_POS_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_POS_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPO_POS_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPO_POS_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_pos DROP CONSTRAINT usim_spo_pos_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_pos DROP CONSTRAINT usim_spo_pos_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_pos DROP CONSTRAINT usim_spo_pos_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1105,26 +943,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPR_SRC_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPR_SRC_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPR_SRC_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPR_SRC_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_process DROP CONSTRAINT usim_spr_src_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_process DROP CONSTRAINT usim_spr_src_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_process DROP CONSTRAINT usim_spr_src_fk
-
-Table altered.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1142,26 +974,20 @@ new  10:    AND owner            = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPR_TGT_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPR_TGT_FK does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> -- make object qualified and ensure that script can start standalone
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Foreign key USIM_SPR_TGT_FK does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPR_TGT_FK does not exist.
 
 1 row selected.
-
-SQL> ALTER TABLE &USIM_SCHEMA..usim_spc_process DROP CONSTRAINT usim_spr_tgt_fk;
-old   1: ALTER TABLE &USIM_SCHEMA..usim_spc_process DROP CONSTRAINT usim_spr_tgt_fk
-new   1: ALTER TABLE USIM_TEST.usim_spc_process DROP CONSTRAINT usim_spr_tgt_fk
-
-Table altered.
 
 SQL> --== foreign keys drop for easy delete end ==--
 SQL> --== drop views start ==--
@@ -1180,26 +1006,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_RMD_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_RMD_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_RMD_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------
+Nothing to do. View USIM_RMD_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_RMD_V (rmdv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_rmd_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_rmd_v
-new   1: DROP VIEW USIM_TEST.usim_rmd_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1216,26 +1036,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPC_CHI_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPC_CHI_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPC_CHI_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------
+Nothing to do. View USIM_SPC_CHI_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPC_CHI_V (scv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spc_chi_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spc_chi_v
-new   1: DROP VIEW USIM_TEST.usim_spc_chi_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1252,26 +1066,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPC_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPC_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPC_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------
+Nothing to do. View USIM_SPC_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_RRPN_V (rrpnv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spc_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spc_v
-new   1: DROP VIEW USIM_TEST.usim_spc_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1288,26 +1096,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_CHI_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_CHI_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_CHI_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------
+Nothing to do. View USIM_CHI_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_CHI_V (chiv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_chi_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_chi_v
-new   1: DROP VIEW USIM_TEST.usim_chi_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1324,26 +1126,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPO_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------
+Nothing to do. View USIM_SPO_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPO_V (spov)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spo_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spo_v
-new   1: DROP VIEW USIM_TEST.usim_spo_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1360,26 +1156,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_XYZ_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_XYZ_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPO_XYZ_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------
+Nothing to do. View USIM_SPO_XYZ_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPO_XYZ_V (xyzv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spo_xyz_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spo_xyz_v
-new   1: DROP VIEW USIM_TEST.usim_spo_xyz_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1396,26 +1186,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_BASE3D_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_BASE3D_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPO_BASE3D_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. View USIM_SPO_BASE3D_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPO_BASE3D_V (spb3d)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spo_base3d_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spo_base3d_v
-new   1: DROP VIEW USIM_TEST.usim_spo_base3d_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1432,26 +1216,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_ZERO3D_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_ZERO3D_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPO_ZERO3D_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. View USIM_SPO_ZERO3D_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPO_ZERO3D_V (spz3d)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spo_zero3d_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spo_zero3d_v
-new   1: DROP VIEW USIM_TEST.usim_spo_zero3d_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1468,26 +1246,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPR_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPR_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_SPR_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------
+Nothing to do. View USIM_SPR_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPR_V (sprv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_spr_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_spr_v
-new   1: DROP VIEW USIM_TEST.usim_spr_v
-
-View dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1504,26 +1276,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_MLV_STATE_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_MLV_STATE_V does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('View USIM_MLV_STATE_V does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. View USIM_MLV_STATE_V does not exist.
 
 1 row selected.
-
-SQL> -- USIM_MLV_STATE_V (mlsv)
-SQL> DROP VIEW &USIM_SCHEMA..usim_mlv_state_v;
-old   1: DROP VIEW &USIM_SCHEMA..usim_mlv_state_v
-new   1: DROP VIEW USIM_TEST.usim_mlv_state_v
-
-View dropped.
 
 SQL> --== drop views end ==--
 SQL> --== debug tables start ==--
@@ -1542,25 +1308,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_DEBUG_LOG_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_DEBUG_LOG does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DEBUG_LOG does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_debug_log PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_debug_log PURGE
-new   1: DROP TABLE USIM_TEST.usim_debug_log PURGE
-
-Table dropped.
 
 SQL> --== debug tables end ==--
 SQL> --== debug package start ==--
@@ -1579,25 +1340,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DEBUG_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DEBUG does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_DEBUG does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_DEBUG does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_debug;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_debug
-new   1: DROP PACKAGE BODY USIM_TEST.usim_debug
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1614,25 +1370,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DEBUG_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DEBUG does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_DEBUG does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_DEBUG does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_debug;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_debug
-new   1: DROP PACKAGE USIM_TEST.usim_debug
-
-Package dropped.
 
 SQL> --== debug package end ==--
 SQL> --== test tables start ==--
@@ -1651,25 +1402,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_TEST_SUMMARY_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_SUMMARY does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_TEST_SUMMARY does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Table USIM_TEST_SUMMARY does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_test_summary PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_test_summary PURGE
-new   1: DROP TABLE USIM_TEST.usim_test_summary PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1686,25 +1432,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_TEST_ERRORS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_TEST_ERRORS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_TEST_ERRORS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_TEST_ERRORS does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_test_errors PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_test_errors PURGE
-new   1: DROP TABLE USIM_TEST.usim_test_errors PURGE
-
-Table dropped.
 
 SQL> --== test tables end ==--
 SQL> --== test package start ==--
@@ -1723,25 +1464,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_TEST_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_TEST does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_TEST does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_TEST does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_test;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_test
-new   1: DROP PACKAGE BODY USIM_TEST.usim_test
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1758,28 +1494,83 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_TEST_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_TEST does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_TEST does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_TEST does not exist.
 
 1 row selected.
 
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_test;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_test
-new   1: DROP PACKAGE USIM_TEST.usim_test
-
-Package dropped.
-
 SQL> --== test package end ==--
 SQL> --== packages depending on tables start ==--
+SQL> SELECT CASE
+  2  	      WHEN COUNT(*) > 0
+  3  	      THEN '../PACKAGES/DROP/DROP_USIM_APEX_PKB.sql'
+  4  	      ELSE '../UTIL/NOTHING_TO_DO.sql "Package body USIM_APEX does not exist."'
+  5  	    END AS SCRIPTFILE
+  6    FROM all_objects
+  7   WHERE object_name = 'USIM_APEX'
+  8  	AND object_type = 'PACKAGE BODY'
+  9  	AND owner	= '&USIM_SCHEMA'
+ 10  ;
+old   9:    AND owner       = '&USIM_SCHEMA'
+new   9:    AND owner       = 'USIM_TEST'
+
+SCRIPTFILE
+------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_APEX does not exist."
+
+1 row selected.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_APEX does not exist.', 'No further information available.')  AS info FROM dual
+
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_APEX does not exist.
+
+1 row selected.
+
+SQL> SELECT CASE
+  2  	      WHEN COUNT(*) > 0
+  3  	      THEN '../PACKAGES/DROP/DROP_USIM_APEX_PKS.sql'
+  4  	      ELSE '../UTIL/NOTHING_TO_DO.sql "Package USIM_APEX does not exist."'
+  5  	    END AS SCRIPTFILE
+  6    FROM all_objects
+  7   WHERE object_name = 'USIM_APEX'
+  8  	AND object_type = 'PACKAGE'
+  9  	AND owner	= '&USIM_SCHEMA'
+ 10  ;
+old   9:    AND owner       = '&USIM_SCHEMA'
+new   9:    AND owner       = 'USIM_TEST'
+
+SCRIPTFILE
+-------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package USIM_APEX does not exist."
+
+1 row selected.
+
+SQL> @@&SCRIPTFILE
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package USIM_APEX does not exist.', 'No further information available.')  AS info FROM dual
+
+INFO
+------------------------------------------------
+Nothing to do. Package USIM_APEX does not exist.
+
+1 row selected.
+
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
   3  	      THEN '../PACKAGES/DROP/DROP_USIM_ERL_PKB.sql'
@@ -1795,25 +1586,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_ERL_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_ERL does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_ERL does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_ERL does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_erl;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_erl
-new   1: DROP PACKAGE BODY USIM_TEST.usim_erl
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1830,25 +1616,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_ERL_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_ERL does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_ERL does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_ERL does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_erl;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_erl
-new   1: DROP PACKAGE USIM_TEST.usim_erl
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1865,25 +1646,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_BASE_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_BASE does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_BASE does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_BASE does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_base;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_base
-new   1: DROP PACKAGE BODY USIM_TEST.usim_base
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1900,25 +1676,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_BASE does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_BASE does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_BASE does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_base;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_base
-new   1: DROP PACKAGE USIM_TEST.usim_base
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1935,25 +1706,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MLV does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_MLV does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_MLV does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_mlv;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_mlv
-new   1: DROP PACKAGE BODY USIM_TEST.usim_mlv
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -1970,25 +1736,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MLV does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_MLV does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_MLV does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_mlv;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_mlv
-new   1: DROP PACKAGE USIM_TEST.usim_mlv
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2005,25 +1766,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DIM_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DIM does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_DIM does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_DIM does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_dim;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_dim
-new   1: DROP PACKAGE BODY USIM_TEST.usim_dim
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2040,25 +1796,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DIM does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_DIM does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_DIM does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_dim;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_dim
-new   1: DROP PACKAGE USIM_TEST.usim_dim
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2075,25 +1826,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_POS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_POS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_POS does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_pos;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_pos
-new   1: DROP PACKAGE BODY USIM_TEST.usim_pos
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2110,25 +1856,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_POS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_POS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_POS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_POS does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_pos;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_pos
-new   1: DROP PACKAGE USIM_TEST.usim_pos
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2145,25 +1886,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_NOD_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_NOD does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_NOD does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_nod;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_nod
-new   1: DROP PACKAGE BODY USIM_TEST.usim_nod
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2180,25 +1916,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_NOD does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_NOD does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_nod;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_nod
-new   1: DROP PACKAGE USIM_TEST.usim_nod
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2215,25 +1946,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_RMD does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_RMD does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_RMD does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_rmd;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_rmd
-new   1: DROP PACKAGE BODY USIM_TEST.usim_rmd
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2250,25 +1976,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_RMD does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_RMD does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_RMD does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_rmd;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_rmd
-new   1: DROP PACKAGE USIM_TEST.usim_rmd
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2285,25 +2006,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPC_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPC does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_SPC does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_SPC does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_spc;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_spc
-new   1: DROP PACKAGE BODY USIM_TEST.usim_spc
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2320,25 +2036,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPC_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPC does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_SPC does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_SPC does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_spc;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_spc
-new   1: DROP PACKAGE USIM_TEST.usim_spc
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2355,25 +2066,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CHI_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_CHI does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_CHI does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_CHI does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_chi;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_chi
-new   1: DROP PACKAGE BODY USIM_TEST.usim_chi
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2390,25 +2096,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CHI_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_CHI does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_CHI does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_CHI does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_chi;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_chi
-new   1: DROP PACKAGE USIM_TEST.usim_chi
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2425,25 +2126,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPO_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPO does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_SPO does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_SPO does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_spo;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_spo
-new   1: DROP PACKAGE BODY USIM_TEST.usim_spo
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2460,25 +2156,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPO_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPO does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_SPO does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_SPO does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_spo;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_spo
-new   1: DROP PACKAGE USIM_TEST.usim_spo
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2495,25 +2186,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPR_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPR does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_SPR does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_SPR does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_spr;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_spr
-new   1: DROP PACKAGE BODY USIM_TEST.usim_spr
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2530,25 +2216,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPR_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPR does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_SPR does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_SPR does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_spr;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_spr
-new   1: DROP PACKAGE USIM_TEST.usim_spr
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2565,25 +2246,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CREATOR_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_CREATOR does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_CREATOR does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------------
+Nothing to do. Package body USIM_CREATOR does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_creator;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_creator
-new   1: DROP PACKAGE BODY USIM_TEST.usim_creator
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2600,25 +2276,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CREATOR_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_CREATOR does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_CREATOR does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Package header USIM_CREATOR does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_creator;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_creator
-new   1: DROP PACKAGE USIM_TEST.usim_creator
-
-Package dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2635,25 +2306,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_PROCESS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_PROCESS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_PROCESS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------------
+Nothing to do. Package body USIM_PROCESS does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_process;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_process
-new   1: DROP PACKAGE BODY USIM_TEST.usim_process
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2670,25 +2336,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_PROCESS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_PROCESS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_PROCESS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------------
+Nothing to do. Package header USIM_PROCESS does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_process;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_process
-new   1: DROP PACKAGE USIM_TEST.usim_process
-
-Package dropped.
 
 SQL> 
 SQL> 
@@ -2707,25 +2368,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DBIF_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DBIF does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package body USIM_DBIF does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_DBIF does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE BODY &USIM_SCHEMA..usim_dbif;
-old   1: DROP PACKAGE BODY &USIM_SCHEMA..usim_dbif
-new   1: DROP PACKAGE BODY USIM_TEST.usim_dbif
-
-Package body dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2742,25 +2398,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DBIF_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DBIF does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Package header USIM_DBIF does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_DBIF does not exist.
 
 1 row selected.
-
-SQL> DROP PACKAGE &USIM_SCHEMA..usim_dbif;
-old   1: DROP PACKAGE &USIM_SCHEMA..usim_dbif
-new   1: DROP PACKAGE USIM_TEST.usim_dbif
-
-Package dropped.
 
 SQL> --== packages depending on tables end ==--
 SQL> --== base data start ==--
@@ -2779,25 +2430,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_BASEDATA does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_BASEDATA does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------
+Nothing to do. Table USIM_BASEDATA does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_basedata PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_basedata PURGE
-new   1: DROP TABLE USIM_TEST.usim_basedata PURGE
-
-Table dropped.
 
 SQL> --== base data end ==--
 SQL> --== base tables start ==--
@@ -2816,25 +2462,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_ERROR_LOG_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_ERROR_LOG does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_ERROR_LOG does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_ERROR_LOG does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_error_log PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_error_log PURGE
-new   1: DROP TABLE USIM_TEST.usim_error_log PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2851,25 +2492,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_MULTIVERSE does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_MULTIVERSE does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------------
+Nothing to do. Table USIM_MULTIVERSE does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_multiverse PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_multiverse PURGE
-new   1: DROP TABLE USIM_TEST.usim_multiverse PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2886,25 +2522,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DIMENSION does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_DIMENSION does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DIMENSION does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_dimension PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_dimension PURGE
-new   1: DROP TABLE USIM_TEST.usim_dimension PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2921,25 +2552,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_POSITION does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_POSITION does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+--------------------------------------------------
+Nothing to do. Table USIM_POSITION does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_position PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_position PURGE
-new   1: DROP TABLE USIM_TEST.usim_position PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -2956,25 +2582,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 -----------------------------------------------------------
-../TABLES/DROP/DROP_USIM_NODE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_NODE does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_NODE does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+----------------------------------------------
+Nothing to do. Table USIM_NODE does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_node PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_node PURGE
-new   1: DROP TABLE USIM_TEST.usim_node PURGE
-
-Table dropped.
 
 SQL> --== base tables end ==--
 SQL> --== relation tables start ==--
@@ -2993,25 +2614,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_REL_MLV_DIM does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_REL_MLV_DIM does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_rel_mlv_dim PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_rel_mlv_dim PURGE
-new   1: DROP TABLE USIM_TEST.usim_rel_mlv_dim PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -3028,25 +2644,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_RMD_CHILD_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_RMD_CHILD does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_RMD_CHILD does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_RMD_CHILD does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_rmd_child PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_rmd_child PURGE
-new   1: DROP TABLE USIM_TEST.usim_rmd_child PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -3063,25 +2674,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPACE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPACE does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_SPACE does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------
+Nothing to do. Table USIM_SPACE does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_space PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_space PURGE
-new   1: DROP TABLE USIM_TEST.usim_space PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -3098,25 +2704,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_CHILD_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_CHILD does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_SPC_CHILD does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_SPC_CHILD does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_spc_child PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_spc_child PURGE
-new   1: DROP TABLE USIM_TEST.usim_spc_child PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -3133,25 +2734,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 --------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_POS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_POS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_SPC_POS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-------------------------------------------------
+Nothing to do. Table USIM_SPC_POS does not exist.
 
 1 row selected.
-
-SQL> DROP TABLE &USIM_SCHEMA..usim_spc_pos PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_spc_pos PURGE
-new   1: DROP TABLE USIM_TEST.usim_spc_pos PURGE
-
-Table dropped.
 
 SQL> SELECT CASE
   2  	      WHEN COUNT(*) > 0
@@ -3168,26 +2764,20 @@ new   9:    AND owner       = 'USIM_TEST'
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_PROCESS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_PROCESS does not exist."
 
 1 row selected.
 
 SQL> @@&SCRIPTFILE
-SQL> COLUMN USIM_SCHEMA NEW_VAL USIM_SCHEMA
-SQL> SELECT SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS USIM_SCHEMA FROM dual;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+old   1: SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+new   1: SELECT 'Nothing to do. ' || NVL('Table USIM_SPC_PROCESS does not exist.', 'No further information available.')  AS info FROM dual
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM_TEST
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_SPC_PROCESS does not exist.
 
 1 row selected.
-
-SQL> -- USIM_SPC_PROCESS (SPR)
-SQL> DROP TABLE &USIM_SCHEMA..usim_spc_process PURGE;
-old   1: DROP TABLE &USIM_SCHEMA..usim_spc_process PURGE
-new   1: DROP TABLE USIM_TEST.usim_spc_process PURGE
-
-Table dropped.
 
 SQL> --== relation tables end ==--
 SQL> --== log tables start ==--
@@ -3216,7 +2806,7 @@ new   3:  WHERE owner = 'USIM_TEST'
 
 OBJECTS_AFTER_CLEANUP
 ---------------------
-                    6
+                    0
 
 1 row selected.
 
@@ -3230,13 +2820,7 @@ SQL> SELECT object_type
 old   4:  WHERE owner = '&USIM_SCHEMA'
 new   4:  WHERE owner = 'USIM_TEST'
 
-OBJECT_TYPE             OBJECT_CNT
------------------------ ----------
-SYNONYM                          4
-PACKAGE                          1
-PACKAGE BODY                     1
-
-3 rows selected.
+no rows selected
 
 SQL> -- build model
 SQL> @@USIM_MODEL.sql
@@ -19641,10 +19225,4 @@ SQL> SELECT trigger_name AS not_enabled_trigger
 old   5:    AND owner   = '&USIM_SCHEMA'
 new   5:    AND owner   = 'USIM_TEST'
 SQL> SET FEEDBACK ON
-SQL> -- run tests
-SQL> --@@../TESTING/USIM_TESTS.sql
-SQL> -- test summary
-SQL> --@@../UTIL/TEST_SUMMARY.sql
-SQL> -- setup some basic data
-SQL> --@@../UTIL/BASIC_TEST_DATA_SETUP.sql
 SQL> SPOOL OFF

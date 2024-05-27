@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-24.05.2024 16:35:43 FREEPDB1                       SYS                            Adi
+27.05.2024 00:27:03 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -190,6 +190,14 @@ SQL> CREATE TABLESPACE usim_test
 TABLESPACE USIM_TEST erstellt.
 
 SQL> -- CREATE CREDENTIALS
+SQL> SELECT 'CREATE USIM credentials' AS info FROM dual;
+
+INFO
+-----------------------
+CREATE USIM credentials
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
   3           THEN 'USIM_CREATE_CREDENTIALS.sql'
@@ -274,6 +282,14 @@ neu:BEGIN
 END;
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 SQL> -- CREATE DIRECTORY, we expect a proper cleanup, may fail if cleanup failed
+SQL> SELECT 'CREATE USIM directories' AS info FROM dual;
+
+INFO
+-----------------------
+CREATE USIM directories
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
   3           THEN 'USIM_CREATE_DIRECTORIES.sql'
@@ -314,6 +330,14 @@ neu:CREATE OR REPLACE DIRECTORY usim_script_dir AS '/opt/oracle/USIM'
 Directory USIM_SCRIPT_DIR erstellt.
 
 SQL> -- CREATE JOBS, we expect a proper cleanup, may fail if cleanup failed
+SQL> SELECT 'CREATE USIM related jobs' AS info FROM dual;
+
+INFO
+------------------------
+CREATE USIM related jobs
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN NVL(SUM(installed), 0) = 0
   3           THEN 'USIM_CREATE_JOBS.sql'
@@ -720,6 +744,14 @@ neu:BEGIN
 END;
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 SQL> -- CREATE PROCEDURES
+SQL> SELECT 'CREATE USIM related procedures' AS info FROM dual;
+
+INFO
+------------------------------
+CREATE USIM related procedures
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
   3           THEN '../PROCEDURES/USIM_RUN_SCRIPT.sql'
@@ -794,46 +826,88 @@ SCRIPTFILE
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate
-  2  /**
-  3  * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
-  4  */
-  5  IS
-  6  BEGIN
-  7    usim_run_script(p_job_name  => 'RUN_SERVER_SQL');
-  8  END;
-  9  /
+SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate( p_caller   IN VARCHAR2
+  2                                               , p_timeout  IN NUMBER DEFAULT NULL
+  3                                               )
+  4  /**
+  5  * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
+  6  * The finished state is detected by the scheduler log entry. Status can be FAILED or SUCCEEDED. There is an overall
+  7  * timeout of 8 hours, scripts called should not take longer.
+  8  * @param p_caller The schema to use, APEX should submit '#OWNER#' as parameter.
+  9  * @param p_timeout The timeout for waiting to finish job in minutes, if NULL (default) wait until finished.
+ 10  */
+ 11  IS
+ 12    l_job_name        VARCHAR2(128);
+ 13    l_package         VARCHAR2(128);
+ 14    l_startdate       TIMESTAMP;
+ 15    l_enddate         TIMESTAMP;
+ 16    l_is_done         INTEGER;
+ 17    l_is_schema_done  INTEGER;
+ 18    CURSOR cur_done( cp_startdate IN TIMESTAMP
+ 19                   , cp_job_name  IN VARCHAR2
+ 20                   )
+ 21    IS
+ 22      SELECT COUNT(*) AS is_done
+ 23        FROM dba_scheduler_job_log
+ 24       WHERE job_name  = cp_job_name
+ 25         AND operation = 'RUN'
+ 26         AND status   IN ('SUCCEEDED', 'FAILED')
+ 27         AND log_date  > cp_startdate
+ 28    ;
+ 29    -- end of install by last object installed, should be USIM_APEX or USIM_TEST package
+ 30    CURSOR cur_schema_done( cp_owner    IN VARCHAR2
+ 31                          , cp_package  IN VARCHAR2
+ 32                          )
+ 33    IS
+ 34      SELECT COUNT(*)
+ 35        FROM dba_objects
+ 36       WHERE owner        = cp_owner
+ 37         AND object_name  = cp_package
+ 38         AND object_type  = 'PACKAGE BODY'
+ 39    ;
+ 40  BEGIN
+ 41    -- check caller
+ 42    IF p_caller NOT IN ('USIM', 'USIM_TEST')
+ 43    THEN
+ 44      -- do not anything if caller is not USIM or USIM_TEST
+ 45      RETURN;
+ 46    ELSE
+ 47      IF p_caller = 'USIM'
+ 48      THEN
+ 49        l_job_name := 'RUN_SERVER_SQL';
+ 50        l_package  := 'USIM_APEX';
+ 51      ELSE
+ 52        l_job_name := 'RUN_SERVER_SQL_TEST';
+ 53        l_package  := 'USIM_TEST';
+ 54      END IF;
+ 55    END IF;
+ 56    l_startdate := SYSTIMESTAMP;
+ 57    usim_run_script(p_job_name  => l_job_name);
+ 58    -- only positive numbers
+ 59    IF NVL(p_timeout, 0) > 0
+ 60    THEN
+ 61      l_enddate := l_startdate + (INTERVAL '1' MINUTE * p_timeout);
+ 62    ELSE
+ 63      -- overall timeout
+ 64      l_enddate := l_startdate + INTERVAL '8' HOUR;
+ 65    END IF;
+ 66    -- loop until done or timeout
+ 67    LOOP
+ 68      l_is_done := 0;
+ 69      l_is_schema_done := 0;
+ 70      OPEN cur_done(l_startdate, l_job_name);
+ 71      FETCH cur_done INTO l_is_done;
+ 72      CLOSE cur_done;
+ 73      OPEN cur_schema_done(p_caller, l_package);
+ 74      FETCH cur_schema_done INTO l_is_schema_done;
+ 75      CLOSE cur_schema_done;
+ 76      EXIT WHEN (l_is_done > 0 AND l_is_schema_done > 0) OR SYSTIMESTAMP > l_enddate;
+ 77      DBMS_SESSION.SLEEP(5);
+ 78    END LOOP;
+ 79  END;
+ 80  /
 
 Procedure USIM_RUN_RECREATE kompiliert
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../PROCEDURES/USIM_RUN_RECREATE_TEST.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
-  8     AND object_type = 'PROCEDURE'
-  9  ;
-
-SCRIPTFILE
-----------------------------------------------------------------------------
-../PROCEDURES/USIM_RUN_RECREATE_TEST.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate_test
-  2  /**
-  3  * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
-  4  */
-  5  IS
-  6  BEGIN
-  7    usim_run_script(p_job_name  => 'RUN_SERVER_SQL_TEST');
-  8  END;
-  9  /
-
-Procedure USIM_RUN_RECREATE_TEST kompiliert
 
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
@@ -926,6 +1000,225 @@ SQL> CREATE OR REPLACE PROCEDURE usim_run_testdata
  26  /
 
 Procedure USIM_RUN_TESTDATA kompiliert
+
+SQL> -- CREATE VIEWS
+SQL> SELECT 'CREATE USIM related views' AS info FROM dual;
+
+INFO
+-------------------------
+CREATE USIM related views
+
+1 Zeile ausgewählt.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 0
+  3           THEN '../VIEW/USIM_INSTALL_STATE.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_INSTALL_STATE already exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name = 'USIM_INSTALL_STATE'
+  8     AND object_type = 'VIEW'
+  9  ;
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../VIEW/USIM_INSTALL_STATE.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> -- SYS view granted to manage install state situations, needed by DBA setup
+SQL> CREATE OR REPLACE VIEW usim_install_state AS
+  2      WITH lst AS
+  3           (SELECT CASE
+  4                     WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM'
+  5                     -- adjust list if new packages are released
+  6                     THEN 'USIM_ERL,USIM_DEBUG,USIM_STATIC,USIM_MATHS,USIM_BASE,USIM_MLV,USIM_POS,USIM_DIM,USIM_SPR,USIM_DBIF,USIM_CREATOR,USIM_PROCESS,USIM_NOD,USIM_RMD,USIM_SPC,USIM_CHI,USIM_SPO,USIM_APEX'
+  7                     ELSE 'USIM_ERL,USIM_DEBUG,USIM_STATIC,USIM_MATHS,USIM_BASE,USIM_MLV,USIM_POS,USIM_DIM,USIM_SPR,USIM_DBIF,USIM_CREATOR,USIM_PROCESS,USIM_NOD,USIM_RMD,USIM_SPC,USIM_CHI,USIM_SPO,USIM_APEX,USIM_TEST'
+  8                   END AS object_list
+  9                   -- adjust expected count if new packages are released
+ 10                 , CASE
+ 11                     WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM' THEN 36
+ 12                     WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM_TEST' THEN 38
+ 13                     ELSE -1
+ 14                   END AS cnt_expected
+ 15                 , CASE
+ 16                     WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM' THEN 0
+ 17                     WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM_TEST' THEN 1
+ 18                     ELSE -1
+ 19                   END AS is_test_env
+ 20              FROM dual
+ 21           )
+ 22         , obj AS
+ 23           (SELECT COUNT(*) AS cnt_objects
+ 24              FROM all_objects
+ 25              LEFT OUTER JOIN lst ON 1 = 1
+ 26             WHERE owner = SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA')
+ 27               AND INSTR(lst.object_list, all_objects.object_name) > 0
+ 28           )
+ 29         , val AS
+ 30           (SELECT COUNT(CASE WHEN status = 'VALID' THEN 1 END) AS cnt_valid
+ 31                 , COUNT(CASE WHEN status != 'VALID' THEN 1 END) AS cnt_invalid
+ 32              FROM all_objects
+ 33                   -- exclude synonyms from SYS
+ 34             WHERE owner = SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA')
+ 35               AND object_type != 'SYNONYM'
+ 36           )
+ 37    SELECT CASE
+ 38             WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') IN ('USIM', 'USIM_TEST')
+ 39             THEN CASE
+ 40                    WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM'
+ 41                    THEN CASE
+ 42                           WHEN obj.cnt_objects = lst.cnt_expected
+ 43                            AND val.cnt_invalid = 0
+ 44                            AND val.cnt_valid  != 0
+ 45                           THEN 1
+ 46                           WHEN obj.cnt_objects  = lst.cnt_expected
+ 47                            AND val.cnt_invalid != 0
+ 48                            AND val.cnt_valid   != 0
+ 49                           THEN -10
+ 50                           WHEN obj.cnt_objects != lst.cnt_expected
+ 51                            AND val.cnt_invalid != 0
+ 52                            AND val.cnt_valid   != 0
+ 53                           THEN -11
+ 54                           WHEN obj.cnt_objects != lst.cnt_expected
+ 55                            AND val.cnt_invalid  = 0
+ 56                            AND val.cnt_valid   != 0
+ 57                           THEN -12
+ 58                           ELSE 0
+ 59                         END
+ 60                    ELSE CASE
+ 61                           WHEN obj.cnt_objects = lst.cnt_expected
+ 62                            AND val.cnt_invalid = 0
+ 63                            AND val.cnt_valid  != 0
+ 64                           THEN 2
+ 65                           WHEN obj.cnt_objects = lst.cnt_expected
+ 66                            AND val.cnt_invalid != 0
+ 67                            AND val.cnt_valid   != 0
+ 68                           THEN -20
+ 69                           WHEN obj.cnt_objects != lst.cnt_expected
+ 70                            AND val.cnt_invalid != 0
+ 71                            AND val.cnt_valid   != 0
+ 72                           THEN -21
+ 73                           WHEN obj.cnt_objects != lst.cnt_expected
+ 74                            AND val.cnt_invalid  = 0
+ 75                            AND val.cnt_valid   != 0
+ 76                           THEN -22
+ 77                           ELSE 0
+ 78                         END
+ 79                  END
+ 80             ELSE -99
+ 81           END AS status
+ 82         , CASE
+ 83             WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') IN ('USIM', 'USIM_TEST')
+ 84             THEN CASE
+ 85                    WHEN SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') = 'USIM'
+ 86                    THEN CASE
+ 87                           WHEN obj.cnt_objects = lst.cnt_expected
+ 88                            AND val.cnt_invalid = 0
+ 89                            AND val.cnt_valid  != 0
+ 90                           THEN 'USim system installed and valid'
+ 91                           WHEN obj.cnt_objects  = lst.cnt_expected
+ 92                            AND val.cnt_invalid != 0
+ 93                            AND val.cnt_valid   != 0
+ 94                           THEN 'Invalid objects found in USim system, objects complete'
+ 95                           WHEN obj.cnt_objects != lst.cnt_expected
+ 96                            AND val.cnt_invalid != 0
+ 97                            AND val.cnt_valid   != 0
+ 98                           THEN 'Invalid and missing objects found in USim system'
+ 99                           WHEN obj.cnt_objects != lst.cnt_expected
+100                            AND val.cnt_invalid  = 0
+101                            AND val.cnt_valid   != 0
+102                           THEN 'Missing objects found in USim system, all objects valid'
+103                           ELSE 'No USim system installed yet'
+104                         END
+105                    ELSE CASE
+106                           WHEN obj.cnt_objects = lst.cnt_expected
+107                            AND val.cnt_invalid = 0
+108                            AND val.cnt_valid  != 0
+109                           THEN 'USim test system installed and valid'
+110                           WHEN obj.cnt_objects = lst.cnt_expected
+111                            AND val.cnt_invalid != 0
+112                            AND val.cnt_valid   != 0
+113                           THEN 'Invalid objects found in USim test system, objects complete'
+114                           WHEN obj.cnt_objects != lst.cnt_expected
+115                            AND val.cnt_invalid != 0
+116                            AND val.cnt_valid   != 0
+117                           THEN 'Invalid and missing objects found in USim test system'
+118                           WHEN obj.cnt_objects != lst.cnt_expected
+119                            AND val.cnt_invalid  = 0
+120                            AND val.cnt_valid   != 0
+121                           THEN 'Missing objects found in USim test system, all objects valid'
+122                           ELSE 'No USIM test system installed yet'
+123                         END
+124                  END
+125             ELSE 'Not a USim system'
+126           END AS status_txt
+127         , lst.is_test_env
+128         , CASE WHEN lst.is_test_env = 1 THEN 'USim Test Environment' ELSE 'USim Live Environment' END AS is_test_env_txt
+129         , lst.cnt_expected
+130         , obj.cnt_objects
+131         , val.cnt_invalid
+132         , val.cnt_valid
+133         , USER AS view_user
+134         , SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') AS current_schema
+135         , SYS_CONTEXT('USERENV', 'CURRENT_USER') AS current_user
+136         , SYS_CONTEXT('USERENV', 'OS_USER') AS os_user
+137      FROM obj
+138      LEFT OUTER JOIN val ON 1 = 1
+139      LEFT OUTER JOIN lst ON 1 = 1
+140  ;
+
+View USIM_INSTALL_STATE erstellt.
+
+SQL> -- CREATE PUBLIC SYNONYMS
+SQL> SELECT 'CREATE USIM related public synonyms' AS info FROM dual;
+
+INFO
+-----------------------------------
+CREATE USIM related public synonyms
+
+1 Zeile ausgewählt.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 0
+  3           THEN 'USIM_PUBLIC_SYNONYMS.sql'
+  4           WHEN COUNT(*) = 5
+  5           THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms already exists."'
+  6           ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove public synonyms manually before."'
+  7         END AS SCRIPTFILE
+  8    FROM dba_objects
+  9   WHERE owner        = 'PUBLIC'
+ 10     AND object_type  = 'SYNONYM'
+ 11     AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA')
+ 12  ;
+
+SCRIPTFILE
+-------------------------------------------------------------------------------------------
+USIM_PUBLIC_SYNONYMS.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> CREATE PUBLIC SYNONYM usim_install_state FOR usim_install_state;
+
+SYNONYM USIM_INSTALL_STATE erstellt.
+
+SQL> CREATE PUBLIC SYNONYM usim_run_script FOR usim_run_script;
+
+SYNONYM USIM_RUN_SCRIPT erstellt.
+
+SQL> CREATE PUBLIC SYNONYM usim_run_recreate FOR usim_run_recreate;
+
+SYNONYM USIM_RUN_RECREATE erstellt.
+
+SQL> CREATE PUBLIC SYNONYM usim_run_test FOR usim_run_test;
+
+SYNONYM USIM_RUN_TEST erstellt.
+
+SQL> CREATE PUBLIC SYNONYM usim_run_testdata FOR usim_run_testdata;
+
+SYNONYM USIM_RUN_TESTDATA erstellt.
 
 SQL> -- CREATE USERS
 SQL> SELECT 'CREATE USIM users' AS info FROM dual;
@@ -1045,10 +1338,18 @@ SQL> GRANT ALL ON usim_run_script TO usim;
 
 Grant erfolgreich.
 
-SQL> CREATE SYNONYM usim.usim_run_recreate FOR sys.usim_run_recreate;
+SQL> GRANT ALL ON usim_install_state TO usim;
 
-Synonym USIM.USIM_RUN_RECREATE erstellt.
+Grant erfolgreich.
 
+SQL> --COLUMN CUR_DBA NEW_VAL CUR_DBA
+SQL> --SELECT USER AS CUR_DBA FROM dual;
+SQL> --CREATE SYNONYM usim.usim_run_recreate FOR "&CUR_DBA".usim_run_recreate;
+SQL> --CREATE SYNONYM usim.usim_is_installed FOR "&CUR_DBA".usim_is_installed;
+SQL> --CREATE SYNONYM usim.usim_is_installed_txt FOR "&CUR_DBA".usim_is_installed_txt;
+SQL> --CREATE SYNONYM usim.usim_is_test FOR "&CUR_DBA".usim_is_test;
+SQL> --CREATE SYNONYM usim.usim_is_test_txt FOR "&CUR_DBA".usim_is_test_txt;
+SQL> --CREATE SYNONYM usim.usim_install_state FOR "&CUR_DBA".usim_install_state;
 SQL> -- USIM_TEST
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
@@ -1146,7 +1447,7 @@ SQL> GRANT ALL ON run_server_sql_test TO usim_test;
 
 Grant erfolgreich.
 
-SQL> GRANT ALL ON usim_run_recreate_test TO usim_test;
+SQL> GRANT ALL ON usim_run_recreate TO usim_test;
 
 Grant erfolgreich.
 
@@ -1162,20 +1463,12 @@ SQL> GRANT ALL ON usim_run_testdata TO usim_test;
 
 Grant erfolgreich.
 
-SQL> CREATE SYNONYM usim_test.usim_run_recreate FOR sys.usim_run_recreate_test;
+SQL> GRANT ALL ON usim_install_state TO usim_test;
 
-Synonym USIM_TEST.USIM_RUN_RECREATE erstellt.
+Grant erfolgreich.
 
-SQL> CREATE SYNONYM usim_test.run_server_sql FOR sys.run_server_sql_test;
+SQL> SELECT owner, object_name, object_type, status FROM dba_objects WHERE status != 'VALID';
 
-Synonym USIM_TEST.RUN_SERVER_SQL erstellt.
-
-SQL> CREATE SYNONYM usim_test.usim_run_test FOR sys.usim_run_test;
-
-Synonym USIM_TEST.USIM_RUN_TEST erstellt.
-
-SQL> CREATE SYNONYM usim_test.usim_run_testdata FOR sys.usim_run_testdata;
-
-Synonym USIM_TEST.USIM_RUN_TESTDATA erstellt.
+0 Zeilen ausgewählt.
 
 SQL> SPOOL OFF

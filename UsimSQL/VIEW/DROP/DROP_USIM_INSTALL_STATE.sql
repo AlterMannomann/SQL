@@ -1,0 +1,1 @@
+DROP VIEW usim_install_state;

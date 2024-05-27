@@ -9,11 +9,90 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-24.05.2024 16:35:10 FREEPDB1                       SYS                            Adi
+27.05.2024 00:26:36 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
 SQL>
+SQL> -- DROP PUBLIC SYNONYMS
+SQL> SELECT 'DROP USIM related public synonyms' AS info FROM dual;
+
+INFO
+---------------------------------
+DROP USIM related public synonyms
+
+1 Zeile ausgewählt.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 5
+  3           THEN 'DROP_USIM_PUBLIC_SYNONYMS.sql'
+  4           WHEN COUNT(*) = 0
+  5           THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms do not exists."'
+  6           ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Setup failed remove public synonyms manually."'
+  7         END AS SCRIPTFILE
+  8    FROM dba_objects
+  9   WHERE owner        = 'PUBLIC'
+ 10     AND object_type  = 'SYNONYM'
+ 11     AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA')
+ 12  ;
+
+SCRIPTFILE
+----------------------------------------------------------------------------------
+DROP_USIM_PUBLIC_SYNONYMS.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP PUBLIC SYNONYM usim_install_state;
+
+SYNONYM USIM_INSTALL_STATE gelöscht.
+
+SQL> DROP PUBLIC SYNONYM usim_run_script;
+
+SYNONYM USIM_RUN_SCRIPT gelöscht.
+
+SQL> DROP PUBLIC SYNONYM usim_run_recreate;
+
+SYNONYM USIM_RUN_RECREATE gelöscht.
+
+SQL> DROP PUBLIC SYNONYM usim_run_test;
+
+SYNONYM USIM_RUN_TEST gelöscht.
+
+SQL> DROP PUBLIC SYNONYM usim_run_testdata;
+
+SYNONYM USIM_RUN_TESTDATA gelöscht.
+
+SQL> -- DROP VIEWS
+SQL> SELECT 'DROP USIM related views' AS info FROM dual;
+
+INFO
+-----------------------
+DROP USIM related views
+
+1 Zeile ausgewählt.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 1
+  3           THEN '../VIEW/DROP/DROP_USIM_INSTALL_STATE.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_INSTALL_STATE does not exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name = 'USIM_INSTALL_STATE'
+  8     AND object_type = 'VIEW'
+  9  ;
+
+SCRIPTFILE
+--------------------------------------------------------------------
+../VIEW/DROP/DROP_USIM_INSTALL_STATE.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP VIEW usim_install_state;
+
+View USIM_INSTALL_STATE gelöscht.
+
 SQL> -- DROP USERS
 SQL> SELECT 'DROP USIM Users' AS info FROM dual;
 
@@ -123,6 +202,14 @@ SQL> DROP TABLESPACE usim_live
 TABLESPACE USIM_LIVE gelöscht.
 
 SQL> -- DROP PROCEDURES
+SQL> SELECT 'DROP USIM related procedures' AS info FROM dual;
+
+INFO
+----------------------------
+DROP USIM related procedures
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 1
   3           THEN '../PROCEDURES/DROP/DROP_USIM_RUN_SCRIPT.sql'
@@ -167,27 +254,6 @@ Procedure USIM_RUN_RECREATE gelöscht.
 
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 1
-  3           THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE_TEST.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure does not exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
-  8     AND object_type = 'PROCEDURE'
-  9  ;
-
-SCRIPTFILE
------------------------------------------------------------------------------
-../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE_TEST.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> DROP PROCEDURE usim_run_recreate_test;
-
-Procedure USIM_RUN_RECREATE_TEST gelöscht.
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 1
   3           THEN '../PROCEDURES/DROP/DROP_USIM_RUN_TEST.sql'
   4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure does not exists."'
   5         END AS SCRIPTFILE
@@ -229,6 +295,14 @@ SQL> DROP PROCEDURE usim_run_testdata;
 Procedure USIM_RUN_TESTDATA gelöscht.
 
 SQL> -- DROP JOBS AND PROGRAMS
+SQL> SELECT 'DROP USIM related jobs and programs' AS info FROM dual;
+
+INFO
+-----------------------------------
+DROP USIM related jobs and programs
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) > 0
   3           THEN 'USIM_DROP_JOBS.sql'
@@ -308,6 +382,14 @@ SQL> DECLARE
  59  /
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 SQL> -- DROP CREDENTIALS
+SQL> SELECT 'DROP USIM related credentials' AS info FROM dual;
+
+INFO
+-----------------------------
+DROP USIM related credentials
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) > 0
   3           THEN 'USIM_DROP_CREDENTIALS.sql'
@@ -362,6 +444,14 @@ SQL> DECLARE
  35  /
 PL/SQL-Prozedur erfolgreich abgeschlossen.
 SQL> -- DROP DIRECTORIES
+SQL> SELECT 'DROP USIM related directories' AS info FROM dual;
+
+INFO
+-----------------------------
+DROP USIM related directories
+
+1 Zeile ausgewählt.
+
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 3
   3           THEN 'USIM_DROP_DIRECTORIES.sql'
@@ -392,5 +482,9 @@ Directory USIM_HIST_DIR gelöscht.
 SQL> DROP DIRECTORY usim_script_dir;
 
 Directory USIM_SCRIPT_DIR gelöscht.
+
+SQL> SELECT owner, object_name, object_type, status FROM dba_objects WHERE status != 'VALID';
+
+0 Zeilen ausgewählt.
 
 SQL> SPOOL OFF

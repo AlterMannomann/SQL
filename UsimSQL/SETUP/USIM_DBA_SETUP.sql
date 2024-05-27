@@ -82,6 +82,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- CREATE CREDENTIALS
+SELECT 'CREATE USIM credentials' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 0
          THEN 'USIM_CREATE_CREDENTIALS.sql'
@@ -95,6 +96,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- CREATE DIRECTORY, we expect a proper cleanup, may fail if cleanup failed
+SELECT 'CREATE USIM directories' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 0
          THEN 'USIM_CREATE_DIRECTORIES.sql'
@@ -107,6 +109,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- CREATE JOBS, we expect a proper cleanup, may fail if cleanup failed
+SELECT 'CREATE USIM related jobs' AS info FROM dual;
 SELECT CASE
          WHEN NVL(SUM(installed), 0) = 0
          THEN 'USIM_CREATE_JOBS.sql'
@@ -130,6 +133,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- CREATE PROCEDURES
+SELECT 'CREATE USIM related procedures' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 0
          THEN '../PROCEDURES/USIM_RUN_SCRIPT.sql'
@@ -152,16 +156,6 @@ SELECT CASE
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) = 0
-         THEN '../PROCEDURES/USIM_RUN_RECREATE_TEST.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure already exists."'
-       END AS SCRIPTFILE
-  FROM dba_objects
- WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
-   AND object_type = 'PROCEDURE'
-;
-@@&SCRIPTFILE
-SELECT CASE
-         WHEN COUNT(*) = 0
          THEN '../PROCEDURES/USIM_RUN_TEST.sql'
          ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure already exists."'
        END AS SCRIPTFILE
@@ -178,6 +172,33 @@ SELECT CASE
   FROM dba_objects
  WHERE object_name LIKE 'USIM_RUN_TESTDATA'
    AND object_type = 'PROCEDURE'
+;
+@@&SCRIPTFILE
+-- CREATE VIEWS
+SELECT 'CREATE USIM related views' AS info FROM dual;
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../VIEW/USIM_INSTALL_STATE.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_INSTALL_STATE already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name = 'USIM_INSTALL_STATE'
+   AND object_type = 'VIEW'
+;
+@@&SCRIPTFILE
+-- CREATE PUBLIC SYNONYMS
+SELECT 'CREATE USIM related public synonyms' AS info FROM dual;
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN 'USIM_PUBLIC_SYNONYMS.sql'
+         WHEN COUNT(*) = 5
+         THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms already exists."'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove public synonyms manually before."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE owner        = 'PUBLIC'
+   AND object_type  = 'SYNONYM'
+   AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA')
 ;
 @@&SCRIPTFILE
 -- CREATE USERS
@@ -202,4 +223,5 @@ SELECT CASE
  WHERE username = 'USIM_TEST'
 ;
 @@&SCRIPTFILE
+SELECT owner, object_name, object_type, status FROM dba_objects WHERE status != 'VALID';
 SPOOL OFF

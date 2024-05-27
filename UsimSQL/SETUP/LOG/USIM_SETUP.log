@@ -1,7 +1,7 @@
 
 EXEC_DATE           DB_NAME                                                                                                                  DB_SCHEMA                                                                                                                OS_USER
 ------------------- ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-21.05.2024 00:11:54 FREEPDB1                                                                                                                 USIM                                                                                                                     oracle
+27.05.2024 00:36:32 FREEPDB1                                                                                                                 USIM                                                                                                                     oracle
 
 1 row selected.
 
@@ -43,172 +43,142 @@ Remove all USIM objects if needed.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_STATIC_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_STATIC does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Package body USIM_STATIC does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_STATIC_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_STATIC does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------------
+Nothing to do. Package header USIM_STATIC does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MATHS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MATHS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_MATHS does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MATHS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MATHS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_MATHS does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_DLG_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DLG_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DLG_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_ERL_TICK_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_ERL_TICK_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------------
+Nothing to do. Sequence USIM_ERL_TICK_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_MLV_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_MLV_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_MLV_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_PLANCK_TIME_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_TIME_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_TIME_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_PLANCK_AEON_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_PLANCK_AEON_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------------
+Nothing to do. Sequence USIM_PLANCK_AEON_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_DIM_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_DIM_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_DIM_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
@@ -227,546 +197,450 @@ Nothing to do. Sequence USIM_TSU_ID_SEQ does not exist.
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_POS_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_POS_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_POS_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_NOD_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_NOD_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_NOD_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_RMD_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_RMD_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_RMD_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_SPC_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_SPC_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_SPC_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../SEQUENCES/DROP/DROP_USIM_SPR_ID_SEQ.sql
+../UTIL/NOTHING_TO_DO.sql "Sequence USIM_SPR_ID_SEQ does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Sequence USIM_SPR_ID_SEQ does not exist.
 
 1 row selected.
-
-
-Sequence dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RMD_MLV_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_MLV_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMD_MLV_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RMD_DIM_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RMD_DIM_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_RMD_DIM_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RCHI_PARENT_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RCHI_PARENT_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------------------
+Nothing to do. Foreign key USIM_RCHI_PARENT_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_RCHI_CHILD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_RCHI_CHILD_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------------
+Nothing to do. Foreign key USIM_RCHI_CHILD_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPC_POS_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_POS_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPC_POS_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPC_NOD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_NOD_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPC_NOD_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPC_RMD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPC_RMD_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPC_RMD_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_CHI_PARENT_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_CHI_PARENT_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------------
+Nothing to do. Foreign key USIM_CHI_PARENT_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------------
-../FK/DROP/DROP_USIM_CHI_CHILD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_CHI_CHILD_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------------
+Nothing to do. Foreign key USIM_CHI_CHILD_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPO_SPC_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_SPC_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPO_SPC_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPO_RMD_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_RMD_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPO_RMD_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPO_POS_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPO_POS_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPO_POS_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPR_SRC_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPR_SRC_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPR_SRC_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../FK/DROP/DROP_USIM_SPR_TGT_FK.sql
+../UTIL/NOTHING_TO_DO.sql "Foreign key USIM_SPR_TGT_FK does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Foreign key USIM_SPR_TGT_FK does not exist.
 
 1 row selected.
-
-
-Table altered.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_RMD_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_RMD_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------
+Nothing to do. View USIM_RMD_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPC_CHI_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPC_CHI_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------
+Nothing to do. View USIM_SPC_CHI_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPC_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPC_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------
+Nothing to do. View USIM_SPC_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_CHI_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_CHI_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------
+Nothing to do. View USIM_CHI_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------
+Nothing to do. View USIM_SPO_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_XYZ_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_XYZ_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------
+Nothing to do. View USIM_SPO_XYZ_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_BASE3D_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_BASE3D_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------------
+Nothing to do. View USIM_SPO_BASE3D_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPO_ZERO3D_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPO_ZERO3D_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------------
+Nothing to do. View USIM_SPO_ZERO3D_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../VIEW/DROP/DROP_USIM_SPR_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_SPR_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------
+Nothing to do. View USIM_SPR_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../VIEW/DROP/DROP_USIM_MLV_STATE_V.sql
+../UTIL/NOTHING_TO_DO.sql "View USIM_MLV_STATE_V does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. View USIM_MLV_STATE_V does not exist.
 
 1 row selected.
-
-
-View dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_DEBUG_LOG_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DEBUG_LOG does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DEBUG_LOG does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DEBUG_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DEBUG does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package body USIM_DEBUG does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DEBUG_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DEBUG does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------------
+Nothing to do. Package header USIM_DEBUG does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
@@ -826,683 +700,591 @@ Nothing to do. Package header USIM_TEST does not exist.
 
 
 SCRIPTFILE
+------------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_APEX does not exist."
+
+1 row selected.
+
+
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_APEX does not exist.
+
+1 row selected.
+
+
+SCRIPTFILE
+-------------------------------------------------------------
+../UTIL/NOTHING_TO_DO.sql "Package USIM_APEX does not exist."
+
+1 row selected.
+
+
+INFO
+------------------------------------------------
+Nothing to do. Package USIM_APEX does not exist.
+
+1 row selected.
+
+
+SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_ERL_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_ERL does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_ERL does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_ERL_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_ERL does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_ERL does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_BASE_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_BASE does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_BASE does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_BASE_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_BASE does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_BASE does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MLV_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_MLV does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_MLV does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_MLV_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_MLV does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_MLV does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DIM_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DIM does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_DIM does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DIM_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DIM does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_DIM does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_POS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_POS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_POS does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_POS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_POS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_POS does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_NOD_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_NOD does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_NOD does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_NOD_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_NOD does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_NOD does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RMD_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_RMD does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_RMD does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_RMD_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_RMD does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_RMD does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPC_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPC does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_SPC does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPC_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPC does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_SPC does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CHI_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_CHI does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_CHI does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CHI_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_CHI does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_CHI does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPO_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPO does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_SPO does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPO_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPO does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_SPO does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPR_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_SPR does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Package body USIM_SPR does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_SPR_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_SPR does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+------------------------------------------------------
+Nothing to do. Package header USIM_SPR does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CREATOR_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_CREATOR does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------------
+Nothing to do. Package body USIM_CREATOR does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_CREATOR_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_CREATOR does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Package header USIM_CREATOR does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_PROCESS_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_PROCESS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------------
+Nothing to do. Package body USIM_PROCESS does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_PROCESS_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_PROCESS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------------
+Nothing to do. Package header USIM_PROCESS does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DBIF_PKB.sql
+../UTIL/NOTHING_TO_DO.sql "Package body USIM_DBIF does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------------
+Nothing to do. Package body USIM_DBIF does not exist.
 
 1 row selected.
-
-
-Package body dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------------
-../PACKAGES/DROP/DROP_USIM_DBIF_PKS.sql
+../UTIL/NOTHING_TO_DO.sql "Package header USIM_DBIF does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------------
+Nothing to do. Package header USIM_DBIF does not exist.
 
 1 row selected.
-
-
-Package dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_BASEDATA_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_BASEDATA does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------
+Nothing to do. Table USIM_BASEDATA does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_ERROR_LOG_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_ERROR_LOG does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_ERROR_LOG does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_MULTIVERSE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_MULTIVERSE does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------------
+Nothing to do. Table USIM_MULTIVERSE does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_DIMENSION_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_DIMENSION does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_DIMENSION does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ---------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_POSITION_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_POSITION does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+--------------------------------------------------
+Nothing to do. Table USIM_POSITION does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 -----------------------------------------------------------
-../TABLES/DROP/DROP_USIM_NODE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_NODE does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+----------------------------------------------
+Nothing to do. Table USIM_NODE does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_REL_MLV_DIM_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_REL_MLV_DIM does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_REL_MLV_DIM does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_RMD_CHILD_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_RMD_CHILD does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_RMD_CHILD does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPACE_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPACE does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------
+Nothing to do. Table USIM_SPACE does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ----------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_CHILD_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_CHILD does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+---------------------------------------------------
+Nothing to do. Table USIM_SPC_CHILD does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 --------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_POS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_POS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-------------------------------------------------
+Nothing to do. Table USIM_SPC_POS does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 SCRIPTFILE
 ------------------------------------------------------------------
-../TABLES/DROP/DROP_USIM_SPC_PROCESS_TBL.sql
+../UTIL/NOTHING_TO_DO.sql "Table USIM_SPC_PROCESS does not exist."
 
 1 row selected.
 
 
-USIM_SCHEMA
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-USIM
+INFO
+-----------------------------------------------------
+Nothing to do. Table USIM_SPC_PROCESS does not exist.
 
 1 row selected.
-
-
-Table dropped.
 
 
 Recyclebin purged.
@@ -1517,16 +1299,12 @@ USIM
 
 OBJECTS_AFTER_CLEANUP
 ---------------------
-                    1
+                    0
 
 1 row selected.
 
 
-OBJECT_TYPE             OBJECT_CNT
------------------------ ----------
-SYNONYM                          1
-
-1 row selected.
+no rows selected
 
 
 USIM_SCHEMA
@@ -2946,6 +2724,26 @@ Comment created.
 
 
 Comment created.
+
+
+USIM_SCHEMA
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+USIM
+
+1 row selected.
+
+
+Package created.
+
+
+USIM_SCHEMA
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+USIM
+
+1 row selected.
+
+
+Package body created.
 
 
 USIM_SCHEMA

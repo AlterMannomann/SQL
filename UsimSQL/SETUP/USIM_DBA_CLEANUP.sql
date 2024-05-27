@@ -6,6 +6,33 @@ SPOOL LOG/USIM_DBA_CLEANUP.log
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 
+-- DROP PUBLIC SYNONYMS
+SELECT 'DROP USIM related public synonyms' AS info FROM dual;
+SELECT CASE
+         WHEN COUNT(*) = 5
+         THEN 'DROP_USIM_PUBLIC_SYNONYMS.sql'
+         WHEN COUNT(*) = 0
+         THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms do not exists."'
+         ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Setup failed remove public synonyms manually."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE owner        = 'PUBLIC'
+   AND object_type  = 'SYNONYM'
+   AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA')
+;
+@@&SCRIPTFILE
+-- DROP VIEWS
+SELECT 'DROP USIM related views' AS info FROM dual;
+SELECT CASE
+         WHEN COUNT(*) = 1
+         THEN '../VIEW/DROP/DROP_USIM_INSTALL_STATE.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_INSTALL_STATE does not exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name = 'USIM_INSTALL_STATE'
+   AND object_type = 'VIEW'
+;
+@@&SCRIPTFILE
 -- DROP USERS
 SELECT 'DROP USIM Users' AS info FROM dual;
 -- USIM_TEST
@@ -51,6 +78,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- DROP PROCEDURES
+SELECT 'DROP USIM related procedures' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 1
          THEN '../PROCEDURES/DROP/DROP_USIM_RUN_SCRIPT.sql'
@@ -68,16 +96,6 @@ SELECT CASE
        END AS SCRIPTFILE
   FROM dba_objects
  WHERE object_name LIKE 'USIM_RUN_RECREATE'
-   AND object_type = 'PROCEDURE'
-;
-@@&SCRIPTFILE
-SELECT CASE
-         WHEN COUNT(*) = 1
-         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE_TEST.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE_TEST procedure does not exists."'
-       END AS SCRIPTFILE
-  FROM dba_objects
- WHERE object_name LIKE 'USIM_RUN_RECREATE_TEST'
    AND object_type = 'PROCEDURE'
 ;
 @@&SCRIPTFILE
@@ -102,6 +120,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- DROP JOBS AND PROGRAMS
+SELECT 'DROP USIM related jobs and programs' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) > 0
          THEN 'USIM_DROP_JOBS.sql'
@@ -113,6 +132,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- DROP CREDENTIALS
+SELECT 'DROP USIM related credentials' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) > 0
          THEN 'USIM_DROP_CREDENTIALS.sql'
@@ -124,6 +144,7 @@ SELECT CASE
 ;
 @@&SCRIPTFILE
 -- DROP DIRECTORIES
+SELECT 'DROP USIM related directories' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 3
          THEN 'USIM_DROP_DIRECTORIES.sql'
@@ -135,4 +156,5 @@ SELECT CASE
  WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR')
 ;
 @@&SCRIPTFILE
+SELECT owner, object_name, object_type, status FROM dba_objects WHERE status != 'VALID';
 SPOOL OFF

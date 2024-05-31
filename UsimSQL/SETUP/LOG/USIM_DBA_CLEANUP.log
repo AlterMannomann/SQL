@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-30.05.2024 20:08:33 FREEPDB1                       SYS                            Adi
+31.05.2024 18:00:41 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 

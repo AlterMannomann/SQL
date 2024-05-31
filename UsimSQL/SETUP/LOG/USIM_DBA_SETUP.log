@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-30.05.2024 20:08:53 FREEPDB1                       SYS                            Adi
+31.05.2024 18:01:25 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -1144,7 +1144,7 @@ SQL> CREATE OR REPLACE FUNCTION usim_load_log( p_filename  IN VARCHAR2
  17    l_file        UTL_FILE.FILE_TYPE;
  18    l_buffer      VARCHAR2(10024);
  19    l_bufsize     CONSTANT PLS_INTEGER := 10024;
- 20    l_cr          VARCHAR2(1) := CHR(13);
+ 20    l_crlf        VARCHAR2(2) := CHR(13) || CHR(10);
  21    l_lf          VARCHAR2(1) := CHR(10);
  22    l_buffer_crlf VARCHAR(32000);
  23    l_line        INTEGER;
@@ -1177,14 +1177,14 @@ SQL> CREATE OR REPLACE FUNCTION usim_load_log( p_filename  IN VARCHAR2
  50        THEN
  51          IF l_filetype != 'CRLF' AND l_system = 'WINDOWS'
  52          THEN
- 53            l_buffer_crlf := l_cr;
+ 53            l_buffer_crlf := l_crlf;
  54          ELSE
  55            l_buffer_crlf := l_lf;
  56          END IF;
  57        ELSE
  58          IF l_filetype != 'CRLF' AND l_system = 'WINDOWS'
  59          THEN
- 60            l_buffer_crlf := RTRIM(l_buffer) || l_cr;
+ 60            l_buffer_crlf := RTRIM(REPLACE(l_buffer, l_lf, l_crlf)) || l_crlf;
  61          ELSE
  62            l_buffer_crlf := RTRIM(l_buffer);
  63          END IF;
@@ -1197,13 +1197,16 @@ SQL> CREATE OR REPLACE FUNCTION usim_load_log( p_filename  IN VARCHAR2
  70      END;
  71    END LOOP;
  72    UTL_FILE.FCLOSE(l_file);
- 73    RETURN l_clob;
- 74  EXCEPTION
- 75    WHEN OTHERS THEN
- 76      l_clob := 'Error USIM_LOAD_LOG filename: ' || p_filename || ' directory: ' || p_directory || ' line: ' || l_line || ' ' || SQLERRM;
- 77      RETURN l_clob;
- 78  END;
- 79  /
+ 73    -- add debug information on file
+ 74    l_buffer_crlf := 'File type: ' || l_filetype || ' client platform: ' || l_system || ' platform parameter: ' || p_platform;
+ 75    DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
+ 76    RETURN l_clob;
+ 77  EXCEPTION
+ 78    WHEN OTHERS THEN
+ 79      l_clob := 'Error USIM_LOAD_LOG filename: ' || p_filename || ' directory: ' || p_directory || ' line: ' || l_line || ' ' || SQLERRM;
+ 80      RETURN l_clob;
+ 81  END;
+ 82  /
 
 Function USIM_LOAD_LOG kompiliert
 

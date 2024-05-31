@@ -71,8 +71,8 @@ BEGIN
   END LOOP;
   UTL_FILE.FCLOSE(l_file);
   -- add debug information on file
-  -- l_buffer_crlf := 'File type: ' || l_filetype || ' client platform: ' || l_system || ' platform parameter: ' || p_platform;
-  -- DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
+  l_buffer_crlf := 'File type: ' || l_filetype || ' client platform: ' || l_system || ' platform parameter: ' || p_platform;
+  DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
   RETURN l_clob;
 EXCEPTION
   WHEN OTHERS THEN

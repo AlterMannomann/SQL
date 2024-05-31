@@ -17,7 +17,7 @@ BEGIN
            WHERE directory_name = 'USIM_SCRIPT_DIR'
          )
   ;
-  usim_run_script( p_job_name  => 'RUN_SERVER_SQL_TEST'
+  usim_run_script( p_job_name  => 'USIM_RUN_SERVER_SQL_TEST'
                  , p_script    => 'BASIC_TEST_DATA_SETUP.sql'
                  , p_path      => l_path
                  )

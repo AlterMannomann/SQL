@@ -1,0 +1,1 @@
+DROP FUNCTION usim_load_log;

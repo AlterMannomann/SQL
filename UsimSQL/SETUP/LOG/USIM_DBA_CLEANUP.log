@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-27.05.2024 00:26:36 FREEPDB1                       SYS                            Adi
+30.05.2024 20:08:33 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -24,7 +24,7 @@ DROP USIM related public synonyms
 1 Zeile ausgewählt.
 
 SQL> SELECT CASE
-  2           WHEN COUNT(*) = 5
+  2           WHEN COUNT(*) = 6
   3           THEN 'DROP_USIM_PUBLIC_SYNONYMS.sql'
   4           WHEN COUNT(*) = 0
   5           THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms do not exists."'
@@ -33,7 +33,7 @@ SQL> SELECT CASE
   8    FROM dba_objects
   9   WHERE owner        = 'PUBLIC'
  10     AND object_type  = 'SYNONYM'
- 11     AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA')
+ 11     AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA', 'USIM_LOAD_LOG')
  12  ;
 
 SCRIPTFILE
@@ -62,6 +62,10 @@ SYNONYM USIM_RUN_TEST gelöscht.
 SQL> DROP PUBLIC SYNONYM usim_run_testdata;
 
 SYNONYM USIM_RUN_TESTDATA gelöscht.
+
+SQL> DROP PUBLIC SYNONYM usim_load_log;
+
+SYNONYM USIM_LOAD_LOG gelöscht.
 
 SQL> -- DROP VIEWS
 SQL> SELECT 'DROP USIM related views' AS info FROM dual;
@@ -201,6 +205,57 @@ SQL> DROP TABLESPACE usim_live
 
 TABLESPACE USIM_LIVE gelöscht.
 
+SQL> -- DROP FUNCTIONS
+SQL> SELECT 'DROP USIM related functions' AS info FROM dual;
+
+INFO
+---------------------------
+DROP USIM related functions
+
+1 Zeile ausgewählt.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 1
+  3           THEN '../FUNCTIONS/DROP/DROP_USIM_LOAD_LOG.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_LOAD_LOG function does not exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_LOAD_LOG'
+  8     AND object_type = 'FUNCTION'
+  9  ;
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../FUNCTIONS/DROP/DROP_USIM_LOAD_LOG.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP FUNCTION usim_load_log;
+
+Function USIM_LOAD_LOG gelöscht.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 1
+  3           THEN '../FUNCTIONS/DROP/DROP_USIM_FILETYPE.sql'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_FILETYPE function does not exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name LIKE 'USIM_FILETYPE'
+  8     AND object_type = 'FUNCTION'
+  9  ;
+
+SCRIPTFILE
+-------------------------------------------------------------------
+../FUNCTIONS/DROP/DROP_USIM_FILETYPE.sql
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> DROP FUNCTION usim_filetype;
+
+Function USIM_FILETYPE gelöscht.
+
 SQL> -- DROP PROCEDURES
 SQL> SELECT 'DROP USIM related procedures' AS info FROM dual;
 
@@ -306,15 +361,15 @@ DROP USIM related jobs and programs
 SQL> SELECT CASE
   2           WHEN COUNT(*) > 0
   3           THEN 'USIM_DROP_JOBS.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Tablespace USIM_LIVE does not exist."'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Jobs USIM_RUN_SERVER_SQL, USIM_RUN_SERVER_SQL_TEST, USIM_RUN_SQL or USIM_RUN_SQL_TEST do not exist."'
   5         END AS SCRIPTFILE
   6    FROM dba_objects
-  7   WHERE object_name IN ('RUN_SERVER_SQL', 'RUN_SERVER_SQL_TEST', 'RUN_SQL', 'RUN_SQL_TEST')
+  7   WHERE object_name IN ('USIM_RUN_SERVER_SQL', 'USIM_RUN_SERVER_SQL_TEST', 'USIM_RUN_SQL', 'USIM_RUN_SQL_TEST')
   8     AND owner = USER
   9  ;
 
 SCRIPTFILE
-----------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 USIM_DROP_JOBS.sql
 
 1 Zeile ausgewählt.
@@ -327,46 +382,46 @@ SQL> DECLARE
   4    SELECT COUNT(*)
   5      INTO l_result
   6      FROM dba_objects
-  7     WHERE object_name = 'RUN_SERVER_SQL'
+  7     WHERE object_name = 'USIM_RUN_SERVER_SQL'
   8       AND object_type = 'JOB'
   9       AND owner = USER
  10    ;
  11    IF l_result = 1
  12    THEN
- 13      DBMS_SCHEDULER.DROP_JOB('SYS.RUN_SERVER_SQL', TRUE);
+ 13      DBMS_SCHEDULER.DROP_JOB('USIM_RUN_SERVER_SQL', TRUE);
  14    END IF;
  15    SELECT COUNT(*)
  16      INTO l_result
  17      FROM dba_objects
- 18     WHERE object_name = 'RUN_SQL'
+ 18     WHERE object_name = 'USIM_RUN_SQL'
  19       AND object_type = 'PROGRAM'
  20       AND owner = USER
  21    ;
  22    IF l_result = 1
  23    THEN
- 24      DBMS_SCHEDULER.DROP_PROGRAM('SYS.RUN_SQL', TRUE);
+ 24      DBMS_SCHEDULER.DROP_PROGRAM('USIM_RUN_SQL', TRUE);
  25    END IF;
  26    SELECT COUNT(*)
  27      INTO l_result
  28      FROM dba_objects
- 29     WHERE object_name = 'RUN_SERVER_SQL_TEST'
+ 29     WHERE object_name = 'USIM_RUN_SERVER_SQL_TEST'
  30       AND object_type = 'JOB'
  31       AND owner = USER
  32    ;
  33    IF l_result = 1
  34    THEN
- 35      DBMS_SCHEDULER.DROP_JOB('SYS.RUN_SERVER_SQL_TEST', TRUE);
+ 35      DBMS_SCHEDULER.DROP_JOB('USIM_RUN_SERVER_SQL_TEST', TRUE);
  36    END IF;
  37    SELECT COUNT(*)
  38      INTO l_result
  39      FROM dba_objects
- 40     WHERE object_name = 'RUN_SQL_TEST'
+ 40     WHERE object_name = 'USIM_RUN_SQL_TEST'
  41       AND object_type = 'PROGRAM'
  42       AND owner = USER
  43    ;
  44    IF l_result = 1
  45    THEN
- 46      DBMS_SCHEDULER.DROP_PROGRAM('SYS.RUN_SQL_TEST', TRUE);
+ 46      DBMS_SCHEDULER.DROP_PROGRAM('USIM_RUN_SQL_TEST', TRUE);
  47    END IF;
  48    -- job class also
  49    SELECT COUNT(*)
@@ -376,7 +431,7 @@ SQL> DECLARE
  53    ;
  54    IF l_result = 1
  55    THEN
- 56      DBMS_SCHEDULER.DROP_JOB_CLASS(job_class_name => 'SYS.USIM_JOBS');
+ 56      DBMS_SCHEDULER.DROP_JOB_CLASS(job_class_name => 'USIM_JOBS');
  57    END IF;
  58  END;
  59  /
@@ -393,15 +448,15 @@ DROP USIM related credentials
 SQL> SELECT CASE
   2           WHEN COUNT(*) > 0
   3           THEN 'USIM_DROP_CREDENTIALS.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST does not exists."'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "Credentials USIM_OS_ACCESS, USIM_DB_ACCESS and USIM_DB_ACCESS_TEST does not exists."'
   5         END AS SCRIPTFILE
   6    FROM dba_credentials
   7   WHERE owner = USER
-  8     AND credential_name IN ('OS_ACCESS', 'DB_ACCESS', 'DB_ACCESS_TEST')
+  8     AND credential_name IN ('USIM_OS_ACCESS', 'USIM_DB_ACCESS', 'USIM_DB_ACCESS_TEST')
   9  ;
 
 SCRIPTFILE
-------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
 USIM_DROP_CREDENTIALS.sql
 
 1 Zeile ausgewählt.
@@ -414,31 +469,31 @@ SQL> DECLARE
   5      INTO l_result
   6      FROM dba_credentials
   7     WHERE owner = USER
-  8       AND credential_name = 'OS_ACCESS'
+  8       AND credential_name = 'USIM_OS_ACCESS'
   9    ;
  10    IF l_result = 1
  11    THEN
- 12      DBMS_CREDENTIAL.DROP_CREDENTIAL('SYS.OS_ACCESS', TRUE);
+ 12      DBMS_CREDENTIAL.DROP_CREDENTIAL('USIM_OS_ACCESS', TRUE);
  13    END IF;
  14    SELECT COUNT(*)
  15      INTO l_result
  16      FROM dba_credentials
  17     WHERE owner = USER
- 18       AND credential_name = 'DB_ACCESS'
+ 18       AND credential_name = 'USIM_DB_ACCESS'
  19    ;
  20    IF l_result = 1
  21    THEN
- 22      DBMS_CREDENTIAL.DROP_CREDENTIAL('SYS.DB_ACCESS', TRUE);
+ 22      DBMS_CREDENTIAL.DROP_CREDENTIAL('USIM_DB_ACCESS', TRUE);
  23    END IF;
  24    SELECT COUNT(*)
  25      INTO l_result
  26      FROM dba_credentials
  27     WHERE owner = USER
- 28       AND credential_name = 'DB_ACCESS_TEST'
+ 28       AND credential_name = 'USIM_DB_ACCESS_TEST'
  29    ;
  30    IF l_result = 1
  31    THEN
- 32      DBMS_CREDENTIAL.DROP_CREDENTIAL('SYS.DB_ACCESS_TEST', TRUE);
+ 32      DBMS_CREDENTIAL.DROP_CREDENTIAL('USIM_DB_ACCESS_TEST', TRUE);
  33    END IF;
  34  END;
  35  /
@@ -453,14 +508,14 @@ DROP USIM related directories
 1 Zeile ausgewählt.
 
 SQL> SELECT CASE
-  2           WHEN COUNT(*) = 3
+  2           WHEN COUNT(*) = 4
   3           THEN 'USIM_DROP_DIRECTORIES.sql'
   4           WHEN COUNT(*) = 0
   5           THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists."'
   6           ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove directories manually before."'
   7         END AS SCRIPTFILE
   8    FROM dba_directories
-  9   WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR')
+  9   WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR', 'USIM_LOG_DIR')
  10  ;
 
 SCRIPTFILE
@@ -483,7 +538,15 @@ SQL> DROP DIRECTORY usim_script_dir;
 
 Directory USIM_SCRIPT_DIR gelöscht.
 
+SQL> DROP DIRECTORY usim_log_dir;
+
+Directory USIM_LOG_DIR gelöscht.
+
 SQL> SELECT owner, object_name, object_type, status FROM dba_objects WHERE status != 'VALID';
+
+0 Zeilen ausgewählt.
+
+SQL> SELECT object_type, status, object_name, owner FROM dba_objects WHERE object_name LIKE 'USIM%';
 
 0 Zeilen ausgewählt.
 

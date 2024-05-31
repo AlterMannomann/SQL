@@ -39,10 +39,12 @@ COLUMN USIM_DIRECTORY NEW_VAL USIM_DIRECTORY
 COLUMN USIM_HISTORY NEW_VAL USIM_HISTORY
 COLUMN USIM_SETUP NEW_VAL USIM_SETUP
 COLUMN USIM_SHELL NEW_VAL USIM_SHELL
+COLUMN USIM_LOGS NEW_VAL USIM_LOGS
 SELECT '&USIM_SCRIPTS.&USIM_TERMINATOR.JS' AS USIM_DIRECTORY
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.JS&USIM_TERMINATOR.SpaceLog' AS USIM_HISTORY
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.SETUP' AS USIM_SETUP
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.SH' AS USIM_SHELL
+     , '&USIM_SCRIPTS.&USIM_TERMINATOR.SETUP&USIM_TERMINATOR.LOG' AS USIM_LOGS
   FROM dual
 ;
 COLUMN CONFIG_INFO NEW_VAL CONFIG_INFO
@@ -50,6 +52,7 @@ SELECT 'Current configuration' || CHR(13) || CHR(10) ||
        'Main directory: &USIM_SCRIPTS' || CHR(13) || CHR(10) ||
        'Space log directory: &USIM_DIRECTORY' || CHR(13) || CHR(10) ||
        'History log directory: &USIM_HISTORY' || CHR(13) || CHR(10) ||
+       'Install logfile directory: &USIM_LOGS' || CHR(13) || CHR(10) ||
        'Shell script directory: &USIM_SHELL' || CHR(13) || CHR(10) ||
        'Server user: &USER_OS' || CHR(13) || CHR(10) ||
        'Server user password: &PASS_OS' || CHR(13) || CHR(10) ||
@@ -87,12 +90,12 @@ SELECT CASE
          WHEN COUNT(*) = 0
          THEN 'USIM_CREATE_CREDENTIALS.sql'
          WHEN COUNT(*) = 3
-         THEN '../UTIL/NOTHING_TO_DO.sql "Credentials OS_ACCESS, DB_ACCESS and DB_ACCESS_TEST already exists."'
+         THEN '../UTIL/NOTHING_TO_DO.sql "Credentials USIM_OS_ACCESS, USIM_DB_ACCESS and USIM_DB_ACCESS_TEST already exists."'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove credentials manually before."'
        END AS SCRIPTFILE
   FROM dba_credentials
  WHERE owner = USER
-   AND credential_name IN ('OS_ACCESS', 'DB_ACCESS', 'DB_ACCESS_TEST')
+   AND credential_name IN ('USIM_OS_ACCESS', 'USIM_DB_ACCESS', 'USIM_DB_ACCESS_TEST')
 ;
 @@&SCRIPTFILE
 -- CREATE DIRECTORY, we expect a proper cleanup, may fail if cleanup failed
@@ -100,12 +103,12 @@ SELECT 'CREATE USIM directories' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 0
          THEN 'USIM_CREATE_DIRECTORIES.sql'
-         WHEN COUNT(*) = 3
+         WHEN COUNT(*) = 4
          THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR already exists."'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove directories manually before."'
        END AS SCRIPTFILE
   FROM dba_directories
- WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR')
+ WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR', 'USIM_LOG_DIR')
 ;
 @@&SCRIPTFILE
 -- CREATE JOBS, we expect a proper cleanup, may fail if cleanup failed
@@ -114,20 +117,20 @@ SELECT CASE
          WHEN NVL(SUM(installed), 0) = 0
          THEN 'USIM_CREATE_JOBS.sql'
          WHEN SUM(installed) = 4
-         THEN '../UTIL/NOTHING_TO_DO.sql "Job RUN_SERVER_SQL and program RUN_SQL already exists for live and test."'
+         THEN '../UTIL/NOTHING_TO_DO.sql "Job USIM_RUN_SERVER_SQL and program USIM_RUN_SQL already exists for live and test."'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove job and program manually before."'
        END AS SCRIPTFILE
   FROM (SELECT CASE
-                 WHEN object_name IN ('RUN_SERVER_SQL', 'RUN_SERVER_SQL_TEST')
+                 WHEN object_name IN ('USIM_RUN_SERVER_SQL', 'USIM_RUN_SERVER_SQL_TEST')
                   AND object_type = 'JOB'
                  THEN 1
-                 WHEN object_name IN ('RUN_SQL', 'RUN_SQL_TEST')
+                 WHEN object_name IN ('USIM_RUN_SQL', 'USIM_RUN_SQL_TEST')
                   AND object_type = 'PROGRAM'
                  THEN 1
                  ELSE 0
                END AS installed
           FROM dba_objects
-         WHERE object_name IN ('RUN_SERVER_SQL', 'RUN_SERVER_SQL_TEST', 'RUN_SQL', 'RUN_SQL_TEST')
+         WHERE object_name IN ('USIM_RUN_SERVER_SQL', 'USIM_RUN_SERVER_SQL_TEST', 'USIM_RUN_SQL', 'USIM_RUN_SQL_TEST')
            AND owner = USER
        )
 ;
@@ -174,6 +177,28 @@ SELECT CASE
    AND object_type = 'PROCEDURE'
 ;
 @@&SCRIPTFILE
+-- CREATE FUNCTIONS
+SELECT 'CREATE USIM related functions' AS info FROM dual;
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../FUNCTIONS/USIM_FILETYPE.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_FILETYPE function already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_FILETYPE'
+   AND object_type = 'FUNCTION'
+;
+@@&SCRIPTFILE
+SELECT CASE
+         WHEN COUNT(*) = 0
+         THEN '../FUNCTIONS/USIM_LOAD_LOG.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_LOAD_LOG function already exists."'
+       END AS SCRIPTFILE
+  FROM dba_objects
+ WHERE object_name LIKE 'USIM_LOAD_LOG'
+   AND object_type = 'FUNCTION'
+;
+@@&SCRIPTFILE
 -- CREATE VIEWS
 SELECT 'CREATE USIM related views' AS info FROM dual;
 SELECT CASE
@@ -191,14 +216,14 @@ SELECT 'CREATE USIM related public synonyms' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 0
          THEN 'USIM_PUBLIC_SYNONYMS.sql'
-         WHEN COUNT(*) = 5
+         WHEN COUNT(*) = 6
          THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms already exists."'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove public synonyms manually before."'
        END AS SCRIPTFILE
   FROM dba_objects
  WHERE owner        = 'PUBLIC'
    AND object_type  = 'SYNONYM'
-   AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA')
+   AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA', 'USIM_LOAD_LOG')
 ;
 @@&SCRIPTFILE
 -- CREATE USERS

@@ -46,10 +46,10 @@ BEGIN
   ELSE
     IF p_caller = 'USIM'
     THEN
-      l_job_name := 'RUN_SERVER_SQL';
+      l_job_name := 'USIM_RUN_SERVER_SQL';
       l_package  := 'USIM_APEX';
     ELSE
-      l_job_name := 'RUN_SERVER_SQL_TEST';
+      l_job_name := 'USIM_RUN_SERVER_SQL_TEST';
       l_package  := 'USIM_TEST';
     END IF;
   END IF;

@@ -1,7 +1,7 @@
 @@../UTIL/SET_DEFAULT_TEST_SPOOL.sql
 --@@../UTIL/SET_EXTENDED_SPOOL.sql
 -- start spool
-SPOOL LOG/USIM_TESTING.log
+SPOOL LOG/USIM_TEST_SETUP.log
 -- get system information roughly formatted
 @@../UTIL/SYSTEM_INFO.sql
 

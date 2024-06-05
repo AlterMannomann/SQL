@@ -6,3 +6,5 @@ CREATE OR REPLACE DIRECTORY usim_hist_dir AS '&USIM_HISTORY';
 CREATE OR REPLACE DIRECTORY usim_script_dir AS '&USIM_SCRIPTS';
 -- installation log files
 CREATE OR REPLACE DIRECTORY usim_log_dir AS '&USIM_LOGS';
+-- test files
+CREATE OR REPLACE DIRECTORY usim_test_dir AS '&USIM_TESTS';

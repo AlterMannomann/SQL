@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-31.05.2024 18:01:25 FREEPDB1                       SYS                            Adi
+03.06.2024 21:44:36 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -52,18 +52,21 @@ SQL> COLUMN USIM_HISTORY NEW_VAL USIM_HISTORY
 SQL> COLUMN USIM_SETUP NEW_VAL USIM_SETUP
 SQL> COLUMN USIM_SHELL NEW_VAL USIM_SHELL
 SQL> COLUMN USIM_LOGS NEW_VAL USIM_LOGS
+SQL> COLUMN USIM_TESTS NEW_VAL USIM_TESTS
 SQL> SELECT '&USIM_SCRIPTS.&USIM_TERMINATOR.JS' AS USIM_DIRECTORY
   2       , '&USIM_SCRIPTS.&USIM_TERMINATOR.JS&USIM_TERMINATOR.SpaceLog' AS USIM_HISTORY
   3       , '&USIM_SCRIPTS.&USIM_TERMINATOR.SETUP' AS USIM_SETUP
   4       , '&USIM_SCRIPTS.&USIM_TERMINATOR.SH' AS USIM_SHELL
   5       , '&USIM_SCRIPTS.&USIM_TERMINATOR.SETUP&USIM_TERMINATOR.LOG' AS USIM_LOGS
-  6    FROM dual
-  7  ;
+  6       , '&USIM_SCRIPTS.&USIM_TERMINATOR.TESTING' AS USIM_TESTS
+  7    FROM dual
+  8  ;
 alt:SELECT '&USIM_SCRIPTS.&USIM_TERMINATOR.JS' AS USIM_DIRECTORY
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.JS&USIM_TERMINATOR.SpaceLog' AS USIM_HISTORY
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.SETUP' AS USIM_SETUP
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.SH' AS USIM_SHELL
      , '&USIM_SCRIPTS.&USIM_TERMINATOR.SETUP&USIM_TERMINATOR.LOG' AS USIM_LOGS
+     , '&USIM_SCRIPTS.&USIM_TERMINATOR.TESTING' AS USIM_TESTS
   FROM dual
 
 neu:SELECT '/opt/oracle/USIM/JS' AS USIM_DIRECTORY
@@ -71,11 +74,12 @@ neu:SELECT '/opt/oracle/USIM/JS' AS USIM_DIRECTORY
      , '/opt/oracle/USIM/SETUP' AS USIM_SETUP
      , '/opt/oracle/USIM/SH' AS USIM_SHELL
      , '/opt/oracle/USIM/SETUP/LOG' AS USIM_LOGS
+     , '/opt/oracle/USIM/TESTING' AS USIM_TESTS
   FROM dual
 
-USIM_DIRECTORY      USIM_HISTORY                 USIM_SETUP             USIM_SHELL          USIM_LOGS
-------------------- ---------------------------- ---------------------- ------------------- --------------------------
-/opt/oracle/USIM/JS /opt/oracle/USIM/JS/SpaceLog /opt/oracle/USIM/SETUP /opt/oracle/USIM/SH /opt/oracle/USIM/SETUP/LOG
+USIM_DIRECTORY      USIM_HISTORY                 USIM_SETUP             USIM_SHELL          USIM_LOGS                  USIM_TESTS
+------------------- ---------------------------- ---------------------- ------------------- -------------------------- ------------------------
+/opt/oracle/USIM/JS /opt/oracle/USIM/JS/SpaceLog /opt/oracle/USIM/SETUP /opt/oracle/USIM/SH /opt/oracle/USIM/SETUP/LOG /opt/oracle/USIM/TESTING
 
 1 Zeile ausgewählt.
 
@@ -85,19 +89,21 @@ SQL> SELECT 'Current configuration' || CHR(13) || CHR(10) ||
   3         'Space log directory: &USIM_DIRECTORY' || CHR(13) || CHR(10) ||
   4         'History log directory: &USIM_HISTORY' || CHR(13) || CHR(10) ||
   5         'Install logfile directory: &USIM_LOGS' || CHR(13) || CHR(10) ||
-  6         'Shell script directory: &USIM_SHELL' || CHR(13) || CHR(10) ||
-  7         'Server user: &USER_OS' || CHR(13) || CHR(10) ||
-  8         'Server user password: &PASS_OS' || CHR(13) || CHR(10) ||
-  9         'USIM password: &PASS_USIM' || CHR(13) || CHR(10) ||
- 10         'USIM_TEST password: &PASS_USIM_TEST' || CHR(13) ||  CHR(10) || CHR(13) || CHR(10) ||
- 11         'Remark: If you care about security this is the wrong application for you. Press Yes to install or No to cancel.' AS CONFIG_INFO
- 12    FROM dual
- 13  ;
+  6         'Testing directory: &USIM_TESTS' || CHR(13) || CHR(10) ||
+  7         'Shell script directory: &USIM_SHELL' || CHR(13) || CHR(10) ||
+  8         'Server user: &USER_OS' || CHR(13) || CHR(10) ||
+  9         'Server user password: &PASS_OS' || CHR(13) || CHR(10) ||
+ 10         'USIM password: &PASS_USIM' || CHR(13) || CHR(10) ||
+ 11         'USIM_TEST password: &PASS_USIM_TEST' || CHR(13) ||  CHR(10) || CHR(13) || CHR(10) ||
+ 12         'Remark: If you care about security this is the wrong application for you. Press Yes to install or No to cancel.' AS CONFIG_INFO
+ 13    FROM dual
+ 14  ;
 alt:SELECT 'Current configuration' || CHR(13) || CHR(10) ||
        'Main directory: &USIM_SCRIPTS' || CHR(13) || CHR(10) ||
        'Space log directory: &USIM_DIRECTORY' || CHR(13) || CHR(10) ||
        'History log directory: &USIM_HISTORY' || CHR(13) || CHR(10) ||
        'Install logfile directory: &USIM_LOGS' || CHR(13) || CHR(10) ||
+       'Testing directory: &USIM_TESTS' || CHR(13) || CHR(10) ||
        'Shell script directory: &USIM_SHELL' || CHR(13) || CHR(10) ||
        'Server user: &USER_OS' || CHR(13) || CHR(10) ||
        'Server user password: &PASS_OS' || CHR(13) || CHR(10) ||
@@ -111,6 +117,7 @@ neu:SELECT 'Current configuration' || CHR(13) || CHR(10) ||
        'Space log directory: /opt/oracle/USIM/JS' || CHR(13) || CHR(10) ||
        'History log directory: /opt/oracle/USIM/JS/SpaceLog' || CHR(13) || CHR(10) ||
        'Install logfile directory: /opt/oracle/USIM/SETUP/LOG' || CHR(13) || CHR(10) ||
+       'Testing directory: /opt/oracle/USIM/TESTING' || CHR(13) || CHR(10) ||
        'Shell script directory: /opt/oracle/USIM/SH' || CHR(13) || CHR(10) ||
        'Server user: oracle' || CHR(13) || CHR(10) ||
        'Server user password: oracle' || CHR(13) || CHR(10) ||
@@ -120,12 +127,13 @@ neu:SELECT 'Current configuration' || CHR(13) || CHR(10) ||
   FROM dual
 
 CONFIG_INFO
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Current configuration
 Main directory: /opt/oracle/USIM
 Space log directory: /opt/oracle/USIM/JS
 History log directory: /opt/oracle/USIM/JS/SpaceLog
 Install logfile directory: /opt/oracle/USIM/SETUP/LOG
+Testing directory: /opt/oracle/USIM/TESTING
 Shell script directory: /opt/oracle/USIM/SH
 Server user: oracle
 Server user password: oracle
@@ -301,16 +309,16 @@ CREATE USIM directories
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
   3           THEN 'USIM_CREATE_DIRECTORIES.sql'
-  4           WHEN COUNT(*) = 4
-  5           THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR already exists."'
+  4           WHEN COUNT(*) = 5
+  5           THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR, USIM_TEST_DIR and USIM_SCRIPT_DIR already exists."'
   6           ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove directories manually before."'
   7         END AS SCRIPTFILE
   8    FROM dba_directories
-  9   WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR', 'USIM_LOG_DIR')
+  9   WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR', 'USIM_LOG_DIR', 'USIM_TEST_DIR')
  10  ;
 
 SCRIPTFILE
----------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 USIM_CREATE_DIRECTORIES.sql
 
 1 Zeile ausgewählt.
@@ -343,6 +351,13 @@ alt:CREATE OR REPLACE DIRECTORY usim_log_dir AS '&USIM_LOGS'
 neu:CREATE OR REPLACE DIRECTORY usim_log_dir AS '/opt/oracle/USIM/SETUP/LOG'
 
 Directory USIM_LOG_DIR erstellt.
+
+SQL> -- test files
+SQL> CREATE OR REPLACE DIRECTORY usim_test_dir AS '&USIM_TESTS';
+alt:CREATE OR REPLACE DIRECTORY usim_test_dir AS '&USIM_TESTS'
+neu:CREATE OR REPLACE DIRECTORY usim_test_dir AS '/opt/oracle/USIM/TESTING'
+
+Directory USIM_TEST_DIR erstellt.
 
 SQL> -- CREATE JOBS, we expect a proper cleanup, may fail if cleanup failed
 SQL> SELECT 'CREATE USIM related jobs' AS info FROM dual;
@@ -758,458 +773,6 @@ neu:BEGIN
   -- no job enable, runs instantly
 END;
 PL/SQL-Prozedur erfolgreich abgeschlossen.
-SQL> -- CREATE PROCEDURES
-SQL> SELECT 'CREATE USIM related procedures' AS info FROM dual;
-
-INFO
-------------------------------
-CREATE USIM related procedures
-
-1 Zeile ausgewählt.
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../PROCEDURES/USIM_RUN_SCRIPT.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_SCRIPT procedure already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_RUN_SCRIPT'
-  8     AND object_type = 'PROCEDURE'
-  9  ;
-
-SCRIPTFILE
----------------------------------------------------------------------
-../PROCEDURES/USIM_RUN_SCRIPT.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_script( p_job_name IN VARCHAR2
-  2                                             , p_script   IN VARCHAR2 DEFAULT NULL
-  3                                             , p_path     IN VARCHAR2 DEFAULT NULL
-  4                                             )
-  5  /**
-  6  * Starts the scheduler job to run a given script or recreate of the schema. If script is not
-  7  * given the setup scripts are run that recreate the schema. No checks are done on the given
-  8  * script so it may fail on execution. Reserved by SYS. Timeout has to be controlled by provided
-  9  * procedures granted to USIM users.
- 10  * @param p_job_name Mandatory. The job to run, e.g. RUN_SERVER_SQL or RUN_SERVER_SQL_TEST.
- 11  * @param p_script Either NULL or a valid file name including extension that exists on the database server.
- 12  * @param p_path Either NULL or a valid path that exists on the database server.
- 13  */
- 14  IS
- 15  BEGIN
- 16      IF p_script IS NOT NULL
- 17      THEN
- 18        -- set parameter
- 19        DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE( job_name       => p_job_name
- 20                                             , argument_name  => 'SCRIPT_NAME'
- 21                                             , argument_value => p_script
- 22                                             )
- 23        ;
- 24      END IF;
- 25      IF p_path IS NOT NULL
- 26      THEN
- 27        -- set parameter
- 28        DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE( job_name       => p_job_name
- 29                                             , argument_name  => 'SCRIPT_PATH'
- 30                                             , argument_value => p_path
- 31                                             )
- 32        ;
- 33      END IF;
- 34      -- run job once
- 35      DBMS_SCHEDULER.RUN_JOB(job_name => p_job_name);
- 36  END;
- 37  /
-
-Procedure USIM_RUN_SCRIPT kompiliert
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../PROCEDURES/USIM_RUN_RECREATE.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE procedure already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_RUN_RECREATE'
-  8     AND object_type = 'PROCEDURE'
-  9  ;
-
-SCRIPTFILE
------------------------------------------------------------------------
-../PROCEDURES/USIM_RUN_RECREATE.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_recreate( p_caller   IN VARCHAR2
-  2                                               , p_timeout  IN NUMBER DEFAULT NULL
-  3                                               )
-  4  /**
-  5  * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
-  6  * The finished state is detected by the scheduler log entry. Status can be FAILED or SUCCEEDED. There is an overall
-  7  * timeout of 8 hours, scripts called should not take longer.
-  8  * @param p_caller The schema to use, APEX should submit '#OWNER#' as parameter.
-  9  * @param p_timeout The timeout for waiting to finish job in minutes, if NULL (default) wait until finished.
- 10  */
- 11  IS
- 12    l_job_name        VARCHAR2(128);
- 13    l_package         VARCHAR2(128);
- 14    l_startdate       TIMESTAMP;
- 15    l_enddate         TIMESTAMP;
- 16    l_is_done         INTEGER;
- 17    l_is_schema_done  INTEGER;
- 18    CURSOR cur_done( cp_startdate IN TIMESTAMP
- 19                   , cp_job_name  IN VARCHAR2
- 20                   )
- 21    IS
- 22      SELECT COUNT(*) AS is_done
- 23        FROM dba_scheduler_job_log
- 24       WHERE job_name  = cp_job_name
- 25         AND operation = 'RUN'
- 26         AND status   IN ('SUCCEEDED', 'FAILED')
- 27         AND log_date  > cp_startdate
- 28    ;
- 29    -- end of install by last object installed, should be USIM_APEX or USIM_TEST package
- 30    CURSOR cur_schema_done( cp_owner    IN VARCHAR2
- 31                          , cp_package  IN VARCHAR2
- 32                          )
- 33    IS
- 34      SELECT COUNT(*)
- 35        FROM dba_objects
- 36       WHERE owner        = cp_owner
- 37         AND object_name  = cp_package
- 38         AND object_type  = 'PACKAGE BODY'
- 39    ;
- 40  BEGIN
- 41    -- check caller
- 42    IF p_caller NOT IN ('USIM', 'USIM_TEST')
- 43    THEN
- 44      -- do not anything if caller is not USIM or USIM_TEST
- 45      RETURN;
- 46    ELSE
- 47      IF p_caller = 'USIM'
- 48      THEN
- 49        l_job_name := 'USIM_RUN_SERVER_SQL';
- 50        l_package  := 'USIM_APEX';
- 51      ELSE
- 52        l_job_name := 'USIM_RUN_SERVER_SQL_TEST';
- 53        l_package  := 'USIM_TEST';
- 54      END IF;
- 55    END IF;
- 56    l_startdate := SYSTIMESTAMP;
- 57    usim_run_script(p_job_name  => l_job_name);
- 58    -- only positive numbers
- 59    IF NVL(p_timeout, 0) > 0
- 60    THEN
- 61      l_enddate := l_startdate + (INTERVAL '1' MINUTE * p_timeout);
- 62    ELSE
- 63      -- overall timeout
- 64      l_enddate := l_startdate + INTERVAL '8' HOUR;
- 65    END IF;
- 66    -- loop until done or timeout
- 67    LOOP
- 68      l_is_done := 0;
- 69      l_is_schema_done := 0;
- 70      OPEN cur_done(l_startdate, l_job_name);
- 71      FETCH cur_done INTO l_is_done;
- 72      CLOSE cur_done;
- 73      OPEN cur_schema_done(p_caller, l_package);
- 74      FETCH cur_schema_done INTO l_is_schema_done;
- 75      CLOSE cur_schema_done;
- 76      EXIT WHEN (l_is_done > 0 AND l_is_schema_done > 0) OR SYSTIMESTAMP > l_enddate;
- 77      DBMS_SESSION.SLEEP(5);
- 78    END LOOP;
- 79  END;
- 80  /
-
-Procedure USIM_RUN_RECREATE kompiliert
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../PROCEDURES/USIM_RUN_TEST.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_RUN_TEST'
-  8     AND object_type = 'PROCEDURE'
-  9  ;
-
-SCRIPTFILE
--------------------------------------------------------------------
-../PROCEDURES/USIM_RUN_TEST.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_test
-  2  /**
-  3  * Wrapper for USIM_RUN_SCRIPT to run test script for USIM_TEST main user.
-  4  */
-  5  IS
-  6    l_path VARCHAR2(4000);
-  7  BEGIN
-  8    SELECT directory_path || delimiter || 'TESTING' AS test_path
-  9      INTO l_path
- 10      FROM (SELECT directory_path
- 11                 , CASE
- 12                     WHEN INSTR(directory_path, ':')
- 13                     THEN '\'
- 14                     ELSE '/'
- 15                   END AS delimiter
- 16              FROM dba_directories
- 17             WHERE directory_name = 'USIM_SCRIPT_DIR'
- 18           )
- 19    ;
- 20    usim_run_script( p_job_name  => 'USIM_RUN_SERVER_SQL_TEST'
- 21                   , p_script    => 'USIM_TESTS.sql'
- 22                   , p_path      => l_path
- 23                   )
- 24    ;
- 25  END;
- 26  /
-
-Procedure USIM_RUN_TEST kompiliert
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../PROCEDURES/USIM_RUN_TESTDATA.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TESTDATA procedure already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_RUN_TESTDATA'
-  8     AND object_type = 'PROCEDURE'
-  9  ;
-
-SCRIPTFILE
------------------------------------------------------------------------
-../PROCEDURES/USIM_RUN_TESTDATA.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE PROCEDURE usim_run_testdata
-  2  /**
-  3  * Wrapper for USIM_RUN_SCRIPT to run test script for USIM_TEST main user.
-  4  */
-  5  IS
-  6    l_path VARCHAR2(4000);
-  7  BEGIN
-  8    SELECT directory_path || delimiter || 'TESTING' AS test_path
-  9      INTO l_path
- 10      FROM (SELECT directory_path
- 11                 , CASE
- 12                     WHEN INSTR(directory_path, ':')
- 13                     THEN '\'
- 14                     ELSE '/'
- 15                   END AS delimiter
- 16              FROM dba_directories
- 17             WHERE directory_name = 'USIM_SCRIPT_DIR'
- 18           )
- 19    ;
- 20    usim_run_script( p_job_name  => 'USIM_RUN_SERVER_SQL_TEST'
- 21                   , p_script    => 'BASIC_TEST_DATA_SETUP.sql'
- 22                   , p_path      => l_path
- 23                   )
- 24    ;
- 25  END;
- 26  /
-
-Procedure USIM_RUN_TESTDATA kompiliert
-
-SQL> -- CREATE FUNCTIONS
-SQL> SELECT 'CREATE USIM related functions' AS info FROM dual;
-
-INFO
------------------------------
-CREATE USIM related functions
-
-1 Zeile ausgewählt.
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../FUNCTIONS/USIM_FILETYPE.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_FILETYPE function already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_FILETYPE'
-  8     AND object_type = 'FUNCTION'
-  9  ;
-
-SCRIPTFILE
-------------------------------------------------------------------
-../FUNCTIONS/USIM_FILETYPE.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE FUNCTION usim_filetype( p_filename  IN VARCHAR2
-  2                                          , p_directory IN VARCHAR2 DEFAULT 'USIM_LOG_DIR'
-  3                                          )
-  4    RETURN VARCHAR2
-  5  IS
-  6    l_file        UTL_FILE.FILE_TYPE;
-  7    -- minimum raw buffer is 512
-  8    l_buffer      RAW(512);
-  9    l_bufsize     CONSTANT PLS_INTEGER := 512;
- 10    l_lf          RAW(1);
- 11    l_cr          RAW(1);
- 12    l_line        INTEGER;
- 13    l_type        VARCHAR2(2000);
- 14  BEGIN
- 15    l_type := 'ERROR';
- 16    l_line := -3;
- 17    l_lf   := utl_raw.cast_to_raw(CHR(10));
- 18    l_line := -2;
- 19    l_cr   := utl_raw.cast_to_raw(CHR(13));
- 20    l_line := -1;
- 21    l_file := UTL_FILE.FOPEN(p_directory, p_filename, 'r', l_bufsize);
- 22    l_line := 0;
- 23    LOOP
- 24      -- loop as long as needed to find first line end
- 25      BEGIN
- 26        l_line := l_line +1;
- 27        UTL_FILE.GET_RAW(l_file, l_buffer, l_bufsize);
- 28        -- loop char by char through buffer
- 29        FOR l_idx IN 1..l_bufsize
- 30        LOOP
- 31          IF utl_raw.SUBSTR(l_buffer, l_idx, 1) = l_cr
- 32          THEN
- 33              -- first found CR, checkout if Windows or Mac
- 34              IF utl_raw.SUBSTR(l_buffer, l_idx + 1, 1) = l_lf
- 35              THEN
- 36                l_type := 'CRLF';
- 37              ELSE
- 38                l_type := 'CR';
- 39              END IF;
- 40              EXIT;
- 41          END IF;
- 42          IF utl_raw.SUBSTR(l_buffer, l_idx, 1) = l_lf
- 43          THEN
- 44              -- first found LF, so UNIX style
- 45              l_type := 'LF';
- 46              EXIT;
- 47          END IF;
- 48        END LOOP;
- 49      EXCEPTION
- 50        WHEN NO_DATA_FOUND THEN
- 51          -- read until end if needed: no data found and no line end delimiter found
- 52          l_type := 'ERROR no CR or LF found in ' || p_filename|| ' directory: ' || p_directory;
- 53          EXIT;
- 54      END;
- 55      EXIT WHEN l_type != 'ERROR';
- 56    END LOOP;
- 57    UTL_FILE.FCLOSE(l_file);
- 58    RETURN l_type;
- 59  EXCEPTION
- 60    WHEN OTHERS THEN
- 61      RETURN 'Error USIM_FILETYPE filename: ' || p_filename || ' directory: ' || p_directory || ' line: ' || l_line || ' ' || SQLERRM;
- 62  END;
- 63  /
-
-Function USIM_FILETYPE kompiliert
-
-SQL> SELECT CASE
-  2           WHEN COUNT(*) = 0
-  3           THEN '../FUNCTIONS/USIM_LOAD_LOG.sql'
-  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_LOAD_LOG function already exists."'
-  5         END AS SCRIPTFILE
-  6    FROM dba_objects
-  7   WHERE object_name LIKE 'USIM_LOAD_LOG'
-  8     AND object_type = 'FUNCTION'
-  9  ;
-
-SCRIPTFILE
-------------------------------------------------------------------
-../FUNCTIONS/USIM_LOAD_LOG.sql
-
-1 Zeile ausgewählt.
-
-SQL> @@&SCRIPTFILE
-SQL> CREATE OR REPLACE FUNCTION usim_load_log( p_filename  IN VARCHAR2
-  2                                          , p_platform  IN VARCHAR2 DEFAULT 'Win32'
-  3                                          , p_directory IN VARCHAR2 DEFAULT 'USIM_LOG_DIR'
-  4                                          )
-  5    RETURN CLOB
-  6  IS
-  7    /** Function for USIM to read logs from disc.
-  8    * Expect SQL logs with max. linesize 9999 set. Needs to consider that DBA files are probably created on
-  9    * windows and APEX runs as well mostly under windows. May only work with Windows Client and OVA server.
- 10    * If log file is unix type and client is windows the new line is corrected to CRLF.
- 11    * @param p_filename The name of the log file that resides in the given directory, e.g. USIM_SETUP.log.
- 12    * @param p_platform The client platform used. Default is Win32. Useful if enviroments server/client differ to display logs correctly.
- 13    * @param p_directory The name of a valid directory for logs. Default is USIM_LOG_DIR.
- 14    * @return A CLOB containing either the file content or the error message why file could not be loaded.
- 15    */
- 16    l_clob        CLOB;
- 17    l_file        UTL_FILE.FILE_TYPE;
- 18    l_buffer      VARCHAR2(10024);
- 19    l_bufsize     CONSTANT PLS_INTEGER := 10024;
- 20    l_crlf        VARCHAR2(2) := CHR(13) || CHR(10);
- 21    l_lf          VARCHAR2(1) := CHR(10);
- 22    l_buffer_crlf VARCHAR(32000);
- 23    l_line        INTEGER;
- 24    l_filetype    VARCHAR2(2000);
- 25    l_system      VARCHAR2(128);
- 26  BEGIN
- 27    IF INSTR(UPPER(p_platform), 'WIN') > 0
- 28    THEN
- 29      l_system := 'WINDOWS';
- 30    ELSE
- 31      l_system := 'UNIX';
- 32    END IF;
- 33    l_line := -3;
- 34    l_filetype := usim_filetype(p_filename, p_directory);
- 35    IF INSTR(UPPER(l_filetype), 'ERROR') > 0
- 36    THEN
- 37      RETURN 'ERROR USIM_LOAD_LOG checking file type: ' || l_filetype;
- 38    END IF;
- 39    l_line := -2;
- 40    l_file := UTL_FILE.FOPEN(p_directory, p_filename, 'r', l_bufsize);
- 41    l_line := -1;
- 42    DBMS_LOB.CREATETEMPORARY(l_clob, TRUE, DBMS_LOB.CALL);
- 43    l_line := 0;
- 44    LOOP
- 45      BEGIN
- 46        l_line := l_line +1;
- 47        UTL_FILE.GET_LINE(l_file, l_buffer);
- 48        -- empty buffers through different lf/crlf settings cause errors if running APEX on windows.
- 49        IF l_buffer IS NULL
- 50        THEN
- 51          IF l_filetype != 'CRLF' AND l_system = 'WINDOWS'
- 52          THEN
- 53            l_buffer_crlf := l_crlf;
- 54          ELSE
- 55            l_buffer_crlf := l_lf;
- 56          END IF;
- 57        ELSE
- 58          IF l_filetype != 'CRLF' AND l_system = 'WINDOWS'
- 59          THEN
- 60            l_buffer_crlf := RTRIM(REPLACE(l_buffer, l_lf, l_crlf)) || l_crlf;
- 61          ELSE
- 62            l_buffer_crlf := RTRIM(l_buffer);
- 63          END IF;
- 64        END IF;
- 65        DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
- 66      EXCEPTION
- 67        WHEN NO_DATA_FOUND THEN
- 68          -- read until end: no data found
- 69          EXIT;
- 70      END;
- 71    END LOOP;
- 72    UTL_FILE.FCLOSE(l_file);
- 73    -- add debug information on file
- 74    l_buffer_crlf := 'File type: ' || l_filetype || ' client platform: ' || l_system || ' platform parameter: ' || p_platform;
- 75    DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
- 76    RETURN l_clob;
- 77  EXCEPTION
- 78    WHEN OTHERS THEN
- 79      l_clob := 'Error USIM_LOAD_LOG filename: ' || p_filename || ' directory: ' || p_directory || ' line: ' || l_line || ' ' || SQLERRM;
- 80      RETURN l_clob;
- 81  END;
- 82  /
-
-Function USIM_LOAD_LOG kompiliert
-
 SQL> -- CREATE VIEWS
 SQL> SELECT 'CREATE USIM related views' AS info FROM dual;
 
@@ -1380,6 +943,434 @@ SQL> CREATE OR REPLACE VIEW usim_install_state AS
 
 View USIM_INSTALL_STATE erstellt.
 
+SQL> -- CREATE PACKAGES
+SQL> SELECT 'CREATE USIM related packages' AS info FROM dual;
+
+INFO
+----------------------------
+CREATE USIM related packages
+
+1 Zeile ausgewählt.
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 0
+  3           THEN '../PACKAGES/USIM_SYS_UTIL.pks'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_SYS_UTIL package header already exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name = 'USIM_SYS_UTIL'
+  8     AND object_type = 'PACKAGE'
+  9     AND owner       = USER
+ 10  ;
+
+SCRIPTFILE
+------------------------------------------------------------------------
+../PACKAGES/USIM_SYS_UTIL.pks
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> CREATE OR REPLACE PACKAGE usim_sys_util
+  2  IS
+  3    /* Interface package for DBA activities needed for USIM and APEX. */
+  4
+  5    --== package variable definition ==--
+  6    -- default schema fixed, change if needed
+  7    PROD_SCHEMA CONSTANT CHAR(4) := 'USIM';
+  8    -- test schema fixed, change if needed
+  9    TEST_SCHEMA CONSTANT CHAR(9) := 'USIM_TEST';
+ 10
+ 11    /**
+ 12    * Starts the scheduler job to run a given script or recreate of the schema. If script is not
+ 13    * given the setup scripts are run that recreate the schema. No checks are done on the given
+ 14    * script so it may fail on execution. Reserved by SYS. Timeout has to be controlled by provided
+ 15    * procedures granted to USIM users.
+ 16    * @param p_job_name Mandatory. The job to run, e.g. RUN_SERVER_SQL or RUN_SERVER_SQL_TEST.
+ 17    * @param p_script Either NULL or a valid file name including extension that exists on the database server.
+ 18    * @param p_path Either NULL or a valid path that exists on the database server.
+ 19    */
+ 20    PROCEDURE run_script( p_job_name IN VARCHAR2
+ 21                        , p_script   IN VARCHAR2 DEFAULT NULL
+ 22                        , p_path     IN VARCHAR2 DEFAULT NULL
+ 23                        )
+ 24    ;
+ 25
+ 26    /**
+ 27    * Wrapper for USIM_RUN_SCRIPT to run setup for USIM main user. Setup will drop also all existing objects of USIM.
+ 28    * The finished state is detected by the scheduler log entry. Status can be FAILED or SUCCEEDED. There is an overall
+ 29    * timeout of 8 hours, scripts called should not take longer.
+ 30    * @param p_caller The schema to use, APEX should submit '#OWNER#' as parameter.
+ 31    * @param p_timeout The timeout for waiting to finish job in minutes, if NULL (default) wait until finished.
+ 32    */
+ 33    PROCEDURE run_recreate( p_caller   IN VARCHAR2
+ 34                          , p_timeout  IN NUMBER DEFAULT NULL
+ 35                          )
+ 36    ;
+ 37
+ 38    /**
+ 39    * Wrapper for USIM_RUN_SCRIPT to run test scripts for USIM_TEST main user.
+ 40    * @param p_script The name of the test script file. Default is USIM_TESTS.sql.
+ 41    */
+ 42    PROCEDURE run_test(p_script_name IN VARCHAR2 DEFAULT 'USIM_TESTS.sql');
+ 43
+ 44    /**
+ 45    * Determines a file type in sense of CRLF, LF, CR by analyzing the file until first
+ 46    * occurrence of LF or CR possibly followed by LF (not true for Mac). Only Windows must
+ 47    * be handled, if client and server differs. Mac and Unix environments are equal in handling
+ 48    * line end terminators. Windows clients with unix servers reading files created by server
+ 49    * will not display correctly linefeeds. So CR has to be added only in this situation.
+ 50    * @param p_filename The name of the file to inspect.
+ 51    * @param p_directory The Oracle directory that points to the folder the file is saved.
+ 52    * @return The file type as text, LF, CRLF, CR or error information.
+ 53    */
+ 54    FUNCTION usim_filetype( p_filename  IN VARCHAR2
+ 55                          , p_directory IN VARCHAR2 DEFAULT 'USIM_LOG_DIR'
+ 56                          )
+ 57      RETURN VARCHAR2
+ 58    ;
+ 59
+ 60    /**
+ 61    * Transforms a user agent web site string to a platform string. Not in sense of browser old platform strings.
+ 62    * In the sense of USIM usage, the platform string is only relevant if Windows is used as client system. Identifying
+ 63    * only WIN may not be sufficient for user agent strings. Will search for WINDOWS without any version number.
+ 64    * @param p_user_agent The string provided by the client as USER AGENT.
+ 65    * @return The platform indentification, either WINDOWS or OTHERS. Smartphone OS is not handled or tested.
+ 66    */
+ 67    FUNCTION agent_to_platform(p_user_agent IN VARCHAR2)
+ 68      RETURN VARCHAR2
+ 69    ;
+ 70
+ 71    /**
+ 72    * Read logs from disk. Expect SQL logs with max. linesize 9999 set. Needs to consider that DBA files are probably created on
+ 73    * windows and APEX runs as well mostly under windows. May only work with Windows Client and OVA server.
+ 74    * If log file is unix type and client is windows the new line is corrected to CRLF.
+ 75    * @param p_filename The name of the log file that resides in the given directory, e.g. USIM_SETUP.log.
+ 76    * @param p_platform The client platform used. Default is Win32. Useful if enviroments server/client differ to display logs correctly.
+ 77    * May also be USER AGENT string. Searched for the upper case string WIN to match.
+ 78    * @param p_directory The name of a valid directory for logs. Default is USIM_LOG_DIR.
+ 79    * @return A CLOB containing either the file content or the error message why file could not be loaded.
+ 80    */
+ 81    FUNCTION load_log( p_filename  IN VARCHAR2
+ 82                     , p_platform  IN VARCHAR2 DEFAULT 'Win32'
+ 83                     , p_directory IN VARCHAR2 DEFAULT 'USIM_LOG_DIR'
+ 84                     )
+ 85      RETURN CLOB
+ 86    ;
+ 87
+ 88  END usim_sys_util;
+ 89  /
+
+Package USIM_SYS_UTIL kompiliert
+
+SQL> SELECT CASE
+  2           WHEN COUNT(*) = 0
+  3           THEN '../PACKAGES/USIM_SYS_UTIL.pkb'
+  4           ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_SYS_UTIL package body already exists."'
+  5         END AS SCRIPTFILE
+  6    FROM dba_objects
+  7   WHERE object_name = 'USIM_SYS_UTIL'
+  8     AND object_type = 'PACKAGE BODY'
+  9     AND owner       = USER
+ 10  ;
+
+SCRIPTFILE
+----------------------------------------------------------------------
+../PACKAGES/USIM_SYS_UTIL.pkb
+
+1 Zeile ausgewählt.
+
+SQL> @@&SCRIPTFILE
+SQL> CREATE OR REPLACE PACKAGE BODY usim_sys_util
+  2  IS
+  3    -- see header for documentation
+  4
+  5    PROCEDURE run_script( p_job_name IN VARCHAR2
+  6                        , p_script   IN VARCHAR2 DEFAULT NULL
+  7                        , p_path     IN VARCHAR2 DEFAULT NULL
+  8                        )
+  9    IS
+ 10    BEGIN
+ 11      IF p_script IS NOT NULL
+ 12      THEN
+ 13        -- set parameter
+ 14        DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE( job_name       => p_job_name
+ 15                                             , argument_name  => 'SCRIPT_NAME'
+ 16                                             , argument_value => p_script
+ 17                                             )
+ 18        ;
+ 19      END IF;
+ 20      IF p_path IS NOT NULL
+ 21      THEN
+ 22        -- set parameter
+ 23        DBMS_SCHEDULER.SET_JOB_ARGUMENT_VALUE( job_name       => p_job_name
+ 24                                             , argument_name  => 'SCRIPT_PATH'
+ 25                                             , argument_value => p_path
+ 26                                             )
+ 27        ;
+ 28      END IF;
+ 29      -- run job once
+ 30      DBMS_SCHEDULER.RUN_JOB(job_name => p_job_name);
+ 31    END run_script;
+ 32
+ 33    PROCEDURE run_recreate( p_caller   IN VARCHAR2
+ 34                          , p_timeout  IN NUMBER DEFAULT NULL
+ 35                          )
+ 36    IS
+ 37      l_job_name        VARCHAR2(128);
+ 38      l_package         VARCHAR2(128);
+ 39      l_startdate       TIMESTAMP;
+ 40      l_enddate         TIMESTAMP;
+ 41      l_is_done         INTEGER;
+ 42      l_is_schema_done  INTEGER;
+ 43      l_status_old      NUMBER;
+ 44      l_status_new      NUMBER;
+ 45      CURSOR cur_done( cp_startdate IN TIMESTAMP
+ 46                     , cp_job_name  IN VARCHAR2
+ 47                     )
+ 48      IS
+ 49        SELECT COUNT(*) AS is_done
+ 50          FROM dba_scheduler_job_log
+ 51         WHERE job_name  = cp_job_name
+ 52           AND operation = 'RUN'
+ 53           AND status   IN ('SUCCEEDED', 'FAILED')
+ 54           AND log_date  > cp_startdate
+ 55      ;
+ 56      -- end of install by last object installed, should be USIM_APEX or USIM_TEST package
+ 57      CURSOR cur_schema_done( cp_owner    IN VARCHAR2
+ 58                            , cp_package  IN VARCHAR2
+ 59                            )
+ 60      IS
+ 61        SELECT COUNT(*)
+ 62          FROM dba_objects
+ 63         WHERE owner        = cp_owner
+ 64           AND object_name  = cp_package
+ 65           AND object_type  = 'PACKAGE BODY'
+ 66      ;
+ 67    BEGIN
+ 68      -- check caller
+ 69      IF p_caller NOT IN (usim_sys_util.PROD_SCHEMA, usim_sys_util.TEST_SCHEMA)
+ 70      THEN
+ 71        -- do not anything if caller is not USIM or USIM_TEST
+ 72        RETURN;
+ 73      ELSE
+ 74        IF p_caller = usim_sys_util.PROD_SCHEMA
+ 75        THEN
+ 76          l_job_name := 'USIM_RUN_SERVER_SQL';
+ 77          l_package  := 'USIM_APEX';
+ 78        ELSE
+ 79          l_job_name := 'USIM_RUN_SERVER_SQL_TEST';
+ 80          l_package  := 'USIM_TEST';
+ 81        END IF;
+ 82      END IF;
+ 83      l_startdate := SYSTIMESTAMP;
+ 84      SELECT status
+ 85        INTO l_status_old
+ 86        FROM usim_install_state
+ 87      ;
+ 88      run_script(p_job_name  => l_job_name);
+ 89      -- only positive numbers
+ 90      IF NVL(p_timeout, 0) > 0
+ 91      THEN
+ 92        l_enddate := l_startdate + (INTERVAL '1' MINUTE * p_timeout);
+ 93      ELSE
+ 94        -- overall timeout
+ 95        l_enddate := l_startdate + INTERVAL '8' HOUR;
+ 96      END IF;
+ 97      -- loop until state is changing to get beginning of external job execution
+ 98      -- no sleep as things should change fast, but timeout anyway
+ 99      LOOP
+100        SELECT status
+101          INTO l_status_new
+102          FROM usim_install_state
+103        ;
+104        EXIT WHEN l_status_old != l_status_new OR SYSTIMESTAMP > l_enddate;
+105      END LOOP;
+106      -- loop until done or timeout
+107      LOOP
+108        l_is_done := 0;
+109        l_is_schema_done := 0;
+110        OPEN cur_done(l_startdate, l_job_name);
+111        FETCH cur_done INTO l_is_done;
+112        CLOSE cur_done;
+113        OPEN cur_schema_done(p_caller, l_package);
+114        FETCH cur_schema_done INTO l_is_schema_done;
+115        CLOSE cur_schema_done;
+116        EXIT WHEN (l_is_done > 0 AND l_is_schema_done > 0) OR SYSTIMESTAMP > l_enddate;
+117        DBMS_SESSION.SLEEP(5);
+118      END LOOP;
+119    END run_recreate;
+120
+121    PROCEDURE run_test(p_script_name IN VARCHAR2 DEFAULT 'USIM_TESTS.sql')
+122    IS
+123      l_path VARCHAR2(4000);
+124    BEGIN
+125      SELECT directory_path
+126        INTO l_path
+127        FROM dba_directories
+128       WHERE directory_name = 'USIM_TEST_DIR'
+129      ;
+130      run_script( p_job_name  => 'USIM_RUN_SERVER_SQL_TEST'
+131                , p_script    => NVL(p_script_name, 'USIM_TESTS.sql')
+132                , p_path      => l_path
+133                )
+134      ;
+135    END run_test;
+136
+137    FUNCTION usim_filetype( p_filename  IN VARCHAR2
+138                          , p_directory IN VARCHAR2 DEFAULT 'USIM_LOG_DIR'
+139                          )
+140      RETURN VARCHAR2
+141    IS
+142      l_file        UTL_FILE.FILE_TYPE;
+143      -- minimum raw buffer is 512
+144      l_buffer      RAW(512);
+145      l_bufsize     CONSTANT PLS_INTEGER := 512;
+146      l_lf          RAW(1);
+147      l_cr          RAW(1);
+148      l_line        INTEGER;
+149      l_type        VARCHAR2(2000);
+150    BEGIN
+151      l_type := 'ERROR';
+152      l_line := -3;
+153      l_lf   := utl_raw.cast_to_raw(CHR(10));
+154      l_line := -2;
+155      l_cr   := utl_raw.cast_to_raw(CHR(13));
+156      l_line := -1;
+157      l_file := UTL_FILE.FOPEN(p_directory, p_filename, 'r', l_bufsize);
+158      l_line := 0;
+159      LOOP
+160        -- loop as long as needed to find first line end
+161        BEGIN
+162          l_line := l_line +1;
+163          UTL_FILE.GET_RAW(l_file, l_buffer, l_bufsize);
+164          -- loop char by char through buffer
+165          FOR l_idx IN 1..l_bufsize
+166          LOOP
+167            IF utl_raw.SUBSTR(l_buffer, l_idx, 1) = l_cr
+168            THEN
+169                -- first found CR, checkout if Windows or Mac
+170                IF utl_raw.SUBSTR(l_buffer, l_idx + 1, 1) = l_lf
+171                THEN
+172                  l_type := 'CRLF';
+173                ELSE
+174                  l_type := 'CR';
+175                END IF;
+176                EXIT;
+177            END IF;
+178            IF utl_raw.SUBSTR(l_buffer, l_idx, 1) = l_lf
+179            THEN
+180                -- first found LF, so UNIX style
+181                l_type := 'LF';
+182                EXIT;
+183            END IF;
+184          END LOOP;
+185        EXCEPTION
+186          WHEN NO_DATA_FOUND THEN
+187            -- read until end if needed: no data found and no line end delimiter found
+188            l_type := 'ERROR no CR or LF found in ' || p_filename|| ' directory: ' || p_directory;
+189            EXIT;
+190        END;
+191        EXIT WHEN l_type != 'ERROR';
+192      END LOOP;
+193      UTL_FILE.FCLOSE(l_file);
+194      RETURN l_type;
+195    EXCEPTION
+196      WHEN OTHERS THEN
+197        RETURN 'Error USIM_FILETYPE filename: ' || p_filename || ' directory: ' || p_directory || ' line: ' || l_line || ' ' || SQLERRM;
+198    END usim_filetype;
+199
+200    FUNCTION agent_to_platform(p_user_agent IN VARCHAR2)
+201      RETURN VARCHAR2
+202    IS
+203      l_return VARCHAR2(10);
+204    BEGIN
+205      IF INSTR(UPPER(p_user_agent), 'WINDOWS') > 0
+206      THEN
+207        l_return := 'WINDOWS';
+208      ELSE
+209        l_return := 'OTHERS';
+210      END IF;
+211      RETURN l_return;
+212    END agent_to_platform;
+213
+214    FUNCTION load_log( p_filename  IN VARCHAR2
+215                     , p_platform  IN VARCHAR2 DEFAULT 'Win32'
+216                     , p_directory IN VARCHAR2 DEFAULT 'USIM_LOG_DIR'
+217                     )
+218      RETURN CLOB
+219    IS
+220      l_clob        CLOB;
+221      l_file        UTL_FILE.FILE_TYPE;
+222      l_buffer      VARCHAR2(10024);
+223      l_bufsize     CONSTANT PLS_INTEGER := 10024;
+224      l_crlf        VARCHAR2(2) := CHR(13) || CHR(10);
+225      l_lf          VARCHAR2(1) := CHR(10);
+226      l_buffer_crlf VARCHAR(32000);
+227      l_line        INTEGER;
+228      l_filetype    VARCHAR2(2000);
+229      l_system      VARCHAR2(128);
+230    BEGIN
+231      IF INSTR(UPPER(p_platform), 'WIN') > 0
+232      THEN
+233        l_system := 'WINDOWS';
+234      ELSE
+235        l_system := 'OTHERS';
+236      END IF;
+237      l_line := -3;
+238      l_filetype := usim_filetype(p_filename, p_directory);
+239      IF INSTR(UPPER(l_filetype), 'ERROR') > 0
+240      THEN
+241        RETURN 'ERROR USIM_LOAD_LOG checking file type: ' || l_filetype;
+242      END IF;
+243      l_line := -2;
+244      l_file := UTL_FILE.FOPEN(p_directory, p_filename, 'r', l_bufsize);
+245      l_line := -1;
+246      DBMS_LOB.CREATETEMPORARY(l_clob, TRUE, DBMS_LOB.CALL);
+247      l_line := 0;
+248      LOOP
+249        BEGIN
+250          l_line := l_line +1;
+251          UTL_FILE.GET_LINE(l_file, l_buffer);
+252          -- empty buffers through different lf/crlf settings cause errors if running APEX on windows.
+253          IF l_buffer IS NULL
+254          THEN
+255            IF l_filetype != 'CRLF' AND l_system = 'WINDOWS'
+256            THEN
+257              l_buffer_crlf := l_crlf;
+258            ELSE
+259              l_buffer_crlf := l_lf;
+260            END IF;
+261          ELSE
+262            IF l_filetype != 'CRLF' AND l_system = 'WINDOWS'
+263            THEN
+264              l_buffer_crlf := RTRIM(REPLACE(l_buffer, l_lf, l_crlf)) || l_crlf;
+265            ELSE
+266              l_buffer_crlf := RTRIM(l_buffer);
+267            END IF;
+268          END IF;
+269          DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
+270        EXCEPTION
+271          WHEN NO_DATA_FOUND THEN
+272            -- read until end: no data found
+273            EXIT;
+274        END;
+275      END LOOP;
+276      UTL_FILE.FCLOSE(l_file);
+277      -- add debug information on file
+278      l_buffer_crlf := 'File type: ' || l_filetype || ' client platform: ' || l_system || ' platform parameter: ' || p_platform;
+279      DBMS_LOB.WRITEAPPEND(l_clob, LENGTH(l_buffer_crlf), l_buffer_crlf);
+280      RETURN l_clob;
+281    EXCEPTION
+282      WHEN OTHERS THEN
+283        l_clob := 'Error USIM_LOAD_LOG filename: ' || p_filename || ' directory: ' || p_directory || ' line: ' || l_line || ' ' || SQLERRM;
+284        RETURN l_clob;
+285    END load_log;
+286
+287  END usim_sys_util;
+288  /
+
+Package Body USIM_SYS_UTIL kompiliert
+
 SQL> -- CREATE PUBLIC SYNONYMS
 SQL> SELECT 'CREATE USIM related public synonyms' AS info FROM dual;
 
@@ -1392,14 +1383,14 @@ CREATE USIM related public synonyms
 SQL> SELECT CASE
   2           WHEN COUNT(*) = 0
   3           THEN 'USIM_PUBLIC_SYNONYMS.sql'
-  4           WHEN COUNT(*) = 6
+  4           WHEN COUNT(*) = 2
   5           THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms already exists."'
   6           ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove public synonyms manually before."'
   7         END AS SCRIPTFILE
   8    FROM dba_objects
   9   WHERE owner        = 'PUBLIC'
  10     AND object_type  = 'SYNONYM'
- 11     AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA', 'USIM_LOAD_LOG')
+ 11     AND object_name IN ('USIM_INSTALL_STATE', 'USIM_SYS_UTIL')
  12  ;
 
 SCRIPTFILE
@@ -1413,25 +1404,9 @@ SQL> CREATE PUBLIC SYNONYM usim_install_state FOR usim_install_state;
 
 SYNONYM USIM_INSTALL_STATE erstellt.
 
-SQL> CREATE PUBLIC SYNONYM usim_run_script FOR usim_run_script;
+SQL> CREATE PUBLIC SYNONYM usim_sys_util FOR usim_sys_util;
 
-SYNONYM USIM_RUN_SCRIPT erstellt.
-
-SQL> CREATE PUBLIC SYNONYM usim_run_recreate FOR usim_run_recreate;
-
-SYNONYM USIM_RUN_RECREATE erstellt.
-
-SQL> CREATE PUBLIC SYNONYM usim_run_test FOR usim_run_test;
-
-SYNONYM USIM_RUN_TEST erstellt.
-
-SQL> CREATE PUBLIC SYNONYM usim_run_testdata FOR usim_run_testdata;
-
-SYNONYM USIM_RUN_TESTDATA erstellt.
-
-SQL> CREATE PUBLIC SYNONYM usim_load_log FOR usim_load_log;
-
-SYNONYM USIM_LOAD_LOG erstellt.
+SYNONYM USIM_SYS_UTIL erstellt.
 
 SQL> -- CREATE USERS
 SQL> SELECT 'CREATE USIM users' AS info FROM dual;
@@ -1495,6 +1470,14 @@ SQL> GRANT ALL ON DIRECTORY usim_hist_dir TO usim;
 
 Grant erfolgreich.
 
+SQL> GRANT ALL ON DIRECTORY usim_log_dir TO usim;
+
+Grant erfolgreich.
+
+SQL> GRANT ALL ON DIRECTORY usim_script_dir TO usim;
+
+Grant erfolgreich.
+
 SQL> GRANT EXECUTE ON UTL_FILE to usim;
 
 Grant erfolgreich.
@@ -1515,18 +1498,6 @@ SQL> GRANT EXECUTE ANY PROGRAM TO usim;
 
 Grant erfolgreich.
 
-SQL> GRANT ALL ON DIRECTORY usim_dir TO usim;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON DIRECTORY usim_hist_dir TO usim;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON DIRECTORY usim_script_dir TO usim;
-
-Grant erfolgreich.
-
 SQL> GRANT ALL ON usim_os_access TO usim;
 
 Grant erfolgreich.
@@ -1535,27 +1506,11 @@ SQL> GRANT ALL ON usim_db_access TO usim;
 
 Grant erfolgreich.
 
-SQL> GRANT ALL ON usim_run_sql TO usim;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_server_sql TO usim;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_recreate TO usim;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_script TO usim;
-
-Grant erfolgreich.
-
 SQL> GRANT ALL ON usim_install_state TO usim;
 
 Grant erfolgreich.
 
-SQL> GRANT ALL ON usim_load_log TO usim;
+SQL> GRANT ALL ON usim_sys_util TO usim;
 
 Grant erfolgreich.
 
@@ -1620,6 +1575,14 @@ SQL> GRANT ALL ON DIRECTORY usim_script_dir TO usim_test;
 
 Grant erfolgreich.
 
+SQL> GRANT ALL ON DIRECTORY usim_log_dir TO usim_test;
+
+Grant erfolgreich.
+
+SQL> GRANT ALL ON DIRECTORY usim_test_dir TO usim_test;
+
+Grant erfolgreich.
+
 SQL> GRANT EXECUTE ON UTL_FILE to usim_test;
 
 Grant erfolgreich.
@@ -1648,35 +1611,11 @@ SQL> GRANT ALL ON usim_db_access_test TO usim_test;
 
 Grant erfolgreich.
 
-SQL> GRANT ALL ON usim_run_sql_test TO usim_test;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_server_sql_test TO usim_test;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_recreate TO usim_test;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_script TO usim_test;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_test TO usim_test;
-
-Grant erfolgreich.
-
-SQL> GRANT ALL ON usim_run_testdata TO usim_test;
-
-Grant erfolgreich.
-
 SQL> GRANT ALL ON usim_install_state TO usim_test;
 
 Grant erfolgreich.
 
-SQL> GRANT ALL ON usim_load_log TO usim_test;
+SQL> GRANT ALL ON usim_sys_util TO usim_test;
 
 Grant erfolgreich.
 

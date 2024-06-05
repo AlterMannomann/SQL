@@ -9,7 +9,7 @@ SPOOL LOG/USIM_DBA_CLEANUP.log
 -- DROP PUBLIC SYNONYMS
 SELECT 'DROP USIM related public synonyms' AS info FROM dual;
 SELECT CASE
-         WHEN COUNT(*) = 6
+         WHEN COUNT(*) = 2
          THEN 'DROP_USIM_PUBLIC_SYNONYMS.sql'
          WHEN COUNT(*) = 0
          THEN '../UTIL/NOTHING_TO_DO.sql "Public synonyms do not exists."'
@@ -18,19 +18,7 @@ SELECT CASE
   FROM dba_objects
  WHERE owner        = 'PUBLIC'
    AND object_type  = 'SYNONYM'
-   AND object_name IN ('USIM_INSTALL_STATE', 'USIM_RUN_SCRIPT', 'USIM_RUN_RECREATE', 'USIM_RUN_TEST', 'USIM_RUN_TESTDATA', 'USIM_LOAD_LOG')
-;
-@@&SCRIPTFILE
--- DROP VIEWS
-SELECT 'DROP USIM related views' AS info FROM dual;
-SELECT CASE
-         WHEN COUNT(*) = 1
-         THEN '../VIEW/DROP/DROP_USIM_INSTALL_STATE.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_INSTALL_STATE does not exists."'
-       END AS SCRIPTFILE
-  FROM dba_objects
- WHERE object_name = 'USIM_INSTALL_STATE'
-   AND object_type = 'VIEW'
+   AND object_name IN ('USIM_INSTALL_STATE', 'USIM_SYS_UTIL')
 ;
 @@&SCRIPTFILE
 -- DROP USERS
@@ -77,68 +65,40 @@ SELECT CASE
  WHERE tablespace_name = 'USIM_LIVE'
 ;
 @@&SCRIPTFILE
--- DROP FUNCTIONS
-SELECT 'DROP USIM related functions' AS info FROM dual;
+-- DROP PACKAGES
+SELECT 'DROP USIM related packages' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 1
-         THEN '../FUNCTIONS/DROP/DROP_USIM_LOAD_LOG.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_LOAD_LOG function does not exists."'
+         THEN '../PACKAGES/DROP/DROP_USIM_SYS_UTIL_PKB.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_SYS_UTIL package body does not exists."'
        END AS SCRIPTFILE
   FROM dba_objects
- WHERE object_name LIKE 'USIM_LOAD_LOG'
-   AND object_type = 'FUNCTION'
+ WHERE object_name = 'USIM_SYS_UTIL'
+   AND object_type = 'PACKAGE BODY'
+   AND owner       = USER
 ;
 @@&SCRIPTFILE
 SELECT CASE
          WHEN COUNT(*) = 1
-         THEN '../FUNCTIONS/DROP/DROP_USIM_FILETYPE.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_FILETYPE function does not exists."'
+         THEN '../PACKAGES/DROP/DROP_USIM_SYS_UTIL_PKS.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_SYS_UTIL package does not exists."'
        END AS SCRIPTFILE
   FROM dba_objects
- WHERE object_name LIKE 'USIM_FILETYPE'
-   AND object_type = 'FUNCTION'
+ WHERE object_name = 'USIM_SYS_UTIL'
+   AND object_type = 'PACKAGE'
+   AND owner       = USER
 ;
 @@&SCRIPTFILE
--- DROP PROCEDURES
-SELECT 'DROP USIM related procedures' AS info FROM dual;
+-- DROP VIEWS
+SELECT 'DROP USIM related views' AS info FROM dual;
 SELECT CASE
          WHEN COUNT(*) = 1
-         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_SCRIPT.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_SCRIPT procedure does not exists."'
+         THEN '../VIEW/DROP/DROP_USIM_INSTALL_STATE.sql'
+         ELSE '../UTIL/NOTHING_TO_DO.sql "View USIM_INSTALL_STATE does not exists."'
        END AS SCRIPTFILE
   FROM dba_objects
- WHERE object_name LIKE 'USIM_RUN_SCRIPT'
-   AND object_type = 'PROCEDURE'
-;
-@@&SCRIPTFILE
-SELECT CASE
-         WHEN COUNT(*) = 1
-         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_RECREATE.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_RECREATE procedure does not exists."'
-       END AS SCRIPTFILE
-  FROM dba_objects
- WHERE object_name LIKE 'USIM_RUN_RECREATE'
-   AND object_type = 'PROCEDURE'
-;
-@@&SCRIPTFILE
-SELECT CASE
-         WHEN COUNT(*) = 1
-         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_TEST.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TEST procedure does not exists."'
-       END AS SCRIPTFILE
-  FROM dba_objects
- WHERE object_name LIKE 'USIM_RUN_TEST'
-   AND object_type = 'PROCEDURE'
-;
-@@&SCRIPTFILE
-SELECT CASE
-         WHEN COUNT(*) = 1
-         THEN '../PROCEDURES/DROP/DROP_USIM_RUN_TESTDATA.sql'
-         ELSE '../UTIL/NOTHING_TO_DO.sql "USIM_RUN_TESTDATA procedure does not exists."'
-       END AS SCRIPTFILE
-  FROM dba_objects
- WHERE object_name LIKE 'USIM_RUN_TESTDATA'
-   AND object_type = 'PROCEDURE'
+ WHERE object_name = 'USIM_INSTALL_STATE'
+   AND object_type = 'VIEW'
 ;
 @@&SCRIPTFILE
 -- DROP JOBS AND PROGRAMS
@@ -168,14 +128,14 @@ SELECT CASE
 -- DROP DIRECTORIES
 SELECT 'DROP USIM related directories' AS info FROM dual;
 SELECT CASE
-         WHEN COUNT(*) = 4
+         WHEN COUNT(*) = 5
          THEN 'USIM_DROP_DIRECTORIES.sql'
          WHEN COUNT(*) = 0
-         THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR and USIM_SCRIPT_DIR do not exists."'
+         THEN '../UTIL/NOTHING_TO_DO.sql "Directories USIM_DIR, USIM_HIST_DIR, USIM_TEST_DIR and USIM_SCRIPT_DIR do not exists."'
          ELSE '../UTIL/EXIT_SCRIPT_WITH_ERROR.sql "Cleanup failed remove directories manually before."'
        END AS SCRIPTFILE
   FROM dba_directories
- WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR', 'USIM_LOG_DIR')
+ WHERE directory_name IN ('USIM_DIR', 'USIM_HIST_DIR', 'USIM_SCRIPT_DIR', 'USIM_LOG_DIR', 'USIM_TEST_DIR')
 ;
 @@&SCRIPTFILE
 SELECT owner, object_name, object_type, status FROM dba_objects WHERE status != 'VALID';

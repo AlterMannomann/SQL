@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-03.06.2024 21:44:36 FREEPDB1                       SYS                            Adi
+09.06.2024 21:55:14 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -1057,8 +1057,24 @@ SQL> CREATE OR REPLACE PACKAGE usim_sys_util
  85      RETURN CLOB
  86    ;
  87
- 88  END usim_sys_util;
- 89  /
+ 88    /**
+ 89    * Returns current version informations from V$VERSION and V$INSTANCE.
+ 90    * @return The version string and number for the current installed oracle version.
+ 91    */
+ 92    FUNCTION ora_version
+ 93      RETURN VARCHAR2
+ 94    ;
+ 95
+ 96    /**
+ 97    * Determines limitations on use of Oracle Free or XE versions.
+ 98    * @return 0 if enterprise or standard version, 1 if free or XE version with limited size.
+ 99    */
+100    FUNCTION is_oracle_limited
+101      RETURN NUMBER
+102    ;
+103
+104  END usim_sys_util;
+105  /
 
 Package USIM_SYS_UTIL kompiliert
 
@@ -1366,8 +1382,43 @@ SQL> CREATE OR REPLACE PACKAGE BODY usim_sys_util
 284        RETURN l_clob;
 285    END load_log;
 286
-287  END usim_sys_util;
-288  /
+287    FUNCTION ora_version
+288      RETURN VARCHAR2
+289    IS
+290      l_version VARCHAR2(2000);
+291    BEGIN
+292      SELECT banner_full
+293        INTO l_version
+294        FROM v$version
+295      ;
+296      RETURN l_version;
+297    END ora_version
+298    ;
+299
+300    FUNCTION is_oracle_limited
+301      RETURN NUMBER
+302    IS
+303      l_result NUMBER;
+304    BEGIN
+305      SELECT CASE
+306               WHEN (   UPPER(banner_full) LIKE '%STANDARD%'
+307                     OR UPPER(banner_full) LIKE '%ENTERPRISE%'
+308                    )
+309                AND (   UPPER(banner_full) NOT LIKE '% FREE %'
+310                     OR UPPER(banner_full) NOT LIKE '% XE %'
+311                    )
+312               THEN 0
+313               ELSE 1
+314             END
+315        INTO l_result
+316        FROM v$version
+317      ;
+318      RETURN l_result;
+319    END is_oracle_limited
+320    ;
+321
+322  END usim_sys_util;
+323  /
 
 Package Body USIM_SYS_UTIL kompiliert
 

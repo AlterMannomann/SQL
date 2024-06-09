@@ -284,6 +284,41 @@ IS
       RETURN l_clob;
   END load_log;
 
+  FUNCTION ora_version
+    RETURN VARCHAR2
+  IS
+    l_version VARCHAR2(2000);
+  BEGIN
+    SELECT banner_full
+      INTO l_version
+      FROM v$version
+    ;
+    RETURN l_version;
+  END ora_version
+  ;
+
+  FUNCTION is_oracle_limited
+    RETURN NUMBER
+  IS
+    l_result NUMBER;
+  BEGIN
+    SELECT CASE
+             WHEN (   UPPER(banner_full) LIKE '%STANDARD%'
+                   OR UPPER(banner_full) LIKE '%ENTERPRISE%'
+                  )
+              AND (   UPPER(banner_full) NOT LIKE '% FREE %'
+                   OR UPPER(banner_full) NOT LIKE '% XE %'
+                  )
+             THEN 0
+             ELSE 1
+           END
+      INTO l_result
+      FROM v$version
+    ;
+    RETURN l_result;
+  END is_oracle_limited
+  ;
+
 END usim_sys_util;
 /
 

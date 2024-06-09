@@ -85,5 +85,21 @@ IS
     RETURN CLOB
   ;
 
+  /**
+  * Returns current version informations from V$VERSION and V$INSTANCE.
+  * @return The version string and number for the current installed oracle version.
+  */
+  FUNCTION ora_version
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Determines limitations on use of Oracle Free or XE versions.
+  * @return 0 if enterprise or standard version, 1 if free or XE version with limited size.
+  */
+  FUNCTION is_oracle_limited
+    RETURN NUMBER
+  ;
+
 END usim_sys_util;
 /

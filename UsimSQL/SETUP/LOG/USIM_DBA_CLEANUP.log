@@ -9,7 +9,7 @@ SQL> SELECT TO_CHAR(SYSDATE, 'DD.MM.YYYY HH24:MI:SS') AS exec_date
 
 EXEC_DATE           DB_NAME                        DB_SCHEMA                      OS_USER
 ------------------- ------------------------------ ------------------------------ ------------------------------------------------------------
-03.06.2024 21:44:01 FREEPDB1                       SYS                            Adi
+09.06.2024 21:51:33 FREEPDB1                       SYS                            Adi
 
 1 Zeile ausgewählt.
 
@@ -38,18 +38,20 @@ SQL> SELECT CASE
 
 SCRIPTFILE
 ----------------------------------------------------------------------------------
-DROP_USIM_PUBLIC_SYNONYMS.sql
+../UTIL/NOTHING_TO_DO.sql "Public synonyms do not exists."
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> DROP PUBLIC SYNONYM usim_install_state;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('Public synonyms do not exists.', 'No further information available.')  AS info FROM dual
 
-SYNONYM USIM_INSTALL_STATE gelöscht.
+INFO
+---------------------------------------------
+Nothing to do. Public synonyms do not exists.
 
-SQL> DROP PUBLIC SYNONYM usim_sys_util;
-
-SYNONYM USIM_SYS_UTIL gelöscht.
+1 Zeile ausgewählt.
 
 SQL> -- DROP USERS
 SQL> SELECT 'DROP USIM Users' AS info FROM dual;
@@ -72,14 +74,20 @@ SQL> SELECT CASE
 
 SCRIPTFILE
 ----------------------------------------------------------
-USIM_DROP_TESTUSER.sql
+../UTIL/NOTHING_TO_DO.sql "User USIM_TEST does not exist."
 
 1 Zeile ausgewählt.
 
 SQL> @@&SCRIPTFILE
-SQL> DROP USER usim_test CASCADE;
+SQL> SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual;
+alt:SELECT 'Nothing to do. ' || NVL('&1', 'No further information available.')  AS info FROM dual
+neu:SELECT 'Nothing to do. ' || NVL('User USIM_TEST does not exist.', 'No further information available.')  AS info FROM dual
 
-User USIM_TEST gelöscht.
+INFO
+---------------------------------------------
+Nothing to do. User USIM_TEST does not exist.
+
+1 Zeile ausgewählt.
 
 SQL> -- USIM
 SQL> SELECT CASE

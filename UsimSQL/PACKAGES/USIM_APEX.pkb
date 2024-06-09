@@ -550,5 +550,13 @@ IS
   END disp_minmax_coords
   ;
 
+  FUNCTION has_dim_data
+    RETURN NUMBER
+  IS
+  BEGIN
+    RETURN usim_dim.has_data;
+  END has_dim_data
+  ;
+
 END usim_apex;
 /

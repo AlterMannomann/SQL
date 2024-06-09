@@ -223,7 +223,7 @@ IS
       usim_erl.log_error('usim_dim.init_positions', 'Used with invalid max position [' || p_max_coordinate || '].');
       RETURN 0;
     END IF;
-    FOR l_pos IN 0..ABS(p_max_coordinate)
+    FOR l_pos NUMBER IN 0..ABS(p_max_coordinate)
     LOOP
       l_usim_id_pos := usim_pos.insert_position(l_pos, p_do_commit);
       IF l_usim_id_pos IS NULL

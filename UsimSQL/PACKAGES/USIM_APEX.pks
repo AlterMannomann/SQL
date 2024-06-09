@@ -227,5 +227,13 @@ IS
     RETURN VARCHAR2
   ;
 
+  /**
+  * Checks if dimension data exist. Wrapper for usim_dim.has_data.
+  * @return Returns 1 if dimension data exist otherwise 0.
+  */
+  FUNCTION has_dim_data
+    RETURN NUMBER
+  ;
+
 END usim_apex;
 /

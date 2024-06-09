@@ -547,10 +547,14 @@ IS
     l_max_pos usim_position.usim_coordinate%TYPE;
     l_return  NUMBER;
   BEGIN
+    usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: started');
     IF usim_base.has_basedata = 1
     THEN
+      usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: base data check passed');
       l_max_pos := usim_base.get_abs_max_number;
+      usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: max number received');
       l_return  := usim_pos.init_positions(l_max_pos, FALSE);
+      usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: init done');
       IF l_return != 1
       THEN
         ROLLBACK;

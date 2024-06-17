@@ -550,6 +550,104 @@ IS
   END disp_minmax_coords
   ;
 
+  FUNCTION disp_max_overflow( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                            , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                            )
+    RETURN VARCHAR2
+  IS
+    l_return  VARCHAR2(4000);
+    l_hasdata NUMBER;
+  BEGIN
+    l_hasdata := usim_dbif.has_basedata;
+    IF l_hasdata = 1
+    THEN
+      l_return := '+' || disp_max_abs_number;
+    ELSIF l_hasdata = 0
+    THEN
+      l_return := NVL(p_none_option, 'N/A');
+    ELSE
+      usim_erl.log_error('usim_apex.disp_max_overflow', 'ERROR: Invalid return value from usim_dbif.has_basedata: ' || l_hasdata);
+      l_return := NVL(p_error_option, 'ERROR') || ': invalid return value: ' || CASE WHEN l_hasdata IS NULL THEN 'NULL' ELSE TO_CHAR(l_hasdata) END;
+    END IF;
+    RETURN l_return;
+  END disp_max_overflow
+  ;
+
+  FUNCTION disp_min_overflow( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                            , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                            )
+    RETURN VARCHAR2
+  IS
+    l_return  VARCHAR2(4000);
+    l_hasdata NUMBER;
+  BEGIN
+    l_hasdata := usim_dbif.has_basedata;
+    IF l_hasdata = 1
+    THEN
+      l_return := '-' || disp_max_abs_number;
+    ELSIF l_hasdata = 0
+    THEN
+      l_return := NVL(p_none_option, 'N/A');
+    ELSE
+      usim_erl.log_error('usim_apex.disp_min_overflow', 'ERROR: Invalid return value from usim_dbif.has_basedata: ' || l_hasdata);
+      l_return := NVL(p_error_option, 'ERROR') || ': invalid return value: ' || CASE WHEN l_hasdata IS NULL THEN 'NULL' ELSE TO_CHAR(l_hasdata) END;
+    END IF;
+    RETURN l_return;
+  END disp_min_overflow
+  ;
+
+  FUNCTION disp_max_underflow( p_prefix       IN VARCHAR2 DEFAULT NULL
+                             , p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                             , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                             )
+    RETURN VARCHAR2
+  IS
+    l_return  VARCHAR2(4000);
+    l_hasdata NUMBER;
+  BEGIN
+    l_hasdata := usim_dbif.has_basedata;
+    IF l_hasdata = 1
+    THEN
+      IF p_prefix IS NOT NULL
+      THEN
+        l_return := p_prefix || '+' || TRIM(TO_CHAR(usim_base.get_max_underflow));
+      ELSE
+        l_return := '+' || TRIM(TO_CHAR(usim_base.get_max_underflow));
+      END IF;
+    ELSIF l_hasdata = 0
+    THEN
+      l_return := NVL(p_none_option, 'N/A');
+    ELSE
+      usim_erl.log_error('usim_apex.disp_max_underflow', 'ERROR: Invalid return value from usim_dbif.has_basedata: ' || l_hasdata);
+      l_return := NVL(p_error_option, 'ERROR') || ': invalid return value: ' || CASE WHEN l_hasdata IS NULL THEN 'NULL' ELSE TO_CHAR(l_hasdata) END;
+    END IF;
+    RETURN l_return;
+  END disp_max_underflow
+  ;
+
+  FUNCTION disp_min_underflow( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                             , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                             )
+    RETURN VARCHAR2
+  IS
+    l_return  VARCHAR2(4000);
+    l_hasdata NUMBER;
+  BEGIN
+    l_hasdata := usim_dbif.has_basedata;
+    IF l_hasdata = 1
+    THEN
+      l_return := TRIM(TO_CHAR(usim_base.get_min_underflow));
+    ELSIF l_hasdata = 0
+    THEN
+      l_return := NVL(p_none_option, 'N/A');
+    ELSE
+      usim_erl.log_error('usim_apex.disp_min_underflow', 'ERROR: Invalid return value from usim_dbif.has_basedata: ' || l_hasdata);
+      l_return := NVL(p_error_option, 'ERROR') || ': invalid return value: ' || CASE WHEN l_hasdata IS NULL THEN 'NULL' ELSE TO_CHAR(l_hasdata) END;
+    END IF;
+    RETURN l_return;
+  END disp_min_underflow
+  ;
+
   FUNCTION has_dim_data
     RETURN NUMBER
   IS

@@ -5,6 +5,11 @@ If you make small setups with low dimensions and positions it may work a while. 
 ### Hint
 Download any available enterprise version now, configure your VM or Docker and create a base image/backup to still have access without being forced to go to cloud and let them steal your data and work.
 
+**Moreover Oracle APEX ...**
+Just struggeling with APEX always trying to convert a string to a number and fails. No one told APEX it should be a number. It is a VARCHAR2 returned from a function containing a number. But even given a prefix APEX still tries to convert it to a number. Which, of course fails. Different NLS settings work well with SQL Developer. But not with ... APEX. A VARCHAR2 assigned to a text field and APEX is not able to deal with it. Quality first, isn't it Oracle?
+
+More reasons to move to PostGres.
+
 # Current state
 **Under Construction - heavy redesign currently**
 Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL and how to make it better than I do. Current state is basically working but still some issues with overflow handling and connecting nodes not on dimension axis. Visualization P5 JS performance fixed but still depends on size of selected universe. Zero display basically works for structure and process.

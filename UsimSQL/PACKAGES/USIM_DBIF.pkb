@@ -218,17 +218,11 @@ IS
     IF usim_base.has_basedata = 1
     THEN
       l_max_dim := usim_base.get_max_dimension;
-      l_return  := usim_dim.init_dimensions(l_max_dim, FALSE);
+      l_return  := usim_dim.init_dimensions(l_max_dim, p_do_commit);
       IF l_return != 1
       THEN
-        ROLLBACK;
         usim_erl.log_error('usim_dbif.init_dimensions', 'Could not init dimensions up to max [' || l_max_dim || '].');
         RETURN -1;
-      ELSE
-        IF p_do_commit
-        THEN
-          COMMIT;
-         END IF;
       END IF;
       RETURN l_return;
     ELSE
@@ -547,24 +541,14 @@ IS
     l_max_pos usim_position.usim_coordinate%TYPE;
     l_return  NUMBER;
   BEGIN
-    usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: started');
     IF usim_base.has_basedata = 1
     THEN
-      usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: base data check passed');
       l_max_pos := usim_base.get_abs_max_number;
-      usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: max number received');
-      l_return  := usim_pos.init_positions(l_max_pos, FALSE);
-      usim_erl.log_error('usim_dbif.init_positions', 'DEBUG: init done');
+      l_return  := usim_pos.init_positions(l_max_pos, p_do_commit);
       IF l_return != 1
       THEN
-        ROLLBACK;
         usim_erl.log_error('usim_dbif.init_positions', 'Could not init positions up to max [' || l_max_pos || '].');
         RETURN -1;
-      ELSE
-        IF p_do_commit
-        THEN
-          COMMIT;
-        END IF;
       END IF;
       RETURN l_return;
     ELSE
@@ -572,7 +556,6 @@ IS
     END IF;
   EXCEPTION
     WHEN OTHERS THEN
-      ROLLBACK;
       -- write error might still work
       usim_erl.log_error('usim_dbif.init_positions', 'Unexpected error SQLCODE [' || SQLCODE || '] message [' || SQLERRM || '].');
       -- try to set all to crashed

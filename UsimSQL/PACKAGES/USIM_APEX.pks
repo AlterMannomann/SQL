@@ -5,6 +5,7 @@ CREATE OR REPLACE PACKAGE &USIM_SCHEMA..usim_apex
 IS
   /**This package is used as an interface to the APEX application
   * providing specialized functions and procedures for use in APEX.
+  * BECAUSE F...ING APEX IS TRYING EVEN TO CONVERT STRINGS TO NUMBERS WITHOUT BEING TOLD SO.
   */
 
   --== package variable definition ==--
@@ -222,6 +223,64 @@ IS
   * @return The text message displaying the minimum and maximum coordinates or error information.
   */
   FUNCTION disp_minmax_coords( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                             , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                             )
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Returns the text information about the overflow value for positive numbers. The parameters can be used
+  * by translations to set language dependend return strings. Error messages
+  * will nevertheless be in the language of the system.
+  * @param p_none_option The display text if no base data exist. Defaults to N/A.
+  * @param p_error_option The prefix value for errors in the called functions. Defaults to ERROR.
+  * @return The text message displaying the positive overflow number with a leading + sign or error information.
+  */
+  FUNCTION disp_max_overflow( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                            , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                            )
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Returns the text information about the underflow value for positive numbers. The parameters can be used
+  * by translations to set language dependend return strings. Error messages
+  * will nevertheless be in the language of the system.
+  * @param p_prefix The prefix value to avoid that APEX tries to convert anything. Default NULL. In case of conversion errors in APEX set it to clear string value, e.g. 'at ', ':'.
+  * @param p_none_option The display text if no base data exist. Defaults to N/A.
+  * @param p_error_option The prefix value for errors in the called functions. Defaults to ERROR.
+  * @return The text message displaying the positive underflow number with a leading + sign or error information.
+  */
+  FUNCTION disp_max_underflow( p_prefix       IN VARCHAR2 DEFAULT NULL
+                             , p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                             , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                             )
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Returns the text information about the overflow value for negative numbers. The parameters can be used
+  * by translations to set language dependend return strings. Error messages
+  * will nevertheless be in the language of the system.
+  * @param p_none_option The display text if no base data exist. Defaults to N/A.
+  * @param p_error_option The prefix value for errors in the called functions. Defaults to ERROR.
+  * @return The text message displaying the negative overflow number with a leading - sign or error information.
+  */
+  FUNCTION disp_min_overflow( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
+                            , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
+                            )
+    RETURN VARCHAR2
+  ;
+
+  /**
+  * Returns the text information about the underflow value for negative numbers. The parameters can be used
+  * by translations to set language dependend return strings. Error messages
+  * will nevertheless be in the language of the system.
+  * @param p_none_option The display text if no base data exist. Defaults to N/A.
+  * @param p_error_option The prefix value for errors in the called functions. Defaults to ERROR.
+  * @return The text message displaying the negative underflow number with a leading - sign or error information.
+  */
+  FUNCTION disp_min_underflow( p_none_option  IN VARCHAR2 DEFAULT 'N/A'
                              , p_error_option IN VARCHAR2 DEFAULT 'ERROR'
                              )
     RETURN VARCHAR2

@@ -1,23 +1,10 @@
-# NO RECOMMENDATION for Oracle Free and XE versions currently
-**Discovered while testing that the limitations on Free and XE versions may put your database in a state hard to revocer.**
-
-If you make small setups with low dimensions and positions it may work a while. But sooner or later (sorry this is in the end a big data app) your tablespace or undo tablespace or recycle bin will overflow on size limit and you won't be able to startup the database. Probably I move it to PostGres and PHP or similar as this is annoying (if someone tries this before, great, got a limited lifetime). With an [OTN account](https://www.oracle.com/downloads/) you may currently still acess enterprise versions. But there is no guarantee. Oracle gets more and more restrictive for developers every year.
-### Hint
-Download any available enterprise version now, configure your VM or Docker and create a base image/backup to still have access without being forced to go to cloud and let them steal your data and work.
-
-**Moreover Oracle APEX ...**
-Just struggeling with APEX always trying to convert a string to a number and fails. No one told APEX it should be a number. It is a VARCHAR2 returned from a function containing a number. But even given a prefix APEX still tries to convert it to a number. Which, of course fails. Different NLS settings work well with SQL Developer. But not with ... APEX. A VARCHAR2 assigned to a text field and APEX is not able to deal with it. Quality first, isn't it Oracle?
-
-More reasons to move to PostGres.
+# MOVING TO PostGres
+First of all PostGres is Open Source, it is not limited and available for any one that has processor and disc space.
+It has no nice APEX that does what it wants, not what the developer wants. So more possiblities to setup a database and application without not needed overhead.
 
 # Current state
 **Under Construction - heavy redesign currently**
-Feel free to use, extend and modify this. Free as free beer. No restrictions. You may also use it simply to learn something about SQL and how to make it better than I do. Current state is basically working but still some issues with overflow handling and connecting nodes not on dimension axis. Visualization P5 JS performance fixed but still depends on size of selected universe. Zero display basically works for structure and process.
-
-Started to make application usable with APEX and options to run scripts on server. Using a separate Linux server
-as provided with https://www.oracle.com/database/technologies/databaseappdev-vm.html.
-
-Next work is fixing zero display. Energy exchange between zero nodes seems not fully correct currently. Connection does not stay active. And enable nodes creation not purely on dimension axis, e.g. 3,2,-5.
+Make things work with PostGres
 # Intention
 This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).
 ## Expectations

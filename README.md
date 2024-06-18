@@ -1,9 +1,10 @@
 # MOVING TO PostGres
-First of all PostGres is Open Source, it is not limited and available for any one that has processor and disc space.
+First of all PostGres is Open Source, moreover it is not limited and available for any one that has processor and disc space.
 It has no nice APEX that does what it wants, not what the developer wants. So more possiblities to setup a database and application without not needed overhead.
 
 # Current state
 **Under Construction - heavy redesign currently**
+
 Make things work with PostGres
 # Intention
 This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).

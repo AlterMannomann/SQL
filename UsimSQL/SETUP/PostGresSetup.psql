@@ -1,0 +1,38 @@
+/* Execute with user postgres for initial setup*/
+-- default password for all
+-- ALTER USER postgres WITH PASSWORD 'usim';
+-- drop objects before
+DROP DATABASE IF EXISTS usim;
+DROP ROLE IF EXISTS usim;
+DROP TABLESPACE IF EXISTS usim_data;
+-- create tablespaces
+-- Tablespace: usim_data
+CREATE TABLESPACE usim_data LOCATION '/usim_data';
+-- create roles
+-- Role: usim
+CREATE ROLE usim WITH
+  LOGIN
+  NOSUPERUSER
+  INHERIT
+  CREATEDB
+  CREATEROLE
+  NOREPLICATION
+  NOBYPASSRLS;
+ALTER ROLE usim WITH PASSWORD 'usim';
+-- list users
+\du
+-- databases
+-- Database: usim
+CREATE DATABASE usim
+    WITH
+    OWNER = usim
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.UTF-8'
+    LC_CTYPE = 'en_US.UTF-8'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = usim_data
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+-- list databases
+\l
+-- now you should be able to execute psql with unix user usim and be automatically connected to database usim.

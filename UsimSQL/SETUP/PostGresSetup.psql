@@ -8,6 +8,7 @@ DROP TABLESPACE IF EXISTS usim_data;
 -- create tablespaces
 -- Tablespace: usim_data
 CREATE TABLESPACE usim_data LOCATION '/usim_data';
+COMMENT ON TABLESPACE usim_data IS 'Tablespace containing all USim related data';
 -- create roles
 -- Role: usim
 CREATE ROLE usim WITH
@@ -19,6 +20,8 @@ CREATE ROLE usim WITH
   NOREPLICATION
   NOBYPASSRLS;
 ALTER ROLE usim WITH PASSWORD 'usim';
+COMMENT ON ROLE usim IS 'Main role for USim';
+
 -- list users
 \du
 -- databases
@@ -33,6 +36,7 @@ CREATE DATABASE usim
     TABLESPACE = usim_data
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
+COMMENT ON DATABASE usim IS 'Main database for USim';
 -- list databases
 \l
 -- now you should be able to execute psql with unix user usim and be automatically connected to database usim.

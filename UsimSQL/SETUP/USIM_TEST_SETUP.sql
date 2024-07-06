@@ -1,3 +1,8 @@
+-- define session for test schema
+SET search_path TO usim_test, public;
+
+
+-- old oracle stuff
 @@../UTIL/SET_DEFAULT_TEST_SPOOL.sql
 --@@../UTIL/SET_EXTENDED_SPOOL.sql
 SPOOL LOG/USIM_TEST_SETUP.log

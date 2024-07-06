@@ -2,7 +2,7 @@ DROP SCHEMA IF EXISTS usim_test;
 CREATE SCHEMA IF NOT EXISTS usim_test
     AUTHORIZATION usim;
 COMMENT ON SCHEMA usim_test
-    IS 'Usim test schema';
+    IS 'USim test schema';
 \dn+
 /*
 CREATE USER usim_test IDENTIFIED BY &PASS_USIM_TEST;

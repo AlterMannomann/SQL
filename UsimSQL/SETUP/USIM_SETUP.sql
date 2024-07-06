@@ -1,3 +1,8 @@
+-- define session for test schema
+SET search_path TO usim, public;
+
+
+-- old oracle stuff
 @@../UTIL/SET_DEFAULT_SPOOL.sql
 -- no spool file if started from server
 SPOOL LOG/USIM_SETUP.log

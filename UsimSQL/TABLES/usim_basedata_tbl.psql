@@ -73,6 +73,9 @@ AS $BODY$
   END;
 $BODY$;
 
+ALTER FUNCTION bda_fn_ins_trg()
+    OWNER TO usim;
+
 -- FUNCTION: bda_fn_upd_trg()
 -- DROP FUNCTION IF EXISTS bda_fn_upd_trg();
 
@@ -97,6 +100,9 @@ AS $BODY$
     RETURN NEW;
   END;
 $BODY$;
+
+ALTER FUNCTION bda_fn_upd_trg()
+    OWNER TO usim;
 
 -- Trigger: bda_ins_trg
 -- DROP TRIGGER IF EXISTS bda_ins_trg ON usim_basedata;

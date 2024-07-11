@@ -46,6 +46,9 @@ AS $BODY$
   END;
 $BODY$;
 
+ALTER FUNCTION pla_fn_ins_trg()
+    OWNER TO usim;
+
 -- FUNCTION: pla_fn_upd_trg()
 -- DROP FUNCTION IF EXISTS pla_fn_upd_trg();
 
@@ -59,6 +62,9 @@ AS $BODY$
     RETURN NEW;
   END;
 $BODY$;
+
+ALTER FUNCTION pla_fn_upd_trg()
+    OWNER TO usim;
 
 -- Trigger: pla_ins_trg
 -- DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;

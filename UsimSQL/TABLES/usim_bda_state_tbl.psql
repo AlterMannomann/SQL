@@ -46,6 +46,9 @@ AS $BODY$
   END;
 $BODY$;
 
+ALTER FUNCTION bds_fn_ins_trg()
+    OWNER TO usim;
+
 -- Trigger: bds_ins_trg
 -- DROP TRIGGER IF EXISTS bds_ins_trg ON usim_bda_state;
 

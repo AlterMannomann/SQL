@@ -50,6 +50,9 @@ AS $BODY$
   END;
 $BODY$;
 
+ALTER FUNCTION plt_fn_ins_trg()
+    OWNER TO usim;
+
 -- FUNCTION: plt_fn_upd_trg()
 -- DROP FUNCTION IF EXISTS plt_fn_upd_trg();
 
@@ -63,6 +66,9 @@ AS $BODY$
     RETURN NEW;
   END;
 $BODY$;
+
+ALTER FUNCTION plt_fn_upd_trg()
+    OWNER TO usim;
 
 -- Trigger: plt_ins_trg
 -- DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;

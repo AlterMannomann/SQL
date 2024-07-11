@@ -1,0 +1,10 @@
+-- call setup files in order that guarantees repetion of execute
+-- TABLES
+\i /usim_src/TABLES/usim_basedata_tbl.psql
+\i /usim_src/TABLES/usim_bda_state_tbl.psql
+\i /usim_src/TABLES/usim_planck_aeon_tbl.psql
+\i /usim_src/TABLES/usim_planck_tick_tbl.psql
+
+-- VIEWS
+\i /usim_src/VIEW/usim_bda_v.psql
+\i /usim_src/VIEW/usim_bda_pla_v.psql

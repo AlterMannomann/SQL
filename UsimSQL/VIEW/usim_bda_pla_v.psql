@@ -1,0 +1,22 @@
+-- View: usim_bda_v on usim_basedata
+-- always drop to avoid errors on added columns
+DROP VIEW IF EXISTS usim_bda_pla_v;
+
+CREATE OR REPLACE VIEW usim_bda_pla_v
+  AS
+      WITH grp AS
+           (SELECT bda_id
+                 , MAX(pla_stamp) AS pla_stamp
+              FROM usim_planck_aeon
+             GROUP BY bda_id
+           )
+    SELECT pla.bda_id
+         , pla.pla_id
+         , pla.pla_stamp
+      FROM grp
+      LEFT JOIN usim_planck_aeon pla
+        ON grp.bda_id = pla.bda_id
+       AND grp.pla_stamp = pla.pla_stamp;
+
+ALTER TABLE usim_bda_pla_v
+    OWNER TO usim;

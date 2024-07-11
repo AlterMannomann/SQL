@@ -1,0 +1,79 @@
+DROP TABLE IF EXISTS usim_planck_aeon CASCADE;
+-- sort columns by space needed, small columns first, character varying last (slowest access)
+CREATE TABLE IF NOT EXISTS usim_planck_aeon
+(
+  bda_id smallint NOT NULL,
+  pla_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE ),
+  pla_stamp timestamp without time zone NOT NULL DEFAULT now(),
+  pla_created_by character varying(128) NOT NULL DEFAULT USER,
+  CONSTRAINT pla_pk PRIMARY KEY (pla_id, pla_stamp),
+  CONSTRAINT pla_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE
+)
+-- Partitions are difficult to handle as they have to be created manually
+-- so currently no partitions even if would be useful.
+TABLESPACE usim_data;
+
+ALTER TABLE usim_planck_aeon
+    OWNER TO usim;
+
+COMMENT ON TABLE usim_planck_aeon
+  IS 'Holds the planck aeons of a defined simulation. No updates allowed on this table. The planck aeon is a construct to overcome the limitations in serials. Will use the alias pla.';
+
+COMMENT ON COLUMN usim_planck_aeon.bda_id
+  IS 'The unique id of the base data for the defined simulation.';
+
+COMMENT ON COLUMN usim_planck_aeon.pla_id
+  IS 'The cycling id of the planck aeon. Only unique together with pla_stamp.';
+
+COMMENT ON COLUMN usim_planck_aeon.pla_stamp
+  IS 'The time stamp of the created planck aeon. Builds the primary key together with pla_id.';
+
+COMMENT ON COLUMN usim_planck_aeon.pla_created_by
+  IS 'The user that created the planck aeon.';
+
+-- FUNCTION: pla_fn_ins_trg()
+-- DROP FUNCTION IF EXISTS pla_fn_ins_trg();
+
+CREATE OR REPLACE FUNCTION pla_fn_ins_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- set time stamp and creator, ignore any input
+    NEW.pla_stamp := current_timestamp;
+    NEW.pla_created_by := current_user;
+    RETURN NEW;
+  END;
+$BODY$;
+
+-- FUNCTION: pla_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS pla_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION pla_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- No updates allowed
+    RAISE EXCEPTION 'No updates allowed on table usim_planck_aeon.';
+    RETURN NEW;
+  END;
+$BODY$;
+
+-- Trigger: pla_ins_trg
+-- DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
+
+CREATE TRIGGER pla_ins_trg
+  AFTER INSERT
+  ON usim_planck_aeon
+  FOR EACH ROW
+  EXECUTE FUNCTION pla_fn_ins_trg();
+
+-- Trigger: pla_upd_trg
+-- DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
+
+CREATE TRIGGER pla_upd_trg
+  AFTER UPDATE
+  ON usim_planck_aeon
+  FOR EACH ROW
+  EXECUTE FUNCTION pla_fn_upd_trg();

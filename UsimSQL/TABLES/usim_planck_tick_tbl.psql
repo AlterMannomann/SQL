@@ -1,0 +1,83 @@
+DROP TABLE IF EXISTS usim_planck_tick CASCADE;
+-- sort columns by space needed, small columns first, character varying last (slowest access)
+CREATE TABLE IF NOT EXISTS usim_planck_tick
+(
+  bda_id smallint NOT NULL,
+  pla_id bigint NOT NULL,
+  pla_stamp timestamp without time zone NOT NULL,
+  plt_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY,
+  plt_created_by character varying(128) NOT NULL DEFAULT USER,
+  CONSTRAINT plt_pk PRIMARY KEY (bda_id, pla_id, pla_stamp, plt_id),
+  CONSTRAINT plt_fk1 FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE,
+  CONSTRAINT plt_fk2 FOREIGN KEY (pla_id, pla_stamp) REFERENCES usim_planck_aeon (pla_id, pla_stamp) ON DELETE CASCADE
+)
+-- Partitions are difficult to handle as they have to be created manually
+-- so currently no partitions even if would be useful.
+TABLESPACE usim_data;
+
+ALTER TABLE usim_planck_tick
+    OWNER TO usim;
+
+COMMENT ON TABLE usim_planck_tick
+  IS 'Holds the planck ticks for a specific aeon. No updates allowed on this table. The planck tick is a construct to overcome the limitations in serials. Will use the alias plt.';
+
+COMMENT ON COLUMN usim_planck_tick.bda_id
+  IS 'The unique id of the base data for the defined simulation.';
+
+COMMENT ON COLUMN usim_planck_tick.pla_id
+  IS 'The cycling id of the planck aeon. Only unique together with pla_stamp.';
+
+COMMENT ON COLUMN usim_planck_tick.pla_stamp
+  IS 'The time stamp of the created planck aeon. Builds the primary key together with pla_id.';
+
+COMMENT ON COLUMN usim_planck_tick.plt_id
+  IS 'The id of the planck tick representing the tick. On overflow a new planck aeon is created and the sequence is reset.';
+
+COMMENT ON COLUMN usim_planck_tick.plt_created_by
+  IS 'The user that created the planck tick.';
+
+-- FUNCTION: plt_fn_ins_trg()
+-- DROP FUNCTION IF EXISTS plt_fn_ins_trg();
+
+CREATE OR REPLACE FUNCTION plt_fn_ins_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- set creator, ignore any input
+    NEW.plt_created_by := current_user;
+    RETURN NEW;
+  END;
+$BODY$;
+
+-- FUNCTION: plt_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS plt_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION plt_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- No updates allowed
+    RAISE EXCEPTION 'No updates allowed on table usim_planck_tick.';
+    RETURN NEW;
+  END;
+$BODY$;
+
+-- Trigger: plt_ins_trg
+-- DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;
+
+CREATE TRIGGER plt_ins_trg
+  AFTER INSERT
+  ON usim_planck_tick
+  FOR EACH ROW
+  EXECUTE FUNCTION plt_fn_ins_trg();
+
+-- Trigger: plt_upd_trg
+-- DROP TRIGGER IF EXISTS plt_upd_trg ON usim_planck_tick;
+
+CREATE TRIGGER plt_upd_trg
+  AFTER UPDATE
+  ON usim_planck_tick
+  FOR EACH ROW
+  EXECUTE FUNCTION plt_fn_upd_trg();

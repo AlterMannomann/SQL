@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS usim_basedata CASCADE;
+-- DROP TABLE IF EXISTS usim_basedata CASCADE;
 -- sort columns by space needed, small columns first, character varying last (slowest access)
-CREATE TABLE usim_basedata
+CREATE TABLE IF NOT EXISTS usim_basedata
 (
   bda_id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MAXVALUE 32767 ),
   bda_max_dimension smallint NOT NULL DEFAULT 42,

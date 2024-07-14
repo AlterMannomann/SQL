@@ -1,10 +1,16 @@
 -- call setup files in order that guarantees repetion of execute
 -- TABLES
+\echo 'Create table USIM_BASEDATA'
 \i /usim_src/TABLES/usim_basedata_tbl.psql
+\echo 'Create table USIM_BDA_STATE'
 \i /usim_src/TABLES/usim_bda_state_tbl.psql
+\echo 'Create table USIM_PLANCK_AEON'
 \i /usim_src/TABLES/usim_planck_aeon_tbl.psql
+\echo 'Create table USIM_PLANCK_TICK'
 \i /usim_src/TABLES/usim_planck_tick_tbl.psql
 
 -- VIEWS
+\echo 'Create view USIM_BDA_V'
 \i /usim_src/VIEW/usim_bda_v.psql
+\echo 'Create view USIM_BDA_PLA_V'
 \i /usim_src/VIEW/usim_bda_pla_v.psql

@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS usim_planck_tick CASCADE;
+-- DROP TABLE IF EXISTS usim_planck_tick CASCADE;
 -- sort columns by space needed, small columns first, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_planck_tick
 (

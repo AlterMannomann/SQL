@@ -1,0 +1,31 @@
+-- views
+\echo 'Dropping USim Views'
+DROP VIEW IF EXISTS usim_bda_pla_v;
+DROP VIEW IF EXISTS usim_bda_v;
+-- trigger
+\echo 'Dropping USim Trigger'
+DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;
+DROP TRIGGER IF EXISTS plt_upd_trg ON usim_planck_tick;
+DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
+DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
+DROP TRIGGER IF EXISTS bds_ins_trg ON usim_bda_state;
+DROP TRIGGER IF EXISTS bda_ins_trg ON usim_basedata;
+DROP TRIGGER IF EXISTS bda_upd_trg ON usim_basedata;
+-- tables
+\echo 'Dropping USim Tables'
+DROP TABLE IF EXISTS usim_planck_tick CASCADE;
+DROP TABLE IF EXISTS usim_planck_aeon CASCADE;
+DROP TABLE IF EXISTS usim_bda_state CASCADE;
+DROP TABLE IF EXISTS usim_basedata CASCADE;
+-- functions
+\echo 'Dropping USim Functions'
+DROP FUNCTION IF EXISTS plt_fn_ins_trg();
+DROP FUNCTION IF EXISTS plt_fn_upd_trg();
+DROP FUNCTION IF EXISTS pla_fn_ins_trg();
+DROP FUNCTION IF EXISTS pla_fn_upd_trg();
+DROP FUNCTION IF EXISTS bds_fn_ins_trg();
+DROP FUNCTION IF EXISTS bda_fn_ins_trg();
+DROP FUNCTION IF EXISTS bda_fn_upd_trg();
+-- list objects remaining
+\echo 'Remaining USim Objects'
+SELECT * FROM public.pg_objects WHERE obj_owner = current_user AND obj_schema = current_schema;

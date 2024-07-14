@@ -72,7 +72,7 @@ USIM has no need for security, so no need for security updates. Anyway updates m
 ## Never touch a running system
 
 # Setup the USim model
-As all experiments failed with SET search_path and \setenv I used the connect option to set the schema to ensure that objects are created in the correct schema. Avoided special users, user postgres is good enough for this simulation.
+As all experiments failed with SET search_path and \setenv I used the connect option to set the schema to ensure that objects are created in the correct schema. Avoided special users, user usim is good enough for this simulation.
 
-    sudo -u postgres psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql
-    sudo -u postgres psql "options=--search_path=usim" -f /usim_src/SETUP/UsimSetup.psql
+    psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql
+    psql "options=--search_path=usim" -f /usim_src/SETUP/UsimSetup.psql

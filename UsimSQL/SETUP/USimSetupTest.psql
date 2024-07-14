@@ -1,11 +1,14 @@
 -- setup or recreate usim and usim test
 -- TRIGGERS ARE NOT DELETED ON CASCADE !!!!
 -- connect to database first
-\c usim
--- session informations
-\echo 'Setting up schema USIM_TEST'
-SELECT current_schema;
+SELECT current_schema AS var_schema
+\gset
+\echo 'Setting up schema USIM. DB schema: ' || :var_schema
+\echo 'Cleanup objects for USim model'
+\i /usim_src/SETUP/USimCleanup.psql
+\echo 'Create objects for USim model'
 \i /usim_src/SETUP/USimModel.psql
+--\echo 'Create objects for USim testing'
 --\i /usim_src/SETUP/USimTestExtension.psql
 -- display objects installed
-\d
+SELECT * FROM public.pg_objects WHERE obj_owner = current_user AND obj_schema = current_schema;

@@ -1,6 +1,6 @@
 -- View: usim_bda_v on usim_basedata
 -- always drop to avoid errors on added columns
-DROP VIEW IF EXISTS usim_bda_v;
+-- DROP VIEW IF EXISTS usim_bda_v;
 
 CREATE OR REPLACE VIEW usim_bda_v
   AS

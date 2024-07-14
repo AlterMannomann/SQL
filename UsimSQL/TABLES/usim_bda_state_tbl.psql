@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS usim_bda_state CASCADE;
+-- DROP TABLE IF EXISTS usim_bda_state CASCADE;
 -- sort columns by space needed, small columns first, character varying last (slowest access)
-CREATE TABLE usim_bda_state
+CREATE TABLE IF NOT EXISTS usim_bda_state
 (
   bds_id smallint NOT NULL GENERATED ALWAYS AS (1) STORED,
   bda_id smallint NOT NULL,

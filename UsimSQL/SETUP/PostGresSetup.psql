@@ -39,4 +39,59 @@ CREATE DATABASE usim
 COMMENT ON DATABASE usim IS 'Main database for USim';
 -- list databases
 \l
+-- connect to database usim
+\c usim
+-- create an object view on postgres
+DROP VIEW IF EXISTS pg_objects;
+CREATE OR REPLACE VIEW pg_objects
+AS
+SELECT pg_proc.proname AS obj_name
+     , pg_namespace.nspname AS obj_schema
+     , pg_user.usename AS obj_owner
+     , CASE
+         WHEN pg_proc.prokind = 'f'
+         THEN 'FUNCTION'
+         WHEN pg_proc.prokind = 'p'
+         THEN 'PROCEDURE'
+         WHEN pg_proc.prokind = 'a'
+         THEN 'AGGREGATE FUNCTION'
+         WHEN pg_proc.prokind = 'w'
+         THEN 'WINDOW FUNCTION'
+         ELSE 'UNKNOWN OBJECT TYPE'
+       END AS obj_type
+  FROM pg_proc
+  LEFT JOIN pg_namespace
+    ON pg_proc.pronamespace = pg_namespace.oid
+  LEFT JOIN pg_user
+    ON pg_proc.proowner = pg_user.usesysid
+ UNION ALL
+SELECT tablename AS obj_name
+     , schemaname AS obj_schema
+     , tableowner AS obj_owner
+     , 'TABLE' AS obj_type
+  FROM pg_tables
+ UNION ALL
+SELECT viewname AS obj_name
+     , schemaname AS obj_schema
+     , viewowner AS obj_owner
+     , 'VIEW' AS obj_type
+  FROM pg_views
+ UNION ALL
+SELECT sequencename AS obj_name
+     , schemaname AS obj_schema
+     , sequenceowner AS obj_owner
+     , 'SEQUENCE' AS obj_type
+  FROM pg_sequences
+ UNION ALL
+SELECT trigger_name AS obj_name
+     , trigger_schema AS obj_schema
+     , trigger_catalog AS obj_owner
+     , 'TRIGGER' AS obj_type
+  FROM information_schema.triggers
+;
+ALTER TABLE pg_objects
+    OWNER TO postgres;
+
+GRANT SELECT ON TABLE pg_objects TO PUBLIC;
+GRANT ALL ON TABLE pg_objects TO postgres;
 -- now you should be able to execute psql with unix user usim and be automatically connected to database usim.

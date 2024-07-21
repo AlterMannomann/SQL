@@ -76,3 +76,26 @@ As all experiments failed with SET search_path and \setenv I used the connect op
 
     psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql
     psql "options=--search_path=usim" -f /usim_src/SETUP/UsimSetup.psql
+
+## Testing with pgAdmin
+For testing with pgAdmin, depending on the login used, you may want to use
+
+    SET search_path TO usim_test;
+    SET search_path TO usim;
+
+## Functions and procedures
+Did not found an elegant and working way to read out default values and cast them correctly. Of course you can use one of the following
+
+    SELECT column_default FROM information_schema.columns WHERE table_name='mytable';
+    SELECT pg_get_expr(d.adbin, d.adrelid) AS default_value
+    FROM   pg_catalog.pg_attribute    a
+    LEFT   JOIN pg_catalog.pg_attrdef d ON (a.attrelid, a.attnum) = (d.adrelid, d.adnum)
+    WHERE  NOT a.attisdropped           -- no dropped (dead) columns
+    AND    a.attnum   > 0               -- no system columns
+    AND    a.attrelid = 'myschema.mytable'::regclass
+    AND    a.attname  = 'mycolumn';
+
+But as the text output has sometimes already a cast within the expression and I found until now no eval function, the types and
+defaults are still hardcoded in the procedures or function. This means, any changes on table column defaults or types will need some extra round trip of adjusting the functions and procedures. For probably easier finding of impacted functions and procedures, the doc section contains a literal part with Dependency «table name», e.g.
+
+    * @literal Dependency usim_basedata column types and defaults.

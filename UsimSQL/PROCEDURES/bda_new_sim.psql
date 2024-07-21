@@ -1,0 +1,142 @@
+-- SET search_path TO usim_test; -- use for testing in pgadmin
+-- IMPORTANT, on drop the real variable types must be used, type reference on drop is not supported
+-- use either this if procedure has more than one signature
+-- DROP PROCEDURE IF EXISTS usim_test.bda_new_sim(character varying, smallint, numeric, smallint);
+-- or omit signature
+-- DROP PROCEDURE IF EXISTS bda_new_sim;
+-- Use SAVEPOINT my_savepoint;
+-- Then some operations that can be independently rolled back
+-- ROLLBACK TO SAVEPOINT my_savepoint;
+-- COMMIT; can be done in functions or procedures directly only in subtransactions
+-- also important, no possibility to pass parameters by name for more than ONE parameter
+-- must use different signatures for use cases or master and wrappers model
+
+CREATE OR REPLACE PROCEDURE bda_new_sim(
+  p_sim_name          IN usim_basedata.bda_simulation_name%TYPE,
+  p_activate          IN integer,
+  p_max_dimension     IN usim_basedata.bda_max_dimension%TYPE,
+  p_max_abs_number    IN usim_basedata.bda_max_abs_number%TYPE,
+  p_overflow_behavior IN usim_basedata.bda_overflow_behavior%TYPE
+)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** Master PROCEDURE bda_new_sim
+  * Creates a new simulation and activates it, if it is the first simulation
+  * or the activate parameter is set to 1. This is the master procedure which requires
+  * ALL parameters, even given as NULL. Most NULL parameters will use the table default.
+  * Application is responsible for COMMIT of transaction. No subtransaction defined.
+  *
+  * @param p_sim_name The unique name of the simulation. Cannot be empty. NULL will raise an exception.
+  * @param p_activate Activates the new simulation after creation if set to 1. First simulation is always activated. Other values are ignored. If NULL uses 0.
+  * @param p_max_dimension The maximum n dimensions to use in this simulation. See usim_basedata for constraints. If NULL uses table column default.
+  * @param p_max_abs_number The maximum number and position to use in this simulation. See usim_basedata for constraints. If NULL uses table column default.
+  * @param p_overflow_behavior The overflow behavior (0, 1) to use in this simulation. See usim_basedata for constraints. If NULL uses table column default.
+  *
+  * @exception Simulation name cannot be empty, if missing parameter value for p_simulation_name.
+  * @exception Simulation name already exists, if p_simulation_name is matching an existing name.
+  *
+  * @literal Dependency usim_basedata column types and defaults. If types or defaults change, the change must be reflect here also. Too much overhead to read column defaults with correct type.
+  */
+  DECLARE
+    l_activate          integer := 0;
+    -- adjust type and default if column definition changes
+    l_bda_id            smallint;
+    l_max_dimension     smallint := 42;
+    l_max_abs_number    numeric(1000, 0) := 99999999999999999999999999999999999999;
+    l_overflow_behavior smallint := 0;
+  BEGIN
+    -- basic checks
+    IF p_sim_name IS NULL
+    THEN
+      RAISE EXCEPTION 'Simulation name cannot be empty';
+    END IF;
+    IF EXISTS(SELECT bda_id FROM usim_basedata WHERE bda_simulation_name = p_sim_name)
+    THEN
+      RAISE EXCEPTION 'Simulation name already exists';
+    END IF;
+    -- check first simulation and activate state
+    IF NOT EXISTS(SELECT bda_id FROM usim_basedata)
+    THEN
+      l_activate := 1;
+    ELSE
+      IF p_activate IS NOT NULL
+      THEN
+        l_activate := p_activate;
+      END IF;
+    END IF;
+    IF p_max_dimension IS NOT NULL
+    THEN
+      l_max_dimension := p_max_dimension;
+    END IF;
+    IF p_max_abs_number IS NOT NULL
+    THEN
+      l_max_abs_number := p_max_abs_number;
+    END IF;
+    IF p_overflow_behavior IS NOT NULL
+    THEN
+      l_overflow_behavior := p_overflow_behavior;
+    END IF;
+    -- create new sim
+    INSERT INTO usim_basedata(
+      bda_simulation_name,
+      bda_max_dimension,
+      bda_max_abs_number,
+      bda_overflow_behavior
+    ) VALUES (
+      p_sim_name,
+      l_max_dimension,
+      l_max_abs_number,
+      l_overflow_behavior
+    )
+    RETURNING bda_id INTO l_bda_id;
+    -- activate if given
+    IF l_activate = 1
+    THEN
+      IF NOT EXISTS(SELECT bda_id FROM usim_bda_state)
+      THEN
+        INSERT INTO usim_bda_state(bda_id)
+          VALUES(l_bda_id);
+      ELSE
+        -- we have only one row by constraint, no need for where clause
+        UPDATE usim_bda_state
+           SET bda_id = l_bda_id;
+      END IF;
+    END IF;
+  END;
+$BODY$;
+
+CREATE OR REPLACE PROCEDURE bda_new_sim(p_sim_name IN usim_basedata.bda_simulation_name%TYPE)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** Wrapper PROCEDURE bda_new_sim
+  * Creates a new simulation and activates it, if it is the first simulation.
+  * Calls bda_new_sim(p_sim_name, 0, NULL, NULL, NULL).
+  * Application is responsible for COMMIT of transaction. No subtransaction defined.
+  *
+  * @param p_sim_name The unique name of the simulation. Cannot be empty. NULL will raise an exception.
+  *
+  */
+  BEGIN
+    CALL bda_new_sim(p_sim_name, 0, NULL, NULL, NULL);
+  END;
+$BODY$;
+
+CREATE OR REPLACE PROCEDURE bda_new_sim(
+  p_sim_name          IN usim_basedata.bda_simulation_name%TYPE,
+  p_activate          IN integer
+)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** Wrapper PROCEDURE bda_new_sim
+  * Creates a new simulation and activates it.
+  * Calls bda_new_sim(p_sim_name, 1, NULL, NULL, NULL).
+  * Application is responsible for COMMIT of transaction. No subtransaction defined.
+  *
+  * @param p_sim_name The unique name of the simulation. Cannot be empty. NULL will raise an exception.
+  * @param p_activate Activates the new simulation after creation if set to 1. First simulation is always activated. Other values are ignored. If NULL uses 0.
+  *
+  */
+  BEGIN
+    CALL bda_new_sim(p_sim_name, p_activate, NULL, NULL, NULL);
+  END;
+$BODY$;

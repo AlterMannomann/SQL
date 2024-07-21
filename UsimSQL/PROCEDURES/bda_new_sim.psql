@@ -129,7 +129,7 @@ CREATE OR REPLACE PROCEDURE bda_new_sim(
 AS $BODY$
   /** Wrapper PROCEDURE bda_new_sim
   * Creates a new simulation and activates it.
-  * Calls bda_new_sim(p_sim_name, 1, NULL, NULL, NULL).
+  * Calls bda_new_sim(p_sim_name, p_activate, NULL, NULL, NULL).
   * Application is responsible for COMMIT of transaction. No subtransaction defined.
   *
   * @param p_sim_name The unique name of the simulation. Cannot be empty. NULL will raise an exception.

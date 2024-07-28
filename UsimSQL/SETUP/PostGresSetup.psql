@@ -1,6 +1,8 @@
 /* Execute with user postgres for initial setup*/
 -- default password for all
 -- ALTER USER postgres WITH PASSWORD 'usim';
+-- for logging in unix log in as postgres (e.g. sudo su postgres) and execute
+-- psql -f /usim_src/SETUP/PostGresSetup.psql | tee /usim_src/SETUP/LOG/PostGreSetup.log
 -- drop objects before
 DROP DATABASE IF EXISTS usim;
 DROP ROLE IF EXISTS usim;

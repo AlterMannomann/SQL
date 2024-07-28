@@ -14,3 +14,7 @@
 \i /usim_src/VIEW/usim_bda_v.psql
 \echo 'Create view USIM_BDA_PLA_V'
 \i /usim_src/VIEW/usim_bda_pla_v.psql
+
+-- PROCEDURES
+\echo 'Create procedure BDA_NEW_SIM'
+\i /usim_src/PROCEDURES/bda_new_sim.psql

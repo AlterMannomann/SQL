@@ -26,6 +26,12 @@ DROP FUNCTION IF EXISTS pla_fn_upd_trg();
 DROP FUNCTION IF EXISTS bds_fn_ins_trg();
 DROP FUNCTION IF EXISTS bda_fn_ins_trg();
 DROP FUNCTION IF EXISTS bda_fn_upd_trg();
+-- procedures
+\echo 'Dropping USim Procedures'
+DROP PROCEDURE IF EXISTS usim_test.bda_new_sim(character varying);
+DROP PROCEDURE IF EXISTS usim_test.bda_new_sim(character varying, integer);
+DROP PROCEDURE IF EXISTS usim_test.bda_new_sim(character varying, integer, smallint, numeric, smallint);
+
 -- list objects remaining
 \echo 'Remaining USim Objects'
 SELECT * FROM public.pg_objects WHERE obj_owner = current_user AND obj_schema = current_schema;

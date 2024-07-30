@@ -54,7 +54,7 @@ Adjust groups for usim, postgres and www-data (pgAdmin) to be able to access sha
 
 Now link shared folders to this folders after shutdown. Mount points /usim_data and /usim_src. And execute
 
-    sudo -u postgres psql -f /usim_src/SETUP/PostGresSetup.psql
+    /usim_src/SH/dba_init_usim.sh
 
 After this user usim should be automatically connected to database usim with db role usim.
 
@@ -74,8 +74,12 @@ USIM has no need for security, so no need for security updates. Anyway updates m
 # Setup the USim model
 As all experiments failed with SET search_path and \setenv I used the connect option to set the schema to ensure that objects are created in the correct schema. Avoided special users, user usim is good enough for this simulation.
 
-    psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql
-    psql "options=--search_path=usim" -f /usim_src/SETUP/UsimSetup.psql
+    /usim_src/SH/init_usim_all.sh
+
+If you want only to setup one schema use one of the following
+
+    /usim_src/SH/init_usim.sh
+    /usim_src/SH/init_usim_test.sh
 
 ## Testing with pgAdmin
 For testing with pgAdmin, depending on the login used, you may want to use

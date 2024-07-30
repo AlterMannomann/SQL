@@ -2,7 +2,7 @@
 -- default password for all
 -- ALTER USER postgres WITH PASSWORD 'usim';
 -- for logging in unix log in as postgres (e.g. sudo su postgres) and execute
--- psql -f /usim_src/SETUP/PostGresSetup.psql | tee /usim_src/SETUP/LOG/PostGreSetup.log
+-- sudo su -c "psql -f /usim_src/SETUP/PostGresSetup.psql 2>&1 | tee /usim_src/SETUP/LOG/PostGreSetup.log" postgres
 -- drop objects before
 DROP DATABASE IF EXISTS usim;
 DROP ROLE IF EXISTS usim;
@@ -43,6 +43,13 @@ COMMENT ON DATABASE usim IS 'Main database for USim';
 \l
 -- connect to database usim
 \c usim
+-- create the schemas and grant to user usim
+CREATE SCHEMA usim;
+ALTER SCHEMA usim
+    OWNER TO usim;
+CREATE SCHEMA usim_test;
+ALTER SCHEMA usim_test
+    OWNER TO usim;
 -- create an object view on postgres
 DROP VIEW IF EXISTS pg_objects;
 CREATE OR REPLACE VIEW pg_objects
@@ -93,7 +100,8 @@ SELECT trigger_name AS obj_name
 ;
 ALTER TABLE pg_objects
     OWNER TO postgres;
-
 GRANT SELECT ON TABLE pg_objects TO PUBLIC;
 GRANT ALL ON TABLE pg_objects TO postgres;
 -- now you should be able to execute psql with unix user usim and be automatically connected to database usim.
+-- show schemas
+\dn

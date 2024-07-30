@@ -1,7 +1,7 @@
 -- setup or recreate usim test
 -- use psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql with user USIM to start
 -- for logging to file and console unix redirect seems best option like
--- psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql | tee /usim_src/SETUP/LOG/UsimSetupTest.log
+-- psql "options=--search_path=usim_test" -f /usim_src/SETUP/UsimSetupTest.psql 2>&1 | tee /usim_src/SETUP/LOG/UsimSetupTest.log
 -- TRIGGERS ARE NOT DELETED ON CASCADE !!!!
 -- connect to database first
 SELECT current_schema AS var_schema

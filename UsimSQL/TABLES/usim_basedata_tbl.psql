@@ -1,3 +1,4 @@
+SHOW search_path;
 -- DROP TABLE IF EXISTS usim_basedata CASCADE;
 -- sort columns by space needed, small columns first, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_basedata

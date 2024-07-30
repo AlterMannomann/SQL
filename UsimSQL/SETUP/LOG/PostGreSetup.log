@@ -1,0 +1,48 @@
+Current dir: /usim_src
+User: usim
+DROP DATABASE
+DROP ROLE
+DROP TABLESPACE
+CREATE TABLESPACE
+COMMENT
+CREATE ROLE
+ALTER ROLE
+COMMENT
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ usim      | Create role, Create DB                                     | {}
+
+CREATE DATABASE
+COMMENT
+                                                 List of databases
+   Name    |  Owner   | Encoding |   Collate   |    Ctype    | ICU Locale | Locale Provider |   Access privileges   
+-----------+----------+----------+-------------+-------------+------------+-----------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | 
+ template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | =c/postgres          +
+           |          |          |             |             |            |                 | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | =c/postgres          +
+           |          |          |             |             |            |                 | postgres=CTc/postgres
+ usim      | usim     | UTF8     | en_US.UTF-8 | en_US.UTF-8 |            | libc            | 
+(4 rows)
+
+You are now connected to database "usim" as user "postgres".
+CREATE SCHEMA
+ALTER SCHEMA
+CREATE SCHEMA
+ALTER SCHEMA
+psql:/usim_src/SETUP/PostGresSetup.psql:54: NOTICE:  view "pg_objects" does not exist, skipping
+DROP VIEW
+CREATE VIEW
+ALTER TABLE
+GRANT
+GRANT
+        List of schemas
+   Name    |       Owner       
+-----------+-------------------
+ public    | pg_database_owner
+ usim      | usim
+ usim_test | usim
+(3 rows)
+

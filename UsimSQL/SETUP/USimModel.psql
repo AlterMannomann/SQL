@@ -1,4 +1,5 @@
 -- call setup files in order that guarantees repetion of execute
+SHOW search_path;
 -- TABLES
 \echo 'Create table USIM_BASEDATA'
 \i /usim_src/TABLES/usim_basedata_tbl.psql

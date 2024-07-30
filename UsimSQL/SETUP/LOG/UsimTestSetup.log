@@ -1,0 +1,151 @@
+Current dir: /usim_src
+User: usim
+Setting up schema USIM. DB schema:  || usim_test
+Cleanup objects for USim model
+Dropping USim Views
+DROP VIEW
+DROP VIEW
+Dropping USim Trigger
+DROP TRIGGER
+DROP TRIGGER
+DROP TRIGGER
+DROP TRIGGER
+DROP TRIGGER
+DROP TRIGGER
+DROP TRIGGER
+Dropping USim Tables
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+Dropping USim Functions
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+DROP FUNCTION
+Dropping USim Procedures
+DROP PROCEDURE
+DROP PROCEDURE
+DROP PROCEDURE
+Remaining USim Objects
+ obj_name | obj_schema | obj_owner | obj_type 
+----------+------------+-----------+----------
+(0 rows)
+
+Create objects for USim model
+ search_path 
+-------------
+ usim_test
+(1 row)
+
+Create table USIM_BASEDATA
+ search_path 
+-------------
+ usim_test
+(1 row)
+
+CREATE TABLE
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
+CREATE TRIGGER
+Create table USIM_BDA_STATE
+CREATE TABLE
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
+Create table USIM_PLANCK_AEON
+CREATE TABLE
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
+CREATE TRIGGER
+Create table USIM_PLANCK_TICK
+CREATE TABLE
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
+CREATE TRIGGER
+Create view USIM_BDA_V
+CREATE VIEW
+ALTER TABLE
+Create view USIM_BDA_PLA_V
+CREATE VIEW
+ALTER TABLE
+Create procedure BDA_NEW_SIM
+psql:/usim_src/PROCEDURES/bda_new_sim.psql:106: NOTICE:  type reference usim_basedata.bda_simulation_name%TYPE converted to character varying
+psql:/usim_src/PROCEDURES/bda_new_sim.psql:106: NOTICE:  type reference usim_basedata.bda_max_dimension%TYPE converted to smallint
+psql:/usim_src/PROCEDURES/bda_new_sim.psql:106: NOTICE:  type reference usim_basedata.bda_max_abs_number%TYPE converted to numeric
+psql:/usim_src/PROCEDURES/bda_new_sim.psql:106: NOTICE:  type reference usim_basedata.bda_overflow_behavior%TYPE converted to smallint
+CREATE PROCEDURE
+psql:/usim_src/PROCEDURES/bda_new_sim.psql:122: NOTICE:  type reference usim_basedata.bda_simulation_name%TYPE converted to character varying
+CREATE PROCEDURE
+psql:/usim_src/PROCEDURES/bda_new_sim.psql:142: NOTICE:  type reference usim_basedata.bda_simulation_name%TYPE converted to character varying
+CREATE PROCEDURE
+          obj_name           | obj_schema | obj_owner | obj_type  
+-----------------------------+------------+-----------+-----------
+ bda_fn_ins_trg              | usim_test  | usim      | FUNCTION
+ bda_fn_upd_trg              | usim_test  | usim      | FUNCTION
+ bds_fn_ins_trg              | usim_test  | usim      | FUNCTION
+ pla_fn_ins_trg              | usim_test  | usim      | FUNCTION
+ pla_fn_upd_trg              | usim_test  | usim      | FUNCTION
+ plt_fn_ins_trg              | usim_test  | usim      | FUNCTION
+ plt_fn_upd_trg              | usim_test  | usim      | FUNCTION
+ bda_new_sim                 | usim_test  | usim      | PROCEDURE
+ bda_new_sim                 | usim_test  | usim      | PROCEDURE
+ bda_new_sim                 | usim_test  | usim      | PROCEDURE
+ usim_basedata               | usim_test  | usim      | TABLE
+ usim_planck_aeon            | usim_test  | usim      | TABLE
+ usim_bda_state              | usim_test  | usim      | TABLE
+ usim_planck_tick            | usim_test  | usim      | TABLE
+ usim_bda_v                  | usim_test  | usim      | VIEW
+ usim_bda_pla_v              | usim_test  | usim      | VIEW
+ usim_basedata_bda_id_seq    | usim_test  | usim      | SEQUENCE
+ usim_planck_aeon_pla_id_seq | usim_test  | usim      | SEQUENCE
+ usim_planck_tick_plt_id_seq | usim_test  | usim      | SEQUENCE
+ bda_ins_trg                 | usim_test  | usim      | TRIGGER
+ bda_upd_trg                 | usim_test  | usim      | TRIGGER
+ bds_ins_trg                 | usim_test  | usim      | TRIGGER
+ pla_ins_trg                 | usim_test  | usim      | TRIGGER
+ pla_upd_trg                 | usim_test  | usim      | TRIGGER
+ plt_ins_trg                 | usim_test  | usim      | TRIGGER
+ plt_upd_trg                 | usim_test  | usim      | TRIGGER
+(26 rows)
+

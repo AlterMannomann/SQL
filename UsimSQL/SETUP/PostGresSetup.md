@@ -72,7 +72,7 @@ USIM has no need for security, so no need for security updates. Anyway updates m
 ## Never touch a running system
 
 # Setup the USim model
-As all experiments failed with SET search_path and \setenv I used the connect option to set the schema to ensure that objects are created in the correct schema. Avoided special users, user usim is good enough for this simulation.
+As all experiments failed with SET search_path and \setenv I used the connect option to set the schema to ensure that objects are created in the correct schema. Avoided special users, user usim is good enough for this simulation. To install schema usim and usim_test run:
 
     /usim_src/SH/init_usim_all.sh
 

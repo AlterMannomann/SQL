@@ -56,7 +56,7 @@ Now link shared folders to this folders after shutdown. Mount points /usim_data 
 
     /usim_src/SH/dba_init_usim.sh
 
-After this user usim and schema usim and usim_test are available.
+After this user usim and schema usim as well as usim_test are available.
 
 Had to edit /usr/pgadmin4/web/config.py as config_system.py didn't work, to get share available in pgAdmin web.
 

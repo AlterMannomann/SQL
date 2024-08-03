@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS usim_planck_aeon
 (
   bda_id smallint NOT NULL,
-  pla_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE ),
+  pla_id bigint NOT NULL,
   pla_stamp timestamp without time zone NOT NULL DEFAULT now(),
   pla_created_by character varying(128) NOT NULL DEFAULT USER,
   CONSTRAINT pla_pk PRIMARY KEY (pla_id, pla_stamp),
@@ -20,10 +20,10 @@ COMMENT ON TABLE usim_planck_aeon
   IS 'Holds the planck aeons of a defined simulation. No updates allowed on this table. The planck aeon is a construct to overcome the limitations in serials. Will use the alias pla.';
 
 COMMENT ON COLUMN usim_planck_aeon.bda_id
-  IS 'The unique id of the base data for the defined simulation.';
+  IS 'The referenced id of the base data for the defined simulation.';
 
 COMMENT ON COLUMN usim_planck_aeon.pla_id
-  IS 'The cycling id of the planck aeon. Only unique together with pla_stamp.';
+  IS 'The cycling id of the planck aeon. Only unique together with pla_stamp. Automatically created by trigger, ignored on inserts.';
 
 COMMENT ON COLUMN usim_planck_aeon.pla_stamp
   IS 'The time stamp of the created planck aeon. Builds the primary key together with pla_id.';
@@ -38,8 +38,21 @@ CREATE OR REPLACE FUNCTION pla_fn_ins_trg()
   RETURNS trigger
   LANGUAGE 'plpgsql'
 AS $BODY$
+  DECLARE
+    l_pla_stamp timestamp without time zone;
+    l_pla_id    bigint;
   BEGIN
-    -- set time stamp and creator, ignore any input
+    SELECT COALESCE(MAX(pla_stamp), current_timestamp) INTO l_pla_stamp FROM usim_planck_aeon WHERE bda_id = NEW.bda_id;
+    SELECT COALESCE(MAX(pla_id), 0) INTO l_pla_id FROM usim_planck_aeon WHERE bda_id = NEW.bda_id AND pla_stamp = l_pla_stamp;
+    -- bigint limited to 9223372036854775807, cycling by trigger to get a private cycle for every bda_id
+    IF l_pla_id >= 9223372036854775807
+    THEN
+      l_pla_id := 1;
+    ELSE
+      l_pla_id := l_pla_id + 1;
+    END IF;
+    -- set id, time stamp and creator, ignore any input except bda_id
+    NEW.pla_id := l_pla_id;
     NEW.pla_stamp := current_timestamp;
     NEW.pla_created_by := current_user;
     RETURN NEW;
@@ -70,7 +83,7 @@ ALTER FUNCTION pla_fn_upd_trg()
 -- DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
 
 CREATE TRIGGER pla_ins_trg
-  AFTER INSERT
+  BEFORE INSERT
   ON usim_planck_aeon
   FOR EACH ROW
   EXECUTE FUNCTION pla_fn_ins_trg();
@@ -79,7 +92,7 @@ CREATE TRIGGER pla_ins_trg
 -- DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
 
 CREATE TRIGGER pla_upd_trg
-  AFTER UPDATE
+  BEFORE UPDATE
   ON usim_planck_aeon
   FOR EACH ROW
   EXECUTE FUNCTION pla_fn_upd_trg();

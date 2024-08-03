@@ -11,9 +11,11 @@ CREATE OR REPLACE VIEW usim_bda_v
            END AS status,
            bda.bda_simulation_name AS simulation_name,
            bda.bda_max_dimension AS max_dimension,
-           bda.bda_max_abs_number AS max_number_absolute,
+           bda.bda_abs_overflow AS overflow_abs,
+           bda.bda_abs_underflow AS underflow_abs,
            pla.pla_id AS planck_aeon_current_id,
            pla.pla_stamp AS planck_aeon_stamp,
+           plt.plt_id AS planck_tick_current_id,
            bda.bda_id,
            CASE
                WHEN bds.bda_id IS NOT NULL
@@ -30,7 +32,13 @@ CREATE OR REPLACE VIEW usim_bda_v
       LEFT JOIN usim_planck_aeon pla
         ON bda.bda_id = pla.bda_id
        AND pla.pla_stamp = (SELECT MAX(pla_stamp) FROM usim_planck_aeon WHERE bda_id = bda.bda_id)
+      LEFT JOIN usim_planck_tick plt
+        ON pla.bda_id = plt.bda_id
+       AND pla.pla_id = plt.pla_id
+       AND plt.plt_id = (SELECT MAX(plt_id) FROM usim_planck_tick WHERE bda_id = pla.bda_id AND pla_id = pla.pla_id AND pla_stamp = pla.pla_stamp)
      ORDER BY bda.bda_id;
 
 ALTER TABLE usim_bda_v
     OWNER TO usim;
+
+COMMENT ON VIEW usim_bda_v IS 'State of universes and simulation with user-friendly column names';

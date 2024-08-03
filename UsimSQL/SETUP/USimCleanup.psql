@@ -1,36 +1,64 @@
 -- views
-\echo 'Dropping USim Views'
-DROP VIEW IF EXISTS usim_bda_pla_v;
+\echo 'Dropping USim View usim_bda_active_v'
+DROP VIEW IF EXISTS usim_bda_active_v;
+\echo 'Dropping USim View usim_bda_v'
 DROP VIEW IF EXISTS usim_bda_v;
 -- trigger
-\echo 'Dropping USim Trigger'
+\echo 'Dropping USim Trigger dim_upd_trg'
+DROP TRIGGER IF EXISTS dim_upd_trg ON usim_dimension;
+\echo 'Dropping USim Trigger dim_ins_trg'
+DROP TRIGGER IF EXISTS dim_ins_trg ON usim_dimension;
+\echo 'Dropping USim Trigger plt_ins_trg'
 DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;
+\echo 'Dropping USim Trigger plt_upd_trg'
 DROP TRIGGER IF EXISTS plt_upd_trg ON usim_planck_tick;
+\echo 'Dropping USim Trigger pla_ins_trg'
 DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
+\echo 'Dropping USim Trigger pla_upd_trg'
 DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
+\echo 'Dropping USim Trigger bds_ins_trg'
 DROP TRIGGER IF EXISTS bds_ins_trg ON usim_bda_state;
+\echo 'Dropping USim Trigger bda_ins_trg'
 DROP TRIGGER IF EXISTS bda_ins_trg ON usim_basedata;
+\echo 'Dropping USim Trigger bda_upd_trg'
 DROP TRIGGER IF EXISTS bda_upd_trg ON usim_basedata;
 -- tables
-\echo 'Dropping USim Tables'
+\echo 'Dropping USim Table usim_dimension'
+DROP TABLE IF EXISTS usim_dimension CASCADE;
+\echo 'Dropping USim Table usim_planck_tick'
 DROP TABLE IF EXISTS usim_planck_tick CASCADE;
+\echo 'Dropping USim Table usim_planck_aeon'
 DROP TABLE IF EXISTS usim_planck_aeon CASCADE;
+\echo 'Dropping USim Table usim_bda_state'
 DROP TABLE IF EXISTS usim_bda_state CASCADE;
+\echo 'Dropping USim Table usim_basedata'
 DROP TABLE IF EXISTS usim_basedata CASCADE;
 -- functions
-\echo 'Dropping USim Functions'
+\echo 'Dropping USim Function dim_fn_ins_trg'
+DROP FUNCTION IF EXISTS dim_fn_ins_trg();
+\echo 'Dropping USim Function dim_fn_upd_trg'
+DROP FUNCTION IF EXISTS dim_fn_upd_trg();
+\echo 'Dropping USim Function plt_fn_ins_trg'
 DROP FUNCTION IF EXISTS plt_fn_ins_trg();
+\echo 'Dropping USim Function plt_fn_upd_trg'
 DROP FUNCTION IF EXISTS plt_fn_upd_trg();
+\echo 'Dropping USim Function pla_fn_ins_trg'
 DROP FUNCTION IF EXISTS pla_fn_ins_trg();
+\echo 'Dropping USim Function pla_fn_upd_trg'
 DROP FUNCTION IF EXISTS pla_fn_upd_trg();
+\echo 'Dropping USim Function bds_fn_ins_trg'
 DROP FUNCTION IF EXISTS bds_fn_ins_trg();
+\echo 'Dropping USim Function bda_fn_ins_trg'
 DROP FUNCTION IF EXISTS bda_fn_ins_trg();
+\echo 'Dropping USim Function bda_fn_upd_trg'
 DROP FUNCTION IF EXISTS bda_fn_upd_trg();
 -- procedures
-\echo 'Dropping USim Procedures'
+\echo 'Dropping USim Procedure bda_new_sim(character varying)'
 DROP PROCEDURE IF EXISTS bda_new_sim(character varying);
+\echo 'Dropping USim Procedure bda_new_sim(character varying, integer)'
 DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer);
-DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer, smallint, numeric, smallint);
+\echo 'Dropping USim Procedure bda_new_sim(character varying, integer, smallint, numeric, smallint)'
+DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer, smallint, numeric, numeric, smallint);
 
 -- list objects remaining
 \echo 'Remaining USim Objects'

@@ -1,0 +1,28 @@
+-- View: usim_bda_active_v on usim_basedata
+-- always drop to avoid errors on added columns
+-- DROP VIEW IF EXISTS usim_bda_active_v;
+
+CREATE OR REPLACE VIEW usim_bda_active_v
+  AS
+    SELECT bds.bda_id
+         , bda.bda_simulation_name
+         , pla.pla_id
+         , pla.pla_stamp
+         , plt.plt_id
+         , bda.bda_abs_overflow
+         , bda.bda_abs_underflow
+         , bda.bda_overflow_behavior
+         , bda.bda_max_dimension
+      FROM usim_bda_state bds
+      LEFT JOIN usim_basedata bda
+        ON bds.bda_id = bda.bda_id
+      LEFT JOIN usim_planck_aeon pla
+        ON bds.bda_id = pla.bda_id
+       AND pla.pla_stamp = (SELECT MAX(pla_stamp) FROM usim_planck_aeon WHERE bda_id = bds.bda_id)
+      LEFT JOIN usim_planck_tick plt
+        ON pla.bda_id = plt.bda_id
+       AND pla.pla_id = plt.pla_id
+       AND plt.plt_id = (SELECT MAX(plt_id) FROM usim_planck_tick WHERE bda_id = pla.bda_id AND pla_id = pla.pla_id AND pla_stamp = pla.pla_stamp)
+;
+
+COMMENT ON VIEW usim_bda_active_v IS 'Operational view with active simulation and related ids';

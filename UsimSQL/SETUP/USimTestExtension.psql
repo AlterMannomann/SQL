@@ -1,0 +1,5 @@
+-- reserved for additional objects
+
+-- create some basic data
+\echo 'Create base data for first simulation'
+CALL bda_new_sim('Test simulation', 1);

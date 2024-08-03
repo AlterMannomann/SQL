@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS usim_bda_state
   bds_created_by character varying(128) NOT NULL DEFAULT USER,
   bds_updated_by character varying(128) NOT NULL DEFAULT USER,
   CONSTRAINT bds_pk PRIMARY KEY (bds_id),
-  CONSTRAINT bda_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE RESTRICT
+  CONSTRAINT bda_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE
 )
 TABLESPACE usim_data;
 

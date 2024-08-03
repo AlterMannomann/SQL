@@ -1,0 +1,98 @@
+-- DROP TABLE IF EXISTS usim_dimension CASCADE;
+-- sort columns by space needed, small columns first, character varying last (slowest access)
+CREATE TABLE IF NOT EXISTS usim_dimension
+(
+  dim_id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE ),
+  bda_id smallint NOT NULL,
+  dim_dimension smallint NOT NULL,
+  dim_created timestamp without time zone NOT NULL DEFAULT now(),
+  dim_created_by character varying(128) NOT NULL DEFAULT USER,
+  CONSTRAINT dim_pk PRIMARY KEY (dim_id, bda_id),
+  CONSTRAINT dim_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE,
+  CONSTRAINT dim_uk UNIQUE (bda_id, dim_dimension)
+)
+TABLESPACE usim_data;
+
+ALTER TABLE usim_dimension
+    OWNER TO usim;
+
+COMMENT ON TABLE usim_dimension
+  IS 'Holds the dimensions associated with a specific universe. No updates are allowed. Insert the bda_id to create a new dimension. Will use the alias dim.';
+
+COMMENT ON COLUMN usim_dimension.dim_id
+  IS 'The cycling id of the dimension. Forms primary key together with bda_id.';
+
+COMMENT ON COLUMN usim_dimension.bda_id
+  IS 'The unique id of the base data simulation. Forms primary key together with dim_id.';
+
+COMMENT ON COLUMN usim_dimension.dim_dimension
+  IS 'A unique dimension for the referenced simulation and universe. Automatically retrieved, given values are ignored on insert.';
+
+COMMENT ON COLUMN usim_dimension.dim_created
+  IS 'The date of record creation.';
+
+COMMENT ON COLUMN usim_dimension.dim_created_by
+  IS 'The user that created the record.';
+
+-- FUNCTION: dim_fn_ins_trg()
+-- DROP FUNCTION IF EXISTS dim_fn_ins_trg();
+
+CREATE OR REPLACE FUNCTION dim_fn_ins_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_next_dim      smallint;
+    l_max_dimension smallint;
+  BEGIN
+    -- determine the next dimension
+    SELECT COALESCE(MAX(dim_dimension), -1) + 1 INTO l_next_dim FROM usim_dimension WHERE bda_id = NEW.bda_id;
+    SELECT bda_max_dimension INTO l_max_dimension FROM usim_basedata WHERE bda_id = NEW.bda_id;
+    IF l_next_dim > l_max_dimension
+    THEN
+      RAISE EXCEPTION 'Max dimensions reached, no additional dimensions can be inserted for the used universe';
+    END IF;
+    -- ignore any input for dimension and user, use defaults and constraints for other values
+    NEW.dim_dimension  := l_next_dim;
+    NEW.dim_created_by := current_user;
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION dim_fn_ins_trg()
+    OWNER TO usim;
+
+-- FUNCTION: dim_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS dim_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION dim_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- No updates allowed
+    RAISE EXCEPTION 'No updates allowed on table usim_dimension.';
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION dim_fn_upd_trg()
+    OWNER TO usim;
+
+-- Trigger: dim_ins_trg
+-- DROP TRIGGER IF EXISTS dim_ins_trg ON usim_dimension;
+
+CREATE TRIGGER dim_ins_trg
+  BEFORE INSERT
+  ON usim_dimension
+  FOR EACH ROW
+  EXECUTE FUNCTION dim_fn_ins_trg();
+
+-- Trigger: dim_upd_trg
+-- DROP TRIGGER IF EXISTS dim_upd_trg ON usim_dimension;
+
+CREATE TRIGGER dim_upd_trg
+  BEFORE UPDATE
+  ON usim_dimension
+  FOR EACH ROW
+  EXECUTE FUNCTION dim_fn_upd_trg();

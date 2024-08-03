@@ -9,12 +9,14 @@ SHOW search_path;
 \i /usim_src/TABLES/usim_planck_aeon_tbl.psql
 \echo 'Create table USIM_PLANCK_TICK'
 \i /usim_src/TABLES/usim_planck_tick_tbl.psql
+\echo 'Create table USIM_DIMENSION'
+\i /usim_src/TABLES/usim_dimension_tbl.psql
 
 -- VIEWS
 \echo 'Create view USIM_BDA_V'
 \i /usim_src/VIEW/usim_bda_v.psql
-\echo 'Create view USIM_BDA_PLA_V'
-\i /usim_src/VIEW/usim_bda_pla_v.psql
+\echo 'Create view USIM_BDA_ACTIVE_V'
+\i /usim_src/VIEW/usim_bda_active_v.psql
 
 -- PROCEDURES
 \echo 'Create procedure BDA_NEW_SIM'

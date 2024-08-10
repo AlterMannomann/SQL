@@ -40,5 +40,7 @@ AS $BODY$
     RETURN NEXT col_is_pk('usim_test', 'usim_dimension', ARRAY['bda_id', 'dim_id'], 'Check primary key columns of usim_dimension are defined as PK');
     RETURN NEXT col_is_fk('usim_test', 'usim_dimension', 'bda_id', 'Check foreign key column of usim_dimension is defined as FK');
     RETURN NEXT fk_ok('usim_test', 'usim_dimension', 'bda_id', 'usim_test', 'usim_basedata', 'bda_id', 'Verify foreign key of usim_dimension');
+    -- usim_sequences
+
   END;
 $BODY$;

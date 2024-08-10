@@ -2,6 +2,13 @@
 First of all PostGres is Open Source, moreover it is not limited and available for any one that has processor and disc space.
 It has no nice APEX that does what it wants, not what the developer wants. So more possiblities to setup a database and application without not needed overhead.
 
+# PostGres tools
+**psql** works as expected. My main tool.
+
+**pgTap** seems very ok and very helpful. Works as expected until now.
+
+*pgAdmin* only in special cases useful. Too unstable, too much logins to get really the objects in the database, out of the sudden loosing all objects known, ERD is a pain, no useful formatting options for complicated designs, if version changes, old files are not accessible or writable any more. Nice to just look up, if it works, the objects and source code of an schema object.
+
 # Current state
 **Under Construction - heavy redesign currently**
 

@@ -1,0 +1,5 @@
+DROP TRIGGER IF EXISTS dim_ins_trg ON usim_dimension;
+DROP TRIGGER IF EXISTS dim_upd_trg ON usim_dimension;
+DROP FUNCTION IF EXISTS dim_fn_ins_trg();
+DROP FUNCTION IF EXISTS dim_fn_upd_trg();
+DROP TABLE IF EXISTS usim_dimension CASCADE;

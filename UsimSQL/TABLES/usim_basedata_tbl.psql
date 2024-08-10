@@ -1,35 +1,41 @@
 SHOW search_path;
 -- DROP TABLE IF EXISTS usim_basedata CASCADE;
--- sort columns by space needed, small columns first, character varying last (slowest access)
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_basedata
 (
-  bda_id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MAXVALUE 32767 ),
-  bda_max_dimension smallint NOT NULL DEFAULT 42,
-  bda_overflow_behavior smallint NOT NULL DEFAULT 0,
+  bda_id character(32) NOT NULL,
+  bda_planck_stable boolean NOT NULL DEFAULT TRUE,
+  bda_ultimate_border boolean NOT NULL DEFAULT TRUE,
+  bda_default_overflow boolean NOT NULL DEFAULT TRUE,
+  bda_max_dimension smallint NOT NULL DEFAULT 42::smallint,
+  bda_abs_overflow numeric NOT NULL DEFAULT 99999999999999999999999999999999999999::numeric,
+  bda_abs_underflow numeric NOT NULL DEFAULT 0.00000000000000000000000000000000000001::numeric,
+  bda_energy_start_value numeric NOT NULL DEFAULT 1::numeric,
+  bda_planck_time_unit numeric NOT NULL DEFAULT 1::numeric,
+  bda_planck_length_unit numeric NOT NULL DEFAULT 1::numeric,
+  bda_planck_speed_unit numeric NOT NULL DEFAULT 1::numeric,
+  bda_simulation_name character varying(128) NOT NULL DEFAULT 'USim Simulation',
+  -- not actively used columns
   bda_created timestamp without time zone NOT NULL DEFAULT now(),
   bda_updated timestamp without time zone NOT NULL DEFAULT now(),
-  bda_abs_overflow numeric NOT NULL DEFAULT 99999999999999999999999999999999999999,
-  bda_abs_underflow numeric NOT NULL DEFAULT 0.0000000000000000000000000000000000001,
-  bda_simulation_name character varying(128) NOT NULL DEFAULT 'USim Simulation',
   bda_created_by character varying(128) NOT NULL DEFAULT USER,
   bda_updated_by character varying(128) NOT NULL DEFAULT USER,
   CONSTRAINT bda_pk PRIMARY KEY (bda_id),
   CONSTRAINT bda_uk UNIQUE (bda_simulation_name),
   CONSTRAINT bda_chk_dimension CHECK (bda_max_dimension >= 0 AND bda_max_dimension < 100) NOT VALID,
   CONSTRAINT bda_chk_abs_overflow CHECK (bda_abs_overflow >= 1) NOT VALID,
-  CONSTRAINT bda_chk_abs_underflow CHECK (bda_abs_underflow > 0 AND bda_abs_underflow < 1) NOT VALID,
-  CONSTRAINT bda_chk_overflow_behavior CHECK (bda_overflow_behavior IN (0, 1)) NOT VALID
+  CONSTRAINT bda_chk_abs_underflow CHECK (bda_abs_underflow > 0 AND bda_abs_underflow < 1) NOT VALID
 )
 TABLESPACE usim_data;
 
 ALTER TABLE usim_basedata
-    OWNER TO usim;
+  OWNER TO usim;
 
 COMMENT ON TABLE usim_basedata
   IS 'Holds the basic data used by the multiverse simulation that belong to all universes of this simulation. Will use the alias bda.';
 
 COMMENT ON COLUMN usim_basedata.bda_id
-  IS 'The unique id of the base data. Always generated. Avoid inserts causing constraint errors on insert as this will waste a serial and leave holes in the serials.';
+  IS 'The unique id of the base data. Always generated. Depends on function usim_create_id.';
 
 COMMENT ON COLUMN usim_basedata.bda_simulation_name
   IS 'The unique name of this simulation definition.';
@@ -43,8 +49,26 @@ COMMENT ON COLUMN usim_basedata.bda_abs_overflow
 COMMENT ON COLUMN usim_basedata.bda_abs_underflow
   IS 'Defines the limit for underflow as absolute fractional number betweem 0 and 1 on the used system. Must be set on insert, ignored on update. Limits the maximum underflow on any calculation.';
 
-COMMENT ON COLUMN usim_basedata.bda_overflow_behavior
-  IS 'Set to 1 if all new structures should start with parent in dimension n = 0. Set to 0, if new structures should use standard overflow handling. Must be set on insert, ignored on update.';
+COMMENT ON COLUMN usim_basedata.bda_default_overflow
+  IS 'TRUE (default) for default overflow behavior. Set to FALSE if all new structures should start with parent in dimension n = 0. Must be set on insert, ignored on update.';
+
+COMMENT ON COLUMN usim_basedata.bda_planck_stable
+  IS 'TRUE (default) for stable planck behavior. Set to FALSE if planck units can change with every universe. Must be set on insert, ignored on update.';
+
+COMMENT ON COLUMN usim_basedata.bda_ultimate_border
+  IS 'TRUE (default) for energy flow only returns on ultimate borders with no child connections. Set to FALSE if energy flow should return on any dimension border independent of child connections. Must be set on insert, ignored on update.';
+
+COMMENT ON COLUMN usim_basedata.bda_energy_start_value
+  IS 'The available energy for the first impulse sent from dimension 0 to the base universe of the multiverse. Child universes may most likely have other start values. Must be set on insert, ignored on update.';
+
+COMMENT ON COLUMN usim_basedata.bda_planck_time_unit
+  IS 'The default planck time unit equation for the base universe internal planck unit, which is always 1. If not planck stable, this value will change with every child universe. Must be set on insert, ignored on update.';
+
+COMMENT ON COLUMN usim_basedata.bda_planck_length_unit
+  IS 'The default planck length unit equation for the base universe internal planck unit, which is always 1. If not planck stable, this value will change with every child universe. Must be set on insert, ignored on update.';
+
+COMMENT ON COLUMN usim_basedata.bda_planck_speed_unit
+  IS 'The default planck speed unit equation for the base universe internal planck unit, which is always 1. If not planck stable, this value will change with every child universe. Must be set on insert, ignored on update.';
 
 COMMENT ON COLUMN usim_basedata.bda_created
   IS 'The date of record creation.';
@@ -66,6 +90,7 @@ CREATE OR REPLACE FUNCTION bda_fn_ins_trg()
   LANGUAGE 'plpgsql'
 AS $BODY$
   BEGIN
+    NEW.bda_id := usim_create_id();
     -- Remember who changed the base data, ignore any inputs
     NEW.bda_created := current_timestamp;
     NEW.bda_created_by := current_user;
@@ -76,7 +101,7 @@ AS $BODY$
 $BODY$;
 
 ALTER FUNCTION bda_fn_ins_trg()
-    OWNER TO usim;
+  OWNER TO usim;
 
 -- FUNCTION: bda_fn_upd_trg()
 -- DROP FUNCTION IF EXISTS bda_fn_upd_trg();
@@ -87,6 +112,9 @@ CREATE OR REPLACE FUNCTION bda_fn_upd_trg()
 AS $BODY$
   BEGIN
     -- Only column that can be changed is bda_simulation_name
+    IF NEW.bda_id != OLD.bda_id THEN
+        RAISE EXCEPTION 'bda_id cannot be changed, create a new base dataset instead';
+    END IF;
     IF NEW.bda_max_dimension != OLD.bda_max_dimension THEN
         RAISE EXCEPTION 'bda_max_dimension cannot be changed, create a new base dataset instead';
     END IF;
@@ -96,8 +124,26 @@ AS $BODY$
     IF NEW.bda_abs_underflow != OLD.bda_abs_underflow THEN
         RAISE EXCEPTION 'bda_abs_underflow cannot be changed, create a new base dataset instead';
     END IF;
-    IF NEW.bda_overflow_behavior != OLD.bda_overflow_behavior THEN
-        RAISE EXCEPTION 'bda_overflow_behavior cannot be changed, create a new base dataset instead';
+    IF NEW.bda_default_overflow != OLD.bda_default_overflow THEN
+        RAISE EXCEPTION 'bda_default_overflow cannot be changed, create a new base dataset instead';
+    END IF;
+    IF NEW.bda_planck_stable != OLD.bda_planck_stable THEN
+        RAISE EXCEPTION 'bda_planck_stable cannot be changed, create a new base dataset instead';
+    END IF;
+    IF NEW.bda_ultimate_border != OLD.bda_ultimate_border THEN
+        RAISE EXCEPTION 'bda_ultimate_border cannot be changed, create a new base dataset instead';
+    END IF;
+    IF NEW.bda_energy_start_value != OLD.bda_energy_start_value THEN
+        RAISE EXCEPTION 'bda_energy_start_value cannot be changed, create a new base dataset instead';
+    END IF;
+    IF NEW.bda_planck_time_unit != OLD.bda_planck_time_unit THEN
+        RAISE EXCEPTION 'bda_planck_time_unit cannot be changed, create a new base dataset instead';
+    END IF;
+    IF NEW.bda_planck_length_unit != OLD.bda_planck_length_unit THEN
+        RAISE EXCEPTION 'bda_planck_length_unit cannot be changed, create a new base dataset instead';
+    END IF;
+    IF NEW.bda_planck_speed_unit != OLD.bda_planck_speed_unit THEN
+        RAISE EXCEPTION 'bda_planck_speed_unit cannot be changed, create a new base dataset instead';
     END IF;
     -- Remember who changed the base data, ignore any updates
     NEW.bda_updated := current_timestamp;
@@ -107,7 +153,7 @@ AS $BODY$
 $BODY$;
 
 ALTER FUNCTION bda_fn_upd_trg()
-    OWNER TO usim;
+  OWNER TO usim;
 
 -- Trigger: bda_ins_trg
 -- DROP TRIGGER IF EXISTS bda_ins_trg ON usim_basedata;

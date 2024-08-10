@@ -1,0 +1,27 @@
+-- FUNCTION usim_bigint_def
+-- DROP FUNCTION IF EXISTS usim_bigint_def;
+
+CREATE OR REPLACE FUNCTION usim_bigint_def(p_max_definition IN boolean DEFAULT TRUE)
+  RETURNS bigint
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** FUNCTION usim_bigint_def
+  * Reads the bigint definition from the current PostGres database using pg_column_size
+  * for calculation. Depending on parameter returns the upper or lower limit of bigint.
+  *
+  * @param p_max_definition TRUE by default calculates the maximum of bigint, FALSE calculates the minimum.
+  *
+  * @return The maximum or minimum value for current bigint definition for given parameter.
+  */
+  DECLARE
+    l_min_int bigint;
+  BEGIN
+    l_min_int := ((2^(8*pg_column_size(1::bigint)-2))::bigint << 1);
+    IF p_max_definition
+    THEN
+      RETURN ((l_min_int + 1) * -1)::bigint;
+    ELSE
+      RETURN l_min_int;
+    END IF;
+  END;
+$BODY$;

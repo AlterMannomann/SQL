@@ -1,0 +1,89 @@
+SHOW search_path;
+-- DROP TABLE IF EXISTS usim_position CASCADE;
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
+CREATE TABLE IF NOT EXISTS usim_position
+(
+  bda_id character(32) NOT NULL,
+  dim_id character(32) NOT NULL,
+  dim_sign smallint NOT NULL,
+  pos_sign smallint NOT NULL,
+  pos_id numeric(1000, 0) NOT NULL,
+  CONSTRAINT pos_pk PRIMARY KEY (bda_id, dim_id, pos_id, dim_sign, pos_sign),
+  CONSTRAINT pos_bda_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE,
+  CONSTRAINT pos_dim_fk FOREIGN KEY (bda_id, dim_id) REFERENCES usim_dimension (bda_id, dim_id) ON DELETE CASCADE,
+  CONSTRAINT pos_uk UNIQUE (bda_id, dim_id, dim_sign, pos_sign, pos_position)
+)
+TABLESPACE usim_data;
+
+ALTER TABLE usim_position
+    OWNER TO usim;
+
+COMMENT ON TABLE usim_position
+  IS 'Holds qualified positions associated with a specific dimension for a specific simulation. No updates are allowed. Will use the alias pos.';
+
+COMMENT ON COLUMN usim_position.pos_id
+  IS 'The position with sign as natural id related to universe and dimension. Part of the primary key.';
+
+COMMENT ON COLUMN usim_position.bda_id
+  IS 'The referenced id of simulation. Part of the primary key.';
+
+COMMENT ON COLUMN usim_position.pos_position
+  IS 'The unique position for the referenced simulation. Also declared numeric, only integer values are allowed.';
+
+-- FUNCTION: pos_fn_ins_trg()
+-- DROP FUNCTION IF EXISTS pos_fn_ins_trg();
+
+CREATE OR REPLACE FUNCTION pos_fn_ins_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_overflow      numeric;
+  BEGIN
+    -- check position overflow
+    SELECT bda_abs_overflow INTO l_overflow FROM usim_basedata WHERE bda_id = NEW.bda_id;
+    IF ABS(NEW.pos_position) >= l_overflow
+    THEN
+      RAISE EXCEPTION 'Unable to insert a position with absolute greater or equal than the defined absolute overflow';
+    END IF;
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION pos_fn_ins_trg()
+    OWNER TO usim;
+
+-- FUNCTION: pos_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS pos_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION pos_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- No updates allowed
+    RAISE EXCEPTION 'No updates allowed on table usim_position.';
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION pos_fn_upd_trg()
+    OWNER TO usim;
+
+-- Trigger: pos_ins_trg
+-- DROP TRIGGER IF EXISTS pos_ins_trg ON usim_position;
+
+CREATE TRIGGER pos_ins_trg
+  BEFORE INSERT
+  ON usim_position
+  FOR EACH ROW
+  EXECUTE FUNCTION pos_fn_ins_trg();
+
+-- Trigger: pos_upd_trg
+-- DROP TRIGGER IF EXISTS pos_upd_trg ON usim_position;
+
+CREATE TRIGGER pos_upd_trg
+  BEFORE UPDATE
+  ON usim_position
+  FOR EACH ROW
+  EXECUTE FUNCTION pos_fn_upd_trg();

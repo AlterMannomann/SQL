@@ -4,9 +4,11 @@
 -- for logging in unix log in as postgres (e.g. sudo su postgres) and execute
 -- sudo su -c "psql -f /usim_src/SETUP/PostGresSetup.psql 2>&1 | tee /usim_src/SETUP/LOG/PostGreSetup.log" postgres
 -- drop objects before
+DROP OWNED BY usim;
 DROP DATABASE IF EXISTS usim;
-DROP ROLE IF EXISTS usim;
 DROP TABLESPACE IF EXISTS usim_data;
+DROP USER IF EXISTS usim;
+DROP ROLE IF EXISTS usim;
 -- create tablespaces
 -- Tablespace: usim_data
 CREATE TABLESPACE usim_data LOCATION '/usim_data';
@@ -43,6 +45,8 @@ COMMENT ON DATABASE usim IS 'Main database for USim';
 \l
 -- connect to database usim
 \c usim
+-- install pgtap extension
+CREATE EXTENSION pgtap;
 -- create the schemas and grant to user usim
 CREATE SCHEMA usim;
 ALTER SCHEMA usim
@@ -102,6 +106,11 @@ ALTER TABLE pg_objects
     OWNER TO postgres;
 GRANT SELECT ON TABLE pg_objects TO PUBLIC;
 GRANT ALL ON TABLE pg_objects TO postgres;
+
+-- usim_test special function and granted view
+\echo 'Create access to test files for usim_test'
+\i /usim_src/FUNCTIONS/dba_usim_test_files.psql
+
 -- now you should be able to execute psql with unix user usim and be automatically connected to database usim.
 -- show schemas
 \dn

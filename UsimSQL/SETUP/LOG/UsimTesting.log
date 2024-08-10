@@ -1,0 +1,14 @@
+Current dir: /usim_src
+User: usim
+Create test function test_000_basic_fn001_usim_create_id
+CREATE FUNCTION
+                            runtests                            
+----------------------------------------------------------------
+     # Subtest: usim_test.test_000_basic_fn001_usim_create_id()
+     ok 1 - Length 32 check for usim_create_id
+     ok 2 - Year component for usim_create_id
+     1..2
+ ok 1 - usim_test.test_000_basic_fn001_usim_create_id
+ 1..1
+(6 rows)
+

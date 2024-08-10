@@ -1,0 +1,5 @@
+DROP PROCEDURE IF EXISTS bda_new_sim(character varying);
+DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer);
+DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer, integer);
+DROP PROCEDURE IF EXISTS bda_new_sim(character varying, smallint, numeric, numeric);
+DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer, integer, integer, integer, smallint, numeric, numeric, smallint);

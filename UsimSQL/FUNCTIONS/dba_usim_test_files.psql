@@ -1,0 +1,27 @@
+-- Admin function and view owned by POSTGRES, granted to usim for use with schema usim_test
+DROP VIEW IF EXISTS usim_test.usim_testing_v;
+DROP FUNCTION IF EXISTS usim_test_files;
+-- get test scripts in the defined directory
+CREATE OR REPLACE FUNCTION usim_test_files()
+  RETURNS SETOF text
+  LANGUAGE plpgsql SECURITY DEFINER
+AS $BODY$
+  BEGIN
+    RETURN QUERY
+      SELECT *
+        FROM pg_ls_dir('/usim_src/TESTING');
+  END;
+$BODY$;
+
+GRANT ALL ON FUNCTION usim_test_files TO usim;
+
+-- view on function to grant only for schema usim_test
+CREATE OR REPLACE VIEW usim_test.usim_testing_v
+AS
+  SELECT tst.usim_test_files AS file
+       , '/usim_src/TESTING/' || tst.usim_test_files AS file_path
+    FROM (SELECT * FROM usim_test_files()) tst
+   WHERE tst.usim_test_files LIKE 'test%.psql'
+;
+
+GRANT SELECT ON usim_test.usim_testing_v TO usim;

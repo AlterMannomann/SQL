@@ -1,0 +1,5 @@
+DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;
+DROP TRIGGER IF EXISTS plt_upd_trg ON usim_planck_tick;
+DROP FUNCTION IF EXISTS plt_fn_ins_trg();
+DROP FUNCTION IF EXISTS plt_fn_upd_trg();
+DROP TABLE IF EXISTS usim_planck_tick CASCADE;

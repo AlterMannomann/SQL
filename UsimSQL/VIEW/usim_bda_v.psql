@@ -14,7 +14,7 @@ CREATE OR REPLACE VIEW usim_bda_v
            bda.bda_abs_overflow AS overflow_abs,
            bda.bda_abs_underflow AS underflow_abs,
            pla.pla_id AS planck_aeon_current_id,
-           pla.pla_stamp AS planck_aeon_stamp,
+           pla.pla_add AS planck_aeon_id_add,
            plt.plt_id AS planck_tick_current_id,
            bda.bda_id,
            CASE
@@ -41,4 +41,4 @@ CREATE OR REPLACE VIEW usim_bda_v
 ALTER TABLE usim_bda_v
     OWNER TO usim;
 
-COMMENT ON VIEW usim_bda_v IS 'State of universes and simulation with user-friendly column names';
+COMMENT ON VIEW usim_bda_v IS 'State of universes and simulations with user-friendly column names';

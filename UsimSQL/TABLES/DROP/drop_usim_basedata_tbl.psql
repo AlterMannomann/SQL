@@ -1,0 +1,5 @@
+DROP TRIGGER IF EXISTS bda_ins_trg ON usim_basedata;
+DROP TRIGGER IF EXISTS bda_upd_trg ON usim_basedata;
+DROP FUNCTION IF EXISTS bda_fn_ins_trg();
+DROP FUNCTION IF EXISTS bda_fn_upd_trg();
+DROP TABLE IF EXISTS usim_basedata CASCADE;

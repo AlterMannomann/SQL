@@ -11,8 +11,6 @@ SELECT current_schema AS var_schema
 \i /usim_src/SETUP/USimCleanup.psql
 \echo 'Create objects for USim model'
 \i /usim_src/SETUP/USimModel.psql
-\echo 'Create objects for USim testing'
-\i /usim_src/SETUP/USimTestExtension.psql
 -- display objects installed
 \echo 'USim objects after setup'
 SELECT * FROM public.pg_objects WHERE obj_owner = current_user AND obj_schema = current_schema;

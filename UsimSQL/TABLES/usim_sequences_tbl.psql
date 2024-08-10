@@ -1,0 +1,405 @@
+-- DROP TABLE IF EXISTS usim_sequences CASCADE;
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
+CREATE TABLE IF NOT EXISTS usim_sequences
+(
+  squ_name character varying(64) NOT NULL,
+  squ_key1 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key2 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key3 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key4 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key5 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key6 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key7 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_key8 character(32) NOT NULL DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  squ_cycle boolean NOT NULL DEFAULT TRUE,
+  squ_temporary boolean NOT NULL DEFAULT FALSE,
+  squ_delete boolean NOT NULL DEFAULT FALSE,
+  squ_minval bigint NOT NULL DEFAULT 1::bigint,
+  squ_maxval bigint NOT NULL DEFAULT usim_bigint_def(),
+  squ_counter bigint NOT NULL DEFAULT 0::bigint,
+  squ_created timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT squ_pk PRIMARY KEY (squ_name, squ_key1, squ_key2, squ_key3, squ_key4, squ_key5, squ_key6, squ_key7, squ_key8),
+  CONSTRAINT squ_chk_min CHECK (squ_minval > 0) NOT VALID,
+  CONSTRAINT squ_chk_max CHECK (squ_maxval > squ_minval) NOT VALID
+)
+TABLESPACE usim_data;
+
+ALTER TABLE usim_sequences
+  OWNER TO usim;
+
+COMMENT ON TABLE usim_sequences
+  IS 'Holds sequences related to key combinations with up to 4 keys. Default usim id format required. Will use the alias squ.';
+
+COMMENT ON COLUMN usim_sequences.squ_name
+  IS 'The identifier of the sequence, usually a table name. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key1
+  IS 'First key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key2
+  IS 'Second key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key3
+  IS 'Third key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key4
+  IS 'Fourth key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key5
+  IS 'Fifth key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key6
+  IS 'Sixth key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key7
+  IS 'Seventh key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_key8
+  IS 'Eighth key of the sequence. Expects default USim id with 32 byte string. Default is NOTSETNOTSETNOTSETNOTSETNOTSETNO. Part of the primary key. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_cycle
+  IS 'Defines the cycling state of the sequence. Default is TRUE. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_temporary
+  IS 'Defines if the sequence is temporary. Any temporary sequence can be deleted, if create date is older than one day. Default is FALSE. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_delete
+  IS 'Defines if the sequence can be deleted. Option to mark finished sequences as not longer needed. Default is FALSE. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_minval
+  IS 'Defines the start value of the sequence. Default is 1. Must be > 0. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_maxval
+  IS 'Defines the end value of the sequence. Default is 9223372036854775807. Must be > squ_minval. Ignored on update.';
+
+COMMENT ON COLUMN usim_sequences.squ_counter
+  IS 'The current value of the sequence. Default is 0 - initialized but not used. Use squ_next_sequence to update. Ignored on insert.';
+
+COMMENT ON COLUMN usim_sequences.squ_created
+  IS 'Defines the create date of the sequence. Can be used to remove temporary sequences older than a day. Ignored on update.';
+
+-- FUNCTION: squ_fn_ins_trg()
+-- DROP FUNCTION IF EXISTS squ_fn_ins_trg();
+
+CREATE OR REPLACE FUNCTION squ_fn_ins_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- make sure default value for init is used for counter, delete and created
+    NEW.squ_counter := 0;
+    NEW.squ_delete := FALSE;
+    NEW.squ_created := current_timestamp;
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION squ_fn_ins_trg()
+  OWNER TO usim;
+
+-- FUNCTION: squ_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS squ_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION squ_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- make sure only squ_counter and squ_delete can be updated
+    NEW.squ_name := OLD.squ_name;
+    NEW.squ_key1 := OLD.squ_key1;
+    NEW.squ_key2 := OLD.squ_key2;
+    NEW.squ_key3 := OLD.squ_key3;
+    NEW.squ_key4 := OLD.squ_key4;
+    NEW.squ_key5 := OLD.squ_key5;
+    NEW.squ_key6 := OLD.squ_key6;
+    NEW.squ_key7 := OLD.squ_key7;
+    NEW.squ_key8 := OLD.squ_key8;
+    NEW.squ_minval := OLD.squ_minval;
+    NEW.squ_maxval := OLD.squ_maxval;
+    NEW.squ_cycle := OLD.squ_cycle;
+    NEW.squ_temporary := OLD.squ_temporary;
+    NEW.squ_created := OLD.squ_created;
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION squ_fn_upd_trg()
+  OWNER TO usim;
+
+-- Trigger: squ_ins_trg
+-- DROP TRIGGER IF EXISTS squ_ins_trg ON usim_sequences;
+
+CREATE TRIGGER squ_ins_trg
+  AFTER INSERT
+  ON usim_sequences
+  FOR EACH ROW
+  EXECUTE FUNCTION squ_fn_ins_trg();
+
+-- Trigger: squ_upd_trg
+-- DROP TRIGGER IF EXISTS squ_upd_trg ON usim_sequences;
+
+CREATE TRIGGER squ_upd_trg
+  AFTER UPDATE
+  ON usim_sequences
+  FOR EACH ROW
+  EXECUTE FUNCTION squ_fn_upd_trg();
+
+-- FUNCTION: squ_finished()
+-- DROP FUNCTION IF EXISTS squ_finished;
+
+CREATE OR REPLACE FUNCTION squ_finished(
+  p_squ_name    IN character varying,
+  p_squ_key1    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key2    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key3    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key4    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key5    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key6    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key7    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key8    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+)
+  RETURNS boolean
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** FUNCTION squ_finished
+  * Returns TRUE if the current sequence is the last possible number for a not cycling
+  * sequence. Use before calling squ_next_sequence or squ_get_sequence to avoid exceptions.
+  *
+  * @param p_squ_name The name of the sequence, mandatory.
+  * @param p_squ_key1 First identifying key for the sequence.
+  * @param p_squ_key2 Second identifying key for the sequence.
+  * @param p_squ_key3 Third identifying key for the sequence.
+  * @param p_squ_key4 Fourth identifying key for the sequence.
+  * @param p_squ_key5 Fifth identifying key for the sequence.
+  * @param p_squ_key6 Sixth identifying key for the sequence.
+  * @param p_squ_key7 Seventh identifying key for the sequence.
+  * @param p_squ_key8 Eighth identifying key for the sequence.
+  *
+  * @return TRUE if end of sequence reached for a not cycling sequence, otherwise FALSE.
+  */
+  DECLARE
+    l_count integer;
+  BEGIN
+    SELECT COUNT(*)
+      INTO l_count
+      FROM usim_sequences
+     WHERE squ_name = p_squ_name
+       AND squ_key1 = p_squ_key1
+       AND squ_key2 = p_squ_key2
+       AND squ_key3 = p_squ_key3
+       AND squ_key4 = p_squ_key4
+       AND squ_key5 = p_squ_key5
+       AND squ_key6 = p_squ_key6
+       AND squ_key7 = p_squ_key7
+       AND squ_key8 = p_squ_key8
+       AND squ_counter = squ_maxval
+       AND NOT squ_cycle;
+    IF l_count = 0
+    THEN
+      RETURN FALSE;
+    ELSE
+      RETURN TRUE;
+    END IF;
+  END;
+$BODY$;
+
+-- FUNCTION: squ_next_sequence()
+-- DROP FUNCTION IF EXISTS squ_next_sequence;
+
+CREATE OR REPLACE FUNCTION squ_next_sequence(
+  p_squ_name    IN character varying,
+  p_squ_key1    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key2    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key3    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key4    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key5    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key6    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key7    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key8    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+)
+  RETURNS bigint
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** FUNCTION squ_next_sequence
+  * Set and retrieve the next valid bigint sequence for a given name and key combination.
+  * If AUTOCOMMIT is off, COMMIT or ROLLBACK has to be done manually after calling.
+  * A sequence should be identified unique with name and keys. Application has to create
+  * the needed entry, before sequence can get accessed and should know the keys. Empty keys
+  * should not be given and are handled automatically by defaults.
+  *
+  * @param p_squ_name The name of the sequence, mandatory.
+  * @param p_squ_key1 First identifying key for the sequence.
+  * @param p_squ_key2 Second identifying key for the sequence.
+  * @param p_squ_key3 Third identifying key for the sequence.
+  * @param p_squ_key4 Fourth identifying key for the sequence.
+  * @param p_squ_key5 Fifth identifying key for the sequence.
+  * @param p_squ_key6 Sixth identifying key for the sequence.
+  * @param p_squ_key7 Seventh identifying key for the sequence.
+  * @param p_squ_key8 Eighth identifying key for the sequence.
+  *
+  * @return New serial bigint for identified sequence.
+  */
+  DECLARE
+    l_sequence  bigint;
+  BEGIN
+    UPDATE usim_sequences
+       SET squ_counter = CASE
+                           WHEN squ_counter = squ_maxval AND squ_cycle
+                           THEN squ_minval
+                           WHEN squ_counter = squ_maxval AND NOT squ_cycle
+                           THEN -1
+                           ELSE squ_counter + 1
+                         END
+     WHERE squ_name = p_squ_name
+       AND squ_key1 = p_squ_key1
+       AND squ_key2 = p_squ_key2
+       AND squ_key3 = p_squ_key3
+       AND squ_key4 = p_squ_key4
+       AND squ_key5 = p_squ_key5
+       AND squ_key6 = p_squ_key6
+       AND squ_key7 = p_squ_key7
+       AND squ_key8 = p_squ_key8
+    RETURNING squ_counter INTO l_sequence;
+    IF l_sequence = -1
+    THEN
+      RAISE EXCEPTION 'Error End of sequence % (%, %, %, %, %, %, %, %)', p_squ_name, p_squ_key1, p_squ_key2, p_squ_key3, p_squ_key4, p_squ_key5, p_squ_key6, p_squ_key7, p_squ_key8;
+    END IF;
+    RETURN l_sequence;
+  END;
+$BODY$;
+
+-- PROCEDURE: squ_get_sequence
+-- DROP PROCEDURE IF EXISTS squ_get_sequence;
+
+CREATE OR REPLACE PROCEDURE squ_get_sequence(
+  p_squ_name      IN character varying,
+  p_squ_cycle     IN boolean,
+  p_squ_temporary IN boolean,
+  p_squ_counter   OUT bigint,
+  p_squ_key1      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key2      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key3      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key4      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key5      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key6      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key7      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key8      IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** PROCEDURE squ_get_sequence
+  * Set and retrieve the next valid bigint sequence for a given name and key combination.
+  * If name and key do not exist, they are created before.
+  * Empty keys should not be given and are handled automatically by defaults. Uses default values
+  * for min, max and cycle if creating the sequence first.
+  *
+  * @param p_squ_name The name of the sequence, mandatory.
+  * @param p_squ_cycle True if the sequence should cycle, mandatory. Only used, if sequence doesn't exist.
+  * @param p_squ_temporary Use TRUE to mark the sequence as temporary otherwise FALSE.
+  * @param p_squ_counter OUT parameter with new serial bigint for identified or created sequence.
+  * @param p_squ_key1 First identifying key for the sequence.
+  * @param p_squ_key2 Second identifying key for the sequence.
+  * @param p_squ_key3 Third identifying key for the sequence.
+  * @param p_squ_key4 Fourth identifying key for the sequence.
+  * @param p_squ_key5 Fifth identifying key for the sequence.
+  * @param p_squ_key6 Sixth identifying key for the sequence.
+  * @param p_squ_key7 Seventh identifying key for the sequence.
+  * @param p_squ_key8 Eighth identifying key for the sequence.
+  */
+  DECLARE
+    l_exists  integer;
+    l_oldval  bigint;
+  BEGIN
+    SELECT COUNT(*)
+         , MAX(squ_counter)
+      INTO l_exists
+         , l_oldval
+      FROM usim_sequences
+     WHERE squ_name = p_squ_name
+       AND squ_key1 = p_squ_key1
+       AND squ_key2 = p_squ_key2
+       AND squ_key3 = p_squ_key3
+       AND squ_key4 = p_squ_key4
+       AND squ_key5 = p_squ_key5
+       AND squ_key6 = p_squ_key6
+       AND squ_key7 = p_squ_key7
+       AND squ_key8 = p_squ_key8;
+    IF l_exists > 1
+    THEN
+      RAISE EXCEPTION 'ERROR given name and keys not unique: % (%, %, %, %, %, %, %, %)', p_squ_name, p_squ_key1, p_squ_key2, p_squ_key3, p_squ_key4, p_squ_key5, p_squ_key6, p_squ_key7, p_squ_key8;
+    END IF;
+    IF l_exists = 0
+    THEN
+      -- create sequence first
+      INSERT INTO usim_sequences
+        (squ_name, squ_key1, squ_key2, squ_key3, squ_key4, squ_key5, squ_key6, squ_key7, squ_key8, squ_cycle, squ_temporary)
+        VALUES
+        (p_squ_name, p_squ_key1, p_squ_key2, p_squ_key3, p_squ_key4, p_squ_key5, p_squ_key6, p_squ_key7, p_squ_key8, p_squ_cycle, p_squ_temporary);
+    END IF;
+    -- now get sequence and fill out variable, may fail with exception if sequence has reached its end
+    p_squ_counter := squ_next_sequence(p_squ_name, p_squ_key1, p_squ_key2, p_squ_key3, p_squ_key4, p_squ_key5, p_squ_key6, p_squ_key7, p_squ_key8);
+  END;
+$BODY$;
+
+-- PROCEDURE: squ_set_delete
+-- DROP PROCEDURE IF EXISTS squ_set_delete;
+
+CREATE OR REPLACE PROCEDURE squ_set_delete(
+  p_squ_name    IN character varying,
+  p_squ_key1    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key2    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key3    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key4    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key5    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key6    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key7    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO',
+  p_squ_key8    IN character(32) DEFAULT 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** PROCEDURE squ_cleanup
+  * Will set squ_delete to TRUE for given keys. Application
+  * is responsible for COMMIT.
+  *
+  * @param p_squ_name The name of the sequence, mandatory.
+  * @param p_squ_key1 First identifying key for the sequence.
+  * @param p_squ_key2 Second identifying key for the sequence.
+  * @param p_squ_key3 Third identifying key for the sequence.
+  * @param p_squ_key4 Fourth identifying key for the sequence.
+  * @param p_squ_key5 Fifth identifying key for the sequence.
+  * @param p_squ_key6 Sixth identifying key for the sequence.
+  * @param p_squ_key7 Seventh identifying key for the sequence.
+  * @param p_squ_key8 Eighth identifying key for the sequence.
+  */
+  BEGIN
+    UPDATE usim_sequences
+       SET squ_delete = TRUE
+     WHERE squ_name = p_squ_name
+       AND squ_key1 = p_squ_key1
+       AND squ_key2 = p_squ_key2
+       AND squ_key3 = p_squ_key3
+       AND squ_key4 = p_squ_key4
+       AND squ_key5 = p_squ_key5
+       AND squ_key6 = p_squ_key6
+       AND squ_key7 = p_squ_key7
+       AND squ_key8 = p_squ_key8;
+  END;
+$BODY$;
+
+-- PROCEDURE: squ_cleanup
+-- DROP PROCEDURE IF EXISTS squ_cleanup;
+
+CREATE OR REPLACE PROCEDURE squ_cleanup()
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** PROCEDURE squ_cleanup
+  * Will delete all temporary sequences older than a day as well as any sequences marked with squ_delete = TRUE.
+  * Application is responsible for COMMIT.
+  */
+  BEGIN
+    DELETE FROM usim_sequences
+     WHERE (squ_temporary AND squ_created < (now()::timestamp without time zone - interval '1 day'))
+        OR squ_delete;
+  END;
+$BODY$;

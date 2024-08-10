@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS usim_bigint_def;

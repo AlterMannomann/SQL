@@ -1,0 +1,27 @@
+-- FUNCTION usim_create_id
+-- DROP FUNCTION IF EXISTS usim_create_id();
+
+CREATE OR REPLACE FUNCTION usim_create_id()
+  RETURNS character varying
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** FUNCTION usim_create_id
+  * Creates a unique varchar 32 byte id from the current clock timestamp, supporting years <= 9999999 and
+  * right padded zeros to be replaced, if up to 8 more fractional seconds are available.
+  * Current border influencing ID definitions is the length of 32 byte. If more is needed, the id table
+  * column definitions have to be converted apart from function adjustments.
+  *
+  * It is recommended to add an extra cycle bigint id to handle cases of more than one record creation
+  * within the minimum fractional millisecond the database can distinguish to ensure uniqueness. Systems
+  * will get faster as long as Moore's law is active. If sequence has dependency on primary keys,
+  * the sequence should be relative to the keys to avoid interferences and occasionally not unique values.
+  *
+  * @return A new 32 byte id from current clock timestamp in format YYYYYYYMMDDHH24MISSFF600000000 with leading and trailing zeros where needed.
+  */
+  DECLARE
+    l_real_time timestamp;
+  BEGIN
+    l_real_time := clock_timestamp();
+    RETURN TRIM(TO_CHAR(EXTRACT(YEAR FROM l_real_time), '00000009')) || TRIM(TO_CHAR(l_real_time, 'MMDDHH24MISSFF600000000'));
+  END;
+$BODY$;

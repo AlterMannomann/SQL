@@ -1,0 +1,142 @@
+SHOW search_path;
+-- DROP TABLE IF EXISTS usim_multiverse CASCADE;
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
+CREATE TABLE IF NOT EXISTS usim_multiverse
+(
+  bda_id character(32) NOT NULL,
+  mlv_id character(32) NOT NULL,
+  mlv_add bigint NOT NULL,
+  mlv_crashed boolean NOT NULL DEFAULT FALSE,
+  mlv_energy_start_value numeric NOT NULL DEFAULT 1::numeric,
+  mlv_planck_time_unit numeric NOT NULL DEFAULT 1::numeric,
+  mlv_planck_length_unit numeric NOT NULL DEFAULT 1::numeric,
+  mlv_planck_speed_unit numeric NOT NULL DEFAULT 1::numeric,
+  mlv_state character varying(128) NOT NULL DEFAULT 'Initialized',
+  mlv_name character varying(128) NOT NULL DEFAULT 'Base universe',
+  mlv_created timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT mlv_pk PRIMARY KEY (bda_id, mlv_id, mlv_add),
+  CONSTRAINT mlv_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE
+)
+TABLESPACE usim_data;
+
+ALTER TABLE usim_multiverse
+    OWNER TO usim;
+
+COMMENT ON TABLE usim_multiverse
+  IS 'Holds the multiverse base universes associated with a specific simulation. Depending on overflow behavior more than 1 base universe is possible. Will use the alias mlv.';
+
+COMMENT ON COLUMN usim_multiverse.bda_id
+  IS 'The referenced id of simulation. Part of the primary key.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_id
+  IS 'The basic id of the base universe. Only base unverses can have position 0 at dimension 0. Part of the primary key.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_add
+  IS 'The id addendum for the basic id of the base universe. Needed if base universes are build very fast. Part of the primary key.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_crashed
+  IS 'Updated by the simulation. Default is FALSE. Indicates errors like total energy does not sum up to 0, no more activities while running or system errors.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_energy_start_value
+  IS 'The available energy for the first impulse sent from dimension 0 to the base universe of the multiverse. Automatically retrieved from base data. Ignored on update.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_planck_time_unit
+  IS 'The default planck time unit equation for the base universe internal planck unit, which is always 1. Automatically retrieved from base data. Ignored on update.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_planck_length_unit
+  IS 'The default planck length unit equation for the base universe internal planck unit, which is always 1. Automatically retrieved from base data. Ignored on update.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_planck_speed_unit
+  IS 'The default planck speed unit equation for the base universe internal planck unit, which is always 1. Automatically retrieved from base data. Ignored on update.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_state
+  IS 'Updated by simulation. Default Initialized.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_name
+  IS 'The name of the base universe. Default Base universe. Not unique. Provided for users to distinguish universes.';
+
+COMMENT ON COLUMN usim_multiverse.mlv_created
+  IS 'The creation date of a base universe. Can be used for sorting. Ignored on updates.';
+
+-- FUNCTION: mlv_fn_ins_trg()
+-- DROP FUNCTION IF EXISTS mlv_fn_ins_trg();
+
+CREATE OR REPLACE FUNCTION mlv_fn_ins_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_default_overflow boolean;
+    l_energy_start_value numeric;
+    l_planck_time_unit numeric;
+    l_planck_length_unit numeric;
+    l_planck_speed_unit numeric;
+  BEGIN
+    SELECT bda_default_overflow
+         , bda_energy_start_value
+         , bda_planck_time_unit
+         , bda_planck_length_unit
+         , bda_planck_speed_unit
+      INTO l_default_overflow
+         , l_energy_start_value
+         , l_planck_time_unit
+         , l_planck_length_unit
+         , l_planck_speed_unit
+      FROM usim_basedata
+     WHERE bda_id = NEW.bda_id
+    ;
+    -- get mlv_add
+    NEW.mlv_id := usim_create_id();
+    CALL squ_get_sequence('mlv_seq', FALSE, TRUE, NEW.mlv_add, NEW.bda_id, NEW.mlv_id);
+
+    -- Ignore any inputs for
+    NEW.mlv_energy_start_value := l_energy_start_value;
+    NEW.mlv_planck_time_unit := l_planck_time_unit;
+    NEW.mlv_planck_length_unit := l_planck_length_unit;
+    NEW.mlv_planck_speed_unit := l_planck_speed_unit;
+    NEW.mlv_state := 'Initialized';
+    NEW.mlv_created := current_timestamp;
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION mlv_fn_ins_trg()
+  OWNER TO usim;
+
+-- FUNCTION: mlv_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS mlv_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION mlv_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- ignore updates on
+    NEW.bda_id := OLD.bda_id;
+    NEW.mlv_id := OLD.mlv_id;
+    NEW.mlv_add := OLD.mlv_add;
+    NEW.mlv_energy_start_value := OLD.mlv_energy_start_value;
+    NEW.mlv_planck_time_unit := OLD.mlv_planck_time_unit;
+    NEW.mlv_planck_length_unit := OLD.mlv_planck_length_unit;
+    NEW.mlv_planck_speed_unit := OLD.mlv_planck_speed_unit;
+    NEW.mlv_created := OLD.mlv_created;
+  END;
+$BODY$;
+
+-- Trigger: mlv_ins_trg
+-- DROP TRIGGER IF EXISTS mlv_ins_trg ON usim_multiverse;
+
+CREATE TRIGGER mlv_ins_trg
+  AFTER INSERT
+  ON usim_multiverse
+  FOR EACH ROW
+  EXECUTE FUNCTION mlv_fn_ins_trg();
+
+-- Trigger: mlv_upd_trg
+-- DROP TRIGGER IF EXISTS mlv_upd_trg ON usim_multiverse;
+
+CREATE TRIGGER mlv_upd_trg
+  AFTER UPDATE
+  ON usim_multiverse
+  FOR EACH ROW
+  EXECUTE FUNCTION mlv_fn_upd_trg();

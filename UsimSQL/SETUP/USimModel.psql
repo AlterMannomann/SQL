@@ -1,6 +1,16 @@
 -- call setup files in order that guarantees repetion of execute
 SHOW search_path;
+-- FUNCTIONS used from all application parts
+\echo 'Create function USIM_CREATE_ID'
+\i /usim_src/FUNCTIONS/usim_create_id.psql
+\echo 'Create function USIM_INT_TO_ID'
+\i /usim_src/FUNCTIONS/usim_int_to_id.psql
+\echo 'Create function USIM_BIGINT_DEF'
+\i /usim_src/FUNCTIONS/usim_bigint_def.psql
+
 -- TABLES
+\echo 'Create table USIM_SEQUENCES'
+\i /usim_src/TABLES/usim_sequences_tbl.psql
 \echo 'Create table USIM_BASEDATA'
 \i /usim_src/TABLES/usim_basedata_tbl.psql
 \echo 'Create table USIM_BDA_STATE'
@@ -11,12 +21,16 @@ SHOW search_path;
 \i /usim_src/TABLES/usim_planck_tick_tbl.psql
 \echo 'Create table USIM_DIMENSION'
 \i /usim_src/TABLES/usim_dimension_tbl.psql
+\echo 'Create table USIM_MULTIVERSE'
+\i /usim_src/TABLES/usim_multiverse_tbl.psql
+--\echo 'Create table USIM_POSITION'
+--\i /usim_src/TABLES/usim_position_tbl.psql
 
 -- VIEWS
-\echo 'Create view USIM_BDA_V'
-\i /usim_src/VIEW/usim_bda_v.psql
-\echo 'Create view USIM_BDA_ACTIVE_V'
-\i /usim_src/VIEW/usim_bda_active_v.psql
+--\echo 'Create view USIM_BDA_V'
+--\i /usim_src/VIEW/usim_bda_v.psql
+--\echo 'Create view USIM_BDA_ACTIVE_V'
+--\i /usim_src/VIEW/usim_bda_active_v.psql
 
 -- PROCEDURES
 \echo 'Create procedure BDA_NEW_SIM'

@@ -1,0 +1,3 @@
+DROP FUNCTION IF EXISTS usim_int_to_id(bigint);
+DROP FUNCTION IF EXISTS usim_int_to_id(integer);
+DROP FUNCTION IF EXISTS usim_int_to_id(smallint);

@@ -1,35 +1,39 @@
 -- DROP TABLE IF EXISTS usim_planck_aeon CASCADE;
--- sort columns by space needed, small columns first, character varying last (slowest access)
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_planck_aeon
 (
-  bda_id smallint NOT NULL,
-  pla_id bigint NOT NULL,
-  pla_stamp timestamp without time zone NOT NULL DEFAULT now(),
-  pla_created_by character varying(128) NOT NULL DEFAULT USER,
-  CONSTRAINT pla_pk PRIMARY KEY (pla_id, pla_stamp),
+  bda_id character(32) NOT NULL,
+  pla_id character(32) NOT NULL,
+  pla_add bigint NOT NULL,
+  pla_active boolean NOT NULL DEFAULT TRUE,
+  pla_created timestamp without time zone NOT NULL DEFAULT now(),
+  CONSTRAINT pla_pk PRIMARY KEY (bda_id, pla_id, pla_add),
   CONSTRAINT pla_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE
 )
 -- Partitions are difficult to handle as they have to be created manually
--- so currently no partitions even if would be useful.
+-- so currently no partitions even if it would be useful.
 TABLESPACE usim_data;
 
 ALTER TABLE usim_planck_aeon
     OWNER TO usim;
 
 COMMENT ON TABLE usim_planck_aeon
-  IS 'Holds the planck aeons of a defined simulation. No updates allowed on this table. The planck aeon is a construct to overcome the limitations in serials. Will use the alias pla.';
+  IS 'Holds the planck aeons of a defined simulation.  Use procedure pla_insert to ensure correct state. The planck aeon is a construct to overcome the limitations in serials. Will use the alias pla.';
 
 COMMENT ON COLUMN usim_planck_aeon.bda_id
-  IS 'The referenced id of the base data for the defined simulation.';
+  IS 'The referenced id of simulation. Part of the primary key. Ignored on updates.';
 
 COMMENT ON COLUMN usim_planck_aeon.pla_id
-  IS 'The cycling id of the planck aeon. Only unique together with pla_stamp. Automatically created by trigger, ignored on inserts.';
+  IS 'The basic id of the planck aeon. Only unique together with pla_add. Automatically created by trigger, ignored on inserts. Part of the primary key. Ignored on updates.';
 
-COMMENT ON COLUMN usim_planck_aeon.pla_stamp
-  IS 'The time stamp of the created planck aeon. Builds the primary key together with pla_id.';
+COMMENT ON COLUMN usim_planck_aeon.pla_add
+  IS 'The id addendum to ensure planck id is unique. Cycling sequence in usim_sequences. Automatically created by trigger, ignored on inserts. Part of the primary key. Ignored on updates.';
 
-COMMENT ON COLUMN usim_planck_aeon.pla_created_by
-  IS 'The user that created the planck aeon.';
+COMMENT ON COLUMN usim_planck_aeon.pla_active
+  IS 'The boolean indicator which aeon is active for a simulation. Only one aeon can be active for a simulation. Use procedure pla_insert to ensure correct state.';
+
+COMMENT ON COLUMN usim_planck_aeon.pla_created
+  IS 'The creation date of an aeon. Can be used for sorting. Ignored on updates.';
 
 -- FUNCTION: pla_fn_ins_trg()
 -- DROP FUNCTION IF EXISTS pla_fn_ins_trg();
@@ -38,29 +42,17 @@ CREATE OR REPLACE FUNCTION pla_fn_ins_trg()
   RETURNS trigger
   LANGUAGE 'plpgsql'
 AS $BODY$
-  DECLARE
-    l_pla_stamp timestamp without time zone;
-    l_pla_id    bigint;
   BEGIN
-    SELECT COALESCE(MAX(pla_stamp), current_timestamp) INTO l_pla_stamp FROM usim_planck_aeon WHERE bda_id = NEW.bda_id;
-    SELECT COALESCE(MAX(pla_id), 0) INTO l_pla_id FROM usim_planck_aeon WHERE bda_id = NEW.bda_id AND pla_stamp = l_pla_stamp;
-    -- bigint limited to 9223372036854775807, cycling by trigger to get a private cycle for every bda_id
-    IF l_pla_id >= 9223372036854775807
-    THEN
-      l_pla_id := 1;
-    ELSE
-      l_pla_id := l_pla_id + 1;
-    END IF;
-    -- set id, time stamp and creator, ignore any input except bda_id
-    NEW.pla_id := l_pla_id;
-    NEW.pla_stamp := current_timestamp;
-    NEW.pla_created_by := current_user;
+    NEW.pla_id := usim_create_id();
+    CALL squ_get_sequence('pla_seq', FALSE, TRUE, NEW.pla_add, NEW.bda_id, NEW.pla_id);
+    NEW.pla_active := TRUE;
+    NEW.pla_created := current_timestamp;
     RETURN NEW;
   END;
 $BODY$;
 
 ALTER FUNCTION pla_fn_ins_trg()
-    OWNER TO usim;
+  OWNER TO usim;
 
 -- FUNCTION: pla_fn_upd_trg()
 -- DROP FUNCTION IF EXISTS pla_fn_upd_trg();
@@ -70,14 +62,17 @@ CREATE OR REPLACE FUNCTION pla_fn_upd_trg()
   LANGUAGE 'plpgsql'
 AS $BODY$
   BEGIN
-    -- No updates allowed
-    RAISE EXCEPTION 'No updates allowed on table usim_planck_aeon.';
+    -- ignore updates for
+    NEW.bda_id := OLD.bda_id;
+    NEW.pla_id := OLD.pla_id;
+    NEW.pla_add := OLD.pla_add;
+    NEW.pla_created := OLD.pla_created;
     RETURN NEW;
   END;
 $BODY$;
 
 ALTER FUNCTION pla_fn_upd_trg()
-    OWNER TO usim;
+  OWNER TO usim;
 
 -- Trigger: pla_ins_trg
 -- DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
@@ -92,7 +87,31 @@ CREATE TRIGGER pla_ins_trg
 -- DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
 
 CREATE TRIGGER pla_upd_trg
-  BEFORE UPDATE
+  AFTER UPDATE
   ON usim_planck_aeon
   FOR EACH ROW
   EXECUTE FUNCTION pla_fn_upd_trg();
+
+-- PROCEDURE: pla_insert
+-- DROP PROCEDURE IF EXISTS pla_insert;
+
+CREATE OR REPLACE PROCEDURE pla_insert(
+  p_bda_id  IN character(32),
+  p_pla_id  OUT character(32),
+  p_pla_add OUT bigint
+)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** PROCEDURE pla_insert
+  * Inserts a new aeon for the given simulation reference id and deactivates any
+  * other aeons of the simulation by setting pla_active to FALSE.
+  * Application is responsible for COMMIT.
+  */
+  BEGIN
+    UPDATE usim_planck_aeon
+       SET pla_active = FALSE
+     WHERE bda_id = p_bda_id;
+    INSERT INTO usim_planck_aeon (bda_id) VALUES (p_bda_id)
+      RETURNING pla_id, pla_add INTO p_pla_id, p_pla_add;
+  END;
+$BODY$;

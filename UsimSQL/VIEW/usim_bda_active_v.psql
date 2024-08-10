@@ -25,4 +25,32 @@ CREATE OR REPLACE VIEW usim_bda_active_v
        AND plt.plt_id = (SELECT MAX(plt_id) FROM usim_planck_tick WHERE bda_id = pla.bda_id AND pla_id = pla.pla_id AND pla_stamp = pla.pla_stamp)
 ;
 
-COMMENT ON VIEW usim_bda_active_v IS 'Operational view with active simulation and related ids';
+COMMENT ON VIEW usim_bda_active_v
+  IS 'Operational view with active simulation and related ids';
+
+COMMENT ON COLUMN usim_bda_active_v.bda_id
+  IS 'The reference id to the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.bda_simulation_name
+  IS 'The simulation name.';
+
+COMMENT ON COLUMN usim_bda_active_v.pla_id
+  IS 'The current planck aeon id of the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.pla_stamp
+  IS 'The current planck aeon time stamp of the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.plt_id
+  IS 'The current planck tick id of the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.bda_abs_overflow
+  IS 'The absolute overflow value of the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.bda_abs_underflow
+  IS 'The absolute underflow value of the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.bda_overflow_behavior
+  IS 'The defined overflow behavior of the active simulation.';
+
+COMMENT ON COLUMN usim_bda_active_v.bda_max_dimension
+  IS 'The defined maximum of possible dimensions of the active simulation.';

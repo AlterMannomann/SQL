@@ -1,9 +1,9 @@
 -- DROP TABLE IF EXISTS usim_bda_state CASCADE;
--- sort columns by space needed, small columns first, character varying last (slowest access)
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_bda_state
 (
   bds_id smallint NOT NULL GENERATED ALWAYS AS (1) STORED,
-  bda_id smallint NOT NULL,
+  bda_id character(32) NOT NULL,
   bds_created timestamp without time zone NOT NULL DEFAULT now(),
   bds_updated timestamp without time zone NOT NULL DEFAULT now(),
   bds_created_by character varying(128) NOT NULL DEFAULT USER,
@@ -14,16 +14,28 @@ CREATE TABLE IF NOT EXISTS usim_bda_state
 TABLESPACE usim_data;
 
 ALTER TABLE usim_bda_state
-    OWNER TO usim;
+  OWNER TO usim;
 
 COMMENT ON TABLE usim_bda_state
   IS 'Holds the active state for a defined simulation. Only one data row allowed. Will use the alias bds.';
 
 COMMENT ON COLUMN usim_bda_state.bds_id
-  IS 'The unique id of the base data state. Always 1. Limited to exactly one record with bds_id = 1.';
+  IS 'The unique id of the base data state. Generated. Always 1. Limited to exactly one record with bds_id = 1. Not used in any tables that require a usim default id for sequences.';
 
 COMMENT ON COLUMN usim_bda_state.bda_id
   IS 'The unique id of the base data for the active simulation. Only one simulation can be active at any time.';
+
+COMMENT ON COLUMN usim_bda_state.bds_created
+  IS 'The date of record creation.';
+
+COMMENT ON COLUMN usim_bda_state.bds_updated
+  IS 'The last date of record update.';
+
+COMMENT ON COLUMN usim_bda_state.bds_created_by
+  IS 'The user that created the record.';
+
+COMMENT ON COLUMN usim_bda_state.bds_updated_by
+  IS 'The last user that committed an update.';
 
 -- FUNCTION: bds_fn_ins_trg()
 -- DROP FUNCTION IF EXISTS bds_fn_ins_trg();
@@ -33,10 +45,6 @@ CREATE OR REPLACE FUNCTION bds_fn_ins_trg()
   LANGUAGE 'plpgsql'
 AS $BODY$
   BEGIN
-    -- Check that id is given and 1
-    IF NEW.bds_id != 1 THEN
-        RAISE EXCEPTION 'bds_id cannot only be 1, no other value allowed';
-    END IF;
     -- Remember who changed the base data, ignore any inputs
     NEW.bds_created := current_timestamp;
     NEW.bds_created_by := current_user;
@@ -47,7 +55,28 @@ AS $BODY$
 $BODY$;
 
 ALTER FUNCTION bds_fn_ins_trg()
-    OWNER TO usim;
+  OWNER TO usim;
+
+-- FUNCTION: bds_fn_upd_trg()
+-- DROP FUNCTION IF EXISTS bds_fn_upd_trg();
+
+CREATE OR REPLACE FUNCTION bds_fn_upd_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    -- Remember who changed the base data, keep id and creator, ignore any inputs apart from bda_id
+    NEW.bds_id := OLD.bds_id;
+    NEW.bds_created := OLD.bds_created;
+    NEW.bds_created_by := OLD.bds_created_by;
+    NEW.bds_updated := current_timestamp;
+    NEW.bds_updated_by := current_user;
+    RETURN NEW;
+  END;
+$BODY$;
+
+ALTER FUNCTION bds_fn_upd_trg()
+  OWNER TO usim;
 
 -- Trigger: bds_ins_trg
 -- DROP TRIGGER IF EXISTS bds_ins_trg ON usim_bda_state;
@@ -57,3 +86,12 @@ CREATE TRIGGER bds_ins_trg
   ON usim_bda_state
   FOR EACH ROW
   EXECUTE FUNCTION bds_fn_ins_trg();
+
+-- Trigger: bds_upd_trg
+-- DROP TRIGGER IF EXISTS bds_upd_trg ON usim_bda_state;
+
+CREATE TRIGGER bds_upd_trg
+  AFTER UPDATE
+  ON usim_bda_state
+  FOR EACH ROW
+  EXECUTE FUNCTION bds_fn_upd_trg();

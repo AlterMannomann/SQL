@@ -1,15 +1,14 @@
 -- DROP TABLE IF EXISTS usim_planck_tick CASCADE;
--- sort columns by space needed, small columns first, character varying last (slowest access)
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_planck_tick
 (
-  bda_id smallint NOT NULL,
-  pla_id bigint NOT NULL,
-  pla_stamp timestamp without time zone NOT NULL,
+  bda_id character(32) NOT NULL,
+  pla_id character(32) NOT NULL,
+  pla_add bigint NOT NULL,
   plt_id bigint NOT NULL,
-  plt_created_by character varying(128) NOT NULL DEFAULT USER,
-  CONSTRAINT plt_pk PRIMARY KEY (bda_id, pla_id, pla_stamp, plt_id),
+  CONSTRAINT plt_pk PRIMARY KEY (bda_id, pla_id, pla_add, plt_id),
   CONSTRAINT plt_fk1 FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE,
-  CONSTRAINT plt_fk2 FOREIGN KEY (pla_id, pla_stamp) REFERENCES usim_planck_aeon (pla_id, pla_stamp) ON DELETE CASCADE
+  CONSTRAINT plt_fk2 FOREIGN KEY (bda_id, pla_id, pla_add) REFERENCES usim_planck_aeon (bda_id, pla_id, pla_add) ON DELETE CASCADE
 )
 -- Partitions are difficult to handle as they have to be created manually
 -- so currently no partitions even if would be useful.
@@ -25,16 +24,13 @@ COMMENT ON COLUMN usim_planck_tick.bda_id
   IS 'The referenced id of the base data for the defined simulation.';
 
 COMMENT ON COLUMN usim_planck_tick.pla_id
-  IS 'The referenced id of the planck aeon.';
+  IS 'The referenced basic id of the planck aeon.';
 
-COMMENT ON COLUMN usim_planck_tick.pla_stamp
-  IS 'The time stamp of the referenced planck aeon.';
+COMMENT ON COLUMN usim_planck_tick.pla_add
+  IS 'The referenced id addendum of the planck aeon.';
 
 COMMENT ON COLUMN usim_planck_tick.plt_id
   IS 'The id of the planck tick representing the tick. Automatically created by trigger, ignored on inserts. Will create a new aeon on overflow.';
-
-COMMENT ON COLUMN usim_planck_tick.plt_created_by
-  IS 'The user that created the planck tick.';
 
 -- FUNCTION: plt_fn_ins_trg()
 -- DROP FUNCTION IF EXISTS plt_fn_ins_trg();
@@ -43,27 +39,15 @@ CREATE OR REPLACE FUNCTION plt_fn_ins_trg()
   RETURNS trigger
   LANGUAGE 'plpgsql'
 AS $BODY$
-  DECLARE
-    l_plt_id    bigint;
-    l_pla_stamp timestamp without time zone;
-    l_pla_id    bigint;
   BEGIN
-    SELECT COALESCE(MAX(plt_id), 0) INTO l_plt_id FROM usim_planck_tick
-     WHERE bda_id = NEW.bda_id AND pla_id = NEW.pla_id AND pla_stamp = NEW.pla_stamp;
-    -- bigint limited to 9223372036854775807
-    IF l_plt_id >= 9223372036854775807
+    IF squ_finished('plt_seq', NEW.bda_id, NEW.pla_id, usim_int_to_id(NEW.pla_add))
     THEN
-      -- we need a new aeon, limit reached
-      INSERT INTO usim_planck_aeon (bda_id) VALUES (NEW.bda_id) RETURNING pla_id, pla_stamp INTO l_pla_id, l_pla_stamp;
-      NEW.pla_id := l_pla_id;
-      NEW.pla_stamp := l_pla_stamp;
-      l_plt_id := 1;
-    ELSE
-      l_plt_id := l_plt_id + 1;
+      -- mark the old sequence for delete, not needed anymore
+      CALL squ_set_delete('plt_seq', NEW.bda_id, NEW.pla_id, usim_int_to_id(NEW.pla_add));
+      -- we need first a new planck aeon, sequence has finished
+      INSERT INTO usim_planck_aeon (bda_id) VALUES (NEW.bda_id) RETURNING pla_id, pla_add INTO NEW.pla_id, NEW.pla_add;
     END IF;
-    -- set creator, ignore any input
-    NEW.plt_id := l_plt_id;
-    NEW.plt_created_by := current_user;
+    CALL squ_get_sequence('plt_seq', FALSE, TRUE, NEW.plt_id, NEW.bda_id, NEW.pla_id, usim_int_to_id(NEW.pla_add));
     RETURN NEW;
   END;
 $BODY$;

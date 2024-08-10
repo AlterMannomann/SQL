@@ -1,0 +1,10 @@
+DROP TRIGGER IF EXISTS squ_ins_trg ON usim_sequences;
+DROP TRIGGER IF EXISTS squ_upd_trg ON usim_sequences;
+DROP FUNCTION IF EXISTS squ_fn_ins_trg();
+DROP FUNCTION IF EXISTS squ_fn_upd_trg();
+DROP FUNCTION IF EXISTS squ_next_sequence;
+DROP FUNCTION IF EXISTS squ_finished;
+DROP PROCEDURE IF EXISTS squ_get_sequence;
+DROP PROCEDURE IF EXISTS squ_cleanup;
+DROP PROCEDURE IF EXISTS squ_set_delete;
+DROP TABLE IF EXISTS usim_sequences CASCADE;

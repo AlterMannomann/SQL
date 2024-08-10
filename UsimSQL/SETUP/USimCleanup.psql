@@ -1,65 +1,38 @@
 -- views
 \echo 'Dropping USim View usim_bda_active_v'
-DROP VIEW IF EXISTS usim_bda_active_v;
+\i /usim_src/VIEW/DROP/drop_usim_bda_active_v.psql
 \echo 'Dropping USim View usim_bda_v'
-DROP VIEW IF EXISTS usim_bda_v;
--- trigger
-\echo 'Dropping USim Trigger dim_upd_trg'
-DROP TRIGGER IF EXISTS dim_upd_trg ON usim_dimension;
-\echo 'Dropping USim Trigger dim_ins_trg'
-DROP TRIGGER IF EXISTS dim_ins_trg ON usim_dimension;
-\echo 'Dropping USim Trigger plt_ins_trg'
-DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;
-\echo 'Dropping USim Trigger plt_upd_trg'
-DROP TRIGGER IF EXISTS plt_upd_trg ON usim_planck_tick;
-\echo 'Dropping USim Trigger pla_ins_trg'
-DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
-\echo 'Dropping USim Trigger pla_upd_trg'
-DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
-\echo 'Dropping USim Trigger bds_ins_trg'
-DROP TRIGGER IF EXISTS bds_ins_trg ON usim_bda_state;
-\echo 'Dropping USim Trigger bda_ins_trg'
-DROP TRIGGER IF EXISTS bda_ins_trg ON usim_basedata;
-\echo 'Dropping USim Trigger bda_upd_trg'
-DROP TRIGGER IF EXISTS bda_upd_trg ON usim_basedata;
--- tables
-\echo 'Dropping USim Table usim_dimension'
-DROP TABLE IF EXISTS usim_dimension CASCADE;
-\echo 'Dropping USim Table usim_planck_tick'
-DROP TABLE IF EXISTS usim_planck_tick CASCADE;
-\echo 'Dropping USim Table usim_planck_aeon'
-DROP TABLE IF EXISTS usim_planck_aeon CASCADE;
-\echo 'Dropping USim Table usim_bda_state'
-DROP TABLE IF EXISTS usim_bda_state CASCADE;
-\echo 'Dropping USim Table usim_basedata'
-DROP TABLE IF EXISTS usim_basedata CASCADE;
+\i /usim_src/VIEW/DROP/drop_usim_bda_v.psql
+-- tables and depending objects
+\echo 'Dropping USim Table usim_position and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_position_tbl.psql
+\echo 'Dropping USim Table usim_dimension and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_dimension_tbl.psql
+\echo 'Dropping USim Table usim_multiverse and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_multiverse_tbl.psql
+\echo 'Dropping USim Table usim_planck_tick and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_planck_tick_tbl.psql
+\echo 'Dropping USim Table usim_planck_aeon and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql
+\echo 'Dropping USim Table usim_bda_state and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_bda_state_tbl.psql
+\echo 'Dropping USim Table usim_basedata and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_basedata_tbl.psql
+\echo 'Dropping USim Table usim_sequences and depending objects'
+\i /usim_src/TABLES/DROP/drop_usim_sequences.psql
 -- functions
-\echo 'Dropping USim Function dim_fn_ins_trg'
-DROP FUNCTION IF EXISTS dim_fn_ins_trg();
-\echo 'Dropping USim Function dim_fn_upd_trg'
-DROP FUNCTION IF EXISTS dim_fn_upd_trg();
-\echo 'Dropping USim Function plt_fn_ins_trg'
-DROP FUNCTION IF EXISTS plt_fn_ins_trg();
-\echo 'Dropping USim Function plt_fn_upd_trg'
-DROP FUNCTION IF EXISTS plt_fn_upd_trg();
-\echo 'Dropping USim Function pla_fn_ins_trg'
-DROP FUNCTION IF EXISTS pla_fn_ins_trg();
-\echo 'Dropping USim Function pla_fn_upd_trg'
-DROP FUNCTION IF EXISTS pla_fn_upd_trg();
-\echo 'Dropping USim Function bds_fn_ins_trg'
-DROP FUNCTION IF EXISTS bds_fn_ins_trg();
-\echo 'Dropping USim Function bda_fn_ins_trg'
-DROP FUNCTION IF EXISTS bda_fn_ins_trg();
-\echo 'Dropping USim Function bda_fn_upd_trg'
-DROP FUNCTION IF EXISTS bda_fn_upd_trg();
+\echo 'Dropping USim Function usim_create_id'
+\i /usim_src/FUNCTIONS/DROP/drop_usim_create_id.psql
+\echo 'Dropping USim Function usim_int_to_id'
+\i /usim_src/FUNCTIONS/DROP/drop_usim_int_to_id.psql
+\echo 'Dropping USim Function usim_bigint_def'
+\i /usim_src/FUNCTIONS/DROP/drop_usim_bigint_def.psql
 -- procedures
-\echo 'Dropping USim Procedure bda_new_sim(character varying)'
-DROP PROCEDURE IF EXISTS bda_new_sim(character varying);
-\echo 'Dropping USim Procedure bda_new_sim(character varying, integer)'
-DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer);
-\echo 'Dropping USim Procedure bda_new_sim(character varying, integer, smallint, numeric, smallint)'
-DROP PROCEDURE IF EXISTS bda_new_sim(character varying, integer, smallint, numeric, numeric, smallint);
-
+\echo 'Dropping USim Procedure bda_new_sim'
+\i /usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql
+-- test functions
+\echo 'Dropping USim test function test_000_basic_fn001_usim_create_id'
+\i /usim_src/TESTING/DROP/drop_test_000_basic_fn001_usim_create_id.psql
 -- list objects remaining
 \echo 'Remaining USim Objects'
 SELECT * FROM public.pg_objects WHERE obj_owner = current_user AND obj_schema = current_schema;

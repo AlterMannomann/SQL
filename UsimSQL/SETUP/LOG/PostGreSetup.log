@@ -1,8 +1,11 @@
 Current dir: /usim_src
 User: usim
+DROP OWNED
 DROP DATABASE
-DROP ROLE
 DROP TABLESPACE
+DROP ROLE
+psql:/usim_src/SETUP/PostGresSetup.psql:11: NOTICE:  role "usim" does not exist, skipping
+DROP ROLE
 CREATE TABLESPACE
 COMMENT
 CREATE ROLE
@@ -28,15 +31,25 @@ COMMENT
 (4 rows)
 
 You are now connected to database "usim" as user "postgres".
+CREATE EXTENSION
 CREATE SCHEMA
 ALTER SCHEMA
 CREATE SCHEMA
 ALTER SCHEMA
-psql:/usim_src/SETUP/PostGresSetup.psql:54: NOTICE:  view "pg_objects" does not exist, skipping
+psql:/usim_src/SETUP/PostGresSetup.psql:58: NOTICE:  view "pg_objects" does not exist, skipping
 DROP VIEW
 CREATE VIEW
 ALTER TABLE
 GRANT
+GRANT
+Create access to test files for usim_test
+psql:/usim_src/FUNCTIONS/dba_usim_test_files.psql:2: NOTICE:  view "usim_testing_v" does not exist, skipping
+DROP VIEW
+psql:/usim_src/FUNCTIONS/dba_usim_test_files.psql:3: NOTICE:  function usim_test_files() does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+GRANT
+CREATE VIEW
 GRANT
         List of schemas
    Name    |       Owner       

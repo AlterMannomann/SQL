@@ -1,15 +1,13 @@
+SHOW search_path;
 -- DROP TABLE IF EXISTS usim_dimension CASCADE;
--- sort columns by space needed, small columns first, character varying last (slowest access)
+-- sort columns by space needed: primary key, NOT NULLs by size, NULLS by size, character varying last (slowest access)
 CREATE TABLE IF NOT EXISTS usim_dimension
 (
-  dim_id smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( CYCLE ),
-  bda_id smallint NOT NULL,
-  dim_dimension smallint NOT NULL,
-  dim_created timestamp without time zone NOT NULL DEFAULT now(),
-  dim_created_by character varying(128) NOT NULL DEFAULT USER,
-  CONSTRAINT dim_pk PRIMARY KEY (dim_id, bda_id),
+  bda_id character(32) NOT NULL,
+  dim_id smallint NOT NULL,
+  CONSTRAINT dim_pk PRIMARY KEY (bda_id, dim_id),
   CONSTRAINT dim_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE,
-  CONSTRAINT dim_uk UNIQUE (bda_id, dim_dimension)
+  CONSTRAINT dim_chk CHECK (dim_id >= 0) NOT VALID
 )
 TABLESPACE usim_data;
 
@@ -17,22 +15,13 @@ ALTER TABLE usim_dimension
     OWNER TO usim;
 
 COMMENT ON TABLE usim_dimension
-  IS 'Holds the dimensions associated with a specific universe. No updates are allowed. Insert the bda_id to create a new dimension. Will use the alias dim.';
+  IS 'Holds the dimensions associated with a specific simulation. No updates are allowed. Insert the bda_id to create a new dimension. Will use the alias dim.';
 
 COMMENT ON COLUMN usim_dimension.dim_id
-  IS 'The cycling id of the dimension. Forms primary key together with bda_id.';
+  IS 'The dimension as natural id. Dimensions are defined by simulation and limit all universes in the simulation. Part of the primary key.';
 
 COMMENT ON COLUMN usim_dimension.bda_id
-  IS 'The unique id of the base data simulation. Forms primary key together with dim_id.';
-
-COMMENT ON COLUMN usim_dimension.dim_dimension
-  IS 'A unique dimension for the referenced simulation and universe. Automatically retrieved, given values are ignored on insert.';
-
-COMMENT ON COLUMN usim_dimension.dim_created
-  IS 'The date of record creation.';
-
-COMMENT ON COLUMN usim_dimension.dim_created_by
-  IS 'The user that created the record.';
+  IS 'The referenced id of simulation. Part of the primary key.';
 
 -- FUNCTION: dim_fn_ins_trg()
 -- DROP FUNCTION IF EXISTS dim_fn_ins_trg();
@@ -46,15 +35,13 @@ AS $BODY$
     l_max_dimension smallint;
   BEGIN
     -- determine the next dimension
-    SELECT COALESCE(MAX(dim_dimension), -1) + 1 INTO l_next_dim FROM usim_dimension WHERE bda_id = NEW.bda_id;
+    SELECT COALESCE(MAX(dim_id), -1) + 1 INTO l_next_dim FROM usim_dimension WHERE bda_id = NEW.bda_id;
     SELECT bda_max_dimension INTO l_max_dimension FROM usim_basedata WHERE bda_id = NEW.bda_id;
     IF l_next_dim > l_max_dimension
     THEN
       RAISE EXCEPTION 'Max dimensions reached, no additional dimensions can be inserted for the used universe';
     END IF;
-    -- ignore any input for dimension and user, use defaults and constraints for other values
-    NEW.dim_dimension  := l_next_dim;
-    NEW.dim_created_by := current_user;
+    NEW.dim_id  := l_next_dim;
     RETURN NEW;
   END;
 $BODY$;

@@ -27,8 +27,12 @@ Installed pgadmin library (you may need to install curl):
     sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/pgadmin4.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" | sudo tee /etc/apt/sources.list.d/pgadmin4.list
     curl -fsSL https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/pgadmin4.gpg
 
-Installed postgressql (15.6 (Debian 15.6-0+deb12u1)), documentation and pgadmin4 8.8 with debian gui.
-# PostGres 15.6 basic setup
+Install pgTap for testing:
+
+    sudo apt-get install pgtap
+
+Installed/upgraded postgressql (15.8 (Debian 15.8-0+deb12u1)), documentation and pgadmin4 8.10 with debian gui and pgtap 1.2.
+# PostGres 15 basic setup
 
     // check install
     sudo systemctl is-enabled postgresql
@@ -56,7 +60,7 @@ Now link shared folders to this folders after shutdown. Mount points /usim_data 
 
     /usim_src/SH/dba_init_usim.sh
 
-After this user usim and schema usim as well as usim_test are available.
+After this user usim and schema usim as well as usim_test are available. pgTap extension installed on database usim.
 
 Had to edit /usr/pgadmin4/web/config.py as config_system.py didn't work, to get share available in pgAdmin web.
 
@@ -81,7 +85,7 @@ If you want only to setup one schema use one of the following
     /usim_src/SH/init_usim.sh
     /usim_src/SH/init_usim_test.sh
 
-## Testing with pgAdmin
+## Manual testing with pgAdmin
 For testing with pgAdmin, depending on the login used, you may want to use
 
     SET search_path TO usim_test;
@@ -103,3 +107,14 @@ But as the text output has sometimes already a cast within the expression and I 
 defaults are still hardcoded in the procedures or function. This means, any changes on table column defaults or types will need some extra round trip of adjusting the functions and procedures. For probably easier finding of impacted functions and procedures, the doc section contains a literal part with Dependency «table name», e.g.
 
     * @literal Dependency usim_basedata column types and defaults.
+
+# Init the USim model
+Be careful about using the default values. Those are meant for a very big simulation and need a properly configured PostGres instance with enough processors, memory and fast disc access. Space consumption will be measured in TB rather than GB.
+
+    -- use bda_new_sim to create a new simulation, e.g.
+    CALL bda_new_sim('My simulation', 42::smallint, 99999::numeric, 0.00001::numeric);
+
+# Almost timeless design
+Whenever possible the design is extend for being able to deal with faster systems. Therefore exists some special application managed sequences, which can also be temporary. Only reason for this is, to ensure that concurrent creations with the same timestamp are manageable in sense of uniqueness.
+
+Limitations are avoided, whereever possible. Design should be still usable if integers get bigger or dates get higher as expected nowadays.

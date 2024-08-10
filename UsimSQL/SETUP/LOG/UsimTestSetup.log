@@ -267,7 +267,6 @@ CREATE PROCEDURE
 USim objects after setup
          obj_name          | obj_schema | obj_owner | obj_type  
 ---------------------------+------------+-----------+-----------
- test_000_basic_app_schema | usim_test  | usim      | FUNCTION
  usim_create_id            | usim_test  | usim      | FUNCTION
  usim_int_to_id            | usim_test  | usim      | FUNCTION
  usim_int_to_id            | usim_test  | usim      | FUNCTION
@@ -278,7 +277,6 @@ USim objects after setup
  squ_finished              | usim_test  | usim      | FUNCTION
  squ_next_sequence         | usim_test  | usim      | FUNCTION
  squ_get_sequence          | usim_test  | usim      | PROCEDURE
- mlv_fn_ins_trg            | usim_test  | usim      | FUNCTION
  squ_set_delete            | usim_test  | usim      | PROCEDURE
  squ_cleanup               | usim_test  | usim      | PROCEDURE
  bda_fn_ins_trg            | usim_test  | usim      | FUNCTION
@@ -292,18 +290,20 @@ USim objects after setup
  plt_fn_upd_trg            | usim_test  | usim      | FUNCTION
  dim_fn_ins_trg            | usim_test  | usim      | FUNCTION
  dim_fn_upd_trg            | usim_test  | usim      | FUNCTION
+ mlv_fn_ins_trg            | usim_test  | usim      | FUNCTION
  mlv_fn_upd_trg            | usim_test  | usim      | FUNCTION
  bda_new_sim               | usim_test  | usim      | PROCEDURE
  bda_new_sim               | usim_test  | usim      | PROCEDURE
  bda_new_sim               | usim_test  | usim      | PROCEDURE
  bda_new_sim               | usim_test  | usim      | PROCEDURE
  bda_new_sim               | usim_test  | usim      | PROCEDURE
- usim_sequences            | usim_test  | usim      | TABLE
+ test_000_basic_app_schema | usim_test  | usim      | FUNCTION
  usim_basedata             | usim_test  | usim      | TABLE
  usim_bda_state            | usim_test  | usim      | TABLE
+ usim_sequences            | usim_test  | usim      | TABLE
+ usim_dimension            | usim_test  | usim      | TABLE
  usim_planck_aeon          | usim_test  | usim      | TABLE
  usim_planck_tick          | usim_test  | usim      | TABLE
- usim_dimension            | usim_test  | usim      | TABLE
  usim_multiverse           | usim_test  | usim      | TABLE
  squ_ins_trg               | usim_test  | usim      | TRIGGER
  squ_upd_trg               | usim_test  | usim      | TRIGGER

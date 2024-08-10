@@ -7,7 +7,7 @@ It has no nice APEX that does what it wants, not what the developer wants. So mo
 
 **pgTap** seems very ok and very helpful. Works as expected until now.
 
-*pgAdmin* only in special cases useful. Too unstable, too much logins to get really the objects in the database, out of the sudden loosing all objects known, ERD is a pain, no useful formatting options for complicated designs, if version changes, old files are not accessible or writable any more. Nice to just look up, if it works, the objects and source code of an schema object.
+*pgAdmin* only in special cases useful. Too unstable, too much logins to get really the objects in the database, out of the sudden loosing all objects known, ERD is a pain, no useful formatting options for complicated designs, if version changes, old files are not accessible or writable any more. Nice to just look up, if it works, the objects and source code of an schema object. If you have a version that works, **don't** upgrade. From 8.7 to 8.10 I noticed more and more additional bugs, making everything worse, not better. 8.10 is definitely unusable. Before somehow, but not really usable.
 
 # Current state
 **Under Construction - heavy redesign currently**

@@ -299,11 +299,11 @@ USim objects after setup
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
  usim_basedata     | usim       | usim      | TABLE
- usim_bda_state    | usim       | usim      | TABLE
  usim_sequences    | usim       | usim      | TABLE
- usim_dimension    | usim       | usim      | TABLE
+ usim_bda_state    | usim       | usim      | TABLE
  usim_planck_aeon  | usim       | usim      | TABLE
  usim_planck_tick  | usim       | usim      | TABLE
+ usim_dimension    | usim       | usim      | TABLE
  usim_multiverse   | usim       | usim      | TABLE
  squ_ins_trg       | usim       | usim      | TRIGGER
  squ_upd_trg       | usim       | usim      | TRIGGER

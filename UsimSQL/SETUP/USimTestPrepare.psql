@@ -1,0 +1,2 @@
+\echo 'Create base data for first simulation'
+--CALL bda_new_sim('Test simulation', 1);

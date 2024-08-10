@@ -1,0 +1,9 @@
+CREATE OR REPLACE FUNCTION test_000_basic_fn002_usim_bigint_def()
+  RETURNS SETOF TEXT
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    RETURN NEXT is( usim_bigint_def(), 9223372036854775807::bigint, 'Check current expected max bigint definition of usim_bigint_def' );
+    RETURN NEXT is( usim_bigint_def(FALSE), (-9223372036854775808)::bigint, 'Check current expected min bigint definition of usim_bigint_def' );
+  END;
+$BODY$;

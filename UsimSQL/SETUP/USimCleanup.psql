@@ -33,6 +33,9 @@
 -- test functions
 \echo 'Dropping USim test function test_000_basic_fn001_usim_create_id'
 \i /usim_src/TESTING/DROP/drop_test_000_basic_fn001_usim_create_id.psql
+\echo 'Dropping USim test function test_000_basic_fn002_usim_bigint_def'
+\i /usim_src/TESTING/DROP/drop_test_000_basic_fn002_usim_bigint_def.psql
+
 -- list objects remaining
 \echo 'Remaining USim Objects'
 SELECT * FROM public.pg_objects WHERE obj_owner = current_user AND obj_schema = current_schema;

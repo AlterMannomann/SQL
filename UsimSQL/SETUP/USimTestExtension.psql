@@ -1,9 +1,6 @@
 -- setup test functions
 \echo 'Create test function test_000_basic_fn001_usim_create_id'
 \i /usim_src/TESTING/test_000_basic_fn/test_000_basic_fn001_usim_create_id.psql
--- run tests
-SELECT * FROM runtests();
--- cleanup
--- provide some basic data
---\echo 'Create base data for first simulation'
---CALL bda_new_sim('Test simulation', 1);
+\echo 'Create test function test_000_basic_fn002_usim_bigint_def'
+\i /usim_src/TESTING/test_000_basic_fn/test_000_basic_fn002_usim_bigint_def.psql
+-- run tests done by pg_prove after executing

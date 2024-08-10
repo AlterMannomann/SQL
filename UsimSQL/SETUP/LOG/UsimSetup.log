@@ -20,120 +20,72 @@ DROP FUNCTION
 psql:/usim_src/TABLES/DROP/drop_usim_position_tbl.psql:5: NOTICE:  table "usim_position" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_dimension and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_dimension_tbl.psql:1: NOTICE:  relation "usim_dimension" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_dimension_tbl.psql:2: NOTICE:  relation "usim_dimension" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_dimension_tbl.psql:3: NOTICE:  function dim_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_dimension_tbl.psql:4: NOTICE:  function dim_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_dimension_tbl.psql:5: NOTICE:  table "usim_dimension" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_multiverse and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_multiverse_tbl.psql:1: NOTICE:  relation "usim_multiverse" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_multiverse_tbl.psql:2: NOTICE:  relation "usim_multiverse" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_multiverse_tbl.psql:3: NOTICE:  function mlv_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_multiverse_tbl.psql:4: NOTICE:  function mlv_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_multiverse_tbl.psql:5: NOTICE:  table "usim_multiverse" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_planck_tick and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_planck_tick_tbl.psql:1: NOTICE:  relation "usim_planck_tick" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_planck_tick_tbl.psql:2: NOTICE:  relation "usim_planck_tick" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_planck_tick_tbl.psql:3: NOTICE:  function plt_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_planck_tick_tbl.psql:4: NOTICE:  function plt_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_planck_tick_tbl.psql:5: NOTICE:  table "usim_planck_tick" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_planck_aeon and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql:1: NOTICE:  relation "usim_planck_aeon" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql:2: NOTICE:  relation "usim_planck_aeon" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql:3: NOTICE:  function pla_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql:4: NOTICE:  function pla_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql:5: NOTICE:  procedure pla_insert() does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/TABLES/DROP/drop_usim_planck_aeon_tbl.psql:6: NOTICE:  table "usim_planck_aeon" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_bda_state and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_bda_state_tbl.psql:1: NOTICE:  relation "usim_bda_state" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_bda_state_tbl.psql:2: NOTICE:  relation "usim_bda_state" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_bda_state_tbl.psql:3: NOTICE:  function bds_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_bda_state_tbl.psql:4: NOTICE:  function bds_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_bda_state_tbl.psql:5: NOTICE:  table "usim_bda_state" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_basedata and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_basedata_tbl.psql:1: NOTICE:  relation "usim_basedata" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_basedata_tbl.psql:2: NOTICE:  relation "usim_basedata" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_basedata_tbl.psql:3: NOTICE:  function bda_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_basedata_tbl.psql:4: NOTICE:  function bda_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_basedata_tbl.psql:5: NOTICE:  table "usim_basedata" does not exist, skipping
 DROP TABLE
 Dropping USim Table usim_sequences and depending objects
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:1: NOTICE:  relation "usim_sequences" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:2: NOTICE:  relation "usim_sequences" does not exist, skipping
 DROP TRIGGER
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:3: NOTICE:  function squ_fn_ins_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:4: NOTICE:  function squ_fn_upd_trg() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:5: NOTICE:  function squ_next_sequence() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:6: NOTICE:  function squ_finished() does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:7: NOTICE:  procedure squ_get_sequence() does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:8: NOTICE:  procedure squ_cleanup() does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:9: NOTICE:  procedure squ_set_delete() does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/TABLES/DROP/drop_usim_sequences.psql:10: NOTICE:  table "usim_sequences" does not exist, skipping
 DROP TABLE
 Dropping USim Function usim_create_id
-psql:/usim_src/FUNCTIONS/DROP/drop_usim_create_id.psql:1: NOTICE:  function usim_create_id() does not exist, skipping
 DROP FUNCTION
 Dropping USim Function usim_int_to_id
-psql:/usim_src/FUNCTIONS/DROP/drop_usim_int_to_id.psql:1: NOTICE:  function usim_int_to_id(pg_catalog.int8) does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/FUNCTIONS/DROP/drop_usim_int_to_id.psql:2: NOTICE:  function usim_int_to_id(pg_catalog.int4) does not exist, skipping
 DROP FUNCTION
-psql:/usim_src/FUNCTIONS/DROP/drop_usim_int_to_id.psql:3: NOTICE:  function usim_int_to_id(pg_catalog.int2) does not exist, skipping
 DROP FUNCTION
 Dropping USim Function usim_bigint_def
-psql:/usim_src/FUNCTIONS/DROP/drop_usim_bigint_def.psql:1: NOTICE:  function usim_bigint_def() does not exist, skipping
 DROP FUNCTION
 Dropping USim Procedure bda_new_sim
-psql:/usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql:1: NOTICE:  procedure bda_new_sim(pg_catalog.varchar) does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql:2: NOTICE:  procedure bda_new_sim(pg_catalog.varchar,pg_catalog.int4) does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql:3: NOTICE:  procedure bda_new_sim(pg_catalog.varchar,pg_catalog.int4,pg_catalog.int4) does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql:4: NOTICE:  procedure bda_new_sim(pg_catalog.varchar,pg_catalog.int2,pg_catalog.numeric,pg_catalog.numeric) does not exist, skipping
 DROP PROCEDURE
-psql:/usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql:5: NOTICE:  procedure bda_new_sim(pg_catalog.varchar,pg_catalog.int4,pg_catalog.int4,pg_catalog.int4,pg_catalog.int4,pg_catalog.int2,pg_catalog.numeric,pg_catalog.numeric,pg_catalog.int2) does not exist, skipping
 DROP PROCEDURE
 Dropping USim test function test_000_basic_fn001_usim_create_id
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_fn001_usim_create_id.psql:1: NOTICE:  function test_000_basic_fn001_usim_create_id() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_fn002_usim_bigint_def
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_fn002_usim_bigint_def.psql:1: NOTICE:  function test_000_basic_fn002_usim_bigint_def() does not exist, skipping
 DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
@@ -321,7 +273,6 @@ USim objects after setup
  squ_fn_ins_trg    | usim       | usim      | FUNCTION
  squ_fn_upd_trg    | usim       | usim      | FUNCTION
  squ_finished      | usim       | usim      | FUNCTION
- pla_fn_upd_trg    | usim       | usim      | FUNCTION
  squ_next_sequence | usim       | usim      | FUNCTION
  squ_get_sequence  | usim       | usim      | PROCEDURE
  squ_set_delete    | usim       | usim      | PROCEDURE
@@ -331,6 +282,7 @@ USim objects after setup
  bds_fn_ins_trg    | usim       | usim      | FUNCTION
  bds_fn_upd_trg    | usim       | usim      | FUNCTION
  pla_fn_ins_trg    | usim       | usim      | FUNCTION
+ pla_fn_upd_trg    | usim       | usim      | FUNCTION
  pla_insert        | usim       | usim      | PROCEDURE
  plt_fn_ins_trg    | usim       | usim      | FUNCTION
  plt_fn_upd_trg    | usim       | usim      | FUNCTION
@@ -343,26 +295,26 @@ USim objects after setup
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
+ usim_basedata     | usim       | usim      | TABLE
  usim_bda_state    | usim       | usim      | TABLE
  usim_sequences    | usim       | usim      | TABLE
- usim_basedata     | usim       | usim      | TABLE
+ usim_dimension    | usim       | usim      | TABLE
  usim_planck_aeon  | usim       | usim      | TABLE
  usim_planck_tick  | usim       | usim      | TABLE
- usim_dimension    | usim       | usim      | TABLE
  usim_multiverse   | usim       | usim      | TABLE
- bds_upd_trg       | usim       | usim      | TRIGGER
- bds_ins_trg       | usim       | usim      | TRIGGER
- squ_upd_trg       | usim       | usim      | TRIGGER
  squ_ins_trg       | usim       | usim      | TRIGGER
- bda_upd_trg       | usim       | usim      | TRIGGER
+ squ_upd_trg       | usim       | usim      | TRIGGER
  bda_ins_trg       | usim       | usim      | TRIGGER
- pla_upd_trg       | usim       | usim      | TRIGGER
+ bda_upd_trg       | usim       | usim      | TRIGGER
+ bds_ins_trg       | usim       | usim      | TRIGGER
+ bds_upd_trg       | usim       | usim      | TRIGGER
  pla_ins_trg       | usim       | usim      | TRIGGER
- plt_upd_trg       | usim       | usim      | TRIGGER
+ pla_upd_trg       | usim       | usim      | TRIGGER
  plt_ins_trg       | usim       | usim      | TRIGGER
- dim_upd_trg       | usim       | usim      | TRIGGER
+ plt_upd_trg       | usim       | usim      | TRIGGER
  dim_ins_trg       | usim       | usim      | TRIGGER
- mlv_upd_trg       | usim       | usim      | TRIGGER
+ dim_upd_trg       | usim       | usim      | TRIGGER
  mlv_ins_trg       | usim       | usim      | TRIGGER
+ mlv_upd_trg       | usim       | usim      | TRIGGER
 (51 rows)
 

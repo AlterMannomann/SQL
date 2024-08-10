@@ -5,7 +5,7 @@ It has no nice APEX that does what it wants, not what the developer wants. So mo
 # Current state
 **Under Construction - heavy redesign currently**
 
-Make things work with PostGres
+Make things work with PostGres. Started first tables and functions, as well as testing with pgTap. Currently designing id creation for getting long living ids without getting into a overflow situation and managed sequences for primary keys.
 # Intention
 This is an attempt to create a (whatsoever) multiverse that creates its own space volume and try to discover patterns we know from our universe, we are living in (like a big bang burst with a following dark period until something starts to happen).
 ## Expectations

@@ -1,4 +1,4 @@
-# NO RECOMMENDATION for Oracle Free and XE versions currently
+# NO RECOMMENDATION for Oracle Free and XE versions currently, you may use the postgres_version branch instead
 **Discovered while testing that the limitations on Free and XE versions may put your database in a state hard to revocer.**
 
 If you make small setups with low dimensions and positions it may work a while. But sooner or later (sorry this is in the end a big data app) your tablespace or undo tablespace or recycle bin will overflow on size limit and you won't be able to startup the database. Probably I move it to PostGres and PHP or similar as this is annoying (if someone tries this before, great, got a limited lifetime). With an [OTN account](https://www.oracle.com/downloads/) you may currently still acess enterprise versions. But there is no guarantee. Oracle gets more and more restrictive for developers every year.

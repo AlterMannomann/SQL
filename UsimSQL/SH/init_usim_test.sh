@@ -1,4 +1,4 @@
-# This script is intended to be called by unix user USIM
+# This script is intended to be called by unix user USIM.
 # set -x
 cd /usim_src
 usim_log=/usim_src/SETUP/LOG/UsimTestSetup.log

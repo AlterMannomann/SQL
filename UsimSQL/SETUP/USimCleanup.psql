@@ -31,6 +31,8 @@
 \echo 'Dropping USim Procedure bda_new_sim'
 \i /usim_src/PROCEDURES/DROP/drop_bda_new_sim.psql
 -- test functions
+\echo 'Dropping USim test function test_000_basic_schema'
+\i /usim_src/TESTING/DROP/drop_test_000_basic_app_schema.psql
 \echo 'Dropping USim test function test_000_basic_fn001_usim_create_id'
 \i /usim_src/TESTING/DROP/drop_test_000_basic_fn001_usim_create_id.psql
 \echo 'Dropping USim test function test_000_basic_fn002_usim_bigint_def'

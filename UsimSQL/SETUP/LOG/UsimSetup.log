@@ -81,6 +81,9 @@ DROP PROCEDURE
 DROP PROCEDURE
 DROP PROCEDURE
 DROP PROCEDURE
+Dropping USim test function test_000_basic_schema
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_app_schema.psql:1: NOTICE:  function test_000_basic_schema() does not exist, skipping
+DROP FUNCTION
 Dropping USim test function test_000_basic_fn001_usim_create_id
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_fn001_usim_create_id.psql:1: NOTICE:  function test_000_basic_fn001_usim_create_id() does not exist, skipping
 DROP FUNCTION

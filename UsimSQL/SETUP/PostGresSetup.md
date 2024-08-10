@@ -17,6 +17,7 @@ Install basics for vbox
     usermod -a -G sudo usim
     apt install -y build-essential dkms linux-headers-$(uname -r)
     // mount guest addition and run in directory
+    cd /media/cdrom0
     ./VBoxLinuxAdditions.run --nox11
     // shutdown system and enable drag&drop / copy&paste
 
@@ -60,6 +61,18 @@ Now link shared folders to this folders after shutdown. Mount points /usim_data 
 
     /usim_src/SH/dba_init_usim.sh
 
+If any problems occur on executing the shell script like
+
+    cd: $'/usim_src\r': No such file or directory
+
+it is most likely caused by a wrong file format. VS Code on Windows is not too reliable about char sets, saving UTF-8 as DOS format. Using nano -u with the file, modify and save it should fix the issue or use dos2unix. File type should be Unix ASCII, not DOS format. Check with
+
+    file /usim_src/SH/dba_init_usim.sh
+    # should return
+    /usim_src/SH/dba_init_usim.sh: ASCII text
+
+Same is true for all .sh files in the directory /usim_src/SH as well as strange behavior of script files (usually read without problems by psql).
+
 After this user usim and schema usim as well as usim_test are available. pgTap extension installed on database usim.
 
 Had to edit /usr/pgadmin4/web/config.py as config_system.py didn't work, to get share available in pgAdmin web.
@@ -80,16 +93,22 @@ As all experiments failed with SET search_path and \setenv I used the connect op
 
     /usim_src/SH/init_usim_all.sh
 
-If you want only to setup one schema use one of the following
+If you want only to setup one schema or run testing separately use one of the following
 
     /usim_src/SH/init_usim.sh
     /usim_src/SH/init_usim_test.sh
+    /usim_src/SH/run_usim_testing.sh
 
 ## Manual testing with pgAdmin
 For testing with pgAdmin, depending on the login used, you may want to use
 
     SET search_path TO usim_test;
     SET search_path TO usim;
+
+## Manual testing with pgTap
+For testing with pgTap the search path must be extended to public
+
+    SET search_path TO usim_test, public;
 
 ## Functions and procedures
 Did not found an elegant and working way to read out default values and cast them correctly. Of course you can use one of the following
@@ -117,4 +136,4 @@ Be careful about using the default values. Those are meant for a very big simula
 # Almost timeless design
 Whenever possible the design is extend for being able to deal with faster systems. Therefore exists some special application managed sequences, which can also be temporary. Only reason for this is, to ensure that concurrent creations with the same timestamp are manageable in sense of uniqueness.
 
-Limitations are avoided, whereever possible. Design should be still usable if integers get bigger or dates get higher as expected nowadays.
+Limitations are avoided, wherever possible. Design should be still usable if integers get bigger or dates get higher as expected nowadays. Tests have to be adapted in case.

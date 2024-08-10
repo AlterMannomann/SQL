@@ -2,11 +2,11 @@ Current dir: /usim_src
 User: usim
 DROP OWNED
 DROP DATABASE
-DROP TABLESPACE
+psql:/usim_src/SETUP/PostGresSetup.psql:9: ERROR:  tablespace "usim_data" is not empty
 DROP ROLE
 psql:/usim_src/SETUP/PostGresSetup.psql:11: NOTICE:  role "usim" does not exist, skipping
 DROP ROLE
-CREATE TABLESPACE
+psql:/usim_src/SETUP/PostGresSetup.psql:14: ERROR:  tablespace "usim_data" already exists
 COMMENT
 CREATE ROLE
 ALTER ROLE

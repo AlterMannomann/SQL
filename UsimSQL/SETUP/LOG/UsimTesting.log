@@ -1,24 +1,53 @@
 Current dir: /usim_src
 User: usim
+Create test function test_000_basic_app_schema
+CREATE FUNCTION
 Create test function test_000_basic_fn001_usim_create_id
 CREATE FUNCTION
 Create test function test_000_basic_fn002_usim_bigint_def
 CREATE FUNCTION
 runtests('usim_test'::name); .. 
+    # Subtest: usim_test.test_000_basic_app_schema()
+    ok 1 - Verify usim setup with tablespaces USIM_DATA, PG_DEFAULT and PG_GLOBAL
+    ok 2 - Verify usim setup with schemas USIM, USIM_TEST and PUBLIC
+    ok 3 - Verify USim tables
+    ok 4 - Check primary key column of usim_basedata exists
+    ok 5 - Check primary key column of usim_basedata is NOT NULL
+    ok 6 - Check primary key column of usim_basedata is defined as PK
+    ok 7 - Check primary key column type of usim_basedata
+    ok 8 - Check primary key column of usim_bda_state exists
+    ok 9 - Check foreign key column of usim_bda_state exists
+    ok 10 - Check primary key column of usim_bda_state is NOT NULL
+    ok 11 - Check foreign key column of usim_bda_state is NOT NULL
+    ok 12 - Check primary key column type of usim_bda_state
+    ok 13 - Check primary key column of usim_bda_state is defined as PK
+    ok 14 - Check foreign key column of usim_bda_state is defined as FK
+    ok 15 - Verify foreign key of usim_bda_state
+    ok 16 - Check primary key column bda_id of usim_dimension exists
+    ok 17 - Check primary key column dim_id of usim_dimension exists
+    ok 18 - Check primary key column bda_id of usim_dimension is NOT NULL
+    ok 19 - Check primary key column dim_id of usim_dimension is NOT NULL
+    ok 20 - Check primary key dim_id column type of usim_dimension
+    ok 21 - Check primary key bda_id column type of usim_dimension
+    ok 22 - Check primary key columns of usim_dimension are defined as PK
+    ok 23 - Check foreign key column of usim_dimension is defined as FK
+    ok 24 - Verify foreign key of usim_dimension
+    1..24
+ok 1 - usim_test.test_000_basic_app_schema
     # Subtest: usim_test.test_000_basic_fn001_usim_create_id()
     ok 1 - Length 32 check for usim_create_id
     ok 2 - Year component of usim_create_id
     ok 3 - Date component MMDDHH24MI of usim_create_id
     1..3
-ok 1 - usim_test.test_000_basic_fn001_usim_create_id
+ok 2 - usim_test.test_000_basic_fn001_usim_create_id
     # Subtest: usim_test.test_000_basic_fn002_usim_bigint_def()
     ok 1 - Check current expected max bigint definition of usim_bigint_def
     ok 2 - Check current expected min bigint definition of usim_bigint_def
     1..2
-ok 2 - usim_test.test_000_basic_fn002_usim_bigint_def
-1..2
+ok 3 - usim_test.test_000_basic_fn002_usim_bigint_def
+1..3
 ok
 All tests successful.
-Files=1, Tests=2,  1 wallclock secs ( 0.03 usr  0.01 sys +  0.08 cusr  0.02 csys =  0.14 CPU)
+Files=1, Tests=3,  1 wallclock secs ( 0.04 usr  0.01 sys +  0.08 cusr  0.04 csys =  0.17 CPU)
 Result: PASS
 Create base data for first simulation

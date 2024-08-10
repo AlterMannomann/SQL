@@ -1,4 +1,6 @@
 -- setup test functions
+\echo 'Create test function test_000_basic_app_schema'
+\i /usim_src/TESTING/test_000_basic_app/test_000_basic_app_schema.psql
 \echo 'Create test function test_000_basic_fn001_usim_create_id'
 \i /usim_src/TESTING/test_000_basic_fn/test_000_basic_fn001_usim_create_id.psql
 \echo 'Create test function test_000_basic_fn002_usim_bigint_def'

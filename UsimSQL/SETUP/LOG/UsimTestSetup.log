@@ -82,17 +82,21 @@ DROP PROCEDURE
 DROP PROCEDURE
 DROP PROCEDURE
 Dropping USim test function test_000_basic_schema
-psql:/usim_src/TESTING/DROP/drop_test_000_basic_app_schema.psql:1: NOTICE:  function test_000_basic_schema() does not exist, skipping
 DROP FUNCTION
 Dropping USim test function test_000_basic_fn001_usim_create_id
 DROP FUNCTION
 Dropping USim test function test_000_basic_fn002_usim_bigint_def
 DROP FUNCTION
+Dropping USim test function test_000_basic_fn003_usim_int_to_id
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl001_usim_basedata
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl002_usim_bda_state
+DROP FUNCTION
 Remaining USim Objects
-         obj_name          | obj_schema | obj_owner | obj_type 
----------------------------+------------+-----------+----------
- test_000_basic_app_schema | usim_test  | usim      | FUNCTION
-(1 row)
+ obj_name | obj_schema | obj_owner | obj_type 
+----------+------------+-----------+----------
+(0 rows)
 
 Create objects for USim model
  search_path 
@@ -265,59 +269,58 @@ CREATE PROCEDURE
 CREATE PROCEDURE
 CREATE PROCEDURE
 USim objects after setup
-         obj_name          | obj_schema | obj_owner | obj_type  
----------------------------+------------+-----------+-----------
- usim_create_id            | usim_test  | usim      | FUNCTION
- usim_int_to_id            | usim_test  | usim      | FUNCTION
- usim_int_to_id            | usim_test  | usim      | FUNCTION
- usim_int_to_id            | usim_test  | usim      | FUNCTION
- usim_bigint_def           | usim_test  | usim      | FUNCTION
- squ_fn_ins_trg            | usim_test  | usim      | FUNCTION
- squ_fn_upd_trg            | usim_test  | usim      | FUNCTION
- squ_finished              | usim_test  | usim      | FUNCTION
- squ_next_sequence         | usim_test  | usim      | FUNCTION
- squ_get_sequence          | usim_test  | usim      | PROCEDURE
- squ_set_delete            | usim_test  | usim      | PROCEDURE
- squ_cleanup               | usim_test  | usim      | PROCEDURE
- bda_fn_ins_trg            | usim_test  | usim      | FUNCTION
- bda_fn_upd_trg            | usim_test  | usim      | FUNCTION
- bds_fn_ins_trg            | usim_test  | usim      | FUNCTION
- bds_fn_upd_trg            | usim_test  | usim      | FUNCTION
- pla_fn_ins_trg            | usim_test  | usim      | FUNCTION
- pla_fn_upd_trg            | usim_test  | usim      | FUNCTION
- pla_insert                | usim_test  | usim      | PROCEDURE
- plt_fn_ins_trg            | usim_test  | usim      | FUNCTION
- plt_fn_upd_trg            | usim_test  | usim      | FUNCTION
- dim_fn_ins_trg            | usim_test  | usim      | FUNCTION
- dim_fn_upd_trg            | usim_test  | usim      | FUNCTION
- mlv_fn_ins_trg            | usim_test  | usim      | FUNCTION
- mlv_fn_upd_trg            | usim_test  | usim      | FUNCTION
- bda_new_sim               | usim_test  | usim      | PROCEDURE
- bda_new_sim               | usim_test  | usim      | PROCEDURE
- bda_new_sim               | usim_test  | usim      | PROCEDURE
- bda_new_sim               | usim_test  | usim      | PROCEDURE
- bda_new_sim               | usim_test  | usim      | PROCEDURE
- test_000_basic_app_schema | usim_test  | usim      | FUNCTION
- usim_basedata             | usim_test  | usim      | TABLE
- usim_bda_state            | usim_test  | usim      | TABLE
- usim_sequences            | usim_test  | usim      | TABLE
- usim_dimension            | usim_test  | usim      | TABLE
- usim_planck_aeon          | usim_test  | usim      | TABLE
- usim_planck_tick          | usim_test  | usim      | TABLE
- usim_multiverse           | usim_test  | usim      | TABLE
- squ_ins_trg               | usim_test  | usim      | TRIGGER
- squ_upd_trg               | usim_test  | usim      | TRIGGER
- bda_ins_trg               | usim_test  | usim      | TRIGGER
- bda_upd_trg               | usim_test  | usim      | TRIGGER
- bds_ins_trg               | usim_test  | usim      | TRIGGER
- bds_upd_trg               | usim_test  | usim      | TRIGGER
- pla_ins_trg               | usim_test  | usim      | TRIGGER
- pla_upd_trg               | usim_test  | usim      | TRIGGER
- plt_ins_trg               | usim_test  | usim      | TRIGGER
- plt_upd_trg               | usim_test  | usim      | TRIGGER
- dim_ins_trg               | usim_test  | usim      | TRIGGER
- dim_upd_trg               | usim_test  | usim      | TRIGGER
- mlv_ins_trg               | usim_test  | usim      | TRIGGER
- mlv_upd_trg               | usim_test  | usim      | TRIGGER
-(52 rows)
+     obj_name      | obj_schema | obj_owner | obj_type  
+-------------------+------------+-----------+-----------
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
+ usim_create_id    | usim_test  | usim      | FUNCTION
+ usim_int_to_id    | usim_test  | usim      | FUNCTION
+ usim_int_to_id    | usim_test  | usim      | FUNCTION
+ usim_int_to_id    | usim_test  | usim      | FUNCTION
+ usim_bigint_def   | usim_test  | usim      | FUNCTION
+ squ_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ squ_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ squ_finished      | usim_test  | usim      | FUNCTION
+ squ_next_sequence | usim_test  | usim      | FUNCTION
+ squ_get_sequence  | usim_test  | usim      | PROCEDURE
+ squ_set_delete    | usim_test  | usim      | PROCEDURE
+ squ_cleanup       | usim_test  | usim      | PROCEDURE
+ bda_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ bda_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ bds_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ bds_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ pla_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ pla_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ pla_insert        | usim_test  | usim      | PROCEDURE
+ plt_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ plt_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ dim_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ dim_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ mlv_fn_ins_trg    | usim_test  | usim      | FUNCTION
+ mlv_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
+ usim_basedata     | usim_test  | usim      | TABLE
+ usim_bda_state    | usim_test  | usim      | TABLE
+ usim_sequences    | usim_test  | usim      | TABLE
+ usim_dimension    | usim_test  | usim      | TABLE
+ usim_planck_aeon  | usim_test  | usim      | TABLE
+ usim_planck_tick  | usim_test  | usim      | TABLE
+ usim_multiverse   | usim_test  | usim      | TABLE
+ squ_ins_trg       | usim_test  | usim      | TRIGGER
+ squ_upd_trg       | usim_test  | usim      | TRIGGER
+ bda_ins_trg       | usim_test  | usim      | TRIGGER
+ bda_upd_trg       | usim_test  | usim      | TRIGGER
+ bds_ins_trg       | usim_test  | usim      | TRIGGER
+ bds_upd_trg       | usim_test  | usim      | TRIGGER
+ pla_ins_trg       | usim_test  | usim      | TRIGGER
+ pla_upd_trg       | usim_test  | usim      | TRIGGER
+ plt_ins_trg       | usim_test  | usim      | TRIGGER
+ plt_upd_trg       | usim_test  | usim      | TRIGGER
+ dim_ins_trg       | usim_test  | usim      | TRIGGER
+ dim_upd_trg       | usim_test  | usim      | TRIGGER
+ mlv_ins_trg       | usim_test  | usim      | TRIGGER
+ mlv_upd_trg       | usim_test  | usim      | TRIGGER
+(51 rows)
 

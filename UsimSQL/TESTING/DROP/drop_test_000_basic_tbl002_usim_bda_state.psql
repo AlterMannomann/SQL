@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS test_000_basic_tbl002_usim_bda_state;

@@ -6,6 +6,12 @@ Create test function test_000_basic_fn001_usim_create_id
 CREATE FUNCTION
 Create test function test_000_basic_fn002_usim_bigint_def
 CREATE FUNCTION
+Create test function test_000_basic_fn003_usim_int_to_id
+CREATE FUNCTION
+Create test function test_000_basic_tbl001_usim_basedata
+CREATE FUNCTION
+Create test function test_000_basic_tbl002_usim_bda_state
+CREATE FUNCTION
 runtests('usim_test'::name); .. 
     # Subtest: usim_test.test_000_basic_app_schema()
     ok 1 - Verify usim setup with tablespaces USIM_DATA, PG_DEFAULT and PG_GLOBAL
@@ -32,7 +38,72 @@ runtests('usim_test'::name); ..
     ok 22 - Check primary key columns of usim_dimension are defined as PK
     ok 23 - Check foreign key column of usim_dimension is defined as FK
     ok 24 - Verify foreign key of usim_dimension
-    1..24
+    ok 25 - Check primary key column squ_name of usim_sequences exists
+    ok 26 - Check primary key column squ_key1 of usim_sequences exists
+    ok 27 - Check primary key column squ_key2 of usim_sequences exists
+    ok 28 - Check primary key column squ_key3 of usim_sequences exists
+    ok 29 - Check primary key column squ_key4 of usim_sequences exists
+    ok 30 - Check primary key column squ_key5 of usim_sequences exists
+    ok 31 - Check primary key column squ_key6 of usim_sequences exists
+    ok 32 - Check primary key column squ_key7 of usim_sequences exists
+    ok 33 - Check primary key column squ_key8 of usim_sequences exists
+    ok 34 - Check primary key column squ_name of usim_sequences NOT NULL
+    ok 35 - Check primary key column squ_key1 of usim_sequences NOT NULL
+    ok 36 - Check primary key column squ_key2 of usim_sequences NOT NULL
+    ok 37 - Check primary key column squ_key3 of usim_sequences NOT NULL
+    ok 38 - Check primary key column squ_key4 of usim_sequences NOT NULL
+    ok 39 - Check primary key column squ_key5 of usim_sequences NOT NULL
+    ok 40 - Check primary key column squ_key6 of usim_sequences NOT NULL
+    ok 41 - Check primary key column squ_key7 of usim_sequences NOT NULL
+    ok 42 - Check primary key column squ_key8 of usim_sequences NOT NULL
+    ok 43 - Check primary key column type squ_name of usim_sequences
+    ok 44 - Check primary key column type squ_key1 of usim_sequences
+    ok 45 - Check primary key column type squ_key2 of usim_sequences
+    ok 46 - Check primary key column type squ_key3 of usim_sequences
+    ok 47 - Check primary key column type squ_key4 of usim_sequences
+    ok 48 - Check primary key column type squ_key5 of usim_sequences
+    ok 49 - Check primary key column type squ_key6 of usim_sequences
+    ok 50 - Check primary key column type squ_key7 of usim_sequences
+    ok 51 - Check primary key column type squ_key8 of usim_sequences
+    ok 52 - Check primary key columns of usim_sequences PK
+    ok 53 - Check primary key column bda_id of usim_planck_aeon exists
+    ok 54 - Check primary key column pla_id of usim_planck_aeon exists
+    ok 55 - Check primary key column pla_add of usim_planck_aeon exists
+    ok 56 - Check primary key column bda_id of usim_planck_aeon NOT NULL
+    ok 57 - Check primary key column pla_id of usim_planck_aeon NOT NULL
+    ok 58 - Check primary key column pla_add of usim_planck_aeon NOT NULL
+    ok 59 - Check primary key column type bda_id of usim_planck_aeon
+    ok 60 - Check primary key column type pla_id of usim_planck_aeon
+    ok 61 - Check primary key column type pla_add of usim_planck_aeon
+    ok 62 - Check primary key columns of usim_sequences PK
+    ok 63 - Check foreign key column of usim_planck_aeon is defined as FK
+    ok 64 - Check primary key column bda_id of usim_planck_tick exists
+    ok 65 - Check primary key column pla_id of usim_planck_tick exists
+    ok 66 - Check primary key column pla_add of usim_planck_tick exists
+    ok 67 - Check primary key column plt_id of usim_planck_tick exists
+    ok 68 - Check primary key column bda_id of usim_planck_tick NOT NULL
+    ok 69 - Check primary key column pla_id of usim_planck_tick NOT NULL
+    ok 70 - Check primary key column pla_add of usim_planck_tick NOT NULL
+    ok 71 - Check primary key column plt_id of usim_planck_tick NOT NULL
+    ok 72 - Check primary key column type bda_id of usim_planck_tick
+    ok 73 - Check primary key column type pla_id of usim_planck_tick
+    ok 74 - Check primary key column type pla_add of usim_planck_tick
+    ok 75 - Check primary key column type plt_id of usim_planck_tick
+    ok 76 - Check primary key columns of usim_planck_tick PK
+    ok 77 - Check foreign key column bda_id of usim_planck_tick is defined as FK
+    ok 78 - Check foreign key columns bda_id, pla_id, pla_add of usim_planck_tick are defined as FK
+    ok 79 - Check primary key column bda_id of usim_multiverse exists
+    ok 80 - Check primary key column mlv_id of usim_multiverse exists
+    ok 81 - Check primary key column mlv_add of usim_multiverse exists
+    ok 82 - Check primary key column bda_id of usim_multiverse NOT NULL
+    ok 83 - Check primary key column mlv_id of usim_multiverse NOT NULL
+    ok 84 - Check primary key column mlv_add of usim_multiverse NOT NULL
+    ok 85 - Check primary key column type bda_id of usim_multiverse
+    ok 86 - Check primary key column type mlv_id of usim_multiverse
+    ok 87 - Check primary key column type mlv_add of usim_multiverse
+    ok 88 - Check primary key columns of usim_multiverse PK
+    ok 89 - Check foreign key column of usim_multiverse is defined as FK
+    1..89
 ok 1 - usim_test.test_000_basic_app_schema
     # Subtest: usim_test.test_000_basic_fn001_usim_create_id()
     ok 1 - Length 32 check for usim_create_id
@@ -45,9 +116,154 @@ ok 2 - usim_test.test_000_basic_fn001_usim_create_id
     ok 2 - Check current expected min bigint definition of usim_bigint_def
     1..2
 ok 3 - usim_test.test_000_basic_fn002_usim_bigint_def
-1..3
+    # Subtest: usim_test.test_000_basic_fn003_usim_int_to_id()
+    ok 1 - Check length of created id for usim_int_to_id signature smallint
+    ok 2 - Check length of created id for usim_int_to_id signature integer
+    ok 3 - Check length of created id for usim_int_to_id signature bigint
+    ok 4 - Check contest for usim_int_to_id signature smallint
+    ok 5 - Check contest for usim_int_to_id signature integer
+    ok 6 - Check contest for usim_int_to_id signature bigint
+    1..6
+ok 4 - usim_test.test_000_basic_fn003_usim_int_to_id
+    # Subtest: usim_test.test_000_basic_tbl001_usim_basedata()
+    ok 1 - Check existance of bda_planck_stable in usim_basedata
+    ok 2 - Check bda_planck_stable in usim_basedata NOT NULL
+    ok 3 - Check column type of bda_planck_stable in usim_basedata
+    ok 4 - Check bda_planck_stable in usim_basedata has default
+    ok 5 - Check bda_planck_stable in usim_basedata default value
+    ok 6 - Check existance of bda_ultimate_border in usim_basedata
+    ok 7 - Check bda_ultimate_border in usim_basedata NOT NULL
+    ok 8 - Check column type of bda_ultimate_border in usim_basedata
+    ok 9 - Check bda_ultimate_border in usim_basedata has default
+    ok 10 - Check bda_ultimate_border in usim_basedata default value
+    ok 11 - Check existance of bda_default_overflow in usim_basedata
+    ok 12 - Check bda_default_overflow in usim_basedata NOT NULL
+    ok 13 - Check column type of bda_default_overflow in usim_basedata
+    ok 14 - Check bda_default_overflow in usim_basedata has default
+    ok 15 - Check bda_default_overflow in usim_basedata default value
+    ok 16 - Check existance of bda_max_dimension in usim_basedata
+    ok 17 - Check bda_max_dimension in usim_basedata NOT NULL
+    ok 18 - Check column type of bda_max_dimension in usim_basedata
+    ok 19 - Check bda_max_dimension in usim_basedata has default
+    ok 20 - Check bda_max_dimension in usim_basedata default value
+    ok 21 - Check check constraint for bda_max_dimension in usim_basedata
+    ok 22 - Check existance of bda_abs_overflow in usim_basedata
+    ok 23 - Check bda_abs_overflow in usim_basedata NOT NULL
+    ok 24 - Check column type of bda_abs_overflow in usim_basedata
+    ok 25 - Check bda_abs_overflow in usim_basedata has default
+    ok 26 - Check bda_abs_overflow in usim_basedata default value
+    ok 27 - Check check constraint for bda_abs_overflow in usim_basedata
+    ok 28 - Check existance of bda_abs_underflow in usim_basedata
+    ok 29 - Check bda_abs_underflow in usim_basedata NOT NULL
+    ok 30 - Check column type of bda_abs_underflow in usim_basedata
+    ok 31 - Check bda_abs_underflow in usim_basedata has default
+    ok 32 - Check bda_abs_underflow in usim_basedata default value
+    ok 33 - Check check constraint for bda_abs_underflow in usim_basedata
+    ok 34 - Check existance of bda_energy_start_value in usim_basedata
+    ok 35 - Check bda_energy_start_value in usim_basedata NOT NULL
+    ok 36 - Check column type of bda_energy_start_value in usim_basedata
+    ok 37 - Check bda_energy_start_value in usim_basedata has default
+    ok 38 - Check bda_energy_start_value in usim_basedata default value
+    ok 39 - Check existance of bda_planck_time_unit in usim_basedata
+    ok 40 - Check bda_planck_time_unit in usim_basedata NOT NULL
+    ok 41 - Check column type of bda_planck_time_unit in usim_basedata
+    ok 42 - Check bda_planck_time_unit in usim_basedata has default
+    ok 43 - Check bda_planck_time_unit in usim_basedata default value
+    ok 44 - Check existance of bda_planck_length_unit in usim_basedata
+    ok 45 - Check bda_planck_length_unit in usim_basedata NOT NULL
+    ok 46 - Check column type of bda_planck_length_unit in usim_basedata
+    ok 47 - Check bda_planck_length_unit in usim_basedata has default
+    ok 48 - Check bda_planck_length_unit in usim_basedata default value
+    ok 49 - Check existance of bda_planck_speed_unit in usim_basedata
+    ok 50 - Check bda_planck_speed_unit in usim_basedata NOT NULL
+    ok 51 - Check column type of bda_planck_speed_unit in usim_basedata
+    ok 52 - Check bda_planck_speed_unit in usim_basedata has default
+    ok 53 - Check bda_planck_speed_unit in usim_basedata default value
+    ok 54 - Check existance of bda_simulation_name in usim_basedata
+    ok 55 - Check bda_simulation_name in usim_basedata NOT NULL
+    ok 56 - Check column type of bda_simulation_name in usim_basedata
+    ok 57 - Check bda_simulation_name in usim_basedata has default
+    ok 58 - Check bda_simulation_name in usim_basedata default value
+    ok 59 - Check unique constraint on bda_simulation_name in usim_basedata
+    ok 60 - Check existance of bda_created in usim_basedata
+    ok 61 - Check bda_created in usim_basedata NOT NULL
+    ok 62 - Check column type of bda_created in usim_basedata
+    ok 63 - Check bda_created in usim_basedata has default
+    ok 64 - Check bda_created in usim_basedata default value
+    ok 65 - Check existance of bda_updated in usim_basedata
+    ok 66 - Check bda_updated in usim_basedata NOT NULL
+    ok 67 - Check column type of bda_updated in usim_basedata
+    ok 68 - Check bda_updated in usim_basedata has default
+    ok 69 - Check bda_updated in usim_basedata default value
+    ok 70 - Check existance of bda_created_by in usim_basedata
+    ok 71 - Check bda_created_by in usim_basedata NOT NULL
+    ok 72 - Check column type of bda_created_by in usim_basedata
+    ok 73 - Check bda_created_by in usim_basedata has default
+    ok 74 - Check bda_created_by in usim_basedata default value
+    ok 75 - Check existance of bda_updated_by in usim_basedata
+    ok 76 - Check bda_updated_by in usim_basedata NOT NULL
+    ok 77 - Check column type of bda_updated_by in usim_basedata
+    ok 78 - Check bda_updated_by in usim_basedata has default
+    ok 79 - Check bda_updated_by in usim_basedata default value
+    ok 80 - Check owner of table usim_basedata
+    ok 81 - Check usim_basedata trigger functions
+    ok 82 - Check usim_basedata insert trigger
+    ok 83 - Check usim_basedata update trigger
+    ok 84 - usim_basedata should not have any records before testing
+    ok 85 - usim_basedata should have exactly one record after insert DEFAULT VALUES
+    ok 86 - Check exception update bda_id in usim_basedata
+    ok 87 - Check exception update bda_max_dimension in usim_basedata
+    ok 88 - Check exception update bda_abs_overflow in usim_basedata
+    ok 89 - Check exception update bda_abs_underflow in usim_basedata
+    ok 90 - Check exception update bda_planck_stable in usim_basedata
+    ok 91 - Check exception update bda_ultimate_border in usim_basedata
+    ok 92 - Check exception update bda_default_overflow in usim_basedata
+    ok 93 - Check exception update bda_energy_start_value in usim_basedata
+    ok 94 - Check exception update bda_planck_time_unit in usim_basedata
+    ok 95 - Check exception update bda_planck_length_unit in usim_basedata
+    ok 96 - Check exception update bda_planck_speed_unit in usim_basedata
+    ok 97 - Check bda_created has not changed on update of usim_basedata
+    ok 98 - Check bda_created_by has not changed on update of usim_basedata
+    ok 99 - Check bda_updated has changed on update of usim_basedata
+    ok 100 - Check no overwrite of bda_created possible for insert into usim_basedata
+    ok 101 - Check no overwrite of bda_created_by possible for insert into usim_basedata
+    ok 102 - Check no overwrite of bda_updated possible for insert into usim_basedata
+    ok 103 - Check no overwrite of bda_updated_by possible for insert into usim_basedata
+    1..103
+ok 5 - usim_test.test_000_basic_tbl001_usim_basedata
+    # Subtest: usim_test.test_000_basic_tbl002_usim_bda_state()
+    ok 1 - Check existance of bds_created in usim_bda_state
+    ok 2 - Check bds_created in usim_bda_state NOT NULL
+    ok 3 - Check column type of bds_created in usim_bda_state
+    ok 4 - Check bds_created in usim_bda_state has default
+    ok 5 - Check bds_created in usim_bda_state default value
+    ok 6 - Check existance of bds_updated in usim_bda_state
+    ok 7 - Check bds_updated in usim_bda_state NOT NULL
+    ok 8 - Check column type of bds_updated in usim_bda_state
+    ok 9 - Check bds_updated in usim_bda_state has default
+    ok 10 - Check bds_updated in usim_bda_state default value
+    ok 11 - Check existance of bds_created_by in usim_bda_state
+    ok 12 - Check bds_created_by in usim_bda_state NOT NULL
+    ok 13 - Check column type of bds_created_by in usim_bda_state
+    ok 14 - Check bds_created_by in usim_bda_state has default
+    ok 15 - Check bds_created_by in usim_bda_state default value
+    ok 16 - Check existance of bds_updated_by in usim_bda_state
+    ok 17 - Check bds_updated_by in usim_bda_state NOT NULL
+    ok 18 - Check column type of bds_updated_by in usim_bda_state
+    ok 19 - Check bds_updated_by in usim_bda_state has default
+    ok 20 - Check bds_updated_by in usim_bda_state default value
+    ok 21 - Check owner of table usim_bda_state
+    ok 22 - usim_basedata should not have any records before testing usim_bda_state
+    ok 23 - bds_id should always be 1 in usim_bda_state
+    ok 24 - bda_id should match given value in usim_bda_state
+    ok 25 - Verify exception on insert more than one record into usim_bda_state with bds_id not 1
+    ok 26 - Verify exception on insert more than one record into usim_bda_state
+    ok 27 - Check switching active simulation
+    1..27
+ok 6 - usim_test.test_000_basic_tbl002_usim_bda_state
+1..6
 ok
 All tests successful.
-Files=1, Tests=3,  1 wallclock secs ( 0.03 usr  0.02 sys +  0.08 cusr  0.01 csys =  0.14 CPU)
+Files=1, Tests=6,  4 wallclock secs ( 0.00 usr  0.03 sys +  0.04 cusr  0.02 csys =  0.09 CPU)
 Result: PASS
 Create base data for first simulation

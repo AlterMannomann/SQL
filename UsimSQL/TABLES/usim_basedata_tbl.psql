@@ -145,6 +145,9 @@ AS $BODY$
     IF NEW.bda_planck_speed_unit != OLD.bda_planck_speed_unit THEN
         RAISE EXCEPTION 'bda_planck_speed_unit cannot be changed, create a new base dataset instead';
     END IF;
+    -- make sure created is not changed
+    NEW.bda_created := OLD.bda_created;
+    NEW.bda_created_by := OLD.bda_created_by;
     -- Remember who changed the base data, ignore any updates
     NEW.bda_updated := current_timestamp;
     NEW.bda_updated_by := current_user;
@@ -168,7 +171,7 @@ CREATE TRIGGER bda_ins_trg
 -- DROP TRIGGER IF EXISTS bda_upd_trg ON usim_basedata;
 
 CREATE TRIGGER bda_upd_trg
-  AFTER UPDATE
+  BEFORE UPDATE
   ON usim_basedata
   FOR EACH ROW
   EXECUTE FUNCTION bda_fn_upd_trg();

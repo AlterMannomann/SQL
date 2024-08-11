@@ -1,0 +1,126 @@
+CREATE OR REPLACE FUNCTION test_000_basic_tbl001_usim_basedata()
+  RETURNS SETOF TEXT
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_created timestamp without time zone;
+    l_updated timestamp without time zone;
+    l_stamp timestamp without time zone;
+    l_created_by character varying(128);
+    l_bda_id character(32);
+  BEGIN
+    -- pk already checked, first verify other columns and related table objects
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_planck_stable', 'Check existance of bda_planck_stable in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_planck_stable', 'Check bda_planck_stable in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_planck_stable', 'boolean', 'Check column type of bda_planck_stable in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_planck_stable', 'Check bda_planck_stable in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_planck_stable', 'TRUE', 'Check bda_planck_stable in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_ultimate_border', 'Check existance of bda_ultimate_border in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_ultimate_border', 'Check bda_ultimate_border in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_ultimate_border', 'boolean', 'Check column type of bda_ultimate_border in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_ultimate_border', 'Check bda_ultimate_border in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_ultimate_border', 'TRUE', 'Check bda_ultimate_border in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_default_overflow', 'Check existance of bda_default_overflow in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_default_overflow', 'Check bda_default_overflow in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_default_overflow', 'boolean', 'Check column type of bda_default_overflow in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_default_overflow', 'Check bda_default_overflow in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_default_overflow', 'TRUE', 'Check bda_default_overflow in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_max_dimension', 'Check existance of bda_max_dimension in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_max_dimension', 'Check bda_max_dimension in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_max_dimension', 'smallint', 'Check column type of bda_max_dimension in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_max_dimension', 'Check bda_max_dimension in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_max_dimension', '(42)::smallint', 'Check bda_max_dimension in usim_basedata default value');
+    RETURN NEXT col_has_check('usim_test', 'usim_basedata', 'bda_max_dimension', 'Check check constraint for bda_max_dimension in usim_basedata');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_abs_overflow', 'Check existance of bda_abs_overflow in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_abs_overflow', 'Check bda_abs_overflow in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_abs_overflow', 'numeric', 'Check column type of bda_abs_overflow in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_abs_overflow', 'Check bda_abs_overflow in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_abs_overflow', '99999999999999999999999999999999999999', 'Check bda_abs_overflow in usim_basedata default value');
+    RETURN NEXT col_has_check('usim_test', 'usim_basedata', 'bda_abs_overflow', 'Check check constraint for bda_abs_overflow in usim_basedata');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_abs_underflow', 'Check existance of bda_abs_underflow in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_abs_underflow', 'Check bda_abs_underflow in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_abs_underflow', 'numeric', 'Check column type of bda_abs_underflow in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_abs_underflow', 'Check bda_abs_underflow in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_abs_underflow', '0.00000000000000000000000000000000000001', 'Check bda_abs_underflow in usim_basedata default value');
+    RETURN NEXT col_has_check('usim_test', 'usim_basedata', 'bda_abs_underflow', 'Check check constraint for bda_abs_underflow in usim_basedata');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_energy_start_value', 'Check existance of bda_energy_start_value in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_energy_start_value', 'Check bda_energy_start_value in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_energy_start_value', 'numeric', 'Check column type of bda_energy_start_value in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_energy_start_value', 'Check bda_energy_start_value in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_energy_start_value', '(1)::numeric', 'Check bda_energy_start_value in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_planck_time_unit', 'Check existance of bda_planck_time_unit in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_planck_time_unit', 'Check bda_planck_time_unit in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_planck_time_unit', 'numeric', 'Check column type of bda_planck_time_unit in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_planck_time_unit', 'Check bda_planck_time_unit in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_planck_time_unit', '(1)::numeric', 'Check bda_planck_time_unit in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_planck_length_unit', 'Check existance of bda_planck_length_unit in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_planck_length_unit', 'Check bda_planck_length_unit in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_planck_length_unit', 'numeric', 'Check column type of bda_planck_length_unit in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_planck_length_unit', 'Check bda_planck_length_unit in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_planck_length_unit', '(1)::numeric', 'Check bda_planck_length_unit in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_planck_speed_unit', 'Check existance of bda_planck_speed_unit in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_planck_speed_unit', 'Check bda_planck_speed_unit in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_planck_speed_unit', 'numeric', 'Check column type of bda_planck_speed_unit in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_planck_speed_unit', 'Check bda_planck_speed_unit in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_planck_speed_unit', '(1)::numeric', 'Check bda_planck_speed_unit in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_simulation_name', 'Check existance of bda_simulation_name in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_simulation_name', 'Check bda_simulation_name in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_simulation_name', 'character varying(128)', 'Check column type of bda_simulation_name in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_simulation_name', 'Check bda_simulation_name in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_simulation_name', 'USim Simulation', 'Check bda_simulation_name in usim_basedata default value');
+    RETURN NEXT col_is_unique('usim_test', 'usim_basedata', 'bda_simulation_name', 'Check unique constraint on bda_simulation_name in usim_basedata');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_created', 'Check existance of bda_created in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_created', 'Check bda_created in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_created', 'timestamp without time zone', 'Check column type of bda_created in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_created', 'Check bda_created in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_created', 'now()', 'Check bda_created in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_updated', 'Check existance of bda_updated in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_updated', 'Check bda_updated in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_updated', 'timestamp without time zone', 'Check column type of bda_updated in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_updated', 'Check bda_updated in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_updated', 'now()', 'Check bda_updated in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_created_by', 'Check existance of bda_created_by in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_created_by', 'Check bda_created_by in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_created_by', 'character varying(128)', 'Check column type of bda_created_by in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_created_by', 'Check bda_created_by in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_created_by', 'USER', 'Check bda_created_by in usim_basedata default value');
+    RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_updated_by', 'Check existance of bda_updated_by in usim_basedata');
+    RETURN NEXT col_not_null('usim_test', 'usim_basedata', 'bda_updated_by', 'Check bda_updated_by in usim_basedata NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_basedata', 'bda_updated_by', 'character varying(128)', 'Check column type of bda_updated_by in usim_basedata');
+    RETURN NEXT col_has_default('usim_test', 'usim_basedata', 'bda_updated_by', 'Check bda_updated_by in usim_basedata has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_basedata', 'bda_updated_by', 'USER', 'Check bda_updated_by in usim_basedata default value');
+    RETURN NEXT table_owner_is('usim_test', 'usim_basedata', 'usim', 'Check owner of table usim_basedata');
+    -- check related objects
+    RETURN NEXT can('usim_test', ARRAY['bda_fn_ins_trg', 'bda_fn_upd_trg'], 'Check usim_basedata trigger functions');
+    RETURN NEXT trigger_is('usim_test', 'usim_basedata', 'bda_ins_trg', 'usim_test', 'bda_fn_ins_trg', 'Check usim_basedata insert trigger');
+    RETURN NEXT trigger_is('usim_test', 'usim_basedata', 'bda_upd_trg', 'usim_test', 'bda_fn_upd_trg', 'Check usim_basedata update trigger');
+    -- setup a record for following tests
+    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing') FROM usim_basedata;
+    INSERT INTO usim_basedata DEFAULT VALUES RETURNING bda_id INTO l_bda_id;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'usim_basedata should have exactly one record after insert DEFAULT VALUES') FROM usim_basedata;
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_id = usim_create_id()', 'bda_id cannot be changed, create a new base dataset instead', 'Check exception update bda_id in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_max_dimension = 2', 'bda_max_dimension cannot be changed, create a new base dataset instead', 'Check exception update bda_max_dimension in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_abs_overflow = 9999', 'bda_abs_overflow cannot be changed, create a new base dataset instead', 'Check exception update bda_abs_overflow in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_abs_underflow = 0.1', 'bda_abs_underflow cannot be changed, create a new base dataset instead', 'Check exception update bda_abs_underflow in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_planck_stable = FALSE', 'bda_planck_stable cannot be changed, create a new base dataset instead', 'Check exception update bda_planck_stable in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_ultimate_border = FALSE', 'bda_ultimate_border cannot be changed, create a new base dataset instead', 'Check exception update bda_ultimate_border in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_default_overflow = FALSE', 'bda_default_overflow cannot be changed, create a new base dataset instead', 'Check exception update bda_default_overflow in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_energy_start_value = 2', 'bda_energy_start_value cannot be changed, create a new base dataset instead', 'Check exception update bda_energy_start_value in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_planck_time_unit = 2', 'bda_planck_time_unit cannot be changed, create a new base dataset instead', 'Check exception update bda_planck_time_unit in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_planck_length_unit = 2', 'bda_planck_length_unit cannot be changed, create a new base dataset instead', 'Check exception update bda_planck_length_unit in usim_basedata');
+    RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_planck_speed_unit = 2', 'bda_planck_speed_unit cannot be changed, create a new base dataset instead', 'Check exception update bda_planck_speed_unit in usim_basedata');
+    -- get current values for compare before update
+    SELECT bda_created, bda_created_by, bda_updated INTO l_created, l_created_by, l_updated FROM usim_basedata WHERE bda_id = l_bda_id;
+    UPDATE usim_basedata SET bda_created = now(), bda_created_by = 'Someone' WHERE bda_id = l_bda_id;
+    RETURN NEXT is(bda_created, l_created, 'Check bda_created has not changed on update of usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+    RETURN NEXT is(bda_created_by, l_created_by, 'Check bda_created_by has not changed on update of usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+    RETURN NEXT is(bda_updated, l_updated, 'Check bda_updated has changed on update of usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+    -- set up a new record to check overwrite of created and updated
+    l_stamp := now() + interval '1 day';
+    INSERT INTO usim_basedata (bda_simulation_name, bda_created, bda_created_by, bda_updated, bda_updated_by) VALUES ('Overwrite test', l_stamp, 'Someone', l_stamp, 'Someone') RETURNING bda_id INTO l_bda_id;
+    RETURN NEXT isnt(bda_created, l_stamp, 'Check no overwrite of bda_created possible for insert into usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+    RETURN NEXT isnt(bda_created_by, 'Someone', 'Check no overwrite of bda_created_by possible for insert into usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+    RETURN NEXT isnt(bda_updated, l_stamp, 'Check no overwrite of bda_updated possible for insert into usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+    RETURN NEXT isnt(bda_updated_by, 'Someone', 'Check no overwrite of bda_updated_by possible for insert into usim_basedata') FROM usim_basedata WHERE bda_id = l_bda_id;
+  END;
+$BODY$;

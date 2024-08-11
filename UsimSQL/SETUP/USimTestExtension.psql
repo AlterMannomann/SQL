@@ -5,4 +5,10 @@
 \i /usim_src/TESTING/test_000_basic_fn/test_000_basic_fn001_usim_create_id.psql
 \echo 'Create test function test_000_basic_fn002_usim_bigint_def'
 \i /usim_src/TESTING/test_000_basic_fn/test_000_basic_fn002_usim_bigint_def.psql
+\echo 'Create test function test_000_basic_fn003_usim_int_to_id'
+\i /usim_src/TESTING/test_000_basic_fn/test_000_basic_fn003_usim_int_to_id.psql
+\echo 'Create test function test_000_basic_tbl001_usim_basedata'
+\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl001_usim_basedata.psql
+\echo 'Create test function test_000_basic_tbl002_usim_bda_state'
+\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl002_usim_bda_state.psql
 -- run tests done by pg_prove after executing

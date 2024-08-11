@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION test_000_basic_fn003_usim_int_to_id()
+  RETURNS SETOF TEXT
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    RETURN NEXT is( LENGTH(TRIM(usim_int_to_id(1::smallint))), 32, 'Check length of created id for usim_int_to_id signature smallint' );
+    RETURN NEXT is( LENGTH(TRIM(usim_int_to_id(9999999::integer))), 32, 'Check length of created id for usim_int_to_id signature integer' );
+    RETURN NEXT is( LENGTH(TRIM(usim_int_to_id(99999999999::bigint))), 32, 'Check length of created id for usim_int_to_id signature bigint' );
+    RETURN NEXT is( usim_int_to_id(12::smallint), '00000000000000000000000000000012', 'Check contest for usim_int_to_id signature smallint');
+    RETURN NEXT is( usim_int_to_id(12::integer), '00000000000000000000000000000012', 'Check contest for usim_int_to_id signature integer');
+    RETURN NEXT is( usim_int_to_id(12::bigint), '00000000000000000000000000000012', 'Check contest for usim_int_to_id signature bigint');
+  END;
+$BODY$;

@@ -82,13 +82,22 @@ DROP PROCEDURE
 DROP PROCEDURE
 DROP PROCEDURE
 Dropping USim test function test_000_basic_schema
-psql:/usim_src/TESTING/DROP/drop_test_000_basic_app_schema.psql:1: NOTICE:  function test_000_basic_schema() does not exist, skipping
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_app_schema.psql:1: NOTICE:  function test_000_basic_app_schema() does not exist, skipping
 DROP FUNCTION
 Dropping USim test function test_000_basic_fn001_usim_create_id
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_fn001_usim_create_id.psql:1: NOTICE:  function test_000_basic_fn001_usim_create_id() does not exist, skipping
 DROP FUNCTION
 Dropping USim test function test_000_basic_fn002_usim_bigint_def
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_fn002_usim_bigint_def.psql:1: NOTICE:  function test_000_basic_fn002_usim_bigint_def() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_fn003_usim_int_to_id
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_fn003_usim_int_to_id.psql:1: NOTICE:  function test_000_basic_fn003_usim_int_to_id() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl001_usim_basedata
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl001_usim_basedata.psql:1: NOTICE:  function test_000_basic_tbl001_usim_basedata() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl002_usim_bda_state
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl002_usim_bda_state.psql:1: NOTICE:  function test_000_basic_tbl002_usim_bda_state() does not exist, skipping
 DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
@@ -300,9 +309,9 @@ USim objects after setup
  bda_new_sim       | usim       | usim      | PROCEDURE
  usim_basedata     | usim       | usim      | TABLE
  usim_sequences    | usim       | usim      | TABLE
- usim_bda_state    | usim       | usim      | TABLE
  usim_planck_aeon  | usim       | usim      | TABLE
  usim_planck_tick  | usim       | usim      | TABLE
+ usim_bda_state    | usim       | usim      | TABLE
  usim_dimension    | usim       | usim      | TABLE
  usim_multiverse   | usim       | usim      | TABLE
  squ_ins_trg       | usim       | usim      | TRIGGER

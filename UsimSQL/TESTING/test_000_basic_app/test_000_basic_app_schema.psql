@@ -41,6 +41,78 @@ AS $BODY$
     RETURN NEXT col_is_fk('usim_test', 'usim_dimension', 'bda_id', 'Check foreign key column of usim_dimension is defined as FK');
     RETURN NEXT fk_ok('usim_test', 'usim_dimension', 'bda_id', 'usim_test', 'usim_basedata', 'bda_id', 'Verify foreign key of usim_dimension');
     -- usim_sequences
-
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_name', 'Check primary key column squ_name of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key1', 'Check primary key column squ_key1 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key2', 'Check primary key column squ_key2 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key3', 'Check primary key column squ_key3 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key4', 'Check primary key column squ_key4 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key5', 'Check primary key column squ_key5 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key6', 'Check primary key column squ_key6 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key7', 'Check primary key column squ_key7 of usim_sequences exists');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key8', 'Check primary key column squ_key8 of usim_sequences exists');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_name', 'Check primary key column squ_name of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key1', 'Check primary key column squ_key1 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key2', 'Check primary key column squ_key2 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key3', 'Check primary key column squ_key3 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key4', 'Check primary key column squ_key4 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key5', 'Check primary key column squ_key5 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key6', 'Check primary key column squ_key6 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key7', 'Check primary key column squ_key7 of usim_sequences NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_key8', 'Check primary key column squ_key8 of usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_name', 'character varying(64)', 'Check primary key column type squ_name of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key1', 'character(32)', 'Check primary key column type squ_key1 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key2', 'character(32)', 'Check primary key column type squ_key2 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key3', 'character(32)', 'Check primary key column type squ_key3 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key4', 'character(32)', 'Check primary key column type squ_key4 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key5', 'character(32)', 'Check primary key column type squ_key5 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key6', 'character(32)', 'Check primary key column type squ_key6 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key7', 'character(32)', 'Check primary key column type squ_key7 of usim_sequences');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_key8', 'character(32)', 'Check primary key column type squ_key8 of usim_sequences');
+    RETURN NEXT col_is_pk(
+      'usim_test',
+      'usim_sequences',
+      ARRAY['squ_name', 'squ_key1', 'squ_key2', 'squ_key3', 'squ_key4', 'squ_key5', 'squ_key6', 'squ_key7', 'squ_key8'],
+      'Check primary key columns of usim_sequences PK'
+    );
+    -- usim_planck_aeon
+    RETURN NEXT has_column('usim_test', 'usim_planck_aeon', 'bda_id', 'Check primary key column bda_id of usim_planck_aeon exists');
+    RETURN NEXT has_column('usim_test', 'usim_planck_aeon', 'pla_id', 'Check primary key column pla_id of usim_planck_aeon exists');
+    RETURN NEXT has_column('usim_test', 'usim_planck_aeon', 'pla_add', 'Check primary key column pla_add of usim_planck_aeon exists');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_aeon', 'bda_id', 'Check primary key column bda_id of usim_planck_aeon NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_aeon', 'pla_id', 'Check primary key column pla_id of usim_planck_aeon NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_aeon', 'pla_add', 'Check primary key column pla_add of usim_planck_aeon NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_aeon', 'bda_id', 'character(32)', 'Check primary key column type bda_id of usim_planck_aeon');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_aeon', 'pla_id', 'character(32)', 'Check primary key column type pla_id of usim_planck_aeon');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_aeon', 'pla_add', 'bigint', 'Check primary key column type pla_add of usim_planck_aeon');
+    RETURN NEXT col_is_pk('usim_test', 'usim_planck_aeon', ARRAY['bda_id', 'pla_id', 'pla_add'], 'Check primary key columns of usim_sequences PK');
+    RETURN NEXT col_is_fk('usim_test', 'usim_planck_aeon', 'bda_id', 'Check foreign key column of usim_planck_aeon is defined as FK');
+    -- usim_planck_tick
+    RETURN NEXT has_column('usim_test', 'usim_planck_tick', 'bda_id', 'Check primary key column bda_id of usim_planck_tick exists');
+    RETURN NEXT has_column('usim_test', 'usim_planck_tick', 'pla_id', 'Check primary key column pla_id of usim_planck_tick exists');
+    RETURN NEXT has_column('usim_test', 'usim_planck_tick', 'pla_add', 'Check primary key column pla_add of usim_planck_tick exists');
+    RETURN NEXT has_column('usim_test', 'usim_planck_tick', 'plt_id', 'Check primary key column plt_id of usim_planck_tick exists');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_tick', 'bda_id', 'Check primary key column bda_id of usim_planck_tick NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_tick', 'pla_id', 'Check primary key column pla_id of usim_planck_tick NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_tick', 'pla_add', 'Check primary key column pla_add of usim_planck_tick NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_planck_tick', 'plt_id', 'Check primary key column plt_id of usim_planck_tick NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_tick', 'bda_id', 'character(32)', 'Check primary key column type bda_id of usim_planck_tick');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_tick', 'pla_id', 'character(32)', 'Check primary key column type pla_id of usim_planck_tick');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_tick', 'pla_add', 'bigint', 'Check primary key column type pla_add of usim_planck_tick');
+    RETURN NEXT col_type_is('usim_test', 'usim_planck_tick', 'plt_id', 'bigint', 'Check primary key column type plt_id of usim_planck_tick');
+    RETURN NEXT col_is_pk('usim_test', 'usim_planck_tick', ARRAY['bda_id', 'pla_id', 'pla_add', 'plt_id'], 'Check primary key columns of usim_planck_tick PK');
+    RETURN NEXT col_is_fk('usim_test', 'usim_planck_tick', 'bda_id', 'Check foreign key column bda_id of usim_planck_tick is defined as FK');
+    RETURN NEXT col_is_fk('usim_test', 'usim_planck_tick', ARRAY['bda_id', 'pla_id', 'pla_add'], 'Check foreign key columns bda_id, pla_id, pla_add of usim_planck_tick are defined as FK');
+    -- usim_multiverse
+    RETURN NEXT has_column('usim_test', 'usim_multiverse', 'bda_id', 'Check primary key column bda_id of usim_multiverse exists');
+    RETURN NEXT has_column('usim_test', 'usim_multiverse', 'mlv_id', 'Check primary key column mlv_id of usim_multiverse exists');
+    RETURN NEXT has_column('usim_test', 'usim_multiverse', 'mlv_add', 'Check primary key column mlv_add of usim_multiverse exists');
+    RETURN NEXT col_not_null('usim_test', 'usim_multiverse', 'bda_id', 'Check primary key column bda_id of usim_multiverse NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_multiverse', 'mlv_id', 'Check primary key column mlv_id of usim_multiverse NOT NULL');
+    RETURN NEXT col_not_null('usim_test', 'usim_multiverse', 'mlv_add', 'Check primary key column mlv_add of usim_multiverse NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_multiverse', 'bda_id', 'character(32)', 'Check primary key column type bda_id of usim_multiverse');
+    RETURN NEXT col_type_is('usim_test', 'usim_multiverse', 'mlv_id', 'character(32)', 'Check primary key column type mlv_id of usim_multiverse');
+    RETURN NEXT col_type_is('usim_test', 'usim_multiverse', 'mlv_add', 'bigint', 'Check primary key column type mlv_add of usim_multiverse');
+    RETURN NEXT col_is_pk('usim_test', 'usim_multiverse', ARRAY['bda_id', 'mlv_id', 'mlv_add'], 'Check primary key columns of usim_multiverse PK');
+    RETURN NEXT col_is_fk('usim_test', 'usim_multiverse', 'bda_id', 'Check foreign key column of usim_multiverse is defined as FK');
   END;
 $BODY$;

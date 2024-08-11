@@ -1,1 +1,1 @@
-DROP FUNCTION IF EXISTS test_000_basic_schema;
+DROP FUNCTION IF EXISTS test_000_basic_app_schema;

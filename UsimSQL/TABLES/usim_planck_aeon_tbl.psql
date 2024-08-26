@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS usim_planck_aeon
   bda_id character(32) NOT NULL,
   pla_id character(32) NOT NULL,
   pla_add bigint NOT NULL,
-  pla_active boolean NOT NULL DEFAULT TRUE,
+  pla_active boolean NOT NULL DEFAULT FALSE,
   pla_created timestamp without time zone NOT NULL DEFAULT now(),
   CONSTRAINT pla_pk PRIMARY KEY (bda_id, pla_id, pla_add),
   CONSTRAINT pla_fk FOREIGN KEY (bda_id) REFERENCES usim_basedata (bda_id) ON DELETE CASCADE
@@ -30,7 +30,7 @@ COMMENT ON COLUMN usim_planck_aeon.pla_add
   IS 'The id addendum to ensure planck id is unique. Cycling sequence in usim_sequences. Automatically created by trigger, ignored on inserts. Part of the primary key. Ignored on updates.';
 
 COMMENT ON COLUMN usim_planck_aeon.pla_active
-  IS 'The boolean indicator which aeon is active for a simulation. Only one aeon can be active for a simulation. Use procedure pla_insert to ensure correct state.';
+  IS 'The boolean indicator which aeon is active for a simulation. Only one aeon can be active for a simulation. Insert will always set FALSE. Use procedure pla_insert to ensure correct state.';
 
 COMMENT ON COLUMN usim_planck_aeon.pla_created
   IS 'The creation date of an aeon. Can be used for sorting. Ignored on updates.';
@@ -45,7 +45,7 @@ AS $BODY$
   BEGIN
     NEW.pla_id := usim_create_id();
     CALL squ_get_sequence('pla_seq', FALSE, TRUE, NEW.pla_add, NEW.bda_id, NEW.pla_id);
-    NEW.pla_active := TRUE;
+    NEW.pla_active := FALSE;
     NEW.pla_created := current_timestamp;
     RETURN NEW;
   END;
@@ -62,6 +62,11 @@ CREATE OR REPLACE FUNCTION pla_fn_upd_trg()
   LANGUAGE 'plpgsql'
 AS $BODY$
   BEGIN
+    IF     NEW.pla_active
+       AND EXISTS (SELECT * FROM usim_planck_aeon WHERE bda_id = OLD.bda_id AND pla_active)
+    THEN
+      RAISE EXCEPTION 'Can not activate a planck aeon for the defined simulation as long as one aeon is still active';
+    END IF;
     -- ignore updates for
     NEW.bda_id := OLD.bda_id;
     NEW.pla_id := OLD.pla_id;
@@ -87,7 +92,7 @@ CREATE TRIGGER pla_ins_trg
 -- DROP TRIGGER IF EXISTS pla_upd_trg ON usim_planck_aeon;
 
 CREATE TRIGGER pla_upd_trg
-  AFTER UPDATE
+  BEFORE UPDATE
   ON usim_planck_aeon
   FOR EACH ROW
   EXECUTE FUNCTION pla_fn_upd_trg();
@@ -113,5 +118,10 @@ AS $BODY$
      WHERE bda_id = p_bda_id;
     INSERT INTO usim_planck_aeon (bda_id) VALUES (p_bda_id)
       RETURNING pla_id, pla_add INTO p_pla_id, p_pla_add;
+    UPDATE usim_planck_aeon
+       SET pla_active = TRUE
+     WHERE bda_id = p_bda_id
+       AND pla_id = p_pla_id
+       AND pla_add = p_pla_add;
   END;
 $BODY$;

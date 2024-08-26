@@ -27,6 +27,10 @@ AS $BODY$
     RETURN NEXT col_has_default('usim_test', 'usim_bda_state', 'bds_updated_by', 'Check bds_updated_by in usim_bda_state has default');
     RETURN NEXT col_default_is('usim_test', 'usim_bda_state', 'bds_updated_by', 'USER', 'Check bds_updated_by in usim_bda_state default value');
     RETURN NEXT table_owner_is('usim_test', 'usim_bda_state', 'usim', 'Check owner of table usim_bda_state');
+    -- check related objects
+    RETURN NEXT can('usim_test', ARRAY['bds_fn_ins_trg', 'bds_fn_upd_trg'], 'Check usim_bda_state trigger functions');
+    RETURN NEXT trigger_is('usim_test', 'usim_bda_state', 'bds_ins_trg', 'usim_test', 'bds_fn_ins_trg', 'Check usim_bda_state insert trigger');
+    RETURN NEXT trigger_is('usim_test', 'usim_bda_state', 'bds_upd_trg', 'usim_test', 'bds_fn_upd_trg', 'Check usim_bda_state update trigger');
     -- setup basedata
     RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing usim_bda_state') FROM usim_basedata;
     INSERT INTO usim_basedata DEFAULT VALUES RETURNING bda_id INTO l_bda_id;

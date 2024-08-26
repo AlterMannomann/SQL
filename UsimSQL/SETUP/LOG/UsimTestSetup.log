@@ -93,6 +93,10 @@ Dropping USim test function test_000_basic_tbl001_usim_basedata
 DROP FUNCTION
 Dropping USim test function test_000_basic_tbl002_usim_bda_state
 DROP FUNCTION
+Dropping USim test function test_000_basic_tbl003_usim_dimension
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl004_usim_planck_aeon
+DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
 ----------+------------+-----------+----------
@@ -271,8 +275,6 @@ CREATE PROCEDURE
 USim objects after setup
      obj_name      | obj_schema | obj_owner | obj_type  
 -------------------+------------+-----------+-----------
- bda_new_sim       | usim_test  | usim      | PROCEDURE
- bda_new_sim       | usim_test  | usim      | PROCEDURE
  usim_create_id    | usim_test  | usim      | FUNCTION
  usim_int_to_id    | usim_test  | usim      | FUNCTION
  usim_int_to_id    | usim_test  | usim      | FUNCTION
@@ -301,12 +303,14 @@ USim objects after setup
  bda_new_sim       | usim_test  | usim      | PROCEDURE
  bda_new_sim       | usim_test  | usim      | PROCEDURE
  bda_new_sim       | usim_test  | usim      | PROCEDURE
- usim_basedata     | usim_test  | usim      | TABLE
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
+ bda_new_sim       | usim_test  | usim      | PROCEDURE
  usim_bda_state    | usim_test  | usim      | TABLE
  usim_sequences    | usim_test  | usim      | TABLE
- usim_dimension    | usim_test  | usim      | TABLE
+ usim_basedata     | usim_test  | usim      | TABLE
  usim_planck_aeon  | usim_test  | usim      | TABLE
  usim_planck_tick  | usim_test  | usim      | TABLE
+ usim_dimension    | usim_test  | usim      | TABLE
  usim_multiverse   | usim_test  | usim      | TABLE
  squ_ins_trg       | usim_test  | usim      | TRIGGER
  squ_upd_trg       | usim_test  | usim      | TRIGGER

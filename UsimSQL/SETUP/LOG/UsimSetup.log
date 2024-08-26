@@ -99,6 +99,12 @@ DROP FUNCTION
 Dropping USim test function test_000_basic_tbl002_usim_bda_state
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl002_usim_bda_state.psql:1: NOTICE:  function test_000_basic_tbl002_usim_bda_state() does not exist, skipping
 DROP FUNCTION
+Dropping USim test function test_000_basic_tbl003_usim_dimension
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl003_usim_dimension.psql:1: NOTICE:  function test_000_basic_tbl003_usim_dimension() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl004_usim_planck_aeon
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl004_usim_planck_aeon.psql:1: NOTICE:  function test_000_basic_tbl004_usim_planck_aeon() does not exist, skipping
+DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
 ----------+------------+-----------+----------
@@ -307,11 +313,11 @@ USim objects after setup
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
- usim_basedata     | usim       | usim      | TABLE
  usim_sequences    | usim       | usim      | TABLE
+ usim_basedata     | usim       | usim      | TABLE
+ usim_bda_state    | usim       | usim      | TABLE
  usim_planck_aeon  | usim       | usim      | TABLE
  usim_planck_tick  | usim       | usim      | TABLE
- usim_bda_state    | usim       | usim      | TABLE
  usim_dimension    | usim       | usim      | TABLE
  usim_multiverse   | usim       | usim      | TABLE
  squ_ins_trg       | usim       | usim      | TRIGGER

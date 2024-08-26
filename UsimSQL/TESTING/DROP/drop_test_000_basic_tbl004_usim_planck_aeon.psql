@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS test_000_basic_tbl004_usim_planck_aeon;

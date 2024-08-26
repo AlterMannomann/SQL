@@ -1,0 +1,31 @@
+CREATE OR REPLACE FUNCTION test_000_basic_tbl003_usim_dimension()
+  RETURNS SETOF TEXT
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_bda_id character(32);
+    l_dim_id smallint;
+  BEGIN
+    RETURN NEXT col_has_check('usim_test', 'usim_dimension', 'dim_id', 'Check check constraint for dim_id in usim_dimension');
+    -- check related objects
+    RETURN NEXT can('usim_test', ARRAY['dim_fn_ins_trg', 'dim_fn_upd_trg'], 'Check usim_dimension trigger functions');
+    RETURN NEXT trigger_is('usim_test', 'usim_dimension', 'dim_ins_trg', 'usim_test', 'dim_fn_ins_trg', 'Check usim_dimension insert trigger');
+    RETURN NEXT trigger_is('usim_test', 'usim_dimension', 'dim_upd_trg', 'usim_test', 'dim_fn_upd_trg', 'Check usim_dimension update trigger');
+    -- init data for testing
+    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing usim_dimension') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_dimension should not have any records before testing usim_dimension') FROM usim_dimension;
+    -- limit to 3 dimensions
+    INSERT INTO usim_basedata (bda_max_dimension) VALUES (3) RETURNING bda_id INTO l_bda_id;
+    -- insert a dimension higher than 1 should be ignored
+    INSERT INTO usim_dimension (bda_id, dim_id) VALUES (l_bda_id, 2::smallint) RETURNING dim_id INTO l_dim_id;
+    -- should be first dimension 0
+    RETURN NEXT is(l_dim_id, 0::smallint, 'Check dimension add ignores input value');
+    -- insert dimensions to max
+    INSERT INTO usim_dimension (bda_id) VALUES (l_bda_id);
+    INSERT INTO usim_dimension (bda_id) VALUES (l_bda_id);
+    INSERT INTO usim_dimension (bda_id) VALUES (l_bda_id);
+    -- check max trigger constraint
+    RETURN NEXT throws_ok('INSERT INTO usim_dimension (bda_id) SELECT bda_id FROM usim_basedata', 'Max dimensions reached, no additional dimensions can be inserted for the used universe', 'Check max. dimension is respected by usim_dimension');
+    RETURN NEXT throws_ok('UPDATE usim_dimension SET dim_id = 2::smallint WHERE dim_id = 3::smallint', 'No updates allowed on table usim_dimension.', 'Check update is forbidden on usim_dimension');
+  END;
+$BODY$;

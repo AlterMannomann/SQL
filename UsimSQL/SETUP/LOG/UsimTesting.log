@@ -12,6 +12,10 @@ Create test function test_000_basic_tbl001_usim_basedata
 CREATE FUNCTION
 Create test function test_000_basic_tbl002_usim_bda_state
 CREATE FUNCTION
+Create test function test_000_basic_tbl003_usim_dimension
+CREATE FUNCTION
+Create test function test_000_basic_tbl004_usim_planck_aeon
+CREATE FUNCTION
 runtests('usim_test'::name); .. 
     # Subtest: usim_test.test_000_basic_app_schema()
     ok 1 - Verify usim setup with tablespaces USIM_DATA, PG_DEFAULT and PG_GLOBAL
@@ -253,17 +257,54 @@ ok 5 - usim_test.test_000_basic_tbl001_usim_basedata
     ok 19 - Check bds_updated_by in usim_bda_state has default
     ok 20 - Check bds_updated_by in usim_bda_state default value
     ok 21 - Check owner of table usim_bda_state
-    ok 22 - usim_basedata should not have any records before testing usim_bda_state
-    ok 23 - bds_id should always be 1 in usim_bda_state
-    ok 24 - bda_id should match given value in usim_bda_state
-    ok 25 - Verify exception on insert more than one record into usim_bda_state with bds_id not 1
-    ok 26 - Verify exception on insert more than one record into usim_bda_state
-    ok 27 - Check switching active simulation
-    1..27
+    ok 22 - Check usim_bda_state trigger functions
+    ok 23 - Check usim_bda_state insert trigger
+    ok 24 - Check usim_bda_state update trigger
+    ok 25 - usim_basedata should not have any records before testing usim_bda_state
+    ok 26 - bds_id should always be 1 in usim_bda_state
+    ok 27 - bda_id should match given value in usim_bda_state
+    ok 28 - Verify exception on insert more than one record into usim_bda_state with bds_id not 1
+    ok 29 - Verify exception on insert more than one record into usim_bda_state
+    ok 30 - Check switching active simulation
+    1..30
 ok 6 - usim_test.test_000_basic_tbl002_usim_bda_state
-1..6
+    # Subtest: usim_test.test_000_basic_tbl003_usim_dimension()
+    ok 1 - Check check constraint for dim_id in usim_dimension
+    ok 2 - Check usim_dimension trigger functions
+    ok 3 - Check usim_dimension insert trigger
+    ok 4 - Check usim_dimension update trigger
+    ok 5 - usim_basedata should not have any records before testing usim_dimension
+    ok 6 - usim_dimension should not have any records before testing usim_dimension
+    ok 7 - Check dimension add ignores input value
+    ok 8 - Check max. dimension is respected by usim_dimension
+    ok 9 - Check update is forbidden on usim_dimension
+    1..9
+ok 7 - usim_test.test_000_basic_tbl003_usim_dimension
+    # Subtest: usim_test.test_000_basic_tbl004_usim_planck_aeon()
+    ok 1 - Check existance of pla_active in usim_planck_aeon
+    ok 2 - Check pla_active in usim_planck_aeon NOT NULL
+    ok 3 - Check column type of pla_active in usim_planck_aeon
+    ok 4 - Check pla_active in usim_planck_aeon has default
+    ok 5 - Check pla_active in usim_planck_aeon default value
+    ok 6 - Check existance of pla_created in usim_planck_aeon
+    ok 7 - Check pla_created in usim_planck_aeon NOT NULL
+    ok 8 - Check column type of pla_created in usim_planck_aeon
+    ok 9 - Check pla_created in usim_planck_aeon has default
+    ok 10 - Check pla_created in usim_planck_aeon default value
+    ok 11 - Check usim_planck_aeon trigger functions
+    ok 12 - Check usim_planck_aeon insert trigger
+    ok 13 - Check usim_planck_aeon update trigger
+    ok 14 - usim_basedata should not have any records before testing usim_planck_aeon
+    ok 15 - usim_planck_aeon should not have any records before testing usim_planck_aeon
+    ok 16 - successfully insert a new planck aeon into usim_planck_aeon
+    ok 17 - successfully activated planck aeon
+    ok 18 - Check usim_planck_aeon allows only one active record
+    ok 19 - Check pla_insert on usim_planck_aeon successful, old record deactivated, new record activated
+    1..19
+ok 8 - usim_test.test_000_basic_tbl004_usim_planck_aeon
+1..8
 ok
 All tests successful.
-Files=1, Tests=6,  4 wallclock secs ( 0.00 usr  0.03 sys +  0.04 cusr  0.02 csys =  0.09 CPU)
+Files=1, Tests=8,  4 wallclock secs ( 0.02 usr  0.05 sys +  0.10 cusr  0.02 csys =  0.19 CPU)
 Result: PASS
 Create base data for first simulation

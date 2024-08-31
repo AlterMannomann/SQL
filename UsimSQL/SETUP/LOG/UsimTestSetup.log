@@ -24,6 +24,7 @@ DROP TRIGGER
 DROP TRIGGER
 DROP FUNCTION
 DROP FUNCTION
+DROP PROCEDURE
 DROP TABLE
 Dropping USim Table usim_multiverse and depending objects
 DROP TRIGGER
@@ -96,6 +97,8 @@ DROP FUNCTION
 Dropping USim test function test_000_basic_tbl003_usim_dimension
 DROP FUNCTION
 Dropping USim test function test_000_basic_tbl004_usim_planck_aeon
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl005_usim_planck_tick
 DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
@@ -241,6 +244,7 @@ CREATE FUNCTION
 ALTER FUNCTION
 CREATE TRIGGER
 CREATE TRIGGER
+CREATE PROCEDURE
 Create table USIM_MULTIVERSE
  search_path 
 -------------
@@ -298,6 +302,7 @@ USim objects after setup
  plt_fn_upd_trg    | usim_test  | usim      | FUNCTION
  dim_fn_ins_trg    | usim_test  | usim      | FUNCTION
  dim_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ dim_init          | usim_test  | usim      | PROCEDURE
  mlv_fn_ins_trg    | usim_test  | usim      | FUNCTION
  mlv_fn_upd_trg    | usim_test  | usim      | FUNCTION
  bda_new_sim       | usim_test  | usim      | PROCEDURE
@@ -305,8 +310,8 @@ USim objects after setup
  bda_new_sim       | usim_test  | usim      | PROCEDURE
  bda_new_sim       | usim_test  | usim      | PROCEDURE
  bda_new_sim       | usim_test  | usim      | PROCEDURE
- usim_bda_state    | usim_test  | usim      | TABLE
  usim_sequences    | usim_test  | usim      | TABLE
+ usim_bda_state    | usim_test  | usim      | TABLE
  usim_basedata     | usim_test  | usim      | TABLE
  usim_planck_aeon  | usim_test  | usim      | TABLE
  usim_planck_tick  | usim_test  | usim      | TABLE
@@ -326,5 +331,5 @@ USim objects after setup
  dim_upd_trg       | usim_test  | usim      | TRIGGER
  mlv_ins_trg       | usim_test  | usim      | TRIGGER
  mlv_upd_trg       | usim_test  | usim      | TRIGGER
-(51 rows)
+(52 rows)
 

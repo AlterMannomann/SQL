@@ -22,14 +22,14 @@ AS $BODY$
     RETURN NEXT trigger_is('usim_test', 'usim_planck_aeon', 'pla_ins_trg', 'usim_test', 'pla_fn_ins_trg', 'Check usim_planck_aeon insert trigger');
     RETURN NEXT trigger_is('usim_test', 'usim_planck_aeon', 'pla_upd_trg', 'usim_test', 'pla_fn_upd_trg', 'Check usim_planck_aeon update trigger');
     -- init data for testing
-    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing usim_planck_aeon') FROM usim_basedata;
-    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_planck_aeon should not have any records before testing usim_planck_aeon') FROM usim_planck_aeon;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_basedata should not have any records before testing usim_planck_aeon') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_planck_aeon should not have any records before testing usim_planck_aeon') FROM usim_planck_aeon;
     INSERT INTO usim_basedata DEFAULT VALUES RETURNING bda_id INTO l_bda_id;
     INSERT INTO usim_planck_aeon (bda_id) VALUES (l_bda_id) RETURNING pla_id, pla_add INTO l_pla_id, l_pla_add;
-    RETURN NEXT is(COUNT(*), 1::bigint, 'successfully insert a new planck aeon into usim_planck_aeon') FROM usim_planck_aeon;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check successfully insert a new planck aeon into usim_planck_aeon') FROM usim_planck_aeon;
     -- set active
     UPDATE usim_planck_aeon SET pla_active = TRUE WHERE bda_id = l_bda_id AND pla_id = l_pla_id AND pla_add = l_pla_add;
-    RETURN NEXT is(pla_active, TRUE, 'successfully activated planck aeon') FROM usim_planck_aeon WHERE bda_id = l_bda_id AND pla_id = l_pla_id AND pla_add = l_pla_add;
+    RETURN NEXT is(pla_active, TRUE, 'Check successfully activated planck aeon') FROM usim_planck_aeon WHERE bda_id = l_bda_id AND pla_id = l_pla_id AND pla_add = l_pla_add;
     -- insert next record
     INSERT INTO usim_planck_aeon (bda_id) VALUES (l_bda_id) RETURNING pla_id, pla_add INTO l_pla_id, l_pla_add;
     -- try to set all active

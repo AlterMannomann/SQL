@@ -3,8 +3,8 @@ CREATE OR REPLACE FUNCTION test_000_basic_fn001_usim_create_id()
   LANGUAGE 'plpgsql'
 AS $BODY$
   BEGIN
-    RETURN NEXT is( LENGTH(TRIM(usim_create_id())), 32, 'Length 32 check for usim_create_id' );
-    RETURN NEXT is( SUBSTR(usim_create_id(), 1, 8)::integer, EXTRACT(year FROM now())::integer, 'Year component of usim_create_id' );
-    RETURN NEXT is( SUBSTR(usim_create_id(), 9, 8), TO_CHAR(now(), 'MMDDHH24MI'), 'Date component MMDDHH24MI of usim_create_id');
+    RETURN NEXT is( LENGTH(TRIM(usim_create_id())), 32, 'Check length 32 for usim_create_id' );
+    RETURN NEXT is( SUBSTR(usim_create_id(), 1, 8)::integer, EXTRACT(year FROM now())::integer, 'Check year component of usim_create_id' );
+    RETURN NEXT is( SUBSTR(usim_create_id(), 9, 6), TO_CHAR(now(), 'MMDDHH24'), 'Check date component MMDDHH24 of usim_create_id');
   END;
 $BODY$;

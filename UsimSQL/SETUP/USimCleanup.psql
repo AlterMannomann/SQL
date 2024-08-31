@@ -47,6 +47,8 @@
 \i /usim_src/TESTING/DROP/drop_test_000_basic_tbl003_usim_dimension.psql
 \echo 'Dropping USim test function test_000_basic_tbl004_usim_planck_aeon'
 \i /usim_src/TESTING/DROP/drop_test_000_basic_tbl004_usim_planck_aeon.psql
+\echo 'Dropping USim test function test_000_basic_tbl005_usim_planck_tick'
+\i /usim_src/TESTING/DROP/drop_test_000_basic_tbl005_usim_planck_tick.psql
 
 -- list objects remaining
 \echo 'Remaining USim Objects'

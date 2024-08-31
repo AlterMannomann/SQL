@@ -12,8 +12,8 @@ AS $BODY$
     RETURN NEXT trigger_is('usim_test', 'usim_dimension', 'dim_ins_trg', 'usim_test', 'dim_fn_ins_trg', 'Check usim_dimension insert trigger');
     RETURN NEXT trigger_is('usim_test', 'usim_dimension', 'dim_upd_trg', 'usim_test', 'dim_fn_upd_trg', 'Check usim_dimension update trigger');
     -- init data for testing
-    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing usim_dimension') FROM usim_basedata;
-    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_dimension should not have any records before testing usim_dimension') FROM usim_dimension;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_basedata should not have any records before testing usim_dimension') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_dimension should not have any records before testing usim_dimension') FROM usim_dimension;
     -- limit to 3 dimensions
     INSERT INTO usim_basedata (bda_max_dimension) VALUES (3) RETURNING bda_id INTO l_bda_id;
     -- insert a dimension higher than 1 should be ignored
@@ -27,5 +27,11 @@ AS $BODY$
     -- check max trigger constraint
     RETURN NEXT throws_ok('INSERT INTO usim_dimension (bda_id) SELECT bda_id FROM usim_basedata', 'Max dimensions reached, no additional dimensions can be inserted for the used universe', 'Check max. dimension is respected by usim_dimension');
     RETURN NEXT throws_ok('UPDATE usim_dimension SET dim_id = 2::smallint WHERE dim_id = 3::smallint', 'No updates allowed on table usim_dimension.', 'Check update is forbidden on usim_dimension');
+    -- check init function, cleanup first
+    DELETE FROM usim_dimension WHERE bda_id = l_bda_id;
+    CALL dim_init(l_bda_id);
+    RETURN NEXT is(COUNT(*), 4::bigint, 'Check dim_init created 4 records') FROM usim_dimension;
+    RETURN NEXT is(MAX(dim_id), 3::smallint, 'Check dim_init created max dimension 3') FROM usim_dimension;
+    RETURN NEXT is(MIN(dim_id), 0::smallint, 'Check dim_init created min dimension 0') FROM usim_dimension;
   END;
 $BODY$;

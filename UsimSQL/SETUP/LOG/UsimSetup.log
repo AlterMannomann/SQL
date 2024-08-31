@@ -24,6 +24,7 @@ DROP TRIGGER
 DROP TRIGGER
 DROP FUNCTION
 DROP FUNCTION
+DROP PROCEDURE
 DROP TABLE
 Dropping USim Table usim_multiverse and depending objects
 DROP TRIGGER
@@ -104,6 +105,9 @@ psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl003_usim_dimension.psql:1: NO
 DROP FUNCTION
 Dropping USim test function test_000_basic_tbl004_usim_planck_aeon
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl004_usim_planck_aeon.psql:1: NOTICE:  function test_000_basic_tbl004_usim_planck_aeon() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl005_usim_planck_tick
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl005_usim_planck_tick.psql:1: NOTICE:  function test_000_basic_tbl005_usim_planck_tick() does not exist, skipping
 DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
@@ -249,6 +253,7 @@ CREATE FUNCTION
 ALTER FUNCTION
 CREATE TRIGGER
 CREATE TRIGGER
+CREATE PROCEDURE
 Create table USIM_MULTIVERSE
  search_path 
 -------------
@@ -306,6 +311,7 @@ USim objects after setup
  plt_fn_upd_trg    | usim       | usim      | FUNCTION
  dim_fn_ins_trg    | usim       | usim      | FUNCTION
  dim_fn_upd_trg    | usim       | usim      | FUNCTION
+ dim_init          | usim       | usim      | PROCEDURE
  mlv_fn_ins_trg    | usim       | usim      | FUNCTION
  mlv_fn_upd_trg    | usim       | usim      | FUNCTION
  bda_new_sim       | usim       | usim      | PROCEDURE
@@ -334,5 +340,5 @@ USim objects after setup
  dim_upd_trg       | usim       | usim      | TRIGGER
  mlv_ins_trg       | usim       | usim      | TRIGGER
  mlv_upd_trg       | usim       | usim      | TRIGGER
-(51 rows)
+(52 rows)
 

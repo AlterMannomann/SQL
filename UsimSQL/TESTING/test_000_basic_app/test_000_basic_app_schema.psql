@@ -7,14 +7,14 @@ AS $BODY$
   */
   BEGIN
     -- add tablespaces of your installation if not default
-    RETURN NEXT tablespaces_are(ARRAY['usim_data', 'pg_default', 'pg_global'], 'Verify usim setup with tablespaces USIM_DATA, PG_DEFAULT and PG_GLOBAL');
+    RETURN NEXT tablespaces_are(ARRAY['usim_data', 'pg_default', 'pg_global'], 'Check usim setup with tablespaces USIM_DATA, PG_DEFAULT and PG_GLOBAL');
     -- add schemas of your installation if not default
-    RETURN NEXT schemas_are(ARRAY['usim', 'usim_test', 'public'], 'Verify usim setup with schemas USIM, USIM_TEST and PUBLIC');
+    RETURN NEXT schemas_are(ARRAY['usim', 'usim_test', 'public'], 'Check usim setup with schemas USIM, USIM_TEST and PUBLIC');
     RETURN NEXT tables_are(
       'usim_test',
       ARRAY['usim_basedata', 'usim_bda_state', 'usim_dimension', 'usim_planck_aeon', 'usim_planck_tick', 'usim_multiverse',
       'usim_sequences'],
-      'Verify USim tables'
+      'Check USim tables'
     );
     -- usim_basedata
     RETURN NEXT has_column('usim_test', 'usim_basedata', 'bda_id', 'Check primary key column of usim_basedata exists');
@@ -29,7 +29,7 @@ AS $BODY$
     RETURN NEXT col_type_is('usim_test', 'usim_bda_state', 'bds_id', 'smallint', 'Check primary key column type of usim_bda_state');
     RETURN NEXT col_is_pk('usim_test', 'usim_bda_state', 'bds_id', 'Check primary key column of usim_bda_state is defined as PK');
     RETURN NEXT col_is_fk('usim_test', 'usim_bda_state', 'bda_id', 'Check foreign key column of usim_bda_state is defined as FK');
-    RETURN NEXT fk_ok('usim_test', 'usim_bda_state', 'bda_id', 'usim_test', 'usim_basedata', 'bda_id', 'Verify foreign key of usim_bda_state');
+    RETURN NEXT fk_ok('usim_test', 'usim_bda_state', 'bda_id', 'usim_test', 'usim_basedata', 'bda_id', 'Check foreign key of usim_bda_state');
     -- usim_dimension
     RETURN NEXT has_column('usim_test', 'usim_dimension', 'bda_id', 'Check primary key column bda_id of usim_dimension exists');
     RETURN NEXT has_column('usim_test', 'usim_dimension', 'dim_id', 'Check primary key column dim_id of usim_dimension exists');
@@ -39,7 +39,7 @@ AS $BODY$
     RETURN NEXT col_type_is('usim_test', 'usim_dimension', 'bda_id', 'character(32)', 'Check primary key bda_id column type of usim_dimension');
     RETURN NEXT col_is_pk('usim_test', 'usim_dimension', ARRAY['bda_id', 'dim_id'], 'Check primary key columns of usim_dimension are defined as PK');
     RETURN NEXT col_is_fk('usim_test', 'usim_dimension', 'bda_id', 'Check foreign key column of usim_dimension is defined as FK');
-    RETURN NEXT fk_ok('usim_test', 'usim_dimension', 'bda_id', 'usim_test', 'usim_basedata', 'bda_id', 'Verify foreign key of usim_dimension');
+    RETURN NEXT fk_ok('usim_test', 'usim_dimension', 'bda_id', 'usim_test', 'usim_basedata', 'bda_id', 'Check foreign key of usim_dimension');
     -- usim_sequences
     RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_name', 'Check primary key column squ_name of usim_sequences exists');
     RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_key1', 'Check primary key column squ_key1 of usim_sequences exists');

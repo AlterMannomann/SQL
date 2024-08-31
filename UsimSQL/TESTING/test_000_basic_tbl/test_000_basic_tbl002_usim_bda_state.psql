@@ -32,14 +32,14 @@ AS $BODY$
     RETURN NEXT trigger_is('usim_test', 'usim_bda_state', 'bds_ins_trg', 'usim_test', 'bds_fn_ins_trg', 'Check usim_bda_state insert trigger');
     RETURN NEXT trigger_is('usim_test', 'usim_bda_state', 'bds_upd_trg', 'usim_test', 'bds_fn_upd_trg', 'Check usim_bda_state update trigger');
     -- setup basedata
-    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing usim_bda_state') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_basedata should not have any records before testing usim_bda_state') FROM usim_basedata;
     INSERT INTO usim_basedata DEFAULT VALUES RETURNING bda_id INTO l_bda_id;
     INSERT INTO usim_bda_state (bda_id) VALUES (l_bda_id) RETURNING bds_id INTO l_bds_id;
     -- check values
-    RETURN NEXT is(bds_id, 1::smallint, 'bds_id should always be 1 in usim_bda_state') FROM usim_bda_state WHERE bds_id = l_bds_id;
-    RETURN NEXT is(bda_id, l_bda_id, 'bda_id should match given value in usim_bda_state') FROM usim_bda_state WHERE bda_id = l_bda_id;
-    RETURN NEXT throws_ok('INSERT INTO usim_bda_state (bds_id, bda_id) SELECT 2::smallint, bda_id FROM usim_basedata', 'cannot insert a non-DEFAULT value into column "bds_id"', 'Verify exception on insert more than one record into usim_bda_state with bds_id not 1');
-    RETURN NEXT throws_ok('INSERT INTO usim_bda_state (bda_id) SELECT bda_id FROM usim_basedata', 'duplicate key value violates unique constraint "bds_pk"', 'Verify exception on insert more than one record into usim_bda_state');
+    RETURN NEXT is(bds_id, 1::smallint, 'Check bds_id should always be 1 in usim_bda_state') FROM usim_bda_state WHERE bds_id = l_bds_id;
+    RETURN NEXT is(bda_id, l_bda_id, 'Check bda_id should match given value in usim_bda_state') FROM usim_bda_state WHERE bda_id = l_bda_id;
+    RETURN NEXT throws_ok('INSERT INTO usim_bda_state (bds_id, bda_id) SELECT 2::smallint, bda_id FROM usim_basedata', 'cannot insert a non-DEFAULT value into column "bds_id"', 'Check exception on insert more than one record into usim_bda_state with bds_id not 1');
+    RETURN NEXT throws_ok('INSERT INTO usim_bda_state (bda_id) SELECT bda_id FROM usim_basedata', 'duplicate key value violates unique constraint "bds_pk"', 'Check exception on insert more than one record into usim_bda_state');
     INSERT INTO usim_basedata (bda_simulation_name) VALUES ('Switch test') RETURNING bda_id INTO l_bda_id;
     UPDATE usim_bda_state SET bda_id = l_bda_id;
     RETURN NEXT is(bda.bda_id, l_bda_id, 'Check switching active simulation') FROM usim_basedata bda INNER JOIN usim_bda_state bds ON bda.bda_id = bds.bda_id;

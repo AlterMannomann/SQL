@@ -83,3 +83,37 @@ CREATE TRIGGER dim_upd_trg
   ON usim_dimension
   FOR EACH ROW
   EXECUTE FUNCTION dim_fn_upd_trg();
+
+-- PROCEDURE: dim_init
+-- DROP PROCEDURE IF EXISTS dim_init;
+
+CREATE OR REPLACE PROCEDURE dim_init(
+  p_bda_id  IN character(32)
+)
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  /** PROCEDURE dim_init
+  * Initializes the dimensions for a given simulation id. Does nothing, if dimensions already exist.
+  * Application is responsible for COMMIT.
+  */
+  DECLARE
+    l_max_dim smallint;
+  BEGIN
+    -- check given id
+    IF EXISTS(SELECT * FROM usim_basedata WHERE bda_id = p_bda_id)
+    THEN
+      SELECT bda_max_dimension INTO l_max_dim FROM usim_basedata WHERE bda_id = p_bda_id;
+      -- verify that dimensions are not initialized for this simulation
+      IF NOT EXISTS(SELECT * FROM usim_dimension WHERE bda_id = p_bda_id)
+      THEN
+        -- init the dimensions, as dimensions is small by nature only one commit needed
+        BEGIN
+          FOR l_idx IN 0..l_max_dim
+          LOOP
+            INSERT INTO usim_dimension (bda_id) VALUES (p_bda_id);
+          END LOOP;
+        END;
+      END IF;
+    END IF;
+  END;
+$BODY$;

@@ -95,9 +95,9 @@ AS $BODY$
     RETURN NEXT trigger_is('usim_test', 'usim_basedata', 'bda_ins_trg', 'usim_test', 'bda_fn_ins_trg', 'Check usim_basedata insert trigger');
     RETURN NEXT trigger_is('usim_test', 'usim_basedata', 'bda_upd_trg', 'usim_test', 'bda_fn_upd_trg', 'Check usim_basedata update trigger');
     -- setup a record for following tests
-    RETURN NEXT is(COUNT(*), 0::bigint, 'usim_basedata should not have any records before testing') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_basedata should not have any records before testing') FROM usim_basedata;
     INSERT INTO usim_basedata DEFAULT VALUES RETURNING bda_id INTO l_bda_id;
-    RETURN NEXT is(COUNT(*), 1::bigint, 'usim_basedata should have exactly one record after insert DEFAULT VALUES') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check usim_basedata should have exactly one record after insert DEFAULT VALUES') FROM usim_basedata;
     RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_id = usim_create_id()', 'bda_id cannot be changed, create a new base dataset instead', 'Check exception update bda_id in usim_basedata');
     RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_max_dimension = 2', 'bda_max_dimension cannot be changed, create a new base dataset instead', 'Check exception update bda_max_dimension in usim_basedata');
     RETURN NEXT throws_ok('UPDATE usim_basedata SET bda_abs_overflow = 9999', 'bda_abs_overflow cannot be changed, create a new base dataset instead', 'Check exception update bda_abs_overflow in usim_basedata');

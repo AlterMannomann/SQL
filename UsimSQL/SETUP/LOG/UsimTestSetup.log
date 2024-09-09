@@ -35,12 +35,16 @@ DROP TABLE
 Dropping USim Table usim_planck_tick and depending objects
 DROP TRIGGER
 DROP TRIGGER
+DROP TRIGGER
+DROP FUNCTION
 DROP FUNCTION
 DROP FUNCTION
 DROP TABLE
 Dropping USim Table usim_planck_aeon and depending objects
 DROP TRIGGER
 DROP TRIGGER
+DROP TRIGGER
+DROP FUNCTION
 DROP FUNCTION
 DROP FUNCTION
 DROP PROCEDURE
@@ -96,9 +100,11 @@ Dropping USim test function test_000_basic_tbl002_usim_bda_state
 DROP FUNCTION
 Dropping USim test function test_000_basic_tbl003_usim_dimension
 DROP FUNCTION
-Dropping USim test function test_000_basic_tbl004_usim_planck_aeon
+Dropping USim test function test_000_basic_tbl004_usim_sequences
 DROP FUNCTION
-Dropping USim test function test_000_basic_tbl005_usim_planck_tick
+Dropping USim test function test_000_basic_tbl005_usim_planck_aeon
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl006_usim_planck_tick
 DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
@@ -210,6 +216,9 @@ CREATE FUNCTION
 ALTER FUNCTION
 CREATE FUNCTION
 ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
 CREATE TRIGGER
 CREATE TRIGGER
 CREATE PROCEDURE
@@ -225,6 +234,9 @@ CREATE FUNCTION
 ALTER FUNCTION
 CREATE FUNCTION
 ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
 CREATE TRIGGER
 CREATE TRIGGER
 Create table USIM_DIMENSION
@@ -297,9 +309,11 @@ USim objects after setup
  bds_fn_upd_trg    | usim_test  | usim      | FUNCTION
  pla_fn_ins_trg    | usim_test  | usim      | FUNCTION
  pla_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ pla_fn_del_trg    | usim_test  | usim      | FUNCTION
  pla_insert        | usim_test  | usim      | PROCEDURE
  plt_fn_ins_trg    | usim_test  | usim      | FUNCTION
  plt_fn_upd_trg    | usim_test  | usim      | FUNCTION
+ plt_fn_del_trg    | usim_test  | usim      | FUNCTION
  dim_fn_ins_trg    | usim_test  | usim      | FUNCTION
  dim_fn_upd_trg    | usim_test  | usim      | FUNCTION
  dim_init          | usim_test  | usim      | PROCEDURE
@@ -311,8 +325,8 @@ USim objects after setup
  bda_new_sim       | usim_test  | usim      | PROCEDURE
  bda_new_sim       | usim_test  | usim      | PROCEDURE
  usim_sequences    | usim_test  | usim      | TABLE
- usim_bda_state    | usim_test  | usim      | TABLE
  usim_basedata     | usim_test  | usim      | TABLE
+ usim_bda_state    | usim_test  | usim      | TABLE
  usim_planck_aeon  | usim_test  | usim      | TABLE
  usim_planck_tick  | usim_test  | usim      | TABLE
  usim_dimension    | usim_test  | usim      | TABLE
@@ -325,11 +339,13 @@ USim objects after setup
  bds_upd_trg       | usim_test  | usim      | TRIGGER
  pla_ins_trg       | usim_test  | usim      | TRIGGER
  pla_upd_trg       | usim_test  | usim      | TRIGGER
+ pla_del_trg       | usim_test  | usim      | TRIGGER
  plt_ins_trg       | usim_test  | usim      | TRIGGER
  plt_upd_trg       | usim_test  | usim      | TRIGGER
+ plt_del_trg       | usim_test  | usim      | TRIGGER
  dim_ins_trg       | usim_test  | usim      | TRIGGER
  dim_upd_trg       | usim_test  | usim      | TRIGGER
  mlv_ins_trg       | usim_test  | usim      | TRIGGER
  mlv_upd_trg       | usim_test  | usim      | TRIGGER
-(52 rows)
+(56 rows)
 

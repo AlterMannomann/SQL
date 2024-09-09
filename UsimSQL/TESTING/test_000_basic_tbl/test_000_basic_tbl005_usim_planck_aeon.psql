@@ -1,12 +1,14 @@
-CREATE OR REPLACE FUNCTION test_000_basic_tbl004_usim_planck_aeon()
+CREATE OR REPLACE FUNCTION test_000_basic_tbl005_usim_planck_aeon()
   RETURNS SETOF TEXT
   LANGUAGE 'plpgsql'
 AS $BODY$
   DECLARE
     l_bda_id  character(32);
     l_pla_id  character(32);
+    l_not_set character(32);
     l_pla_add bigint;
   BEGIN
+    l_not_set := 'NOTSETNOTSETNOTSETNOTSETNOTSETNO';
     RETURN NEXT has_column('usim_test', 'usim_planck_aeon', 'pla_active', 'Check existance of pla_active in usim_planck_aeon');
     RETURN NEXT col_not_null('usim_test', 'usim_planck_aeon', 'pla_active', 'Check pla_active in usim_planck_aeon NOT NULL');
     RETURN NEXT col_type_is('usim_test', 'usim_planck_aeon', 'pla_active', 'boolean', 'Check column type of pla_active in usim_planck_aeon');
@@ -36,5 +38,32 @@ AS $BODY$
     RETURN NEXT throws_ok('UPDATE usim_planck_aeon SET pla_active = TRUE WHERE bda_id = (SELECT bda_id FROM usim_basedata)', 'Can not activate a planck aeon for the defined simulation as long as one aeon is still active', 'Check usim_planck_aeon allows only one active record');
     CALL pla_insert(l_bda_id, l_pla_id, l_pla_add);
     RETURN NEXT is(pla_active, TRUE, 'Check pla_insert on usim_planck_aeon successful, old record deactivated, new record activated') FROM usim_planck_aeon WHERE bda_id = l_bda_id AND pla_id = l_pla_id AND pla_add = l_pla_add;
+    -- check sequence is created
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check sequence created for usim_planck_aeon add entry')
+      FROM usim_sequences
+     WHERE squ_name = 'pla_seq'
+       AND squ_key1 = l_bda_id
+       AND squ_key2 = l_pla_id
+       AND squ_key3 = l_not_set
+       AND squ_key4 = l_not_set
+       AND squ_key5 = l_not_set
+       AND squ_key6 = l_not_set
+       AND squ_key7 = l_not_set
+       AND squ_key8 = l_not_set;
+    -- check delete trigger
+    DELETE FROM usim_planck_aeon WHERE bda_id = l_bda_id AND pla_id = l_pla_id AND pla_add = l_pla_add;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check delete trigger on usim_planck_aeon for sequences')
+      FROM usim_sequences
+     WHERE squ_name = 'pla_seq'
+       AND squ_key1 = l_bda_id
+       AND squ_key2 = l_pla_id
+       AND squ_key3 = l_not_set
+       AND squ_key4 = l_not_set
+       AND squ_key5 = l_not_set
+       AND squ_key6 = l_not_set
+       AND squ_key7 = l_not_set
+       AND squ_key8 = l_not_set
+       AND squ_delete
+    ;
   END;
 $BODY$;

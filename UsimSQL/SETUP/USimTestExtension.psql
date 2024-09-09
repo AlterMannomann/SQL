@@ -13,8 +13,10 @@
 \i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl002_usim_bda_state.psql
 \echo 'Create test function test_000_basic_tbl003_usim_dimension'
 \i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl003_usim_dimension.psql
-\echo 'Create test function test_000_basic_tbl004_usim_planck_aeon'
-\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl004_usim_planck_aeon.psql
-\echo 'Create test function test_000_basic_tbl005_usim_planck_tick'
-\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl005_usim_planck_tick.psql
+\echo 'Create test function test_000_basic_tbl004_usim_sequences'
+\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl004_usim_sequences.psql
+\echo 'Create test function test_000_basic_tbl005_usim_planck_aeon'
+\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl005_usim_planck_aeon.psql
+\echo 'Create test function test_000_basic_tbl006_usim_planck_tick'
+\i /usim_src/TESTING/test_000_basic_tbl/test_000_basic_tbl006_usim_planck_tick.psql
 -- run tests done by pg_prove after executing

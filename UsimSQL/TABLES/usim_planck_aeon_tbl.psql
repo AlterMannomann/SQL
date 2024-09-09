@@ -44,6 +44,8 @@ CREATE OR REPLACE FUNCTION pla_fn_ins_trg()
 AS $BODY$
   BEGIN
     NEW.pla_id := usim_create_id();
+    -- no need to handle sequence overflow, as it is only used in concurrency situations
+    -- usually planck aeon id is unique enough, but not always
     CALL squ_get_sequence('pla_seq', FALSE, TRUE, NEW.pla_add, NEW.bda_id, NEW.pla_id);
     NEW.pla_active := FALSE;
     NEW.pla_created := current_timestamp;
@@ -79,6 +81,22 @@ $BODY$;
 ALTER FUNCTION pla_fn_upd_trg()
   OWNER TO usim;
 
+-- FUNCTION: pla_fn_del_trg() to handle sequences
+-- DROP FUNCTION IF EXISTS pla_fn_del_trg();
+
+CREATE OR REPLACE FUNCTION pla_fn_del_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    CALL squ_set_delete('pla_seq', OLD.bda_id, OLD.pla_id);
+    RETURN OLD;
+  END;
+$BODY$;
+
+ALTER FUNCTION pla_fn_del_trg()
+  OWNER TO usim;
+
 -- Trigger: pla_ins_trg
 -- DROP TRIGGER IF EXISTS pla_ins_trg ON usim_planck_aeon;
 
@@ -96,6 +114,15 @@ CREATE TRIGGER pla_upd_trg
   ON usim_planck_aeon
   FOR EACH ROW
   EXECUTE FUNCTION pla_fn_upd_trg();
+
+-- Trigger: pla_del_trg
+-- DROP TRIGGER IF EXISTS pla_del_trg ON usim_planck_aeon;
+
+CREATE TRIGGER pla_del_trg
+  AFTER DELETE
+  ON usim_planck_aeon
+  FOR EACH ROW
+  EXECUTE FUNCTION pla_fn_del_trg();
 
 -- PROCEDURE: pla_insert
 -- DROP PROCEDURE IF EXISTS pla_insert;

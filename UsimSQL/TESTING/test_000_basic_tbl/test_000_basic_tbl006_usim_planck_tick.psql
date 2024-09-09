@@ -1,0 +1,41 @@
+CREATE OR REPLACE FUNCTION test_000_basic_tbl006_usim_planck_tick()
+  RETURNS SETOF TEXT
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_bda_id  character(32);
+    l_pla_id  character(32);
+    l_not_set character(32);
+    l_pla_add bigint;
+    l_plt_id  bigint;
+  BEGIN
+    l_not_set := 'NOTSETNOTSETNOTSETNOTSETNOTSETNO';
+    -- no column check already done on constraint check
+    RETURN NEXT can('usim_test', ARRAY['plt_fn_ins_trg', 'plt_fn_upd_trg'], 'Check usim_planck_tick trigger functions');
+    -- trigger  check
+    RETURN NEXT trigger_is('usim_test', 'usim_planck_tick', 'plt_ins_trg', 'usim_test', 'plt_fn_ins_trg', 'Check usim_planck_tick insert trigger');
+    RETURN NEXT trigger_is('usim_test', 'usim_planck_tick', 'plt_upd_trg', 'usim_test', 'plt_fn_upd_trg', 'Check usim_planck_tick update trigger');
+    -- init data for testing
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_basedata should not have any records before testing usim_planck_tick') FROM usim_basedata;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_planck_aeon should not have any records before testing usim_planck_tick') FROM usim_planck_aeon;
+    RETURN NEXT is(COUNT(*), 0::bigint, 'Check usim_planck_tick should not have any records before testing usim_planck_tick') FROM usim_planck_tick;
+    INSERT INTO usim_basedata DEFAULT VALUES RETURNING bda_id INTO l_bda_id;
+    INSERT INTO usim_planck_aeon (bda_id) VALUES (l_bda_id) RETURNING pla_id, pla_add INTO l_pla_id, l_pla_add;
+    INSERT INTO usim_planck_tick (bda_id, pla_id, pla_add) VALUES (l_bda_id, l_pla_id, l_pla_add) RETURNING plt_id INTO l_plt_id;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check successfully insert a new planck tick into usim_planck_tick') FROM usim_planck_tick;
+    RETURN NEXT is(l_plt_id, 1::bigint, 'Check first plt_id = 1 in usim_planck_tick');
+    -- check sequence is created
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check sequence created for usim_planck_tick entry')
+      FROM usim_sequences
+     WHERE squ_name = 'plt_seq'
+       AND squ_key1 = l_bda_id
+       AND squ_key2 = l_pla_id
+       AND squ_key3 = usim_int_to_id(l_pla_add)
+       AND squ_key4 = l_not_set
+       AND squ_key5 = l_not_set
+       AND squ_key6 = l_not_set
+       AND squ_key7 = l_not_set
+       AND squ_key8 = l_not_set;
+    -- check insert trigger works correct on overflow, create a small sequence
+  END;
+$BODY$;

@@ -35,12 +35,16 @@ DROP TABLE
 Dropping USim Table usim_planck_tick and depending objects
 DROP TRIGGER
 DROP TRIGGER
+DROP TRIGGER
+DROP FUNCTION
 DROP FUNCTION
 DROP FUNCTION
 DROP TABLE
 Dropping USim Table usim_planck_aeon and depending objects
 DROP TRIGGER
 DROP TRIGGER
+DROP TRIGGER
+DROP FUNCTION
 DROP FUNCTION
 DROP FUNCTION
 DROP PROCEDURE
@@ -103,11 +107,14 @@ DROP FUNCTION
 Dropping USim test function test_000_basic_tbl003_usim_dimension
 psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl003_usim_dimension.psql:1: NOTICE:  function test_000_basic_tbl003_usim_dimension() does not exist, skipping
 DROP FUNCTION
-Dropping USim test function test_000_basic_tbl004_usim_planck_aeon
-psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl004_usim_planck_aeon.psql:1: NOTICE:  function test_000_basic_tbl004_usim_planck_aeon() does not exist, skipping
+Dropping USim test function test_000_basic_tbl004_usim_sequences
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl004_usim_sequences.psql:1: NOTICE:  function test_000_basic_tbl004_usim_sequences() does not exist, skipping
 DROP FUNCTION
-Dropping USim test function test_000_basic_tbl005_usim_planck_tick
-psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl005_usim_planck_tick.psql:1: NOTICE:  function test_000_basic_tbl005_usim_planck_tick() does not exist, skipping
+Dropping USim test function test_000_basic_tbl005_usim_planck_aeon
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl005_usim_planck_aeon.psql:1: NOTICE:  function test_000_basic_tbl005_usim_planck_aeon() does not exist, skipping
+DROP FUNCTION
+Dropping USim test function test_000_basic_tbl006_usim_planck_tick
+psql:/usim_src/TESTING/DROP/drop_test_000_basic_tbl006_usim_planck_tick.psql:1: NOTICE:  function test_000_basic_tbl006_usim_planck_tick() does not exist, skipping
 DROP FUNCTION
 Remaining USim Objects
  obj_name | obj_schema | obj_owner | obj_type 
@@ -219,6 +226,9 @@ CREATE FUNCTION
 ALTER FUNCTION
 CREATE FUNCTION
 ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
 CREATE TRIGGER
 CREATE TRIGGER
 CREATE PROCEDURE
@@ -234,6 +244,9 @@ CREATE FUNCTION
 ALTER FUNCTION
 CREATE FUNCTION
 ALTER FUNCTION
+CREATE FUNCTION
+ALTER FUNCTION
+CREATE TRIGGER
 CREATE TRIGGER
 CREATE TRIGGER
 Create table USIM_DIMENSION
@@ -306,9 +319,11 @@ USim objects after setup
  bds_fn_upd_trg    | usim       | usim      | FUNCTION
  pla_fn_ins_trg    | usim       | usim      | FUNCTION
  pla_fn_upd_trg    | usim       | usim      | FUNCTION
+ pla_fn_del_trg    | usim       | usim      | FUNCTION
  pla_insert        | usim       | usim      | PROCEDURE
  plt_fn_ins_trg    | usim       | usim      | FUNCTION
  plt_fn_upd_trg    | usim       | usim      | FUNCTION
+ plt_fn_del_trg    | usim       | usim      | FUNCTION
  dim_fn_ins_trg    | usim       | usim      | FUNCTION
  dim_fn_upd_trg    | usim       | usim      | FUNCTION
  dim_init          | usim       | usim      | PROCEDURE
@@ -319,12 +334,12 @@ USim objects after setup
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
  bda_new_sim       | usim       | usim      | PROCEDURE
- usim_sequences    | usim       | usim      | TABLE
  usim_basedata     | usim       | usim      | TABLE
  usim_bda_state    | usim       | usim      | TABLE
+ usim_sequences    | usim       | usim      | TABLE
+ usim_dimension    | usim       | usim      | TABLE
  usim_planck_aeon  | usim       | usim      | TABLE
  usim_planck_tick  | usim       | usim      | TABLE
- usim_dimension    | usim       | usim      | TABLE
  usim_multiverse   | usim       | usim      | TABLE
  squ_ins_trg       | usim       | usim      | TRIGGER
  squ_upd_trg       | usim       | usim      | TRIGGER
@@ -334,11 +349,13 @@ USim objects after setup
  bds_upd_trg       | usim       | usim      | TRIGGER
  pla_ins_trg       | usim       | usim      | TRIGGER
  pla_upd_trg       | usim       | usim      | TRIGGER
+ pla_del_trg       | usim       | usim      | TRIGGER
  plt_ins_trg       | usim       | usim      | TRIGGER
  plt_upd_trg       | usim       | usim      | TRIGGER
+ plt_del_trg       | usim       | usim      | TRIGGER
  dim_ins_trg       | usim       | usim      | TRIGGER
  dim_upd_trg       | usim       | usim      | TRIGGER
  mlv_ins_trg       | usim       | usim      | TRIGGER
  mlv_upd_trg       | usim       | usim      | TRIGGER
-(52 rows)
+(56 rows)
 

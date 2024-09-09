@@ -131,7 +131,7 @@ ALTER FUNCTION squ_fn_upd_trg()
 -- DROP TRIGGER IF EXISTS squ_ins_trg ON usim_sequences;
 
 CREATE TRIGGER squ_ins_trg
-  AFTER INSERT
+  BEFORE INSERT
   ON usim_sequences
   FOR EACH ROW
   EXECUTE FUNCTION squ_fn_ins_trg();
@@ -140,7 +140,7 @@ CREATE TRIGGER squ_ins_trg
 -- DROP TRIGGER IF EXISTS squ_upd_trg ON usim_sequences;
 
 CREATE TRIGGER squ_upd_trg
-  AFTER UPDATE
+  BEFORE UPDATE
   ON usim_sequences
   FOR EACH ROW
   EXECUTE FUNCTION squ_fn_upd_trg();
@@ -296,7 +296,7 @@ AS $BODY$
   *
   * @param p_squ_name The name of the sequence, mandatory.
   * @param p_squ_cycle True if the sequence should cycle, mandatory. Only used, if sequence doesn't exist.
-  * @param p_squ_temporary Use TRUE to mark the sequence as temporary otherwise FALSE.
+  * @param p_squ_temporary Use TRUE to mark the sequence as temporary otherwise FALSE. Only used, if sequence doesn't exist.
   * @param p_squ_counter OUT parameter with new serial bigint for identified or created sequence.
   * @param p_squ_key1 First identifying key for the sequence.
   * @param p_squ_key2 Second identifying key for the sequence.

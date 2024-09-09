@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS test_000_basic_tbl006_usim_planck_tick;

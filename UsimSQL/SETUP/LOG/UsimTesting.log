@@ -14,9 +14,11 @@ Create test function test_000_basic_tbl002_usim_bda_state
 CREATE FUNCTION
 Create test function test_000_basic_tbl003_usim_dimension
 CREATE FUNCTION
-Create test function test_000_basic_tbl004_usim_planck_aeon
+Create test function test_000_basic_tbl004_usim_sequences
 CREATE FUNCTION
-Create test function test_000_basic_tbl005_usim_planck_tick
+Create test function test_000_basic_tbl005_usim_planck_aeon
+CREATE FUNCTION
+Create test function test_000_basic_tbl006_usim_planck_tick
 CREATE FUNCTION
 runtests('usim_test'::name); .. 
     # Subtest: usim_test.test_000_basic_app_schema()
@@ -285,7 +287,61 @@ ok 6 - usim_test.test_000_basic_tbl002_usim_bda_state
     ok 12 - Check dim_init created min dimension 0
     1..12
 ok 7 - usim_test.test_000_basic_tbl003_usim_dimension
-    # Subtest: usim_test.test_000_basic_tbl004_usim_planck_aeon()
+    # Subtest: usim_test.test_000_basic_tbl004_usim_sequences()
+    ok 1 - Check existance of squ_cycle in usim_sequences
+    ok 2 - Check squ_cycle in usim_sequences NOT NULL
+    ok 3 - Check column type of squ_cycle in usim_sequences
+    ok 4 - Check squ_cycle in usim_sequences has default
+    ok 5 - Check squ_cycle in usim_sequences default value
+    ok 6 - Check existance of squ_temporary in usim_sequences
+    ok 7 - Check squ_temporary in usim_sequences NOT NULL
+    ok 8 - Check column type of squ_temporary in usim_sequences
+    ok 9 - Check squ_temporary in usim_sequences has default
+    ok 10 - Check squ_temporary in usim_sequences default value
+    ok 11 - Check existance of squ_delete in usim_sequences
+    ok 12 - Check squ_delete in usim_sequences NOT NULL
+    ok 13 - Check column type of squ_delete in usim_sequences
+    ok 14 - Check squ_delete in usim_sequences has default
+    ok 15 - Check squ_delete in usim_sequences default value
+    ok 16 - Check existance of squ_minval in usim_sequences
+    ok 17 - Check squ_minval in usim_sequences NOT NULL
+    ok 18 - Check column type of squ_minval in usim_sequences
+    ok 19 - Check squ_minval in usim_sequences has default
+    ok 20 - Check squ_minval in usim_sequences default value
+    ok 21 - Check existance of squ_maxval in usim_sequences
+    ok 22 - Check squ_maxval in usim_sequences NOT NULL
+    ok 23 - Check column type of squ_maxval in usim_sequences
+    ok 24 - Check squ_maxval in usim_sequences has default
+    ok 25 - Check squ_maxval in usim_sequences default value
+    ok 26 - Check existance of squ_counter in usim_sequences
+    ok 27 - Check squ_counter in usim_sequences NOT NULL
+    ok 28 - Check column type of squ_counter in usim_sequences
+    ok 29 - Check squ_counter in usim_sequences has default
+    ok 30 - Check squ_counter in usim_sequences default value
+    ok 31 - Check existance of squ_created in usim_sequences
+    ok 32 - Check squ_created in usim_sequences NOT NULL
+    ok 33 - Check column type of squ_created in usim_sequences
+    ok 34 - Check squ_created in usim_sequences has default
+    ok 35 - Check squ_created in usim_sequences default value
+    ok 36 - Check usim_sequences has check constraints for min and max
+    ok 37 - Check usim_sequences has check constraints for min
+    ok 38 - Check usim_sequences trigger functions
+    ok 39 - Check usim_sequences insert trigger
+    ok 40 - Check usim_sequences update trigger
+    ok 41 - Check usim_sequence record with default keys is inserted
+    ok 42 - Check usim_sequence record with default values is inserted
+    ok 43 - Check usim_sequence record has not changed by invalid update
+    ok 44 - Check usim_sequence record has changed by valid update
+    ok 45 - Check squ_finished FALSE on usim_sequences
+    ok 46 - Check squ_finished TRUE on usim_sequences
+    ok 47 - Check squ_next_sequence on usim_sequences
+    ok 48 - Check creating new sequence with squ_get_sequence
+    ok 49 - Check update existing sequence with squ_get_sequence
+    ok 50 - Check squ_set_delete on usim_sequences
+    ok 51 - Check squ_cleanup on usim_sequences
+    1..51
+ok 8 - usim_test.test_000_basic_tbl004_usim_sequences
+    # Subtest: usim_test.test_000_basic_tbl005_usim_planck_aeon()
     ok 1 - Check existance of pla_active in usim_planck_aeon
     ok 2 - Check pla_active in usim_planck_aeon NOT NULL
     ok 3 - Check column type of pla_active in usim_planck_aeon
@@ -305,15 +361,25 @@ ok 7 - usim_test.test_000_basic_tbl003_usim_dimension
     ok 17 - Check successfully activated planck aeon
     ok 18 - Check usim_planck_aeon allows only one active record
     ok 19 - Check pla_insert on usim_planck_aeon successful, old record deactivated, new record activated
-    1..19
-ok 8 - usim_test.test_000_basic_tbl004_usim_planck_aeon
-    # Subtest: usim_test.test_000_basic_tbl005_usim_planck_tick()
+    ok 20 - Check sequence created for usim_planck_aeon add entry
+    ok 21 - Check delete trigger on usim_planck_aeon for sequences
+    1..21
+ok 9 - usim_test.test_000_basic_tbl005_usim_planck_aeon
+    # Subtest: usim_test.test_000_basic_tbl006_usim_planck_tick()
     ok 1 - Check usim_planck_tick trigger functions
-    1..1
-ok 9 - usim_test.test_000_basic_tbl005_usim_planck_tick
-1..9
+    ok 2 - Check usim_planck_tick insert trigger
+    ok 3 - Check usim_planck_tick update trigger
+    ok 4 - Check usim_basedata should not have any records before testing usim_planck_tick
+    ok 5 - Check usim_planck_aeon should not have any records before testing usim_planck_tick
+    ok 6 - Check usim_planck_tick should not have any records before testing usim_planck_tick
+    ok 7 - Check successfully insert a new planck tick into usim_planck_tick
+    ok 8 - Check first plt_id = 1 in usim_planck_tick
+    ok 9 - Check sequence created for usim_planck_tick entry
+    1..9
+ok 10 - usim_test.test_000_basic_tbl006_usim_planck_tick
+1..10
 ok
 All tests successful.
-Files=1, Tests=9,  4 wallclock secs ( 0.06 usr  0.02 sys +  0.10 cusr  0.04 csys =  0.22 CPU)
+Files=1, Tests=10,  5 wallclock secs ( 0.01 usr  0.04 sys +  0.09 cusr  0.05 csys =  0.19 CPU)
 Result: PASS
 Create base data for first simulation

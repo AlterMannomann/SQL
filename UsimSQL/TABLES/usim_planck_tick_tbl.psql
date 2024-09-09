@@ -72,6 +72,22 @@ $BODY$;
 ALTER FUNCTION plt_fn_upd_trg()
     OWNER TO usim;
 
+-- FUNCTION: plt_fn_del_trg() to handle sequences
+-- DROP FUNCTION IF EXISTS plt_fn_del_trg();
+
+CREATE OR REPLACE FUNCTION plt_fn_del_trg()
+  RETURNS trigger
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  BEGIN
+    CALL squ_set_delete('plt_seq', OLD.bda_id, OLD.pla_id, usim_int_to_id(OLD.pla_add));
+    RETURN OLD;
+  END;
+$BODY$;
+
+ALTER FUNCTION plt_fn_del_trg()
+  OWNER TO usim;
+
 -- Trigger: plt_ins_trg
 -- DROP TRIGGER IF EXISTS plt_ins_trg ON usim_planck_tick;
 
@@ -89,3 +105,12 @@ CREATE TRIGGER plt_upd_trg
   ON usim_planck_tick
   FOR EACH ROW
   EXECUTE FUNCTION plt_fn_upd_trg();
+
+-- Trigger: plt_del_trg
+-- DROP TRIGGER IF EXISTS plt_del_trg ON usim_planck_tick;
+
+CREATE TRIGGER plt_del_trg
+  AFTER DELETE
+  ON usim_planck_tick
+  FOR EACH ROW
+  EXECUTE FUNCTION plt_fn_del_trg();

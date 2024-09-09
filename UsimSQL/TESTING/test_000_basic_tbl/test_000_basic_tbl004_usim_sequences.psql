@@ -1,0 +1,215 @@
+CREATE OR REPLACE FUNCTION test_000_basic_tbl004_usim_sequences()
+  RETURNS SETOF TEXT
+  LANGUAGE 'plpgsql'
+AS $BODY$
+  DECLARE
+    l_bda_id  character(32);
+    l_pla_id  character(32);
+    l_pla_add bigint;
+    l_plt_id  bigint;
+    l_created timestamp without time zone;
+    l_counter bigint;
+    l_delete  boolean;
+  BEGIN
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_cycle', 'Check existance of squ_cycle in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_cycle', 'Check squ_cycle in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_cycle', 'boolean', 'Check column type of squ_cycle in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_cycle', 'Check squ_cycle in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_cycle', 'TRUE', 'Check squ_cycle in usim_sequences default value');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_temporary', 'Check existance of squ_temporary in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_temporary', 'Check squ_temporary in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_temporary', 'boolean', 'Check column type of squ_temporary in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_temporary', 'Check squ_temporary in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_temporary', 'FALSE', 'Check squ_temporary in usim_sequences default value');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_delete', 'Check existance of squ_delete in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_delete', 'Check squ_delete in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_delete', 'boolean', 'Check column type of squ_delete in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_delete', 'Check squ_delete in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_delete', 'FALSE', 'Check squ_delete in usim_sequences default value');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_minval', 'Check existance of squ_minval in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_minval', 'Check squ_minval in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_minval', 'bigint', 'Check column type of squ_minval in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_minval', 'Check squ_minval in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_minval', '(1)::bigint', 'Check squ_minval in usim_sequences default value');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_maxval', 'Check existance of squ_maxval in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_maxval', 'Check squ_maxval in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_maxval', 'bigint', 'Check column type of squ_maxval in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_maxval', 'Check squ_maxval in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_maxval', 'usim_test.usim_bigint_def()', 'Check squ_maxval in usim_sequences default value');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_counter', 'Check existance of squ_counter in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_counter', 'Check squ_counter in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_counter', 'bigint', 'Check column type of squ_counter in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_counter', 'Check squ_counter in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_counter', '(0)::bigint', 'Check squ_counter in usim_sequences default value');
+    RETURN NEXT has_column('usim_test', 'usim_sequences', 'squ_created', 'Check existance of squ_created in usim_sequences');
+    RETURN NEXT col_not_null('usim_test', 'usim_sequences', 'squ_created', 'Check squ_created in usim_sequences NOT NULL');
+    RETURN NEXT col_type_is('usim_test', 'usim_sequences', 'squ_created', 'timestamp without time zone', 'Check column type of squ_created in usim_sequences');
+    RETURN NEXT col_has_default('usim_test', 'usim_sequences', 'squ_created', 'Check squ_created in usim_sequences has default');
+    RETURN NEXT col_default_is('usim_test', 'usim_sequences', 'squ_created', 'now()', 'Check squ_created in usim_sequences default value');
+    RETURN NEXT col_has_check('usim_test', 'usim_sequences', ARRAY['squ_maxval', 'squ_minval'], 'Check usim_sequences has check constraints for min and max');
+    RETURN NEXT col_has_check('usim_test', 'usim_sequences', ARRAY['squ_minval'], 'Check usim_sequences has check constraints for min');
+    -- check related objects
+    RETURN NEXT can('usim_test', ARRAY['squ_fn_ins_trg', 'squ_fn_upd_trg'], 'Check usim_sequences trigger functions');
+    RETURN NEXT trigger_is('usim_test', 'usim_sequences', 'squ_ins_trg', 'usim_test', 'squ_fn_ins_trg', 'Check usim_sequences insert trigger');
+    RETURN NEXT trigger_is('usim_test', 'usim_sequences', 'squ_upd_trg', 'usim_test', 'squ_fn_upd_trg', 'Check usim_sequences update trigger');
+    -- check basic table inserts
+    INSERT INTO usim_sequences (squ_name) VALUES ('Test');
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check usim_sequence record with default keys is inserted')
+      FROM usim_sequences
+     WHERE squ_name = 'Test'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO';
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check usim_sequence record with default values is inserted')
+      FROM usim_sequences
+     WHERE squ_name = 'Test'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_cycle
+       AND NOT squ_temporary
+       AND NOT squ_delete
+       AND squ_minval = 1
+       AND squ_maxval = usim_bigint_def()
+       AND squ_counter = 0;
+    SELECT squ_created
+         , squ_counter
+         , squ_delete
+      INTO l_created
+         , l_counter
+         , l_delete
+        FROM usim_sequences
+       WHERE squ_name = 'Test'
+         AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+         AND squ_cycle
+         AND NOT squ_temporary
+         AND NOT squ_delete
+         AND squ_minval = 1
+         AND squ_maxval = usim_bigint_def()
+         AND squ_counter = 0;
+    -- check update ignored
+    UPDATE usim_sequences
+       SET squ_name = 'Ma was neues'
+         , squ_key1 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key2 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key3 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key4 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key5 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key6 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key7 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_key8 = 'SETSETSETSETSETSETSETSETSETSETSE'
+         , squ_cycle = FALSE
+         , squ_temporary = TRUE
+         , squ_created = now()
+     WHERE squ_name = 'Test'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_cycle
+       AND NOT squ_temporary
+       AND NOT squ_delete
+       AND squ_minval = 1
+       AND squ_maxval = usim_bigint_def()
+       AND squ_counter = 0;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check usim_sequence record has not changed by invalid update')
+      FROM usim_sequences
+     WHERE squ_name = 'Test'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_cycle
+       AND NOT squ_temporary
+       AND NOT squ_delete
+       AND squ_minval = 1
+       AND squ_maxval = usim_bigint_def()
+       AND squ_created = l_created
+       AND squ_counter = 0;
+    -- check update possible
+    UPDATE usim_sequences
+       SET squ_counter = 1
+         , squ_delete = TRUE
+     WHERE squ_name = 'Test'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_cycle
+       AND NOT squ_temporary
+       AND NOT squ_delete
+       AND squ_minval = 1
+       AND squ_maxval = usim_bigint_def()
+       AND squ_counter = 0;
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check usim_sequence record has changed by valid update')
+      FROM usim_sequences
+     WHERE squ_name = 'Test'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_cycle
+       AND NOT squ_temporary
+       AND squ_delete
+       AND squ_minval = 1
+       AND squ_maxval = usim_bigint_def()
+       AND squ_counter = 1;
+    -- check functions
+    RETURN NEXT is(squ_finished('Test'), FALSE, 'Check squ_finished FALSE on usim_sequences');
+    INSERT INTO usim_sequences (squ_name, squ_cycle) VALUES ('Test Not Cycle', FALSE);
+    UPDATE usim_sequences
+       SET squ_counter = usim_bigint_def()
+     WHERE squ_name = 'Test Not Cycle'
+       AND squ_key1 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key2 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key3 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key4 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key5 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key6 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key7 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO'
+       AND squ_key8 = 'NOTSETNOTSETNOTSETNOTSETNOTSETNO';
+    RETURN NEXT is(squ_finished('Test Not Cycle'), TRUE, 'Check squ_finished TRUE on usim_sequences');
+    RETURN NEXT is(squ_next_sequence('Test'), 2::bigint, 'Check squ_next_sequence on usim_sequences');
+    CALL squ_get_sequence('Test function', TRUE, FALSE, l_counter);
+    RETURN NEXT is(l_counter, 1::bigint, 'Check creating new sequence with squ_get_sequence');
+    CALL squ_get_sequence('Test', FALSE, FALSE, l_counter);
+    RETURN NEXT is(l_counter, 3::bigint, 'Check update existing sequence with squ_get_sequence');
+    CALL squ_set_delete('Test Not Cycle');
+    RETURN NEXT is(COUNT(*), 2::bigint, 'Check squ_set_delete on usim_sequences') FROM usim_sequences WHERE squ_delete;
+    CALL squ_cleanup();
+    RETURN NEXT is(COUNT(*), 1::bigint, 'Check squ_cleanup on usim_sequences') FROM usim_sequences;
+  END;
+$BODY$;
